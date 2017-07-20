@@ -374,7 +374,7 @@ int main(int argc, char **argv) {
 		bluray_title.chapters = bd_title->chapter_count;
 		bluray_title.clips = bd_title->clip_count;
 		bluray_title.angles = bd_title->angle_count;
-		strncpy(bluray_title.length, bluray_duration_length(bluray_title.duration), 13);
+		strncpy(bluray_title.length, bluray_duration_length(bluray_title.duration), 12);
 		if(bluray_title.clips) {
 			bluray_title.video_streams = bd_title->clips[0].video_stream_count;
 			bluray_title.audio_streams = bd_title->clips[0].audio_stream_count;
@@ -538,7 +538,7 @@ int main(int argc, char **argv) {
 				
 				bluray_chapter.ix = chapter_ix;
 				bluray_chapter.duration = bd_chapter->duration;
-				strncpy(bluray_chapter.length, bluray_duration_length(bd_chapter->duration), 13);
+				strncpy(bluray_chapter.length, bluray_duration_length(bd_chapter->duration), 12);
 
 				if(p_bluray_info && d_chapters) {
 					printf("	Chapter: %03lu, Length: %s\n", chapter_ix + 1, bluray_chapter.length);
