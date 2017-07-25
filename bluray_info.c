@@ -11,9 +11,7 @@
 #include "bluray_video.h"
 #include "bluray_time.h"
 
-#ifndef DEFAULT_BLURAY_DEVICE
 #define DEFAULT_BLURAY_DEVICE "/dev/sr0"
-#endif
 
 #define BLURAY_INFO_VERSION "1.0.0"
 
