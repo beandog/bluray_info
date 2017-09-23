@@ -1,0 +1,6 @@
+bluray_info - print information about a Blu-ray in human-readable or JSON output
+bluray_copy - copy the raw MPEG2 transport stream to a file
+
+Releases at http://bluray-info.sf.net/
+
+See also http://dvds.beandog.org
