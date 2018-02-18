@@ -175,7 +175,7 @@ int main(int argc, char **argv) {
 				printf("  -a, --angle #		Video angle (default: 1)\n");
 				printf("  -o, --output <file>	Save to filename\n");
 				printf("  -k, --keydb		Location to KEYDB.CFG (default: use libaacs to look up)\n\n");
-				printf("Blu-ray path can be a directory, a device filename, or a local file.\n\n");
+				printf("Blu-ray path can be a device filename, a file, or a directory.\n\n");
 				printf("Examples:\n");
 				printf("  bluray_copy -o video.m2ts /dev/bluray\n");
 				printf("  bluray_copy -o video.m2ts bluray.iso\n");
@@ -230,9 +230,19 @@ int main(int argc, char **argv) {
 
 	// Blu-ray
 	struct bluray_info bluray_info;
-	strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, 33);
-	bluray_info.titles = bd_info->num_titles;
 	memset(bluray_info.bluray_id, '\0', sizeof(bluray_info.bluray_id));
+	memset(bluray_info.bluray_title, '\0', sizeof(bluray_info.bluray_title));
+	bluray_info.hdmv_titles = 0;
+	bluray_info.bdj_titles = 0;
+	bluray_info.unsupported_titles = 0;
+	bluray_info.titles = 0;
+	bluray_info.relevant_titles = 0;
+	bluray_info.longest_title = 0;
+	bluray_info.main_title = 0;
+
+	if(bd_info->udf_volume_id)
+		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, 33);
+	bluray_info.titles = bd_info->num_titles;
 	if(bd_info->libaacs_detected) {
 		for(ix = 0; ix < 20; ix++) {
 			sprintf(bluray_info.bluray_id + 2 * ix, "%02X", bd_info->disc_id[ix]);

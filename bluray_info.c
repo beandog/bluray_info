@@ -179,7 +179,7 @@ int main(int argc, char **argv) {
 				printf("  -s, --subtitles          Display subtitle details\n");
 				printf("  -c, --chapters           Display chapter details\n");
 				printf("  -x, --all                Display all information\n\n");
-				printf("Blu-ray path can be a directory, a device filename, or a local file.\n\n");
+				printf("Blu-ray path can be a device filename, a file, or a directory.\n\n");
 				printf("Examples:\n");
 				printf("  bluray_info /dev/bluray\n");
 				printf("  bluray_info movie.iso\n");
@@ -231,12 +231,22 @@ int main(int argc, char **argv) {
 
 	// Blu-ray
 	struct bluray_info bluray_info;
-	strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, 33);
+	memset(bluray_info.bluray_id, '\0', sizeof(bluray_info.bluray_id));
+	memset(bluray_info.bluray_title, '\0', sizeof(bluray_info.bluray_title));
+	bluray_info.hdmv_titles = 0;
+	bluray_info.bdj_titles = 0;
+	bluray_info.unsupported_titles = 0;
+	bluray_info.titles = 0;
+	bluray_info.relevant_titles = 0;
+	bluray_info.longest_title = 0;
+	bluray_info.main_title = 0;
+
+	if(bd_info->udf_volume_id)
+		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, 33);
 	bluray_info.hdmv_titles = bd_info->num_hdmv_titles;
 	bluray_info.bdj_titles = bd_info->num_bdj_titles;
 	bluray_info.unsupported_titles = bd_info->num_unsupported_titles;
 	bluray_info.titles = bd_info->num_titles;
-	memset(bluray_info.bluray_id, '\0', sizeof(bluray_info.bluray_id));
 	if(bd_info->libaacs_detected) {
 		for(ix = 0; ix < 20; ix++) {
 			sprintf(bluray_info.bluray_id + 2 * ix, "%02X", bd_info->disc_id[ix]);
@@ -345,9 +355,32 @@ int main(int argc, char **argv) {
 	}
 	
 	struct bluray_title bluray_title;
+	bluray_title.ix = 0;
+	bluray_title.playlist = 0;
+	bluray_title.duration = 0;
+	bluray_title.size = 0;
+	bluray_title.size_mbs = 0;
+	bluray_title.chapters = 0;
+	bluray_title.clips = 0;
+	bluray_title.angles = 0;
+	bluray_title.video_streams = 0;
+	bluray_title.audio_streams = 0;
+	bluray_title.pg_streams = 0;
+	memset(bluray_title.length, '\0', sizeof(bluray_title.length));
+
 	struct bluray_video bluray_video;
+	memset(bluray_video.codec, '\0', sizeof(bluray_video.codec));
+	memset(bluray_video.format, '\0', sizeof(bluray_video.format));
+	memset(bluray_video.framerate, '\0', sizeof(bluray_video.framerate));
+
 	struct bluray_audio bluray_audio;
+	memset(bluray_audio.lang, 0, sizeof(bluray_audio.lang));
+	memset(bluray_audio.codec, '\0', sizeof(bluray_audio.codec));
+
 	struct bluray_chapter bluray_chapter;
+	bluray_chapter.ix = 0;
+	bluray_chapter.duration = 0;
+	memset(bluray_chapter.length, '\0', sizeof(bluray_chapter.length));
 
 	if(p_bluray_json)
 		printf(" \"titles\": [\n");
