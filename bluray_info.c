@@ -497,7 +497,7 @@ int main(int argc, char **argv) {
 					printf("     \"stream\": \"0x%x\",\n", bd_stream->pid);
 					printf("     \"language\": \"%s\",\n", bluray_audio.lang);
 					printf("     \"codec\": \"%s\",\n", bluray_audio.codec);
-					printf("     \"format\": \"%s\",\n", bluray_audio_format(bd_stream->format)),
+					printf("     \"format\": \"%s\",\n", bluray_audio_format(bd_stream->format));
 					printf("     \"rate\": \"%s\"\n", bluray_audio_rate(bd_stream->rate));
 					if(stream_ix + 1 < bluray_title.audio_streams)
 						printf("    },\n");
