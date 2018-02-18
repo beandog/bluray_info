@@ -13,7 +13,7 @@
 
 #define DEFAULT_BLURAY_DEVICE "/dev/sr0"
 
-#define BLURAY_INFO_VERSION "1.1.0"
+#define BLURAY_INFO_VERSION "1.2.0"
 
 struct bluray_info {
 	char bluray_id[41];
