@@ -266,7 +266,6 @@ int main(int argc, char **argv) {
 	// or a playlist number as an argument, and passing the playlist number
 	// is more certain.
 
-	// bluray_info.titles = bd_get_titles(bd, TITLES_ALL, 0);
 	bluray_info.relevant_titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
 	d_first_title = 0;
 	d_last_title = (uint32_t)bluray_info.relevant_titles;
@@ -385,7 +384,6 @@ int main(int argc, char **argv) {
 		printf(" \"titles\": [\n");
 
 	for(ix = d_first_title; d_title_counter < d_num_titles; ix++, d_title_counter++) {
-	// d_num_titles++; for(ix = d_first_title; d_title_counter < d_num_titles; ix++, d_title_counter++) {
 
 		retval = bd_select_title(bd, ix);
 		if(retval == 0)
