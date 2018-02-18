@@ -372,8 +372,13 @@ int main(int argc, char **argv) {
 	if(debug)
 		printf("Copy total bytes: %lo\n", total_bytes);
 
+	bool copy_success = true;
+
 	// Chapters are zero-indexed on Blu-rays
 	for(ix = start_chapter; ix < stop_chapter + 1; ix++) {
+
+		if(!copy_success)
+			break;
 
 		bd_chapter = &bd_title->chapters[ix];
 		bluray_chapter.duration = bd_chapter->duration;
@@ -383,7 +388,7 @@ int main(int argc, char **argv) {
 		seek_pos = bd_seek_chapter(bd, ix);
 		stop_pos = chapter_stop_pos[ix];
 
-		while(seek_pos < stop_pos) {
+		while(seek_pos < stop_pos && copy_success == true) {
 
 			buffer_size = BLURAY_BUFFER_SIZE;
 			if(buffer_size > (stop_pos - seek_pos)) {
@@ -403,11 +408,11 @@ int main(int argc, char **argv) {
 			bytes_fwritten = fwrite(buffer, 1, (size_t)bd_bytes_read, fd);
 
 			if(bytes_fwritten != (size_t)bd_bytes_read) {
-				fprintf(stderr, "Read %zu bytes, but only wrote %zu\n", bd_bytes_read, bytes_fwritten);
-			}
-
-			if(bytes_fwritten == 0)
+				fprintf(stderr, "Read %zu bytes, but only wrote %zu ... out of disk space? Quitting.", bd_bytes_read, bytes_fwritten);
+				copy_success = false;
+				retval = -1;
 				break;
+			}
 
 			total_bytes_written += bytes_fwritten;
 
