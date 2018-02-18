@@ -7,9 +7,9 @@
 #include <inttypes.h>
 #include <getopt.h>
 #include "libbluray/bluray.h"
+#include "bluray_device.h"
 #include "bluray_time.h"
 
-#define DEFAULT_BLURAY_DEVICE "/dev/sr0"
 #define BLURAY_INFO_VERSION "1.2.0"
 #define BLURAY_ECC_BLOCK 64 * 1024 // 64k
 #define BLURAY_BUFFER_SIZE ( BLURAY_ECC_BLOCK * 16 ) // 1 MB

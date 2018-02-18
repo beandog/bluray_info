@@ -7,11 +7,10 @@
 #include <inttypes.h>
 #include <getopt.h>
 #include "libbluray/bluray.h"
+#include "bluray_device.h"
 #include "bluray_audio.h"
 #include "bluray_video.h"
 #include "bluray_time.h"
-
-#define DEFAULT_BLURAY_DEVICE "/dev/sr0"
 
 #define BLURAY_INFO_VERSION "1.2.0"
 
