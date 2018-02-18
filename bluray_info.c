@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
 	uint64_t chapter_ix = 0;
 	uint32_t d_num_titles = 0;
 	uint32_t d_first_title = 0;
-	uint32_t d_last_title = 0;
+	// uint32_t d_last_title = 0;
 	uint32_t d_title_counter = 0;
 	int retval = 0;
 
@@ -268,7 +268,7 @@ int main(int argc, char **argv) {
 
 	bluray_info.relevant_titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
 	d_first_title = 0;
-	d_last_title = (uint32_t)bluray_info.relevant_titles;
+	// d_last_title = (uint32_t)bluray_info.relevant_titles;
 	d_num_titles = (uint32_t)bluray_info.relevant_titles;
 
 	// Select track passed as an argument
@@ -283,7 +283,7 @@ int main(int argc, char **argv) {
 			return 1;
 		}
 		d_first_title = a_title_number - 1;
-		d_last_title = a_title_number - 1;
+		// d_last_title = a_title_number - 1;
 		d_num_titles = 1;
 	}
 
@@ -294,7 +294,7 @@ int main(int argc, char **argv) {
 			return 1;
 		}
 		d_first_title = bd_get_current_title(bd);
-		d_last_title = d_first_title;
+		// d_last_title = d_first_title;
 		d_num_titles = 1;
 	}
 
@@ -302,7 +302,7 @@ int main(int argc, char **argv) {
 
 	if(d_main_title) {
 		d_first_title = (uint32_t)bluray_info.main_title;
-		d_last_title = (uint32_t)bluray_info.main_title;
+		// d_last_title = (uint32_t)bluray_info.main_title;
 		d_num_titles = 1;
 	}
 
