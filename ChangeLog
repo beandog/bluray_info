@@ -1,0 +1,11 @@
+bluray_info ChangeLog
+
+1.2.0
+- initialize structs properly
+- bluray_copy quits on disk space full
+
+1.1.0
+- add bluray_copy
+
+1.0.0
+- Initial release
