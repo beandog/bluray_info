@@ -69,9 +69,9 @@ int main(int argc, char **argv) {
 	bool opt_playlist_number = false;
 	uint32_t arg_playlist_number = 0;
 	bool opt_main_title = true;
-	bool opt_angle_number = false;
+	// bool opt_angle_number = false;
 	uint32_t arg_angle_number = 1;
-	bool opt_chapter_number = false;
+	// bool opt_chapter_number = false;
 	uint32_t arg_first_chapter = 1;
 	uint32_t arg_last_chapter = 99;
 	uint32_t copy_chapters = 1;
@@ -100,12 +100,12 @@ int main(int argc, char **argv) {
 		switch(g_opt) {
 
 			case 'a':
-				opt_angle_number = true;
+				// opt_angle_number = true;
 				arg_angle_number = (unsigned int)strtoumax(optarg, NULL, 0);
 				break;
 
 			case 'c':
-				opt_chapter_number = true;
+				// opt_chapter_number = true;
 				token = strtok(optarg, "-"); {
 					if(strlen(token) > 2) {
 						fprintf(stderr, "Chapter range must be between 1 and 99\n");
