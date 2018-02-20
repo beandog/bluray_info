@@ -117,12 +117,6 @@ If no argument is given, bluray_copy will simply select the longest track.
 
 Portability:
 
-I've successfully built the programs on Linux, NetBSD, OpenBSD, DragonFlyBSD,
-FreeBSD, and OS X, so hopefully it works for you, too. Let me know if something
-breaks. I don't have any interest (or knowledge on how) to port it to Windows,
-since I always do all my multimedia work in Linux. If someone wants to hook
-me up with a copy of OS/2 I'd love to port it to that, though. :D
-
 I take a minimalist approach to my code, and so there is only the minimum
 of required autotools content in the repo: configure.ac and Makefile.am
 This allows the user to build the config files on their system. Run
