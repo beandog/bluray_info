@@ -306,7 +306,7 @@ int main(int argc, char **argv) {
 		d_num_titles = 1;
 	}
 
-	if(p_bluray_info && bd_info->udf_volume_id && d_num_titles != 1)
+	if(p_bluray_info && bd_info->udf_volume_id)
 		printf("Disc Title: %s\n", bluray_info.bluray_title);
 
 	if(p_bluray_json) {
