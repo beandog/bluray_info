@@ -12,7 +12,7 @@
 #include "bluray_video.h"
 #include "bluray_time.h"
 
-#define BLURAY_INFO_VERSION "1.3"
+#define BLURAY_INFO_VERSION "1.4"
 
 struct bluray_info {
 	char bluray_id[41];
