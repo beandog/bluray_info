@@ -1,5 +1,13 @@
 bluray_info ChangeLog
 
+1.4
+
+- Display main title even if one track is listed
+
+1.3
+
+- Add autotools
+
 1.2.0
 - initialize structs properly
 - bluray_copy quits on disk space full
