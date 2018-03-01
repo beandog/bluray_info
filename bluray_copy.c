@@ -10,9 +10,10 @@
 #include "bluray_device.h"
 #include "bluray_time.h"
 
-#define BLURAY_INFO_VERSION "1.4"
+#define BLURAY_COPY_VERSION "1.4"
 #define BLURAY_ECC_BLOCK 64 * 1024 // 64k
-#define BLURAY_BUFFER_SIZE ( BLURAY_ECC_BLOCK * 16 ) // 1 MB
+#define BLURAY_COPY_BUFFER_SIZE ( BLURAY_ECC_BLOCK * 16 ) // 1 MB
+#define BLURAY_CAT_BUFFER_SIZE ( BLURAY_ECC_BLOCK * 1 )
 
 struct bluray_info {
 	char bluray_id[41];
@@ -171,7 +172,7 @@ int main(int argc, char **argv) {
 
 			case 'h':
 			case '?':
-				printf("bluray_copy %s - Copy a title track or playlist entry to an MPEG2-TS file\n\n", BLURAY_INFO_VERSION);
+				printf("bluray_copy %s - Copy a title track or playlist entry to an MPEG2-TS file\n\n", BLURAY_COPY_VERSION);
 				printf("Usage: bluray_copy -o filename [options] [bluray device]\n\n");
 				printf("Options:\n");
 				printf("  -m, --main 		Copy main title (default)\n");
@@ -346,7 +347,7 @@ int main(int argc, char **argv) {
 	int64_t seek_pos = 0;
 	int64_t stop_pos = 0;
 
-	int64_t buffer_size = BLURAY_BUFFER_SIZE;
+	int64_t buffer_size = BLURAY_COPY_BUFFER_SIZE;
 	int64_t bd_bytes_read;
 
 	size_t bytes_fwritten = 0;
@@ -400,7 +401,7 @@ int main(int argc, char **argv) {
 
 		while(seek_pos < stop_pos && copy_success == true) {
 
-			buffer_size = BLURAY_BUFFER_SIZE;
+			buffer_size = BLURAY_COPY_BUFFER_SIZE;
 			if(buffer_size > (stop_pos - seek_pos)) {
 				buffer_size = stop_pos - seek_pos;
 			}
