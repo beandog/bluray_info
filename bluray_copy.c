@@ -62,6 +62,8 @@ int main(int argc, char **argv) {
 	uint32_t d_num_titles = 0;
 	int retval = 0;
 	FILE *fd;
+	bool p_bluray_copy = true;
+	bool p_bluray_cat = false;
 
 	// Parse options and arguments
 	bool opt_title_number = false;
@@ -143,6 +145,10 @@ int main(int argc, char **argv) {
 
 			case 'o':
 				output_filename = optarg;
+				if(strncmp("-", output_filename, 1) == 0) {
+					p_bluray_copy = false;
+					p_bluray_cat = true;
+				}
 				break;
 
 			case 'p':
@@ -281,7 +287,7 @@ int main(int argc, char **argv) {
 		arg_title_number = (uint32_t)bluray_info.main_title + 1;
 	}
 
-	if(bd_info->udf_volume_id && d_num_titles)
+	if(bd_info->udf_volume_id && d_num_titles && p_bluray_copy)
 		printf("Disc Title: %s\n", bluray_info.bluray_title);
 	
 	struct bluray_title bluray_title;
@@ -328,10 +334,12 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	fd = fopen(output_filename, "wb");
-	if(fd == NULL) {
-		fprintf(stderr, "Could not open filename %s\n", output_filename);
-		return 1;
+	if(p_bluray_copy) {
+		fd = fopen(output_filename, "wb");
+		if(fd == NULL) {
+			fprintf(stderr, "Could not open filename %s\n", output_filename);
+			return 1;
+		}
 	}
 
 	int64_t seek_pos = 0;
@@ -364,12 +372,12 @@ int main(int argc, char **argv) {
 			chapter_stop_pos[ix] = (int64_t)bluray_title.size - chapter_start_pos[0];
 		else
 			chapter_stop_pos[ix] = bd_chapter_pos(bd, ix + 1);
-		if(debug)
+		if(debug && p_bluray_copy)
 			printf("Chapter %02i: %015lo - %015lo = %015lo, Filesize: %lu MBs\n", ix, chapter_start_pos[ix], chapter_stop_pos[ix], chapter_stop_pos[ix] - chapter_start_pos[ix], (chapter_stop_pos[ix] - chapter_start_pos[ix]) / 1024 / 1024);
 	}
 
 	int64_t total_bytes = chapter_stop_pos[stop_chapter] - chapter_start_pos[start_chapter];
-	if(debug)
+	if(debug && p_bluray_copy)
 		printf("Copy total bytes: %lo\n", total_bytes);
 
 	bool copy_success = true;
@@ -383,7 +391,8 @@ int main(int argc, char **argv) {
 		bd_chapter = &bd_title->chapters[ix];
 		bluray_chapter.duration = bd_chapter->duration;
 		strncpy(bluray_chapter.length, bluray_duration_length(bd_chapter->duration), 12);
-		printf("        Chapter: %02u, Length: %s, Filesize: %lu MBs\n", ix + 1, bluray_chapter.length, (chapter_stop_pos[ix] - chapter_start_pos[ix]) / 1024 / 1024);
+		if(p_bluray_copy)
+			printf("        Chapter: %02u, Length: %s, Filesize: %lu MBs\n", ix + 1, bluray_chapter.length, (chapter_stop_pos[ix] - chapter_start_pos[ix]) / 1024 / 1024);
 
 		seek_pos = bd_seek_chapter(bd, ix);
 		stop_pos = chapter_stop_pos[ix];
@@ -416,8 +425,10 @@ int main(int argc, char **argv) {
 
 			total_bytes_written += bytes_fwritten;
 
-			printf("Progress: %lu%%\r", total_bytes_written * 100 / (uint64_t)total_bytes);
-			fflush(stdout);
+			if(p_bluray_copy) {
+				printf("Progress: %lu%%\r", total_bytes_written * 100 / (uint64_t)total_bytes);
+				fflush(stdout);
+			}
 
 			seek_pos = (int64_t)bd_tell(bd);
 
@@ -425,7 +436,8 @@ int main(int argc, char **argv) {
 
 	}
 
-	printf("\n");
+	if(p_bluray_copy)
+		printf("\n");
 
 	bd_free_title_info(bd_title);
 	bd_title = NULL;
@@ -436,10 +448,12 @@ int main(int argc, char **argv) {
 	bd_close(bd);
 	bd = NULL;
 
-	retval = fclose(fd);
-	if(retval < 0) {
-		printf("Could not finish writing to %s\n", output_filename);
-		return 1;
+	if(p_bluray_copy) {
+		retval = fclose(fd);
+		if(retval < 0) {
+			fprintf("Could not finish writing to %s\n", output_filename);
+			return 1;
+		}
 	}
 	
 	return 0;
