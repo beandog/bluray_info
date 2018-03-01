@@ -61,7 +61,7 @@ int main(int argc, char **argv) {
 	uint32_t ix = 0;
 	uint32_t d_num_titles = 0;
 	int retval = 0;
-	FILE *fd;
+	FILE *fd = NULL;
 	bool p_bluray_copy = true;
 	bool p_bluray_cat = false;
 
