@@ -347,7 +347,14 @@ int main(int argc, char **argv) {
 	int64_t seek_pos = 0;
 	int64_t stop_pos = 0;
 
-	int64_t buffer_size = BLURAY_COPY_BUFFER_SIZE;
+	int64_t buffer_size = 0;
+	if(p_bluray_copy)
+		buffer_size = BLURAY_COPY_BUFFER_SIZE;
+	else if(p_bluray_cat)
+		buffer_size = BLURAY_CAT_BUFFER_SIZE;
+	else
+		buffer_size = BLURAY_COPY_BUFFER_SIZE;
+
 	int64_t bd_bytes_read;
 
 	size_t bytes_fwritten = 0;
@@ -401,7 +408,13 @@ int main(int argc, char **argv) {
 
 		while(seek_pos < stop_pos && copy_success == true) {
 
-			buffer_size = BLURAY_COPY_BUFFER_SIZE;
+			if(p_bluray_copy)
+				buffer_size = BLURAY_COPY_BUFFER_SIZE;
+			else if(p_bluray_cat)
+				buffer_size = BLURAY_CAT_BUFFER_SIZE;
+			else
+				buffer_size = BLURAY_COPY_BUFFER_SIZE;
+
 			if(buffer_size > (stop_pos - seek_pos)) {
 				buffer_size = stop_pos - seek_pos;
 			}
