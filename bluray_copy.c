@@ -199,7 +199,7 @@ int main(int argc, char **argv) {
 	}
 
 	if(output_filename == NULL) {
-		printf("Need a an output filename (example: bluray_copy -o video.m2ts)\n");
+		fprintf(stderr, "Need a an output filename (example: bluray_copy -o video.m2ts)\n");
 		return 1;
 	}
 
@@ -216,9 +216,9 @@ int main(int argc, char **argv) {
 
 	if(bd == NULL) {
 		if(key_db_filename == NULL)
-			printf("Could not open device %s\n", device_filename);
+			fprintf(stderr, "Could not open device %s\n", device_filename);
 		else
-			printf("Could not open device %s and key_db file %s\n", device_filename, key_db_filename);
+			fprintf(stderr, "Could not open device %s and key_db file %s\n", device_filename, key_db_filename);
 		return 1;
 	}
 
@@ -228,7 +228,7 @@ int main(int argc, char **argv) {
 	bd_info = bd_get_disc_info(bd);
 
 	if(bd_info == NULL) {
-		printf("Could not get Blu-ray disc info\n");
+		fprintf(stderr, "Could not get Blu-ray disc info\n");
 		return 1;
 	}
 
@@ -262,12 +262,12 @@ int main(int argc, char **argv) {
 	// Select track passed as an argument
 	if(opt_title_number) {
 		if(arg_title_number == 0 || arg_title_number > d_num_titles) {
-			printf("Could not open title %u, choose from 1 to %u\n", arg_title_number, d_num_titles);
+			fprintf(stderr, "Could not open title %u, choose from 1 to %u\n", arg_title_number, d_num_titles);
 			return 1;
 		}
 		retval = bd_select_title(bd, arg_title_number - 1);
 		if(retval == 0) {
-			printf("Could not open title %u\n", arg_title_number);
+			fprintf(stderr, "Could not open title %u\n", arg_title_number);
 			return 1;
 		}
 	}
@@ -275,7 +275,7 @@ int main(int argc, char **argv) {
 	if(opt_playlist_number) {
 		retval = bd_select_playlist(bd, arg_playlist_number);
 		if(retval == 0) {
-			printf("Could not open playlist %u\n", arg_playlist_number);
+			fprintf(stderr, "Could not open playlist %u\n", arg_playlist_number);
 			return 1;
 		}
 		arg_title_number = bd_get_current_title(bd) + 1;
@@ -298,7 +298,7 @@ int main(int argc, char **argv) {
 	bd_title = bd_get_title_info(bd, arg_title_number - 1, 0);
 
 	if(bd_title == NULL) {
-		printf("Could not open title %u\n", arg_title_number);
+		fprintf(stderr, "Could not open title %u\n", arg_title_number);
 		return 1;
 	}
 	
@@ -330,7 +330,7 @@ int main(int argc, char **argv) {
 
 	retval = bd_select_angle(bd, arg_angle_number);
 	if(retval < 0) {
-		printf("Could not select angle # %u\n", arg_angle_number);
+		fprintf(stderr, "Could not select angle # %u\n", arg_angle_number);
 		return 1;
 	}
 
@@ -451,7 +451,7 @@ int main(int argc, char **argv) {
 	if(p_bluray_copy) {
 		retval = fclose(fd);
 		if(retval < 0) {
-			fprintf("Could not finish writing to %s\n", output_filename);
+			fprintf(stderr, "Could not finish writing to %s\n", output_filename);
 			return 1;
 		}
 	}
