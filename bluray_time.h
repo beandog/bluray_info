@@ -1,6 +1,8 @@
 #ifndef BLURAY_INFO_TIME_H
 #define BLURAY_INFO_TIME_H
 
+#define BLURAY_DURATION 12
+
 #include <stdio.h>
 #include <stdint.h>
 #include <string.h>
