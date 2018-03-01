@@ -52,7 +52,7 @@ struct bluray_video {
 struct bluray_chapter {
 	uint64_t ix;
 	uint64_t duration;
-	char length[12];
+	char length[13];
 	uint64_t size;
 	uint64_t size_mbs;
 };
@@ -242,8 +242,6 @@ int main(int argc, char **argv) {
 	bluray_info.hdmv_titles = 0;
 	bluray_info.bdj_titles = 0;
 	bluray_info.unsupported_titles = 0;
-	bluray_info.titles = 0;
-	bluray_info.relevant_titles = 0;
 	bluray_info.longest_title = 0;
 	bluray_info.main_title = 0;
 
@@ -291,9 +289,6 @@ int main(int argc, char **argv) {
 	if(bd_info->udf_volume_id && d_num_titles && p_bluray_copy)
 		printf("Disc Title: %s\n", bluray_info.bluray_title);
 	
-	struct bluray_title bluray_title;
-	struct bluray_chapter bluray_chapter;
-
 	retval = bd_select_title(bd, arg_title_number - 1);
 
 	bd_title = bd_get_title_info(bd, arg_title_number - 1, 0);
@@ -303,6 +298,7 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 	
+	struct bluray_title bluray_title;
 	bluray_title.ix = ix;
 	bluray_title.playlist = bd_title->playlist;
 	bluray_title.duration = bd_title->duration;
@@ -390,6 +386,13 @@ int main(int argc, char **argv) {
 		printf("Copy total bytes: %lo\n", total_bytes);
 
 	bool copy_success = true;
+
+	struct bluray_chapter bluray_chapter;
+	bluray_chapter.ix = 0;
+	bluray_chapter.duration = 0;
+	snprintf(bluray_chapter.length, 13, "%s", "00:00:00.000");
+	bluray_chapter.size = 0;
+	bluray_chapter.size_mbs = 0;
 
 	// Chapters are zero-indexed on Blu-rays
 	for(ix = start_chapter; ix < stop_chapter + 1; ix++) {
