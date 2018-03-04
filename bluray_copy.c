@@ -202,14 +202,6 @@ int main(int argc, char **argv) {
 
 	}
 
-	// Save extra room for for bluray_playlist_000.m2ts (25)
-	/*
-	if(bluray_copy.filename == NULL) {
-		bluray_copy.filename = calloc(25, sizeof(unsigned char));
-		snprintf(bluray_copy.filename, 23, "%s", "bluray_main_title.m2ts");
-	}
-	*/
-
 	if(!opt_title_number && !opt_playlist_number)
 		opt_main_title = true;
 
