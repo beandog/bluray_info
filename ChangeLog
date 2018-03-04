@@ -2,7 +2,14 @@ bluray_info ChangeLog
 
 1.4
 
+- bluray_copy can now stream to stdout
+- Print errors to stderr
+- Increase buffer sizes for bluray_copy
 - Display main title even if one track is listed
+- Display milliseconds to the third decimal point
+- Don't require an output filename, use defaults if none given
+- Fix indexing to match Blu-ray spec: zero-indexing
+- Fix displaying video and audio streams
 
 1.3
 
