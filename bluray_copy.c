@@ -270,6 +270,16 @@ int main(int argc, char **argv) {
 	struct bluray_title bluray_title;
 	bluray_title.ix = 0;
 	bluray_title.playlist = 0;
+	bluray_title.duration = 0;
+	bluray_title.size = 0;
+	bluray_title.size_mbs = 0;
+	bluray_title.chapters = 0;
+	bluray_title.clips = 0;
+	bluray_title.angles = 0;
+	bluray_title.video_streams = 0;
+	bluray_title.audio_streams = 0;
+	bluray_title.pg_streams = 0;
+	memset(bluray_title.length, '\0', sizeof(bluray_title.length));
 
 	// Select track passed as an argument
 	if(opt_title_number) {
@@ -338,6 +348,12 @@ int main(int argc, char **argv) {
 	bluray_title.clips = bd_title->clip_count;
 	bluray_title.angles = bd_title->angle_count;
 	strncpy(bluray_title.length, bluray_duration_length(bluray_title.duration), 12);
+
+	if(bluray_title.clips) {
+		bluray_title.video_streams = bd_title->clips[0].video_stream_count;
+		bluray_title.audio_streams = bd_title->clips[0].audio_stream_count;
+		bluray_title.pg_streams = bd_title->clips[0].pg_stream_count;
+	}
 
 	if(arg_last_chapter > bluray_title.chapters)
 		arg_last_chapter = bluray_title.chapters;
