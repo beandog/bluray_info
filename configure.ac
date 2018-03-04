@@ -1,4 +1,4 @@
-AC_INIT([bluray_info], [1.2.0])
+AC_INIT([bluray_info], [1.4])
 
 dnl This is not a GNU package, so ignore required files / format
 AM_INIT_AUTOMAKE([foreign])
