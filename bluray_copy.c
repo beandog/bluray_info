@@ -230,6 +230,8 @@ int main(int argc, char **argv) {
 
 	if(bd_info == NULL) {
 		fprintf(stderr, "Could not get Blu-ray disc info\n");
+		bd_close(bd);
+		bd = NULL;
 		return 1;
 	}
 
@@ -262,11 +264,15 @@ int main(int argc, char **argv) {
 	if(opt_title_number) {
 		if(arg_title_number == 0 || arg_title_number > d_num_titles) {
 			fprintf(stderr, "Could not open title %u, choose from 1 to %u\n", arg_title_number, d_num_titles);
+			bd_close(bd);
+			bd = NULL;
 			return 1;
 		}
 		retval = bd_select_title(bd, arg_title_number - 1);
 		if(retval == 0) {
 			fprintf(stderr, "Could not open title %u\n", arg_title_number);
+			bd_close(bd);
+			bd = NULL;
 			return 1;
 		}
 	}
@@ -275,6 +281,8 @@ int main(int argc, char **argv) {
 		retval = bd_select_playlist(bd, arg_playlist_number);
 		if(retval == 0) {
 			fprintf(stderr, "Could not open playlist %u\n", arg_playlist_number);
+			bd_close(bd);
+			bd = NULL;
 			return 1;
 		}
 		arg_title_number = bd_get_current_title(bd) + 1;
@@ -295,6 +303,8 @@ int main(int argc, char **argv) {
 
 	if(bd_title == NULL) {
 		fprintf(stderr, "Could not open title %u\n", arg_title_number);
+		bd_close(bd);
+		bd = NULL;
 		return 1;
 	}
 	
@@ -329,6 +339,10 @@ int main(int argc, char **argv) {
 	retval = bd_select_angle(bd, arg_angle_number);
 	if(retval < 0) {
 		fprintf(stderr, "Could not select angle # %u\n", arg_angle_number);
+		bd_free_title_info(bd_title);
+		bd_title = NULL;
+		bd_close(bd);
+		bd = NULL;
 		return 1;
 	}
 
@@ -336,6 +350,10 @@ int main(int argc, char **argv) {
 		fd = fopen(output_filename, "wb");
 		if(fd == NULL) {
 			fprintf(stderr, "Could not open filename %s\n", output_filename);
+			bd_free_title_info(bd_title);
+			bd_title = NULL;
+			bd_close(bd);
+			bd = NULL;
 			return 1;
 		}
 	}
@@ -499,9 +517,6 @@ int main(int argc, char **argv) {
 
 	if(p_bluray_copy)
 		printf("\n");
-
-	bd_free_title_info(bd_title);
-	bd_title = NULL;
 
 	bd_free_title_info(bd_title);
 	bd_title = NULL;
