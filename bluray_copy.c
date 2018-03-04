@@ -309,7 +309,7 @@ int main(int argc, char **argv) {
 	}
 	
 	struct bluray_title bluray_title;
-	bluray_title.ix = ix;
+	bluray_title.ix = arg_title_number - 1;
 	bluray_title.playlist = bd_title->playlist;
 	bluray_title.duration = bd_title->duration;
 	bluray_title.size = bd_get_title_size(bd);
