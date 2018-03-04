@@ -68,10 +68,10 @@ int main(int argc, char **argv) {
 
 	// Parse options and arguments
 	bool opt_title_number = false;
-	uint32_t arg_title_number = 1;
 	bool opt_playlist_number = false;
+	bool opt_main_title = false;
+	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
-	bool opt_main_title = true;
 	// bool opt_angle_number = false;
 	uint32_t arg_angle_number = 1;
 	// bool opt_chapter_number = false;
@@ -154,15 +154,11 @@ int main(int argc, char **argv) {
 
 			case 'p':
 				opt_playlist_number = true;
-				opt_title_number = false;
-				opt_main_title = false;
 				arg_playlist_number = (unsigned int)strtoumax(optarg, NULL, 0);
 				break;
 
 			case 't':
 				opt_title_number = true;
-				opt_playlist_number = false;
-				opt_main_title = false;
 				arg_title_number = (unsigned int)strtoumax(optarg, NULL, 0);
 				break;
 
@@ -201,6 +197,14 @@ int main(int argc, char **argv) {
 
 	if(output_filename == NULL) {
 		fprintf(stderr, "Need a an output filename (example: bluray_copy -o video.m2ts)\n");
+		return 1;
+	}
+
+	if(!opt_title_number && !opt_playlist_number)
+		opt_main_title = true;
+
+	if((opt_main_title + opt_title_number + opt_playlist_number) > 1) {
+		fprintf(stderr, "Select only one option of title, default title, or playlist\n");
 		return 1;
 	}
 
@@ -259,58 +263,60 @@ int main(int argc, char **argv) {
 	// Use "relevant titles" as index / reference
 	bluray_info.relevant_titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
 	d_num_titles = (uint32_t)bluray_info.relevant_titles;
+	bluray_info.main_title = bd_get_main_title(bd);
+
+	struct bluray_title bluray_title;
+	bluray_title.ix = 0;
+	bluray_title.playlist = 0;
 
 	// Select track passed as an argument
 	if(opt_title_number) {
-		if(arg_title_number == 0 || arg_title_number > d_num_titles) {
-			fprintf(stderr, "Could not open title %u, choose from 1 to %u\n", arg_title_number, d_num_titles);
+		bluray_title.ix = arg_title_number;
+		if(bluray_title.ix > (d_num_titles - 1)) {
+			fprintf(stderr, "Could not open title %u, choose from 0 to %u\n", bluray_title.ix, d_num_titles - 1);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
 		}
-		retval = bd_select_title(bd, arg_title_number - 1);
-		if(retval == 0) {
-			fprintf(stderr, "Could not open title %u\n", arg_title_number);
+		if(bd_select_title(bd, bluray_title.ix) == 0) {
+			fprintf(stderr, "Could not open title %u\n", bluray_title.ix);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
 		}
-	}
-
-	if(opt_playlist_number) {
-		retval = bd_select_playlist(bd, arg_playlist_number);
-		if(retval == 0) {
-			fprintf(stderr, "Could not open playlist %u\n", arg_playlist_number);
+		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
+		bluray_title.playlist = bd_title->playlist;
+	} else if(opt_playlist_number) {
+		bluray_title.playlist = arg_playlist_number;
+		if(bd_select_playlist(bd, bluray_title.playlist) == 0) {
+			fprintf(stderr, "Could not open playlist %u\n", bluray_title.playlist);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
 		}
-		arg_title_number = bd_get_current_title(bd) + 1;
+		bluray_title.ix = bd_get_current_title(bd);
+		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
+	} else {
+		bluray_title.ix = (uint32_t)bluray_info.main_title;
+		if(bd_select_title(bd, bluray_title.ix) == 0) {
+			fprintf(stderr, "Could not open title %u\n", bluray_title.ix);
+			bd_close(bd);
+			bd = NULL;
+			return 1;
+		}
+		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
 	}
-
-	bluray_info.main_title = bd_get_main_title(bd);
-
-	if(opt_main_title) {
-		arg_title_number = (uint32_t)bluray_info.main_title + 1;
-	}
-
-	if(bd_info->udf_volume_id && d_num_titles && p_bluray_copy)
-		printf("Disc Title: %s\n", bluray_info.bluray_title);
-	
-	retval = bd_select_title(bd, arg_title_number - 1);
-
-	bd_title = bd_get_title_info(bd, arg_title_number - 1, 0);
 
 	if(bd_title == NULL) {
-		fprintf(stderr, "Could not open title %u\n", arg_title_number);
+		fprintf(stderr, "Could not get info for title %u\n", bluray_title.ix);
 		bd_close(bd);
 		bd = NULL;
 		return 1;
 	}
-	
-	struct bluray_title bluray_title;
-	bluray_title.ix = arg_title_number - 1;
-	bluray_title.playlist = bd_title->playlist;
+
+	if(bd_info->udf_volume_id && d_num_titles && p_bluray_copy)
+		printf("Disc Title: %s\n", bluray_info.bluray_title);
+
 	bluray_title.duration = bd_title->duration;
 	bluray_title.size = bd_get_title_size(bd);
 	bluray_title.size_mbs = bluray_title.size / 1024 / 1024;
@@ -334,7 +340,7 @@ int main(int argc, char **argv) {
 	stop_chapter = arg_last_chapter - 1;
 
 	if(p_bluray_copy)
-		printf("Title: %03u, Playlist: %04u, Length: %s, Chapters: %02u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MBs\n", bluray_title.ix + 1, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
+		printf("Title: %03u, Playlist: %04u, Length: %s, Chapters: %02u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MBs\n", bluray_title.ix, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
 
 	retval = bd_select_angle(bd, arg_angle_number);
 	if(retval < 0) {
