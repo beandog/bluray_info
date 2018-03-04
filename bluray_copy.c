@@ -27,6 +27,10 @@ struct bluray_info {
 	int main_title;
 };
 
+struct bluray_copy {
+	char *filename;
+};
+
 struct bluray_title {
 	uint32_t ix;
 	uint32_t playlist;
@@ -65,6 +69,7 @@ int main(int argc, char **argv) {
 	FILE *fd = NULL;
 	bool p_bluray_copy = true;
 	bool p_bluray_cat = false;
+	struct bluray_copy bluray_copy;
 
 	// Parse options and arguments
 	bool opt_title_number = false;
@@ -80,7 +85,6 @@ int main(int argc, char **argv) {
 	uint32_t copy_chapters = 1;
 	bool debug = false;
 	const char *key_db_filename = NULL;
-	const char *output_filename = NULL;
 	char *token = NULL;
 	int g_opt = 0;
 	int g_ix = 0;
@@ -145,8 +149,8 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'o':
-				output_filename = optarg;
-				if(strncmp("-", output_filename, 1) == 0) {
+				bluray_copy.filename = optarg;
+				if(strncmp("-", bluray_copy.filename, 1) == 0) {
 					p_bluray_copy = false;
 					p_bluray_cat = true;
 				}
@@ -169,7 +173,7 @@ int main(int argc, char **argv) {
 			case 'h':
 			case '?':
 				printf("bluray_copy %s - Copy a title track or playlist entry to an MPEG2-TS file\n\n", BLURAY_COPY_VERSION);
-				printf("Usage: bluray_copy -o filename [options] [bluray device]\n\n");
+				printf("Usage: bluray_copy [options] [bluray device]\n\n");
 				printf("Options:\n");
 				printf("  -m, --main 		Copy main title (default)\n");
 				printf("  -t, --title # 	Copy title number\n");
@@ -180,10 +184,13 @@ int main(int argc, char **argv) {
 				printf("  -k, --keydb		Location to KEYDB.CFG (default: use libaacs to look up)\n\n");
 				printf("Blu-ray path can be a device filename, a file, or a directory.\n\n");
 				printf("Examples:\n");
-				printf("  bluray_copy -o video.m2ts /dev/bluray\n");
-				printf("  bluray_copy -o video.m2ts bluray.iso\n");
-				printf("  bluray_copy -o video.m2ts bluray/\n\n");
+				printf("  bluray_copy\n");
+				printf("  bluray_copy -o bluray.m2ts\n");
+				printf("  bluray_copy /dev/bluray\n");
+				printf("  bluray_copy bluray.iso\n");
+				printf("  bluray_copy Videos/Blu-ray/\n\n");
 				printf("Default device filename is %s\n\n", DEFAULT_BLURAY_DEVICE);
+				printf("Default output filename is \"bluray_main_title.m2ts\"\n");
 				printf("For more information, see http://dvds.beandog.org/\n");
 				return 0;
 
@@ -195,9 +202,9 @@ int main(int argc, char **argv) {
 
 	}
 
-	if(output_filename == NULL) {
-		fprintf(stderr, "Need a an output filename (example: bluray_copy -o video.m2ts)\n");
-		return 1;
+	if(bluray_copy.filename == NULL) {
+		bluray_copy.filename = calloc(23, sizeof(unsigned char));
+		snprintf(bluray_copy.filename, 23, "%s", "bluray_main_title.m2ts");
 	}
 
 	if(!opt_title_number && !opt_playlist_number)
@@ -353,9 +360,9 @@ int main(int argc, char **argv) {
 	}
 
 	if(p_bluray_copy) {
-		fd = fopen(output_filename, "wb");
+		fd = fopen(bluray_copy.filename, "wb");
 		if(fd == NULL) {
-			fprintf(stderr, "Could not open filename %s\n", output_filename);
+			fprintf(stderr, "Could not open filename %s\n", bluray_copy.filename);
 			bd_free_title_info(bd_title);
 			bd_title = NULL;
 			bd_close(bd);
@@ -533,7 +540,7 @@ int main(int argc, char **argv) {
 	if(p_bluray_copy) {
 		retval = fclose(fd);
 		if(retval < 0) {
-			fprintf(stderr, "Could not finish writing to %s\n", output_filename);
+			fprintf(stderr, "Could not finish writing to %s\n", bluray_copy.filename);
 			return 1;
 		}
 	}
