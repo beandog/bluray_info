@@ -190,7 +190,7 @@ int main(int argc, char **argv) {
 				printf("  bluray_copy bluray.iso\n");
 				printf("  bluray_copy Videos/Blu-ray/\n\n");
 				printf("Default device filename is %s\n\n", DEFAULT_BLURAY_DEVICE);
-				printf("Default output filename is \"bluray_main_title.m2ts\"\n");
+				printf("Default output filename is \"bluray_title_###.m2ts\" where number is main title\n");
 				printf("For more information, see http://dvds.beandog.org/\n");
 				return 0;
 
@@ -202,10 +202,13 @@ int main(int argc, char **argv) {
 
 	}
 
+	// Save extra room for for bluray_playlist_000.m2ts (25)
+	/*
 	if(bluray_copy.filename == NULL) {
-		bluray_copy.filename = calloc(23, sizeof(unsigned char));
+		bluray_copy.filename = calloc(25, sizeof(unsigned char));
 		snprintf(bluray_copy.filename, 23, "%s", "bluray_main_title.m2ts");
 	}
+	*/
 
 	if(!opt_title_number && !opt_playlist_number)
 		opt_main_title = true;
@@ -293,6 +296,10 @@ int main(int argc, char **argv) {
 		}
 		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
 		bluray_title.playlist = bd_title->playlist;
+		if(bluray_copy.filename == NULL) {
+			bluray_copy.filename = calloc(22, sizeof(unsigned char));
+			snprintf(bluray_copy.filename, 22, "%s%03u%s", "bluray_title_", bluray_title.ix, ".m2ts");
+		}
 	} else if(opt_playlist_number) {
 		bluray_title.playlist = arg_playlist_number;
 		if(bd_select_playlist(bd, bluray_title.playlist) == 0) {
@@ -303,6 +310,10 @@ int main(int argc, char **argv) {
 		}
 		bluray_title.ix = bd_get_current_title(bd);
 		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
+		if(bluray_copy.filename == NULL) {
+			bluray_copy.filename = calloc(26, sizeof(unsigned char));
+			snprintf(bluray_copy.filename, 26, "%s%04u%s", "bluray_playlist_", bluray_title.ix, ".m2ts");
+		}
 	} else {
 		bluray_title.ix = (uint32_t)bluray_info.main_title;
 		if(bd_select_title(bd, bluray_title.ix) == 0) {
@@ -312,6 +323,10 @@ int main(int argc, char **argv) {
 			return 1;
 		}
 		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
+		if(bluray_copy.filename == NULL) {
+			bluray_copy.filename = calloc(22, sizeof(unsigned char));
+			snprintf(bluray_copy.filename, 22, "%s%03u%s", "bluray_title_", bluray_title.ix, ".m2ts");
+		}
 	}
 
 	if(bd_title == NULL) {
