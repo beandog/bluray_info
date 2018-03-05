@@ -78,6 +78,8 @@ int main(int argc, char **argv) {
 	// Parse options and arguments
 	bool p_bluray_info = true;
 	bool p_bluray_json = false;
+	bool p_bluray_id = false;
+	bool p_bluray_udf = false;
 	bool d_title_number = false;
 	uint32_t a_title_number = 0;
 	bool d_playlist_number = false;
@@ -91,17 +93,19 @@ int main(int argc, char **argv) {
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "achjk:mp:st:vx";
+	const char p_short_opts[] = "achijk:mp:st:uvx";
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
 		{ "help", no_argument, NULL, 'h' },
+		{ "id", no_argument, NULL, 'i' },
 		{ "json", no_argument, NULL, 'j' },
 		{ "keydb", required_argument, NULL, 'k' },
 		{ "main", no_argument, NULL, 'm' },
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "subtitles", no_argument, NULL, 's' },
 		{ "title", required_argument, NULL, 't' },
+		{ "volname", no_argument, NULL, 'u' },
 		{ "video", no_argument, NULL, 'v' },
 		{ "all", no_argument, NULL, 'x' },
 		{ 0, 0, 0, 0 }
@@ -116,6 +120,11 @@ int main(int argc, char **argv) {
 
 			case 'c':
 				d_chapters = true;
+				break;
+
+			case 'i':
+				p_bluray_info = false;
+				p_bluray_id = true;
 				break;
 
 			case 'j':
@@ -151,6 +160,11 @@ int main(int argc, char **argv) {
 				a_title_number = (unsigned int)strtoumax(optarg, NULL, 0);
 				break;
 
+			case 'u':
+				p_bluray_info = false;
+				p_bluray_udf = true;
+				break;
+
 			case 'v':
 				d_video = true;
 				break;
@@ -170,14 +184,17 @@ int main(int argc, char **argv) {
 				printf("  -t, --track [number]     Limit to one title track\n");
 				printf("  -p, --playlist [number]  Limit to one playlist\n");
 				printf("  -m, --main  	 	   Limit to main title\n");
-				printf("  -j, --json               Display output in JSON format\n");
 				printf("  -k, --keydb		   Location to KEYDB.CFG (default: use libaacs to look up)\n\n");
-				printf("Extra information:\n");
+				printf("Detailed information:\n");
 				printf("  -v, --video              Display video stream details\n");
 				printf("  -a, --audio              Display audio stream details\n");
 				printf("  -s, --subtitles          Display subtitle details\n");
 				printf("  -c, --chapters           Display chapter details\n");
 				printf("  -x, --all                Display all information\n\n");
+				printf("Formatting:\n");
+				printf("  -j, --json               Display output in JSON format\n");
+				printf("  -i, --id		   Display disc ID\n");
+				printf("  -u, --volname		   Display UDF volume name title (iso or device only)\n");
 				printf("Blu-ray path can be a device filename, a file, or a directory.\n\n");
 				printf("Examples:\n");
 				printf("  bluray_info /dev/bluray\n");
@@ -242,6 +259,12 @@ int main(int argc, char **argv) {
 
 	if(bd_info->udf_volume_id)
 		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, 33);
+
+	if(p_bluray_udf) {
+		printf("%s\n", bluray_info.bluray_title);
+		return 0;
+	}
+
 	bluray_info.hdmv_titles = bd_info->num_hdmv_titles;
 	bluray_info.bdj_titles = bd_info->num_bdj_titles;
 	bluray_info.unsupported_titles = bd_info->num_unsupported_titles;
@@ -250,6 +273,11 @@ int main(int argc, char **argv) {
 		for(ix = 0; ix < 20; ix++) {
 			sprintf(bluray_info.bluray_id + 2 * ix, "%02X", bd_info->disc_id[ix]);
 		}
+	}
+
+	if(p_bluray_id) {
+		printf("%s\n", bluray_info.bluray_id);
+		return 0;
 	}
 
 	// Titles, Indexes and Playlists
