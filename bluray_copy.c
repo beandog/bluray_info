@@ -407,7 +407,7 @@ int main(int argc, char **argv) {
 
 	int64_t bd_bytes_read;
 
-	size_t bytes_fwritten = 0;
+	size_t bytes_written = 0;
 	size_t total_bytes_written = 0;
 
 	BLURAY_TITLE_CHAPTER *bd_chapter = NULL;
@@ -529,16 +529,16 @@ int main(int argc, char **argv) {
 
 			// Can safely cast bd_bytes_read here to size_t because
 			// if it is already less than zero, then we would have exited.
-			bytes_fwritten = fwrite(buffer, 1, (size_t)bd_bytes_read, fd);
+			bytes_written = fwrite(buffer, 1, (size_t)bd_bytes_read, fd);
 
-			if(bytes_fwritten != (size_t)bd_bytes_read) {
-				fprintf(stderr, "Read %zu bytes, but only wrote %zu ... out of disk space? Quitting.", bd_bytes_read, bytes_fwritten);
+			if(bytes_written != (size_t)bd_bytes_read) {
+				fprintf(stderr, "Read %zu bytes, but only wrote %zu ... out of disk space? Quitting.", bd_bytes_read, bytes_written);
 				copy_success = false;
 				retval = -1;
 				break;
 			}
 
-			total_bytes_written += bytes_fwritten;
+			total_bytes_written += bytes_written;
 
 			if(p_bluray_copy) {
 				printf("Progress: %lu%%\r", total_bytes_written * 100 / (uint64_t)total_bytes);
