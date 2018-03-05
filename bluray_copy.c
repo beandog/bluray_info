@@ -285,15 +285,15 @@ int main(int argc, char **argv) {
 
 	// Select track passed as an argument
 	if(opt_title_number) {
-		bluray_title.ix = arg_title_number;
+		bluray_title.ix = arg_title_number - 1;
 		if(bluray_title.ix > (d_num_titles - 1)) {
-			fprintf(stderr, "Could not open title %u, choose from 0 to %u\n", bluray_title.ix, d_num_titles - 1);
+			fprintf(stderr, "Could not open title %u, choose from 1 to %u\n", bluray_title.ix + 1, d_num_titles);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
 		}
 		if(bd_select_title(bd, bluray_title.ix) == 0) {
-			fprintf(stderr, "Could not open title %u\n", bluray_title.ix);
+			fprintf(stderr, "Could not open title %u\n", bluray_title.ix + 1);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
@@ -302,7 +302,7 @@ int main(int argc, char **argv) {
 		bluray_title.playlist = bd_title->playlist;
 		if(bluray_copy.filename == NULL) {
 			bluray_copy.filename = calloc(22, sizeof(unsigned char));
-			snprintf(bluray_copy.filename, 22, "%s%03u%s", "bluray_title_", bluray_title.ix, ".m2ts");
+			snprintf(bluray_copy.filename, 22, "%s%03u%s", "bluray_title_", bluray_title.ix + 1, ".m2ts");
 		}
 	} else if(opt_playlist_number) {
 		bluray_title.playlist = arg_playlist_number;
@@ -316,12 +316,12 @@ int main(int argc, char **argv) {
 		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
 		if(bluray_copy.filename == NULL) {
 			bluray_copy.filename = calloc(26, sizeof(unsigned char));
-			snprintf(bluray_copy.filename, 26, "%s%04u%s", "bluray_playlist_", bluray_title.ix, ".m2ts");
+			snprintf(bluray_copy.filename, 26, "%s%04u%s", "bluray_playlist_", bluray_title.ix + 1, ".m2ts");
 		}
 	} else {
 		bluray_title.ix = (uint32_t)bluray_info.main_title;
 		if(bd_select_title(bd, bluray_title.ix) == 0) {
-			fprintf(stderr, "Could not open title %u\n", bluray_title.ix);
+			fprintf(stderr, "Could not open title %u\n", bluray_title.ix + 1);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
@@ -329,12 +329,12 @@ int main(int argc, char **argv) {
 		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
 		if(bluray_copy.filename == NULL) {
 			bluray_copy.filename = calloc(22, sizeof(unsigned char));
-			snprintf(bluray_copy.filename, 22, "%s%03u%s", "bluray_title_", bluray_title.ix, ".m2ts");
+			snprintf(bluray_copy.filename, 22, "%s%03u%s", "bluray_title_", bluray_title.ix + 1, ".m2ts");
 		}
 	}
 
 	if(bd_title == NULL) {
-		fprintf(stderr, "Could not get info for title %u\n", bluray_title.ix);
+		fprintf(stderr, "Could not get info for title %u\n", bluray_title.ix + 1);
 		bd_close(bd);
 		bd = NULL;
 		return 1;
@@ -372,7 +372,7 @@ int main(int argc, char **argv) {
 	stop_chapter = arg_last_chapter - 1;
 
 	if(p_bluray_copy)
-		printf("Title: %03u, Playlist: %04u, Length: %s, Chapters: %02u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MBs\n", bluray_title.ix, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
+		printf("Title: %03u, Playlist: %04u, Length: %s, Chapters: %02u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MBs\n", bluray_title.ix + 1, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
 
 	retval = bd_select_angle(bd, arg_angle_number);
 	if(retval < 0) {
