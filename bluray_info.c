@@ -254,7 +254,7 @@ int main(int argc, char **argv) {
 	bluray_info.titles = 0;
 	bluray_info.relevant_titles = 0;
 	bluray_info.longest_title = 0;
-	bluray_info.main_title = 0;
+	bluray_info.main_title = 1;
 
 	if(bd_info->udf_volume_id)
 		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, 33);
@@ -437,12 +437,12 @@ int main(int argc, char **argv) {
 		}
 
 		if(p_bluray_info) {
-			printf("Title: %03u, Playlist: %04u, Length: %s, Chapters: %03u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MB\n", bluray_title.ix, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
+			printf("Title: %03u, Playlist: %04u, Length: %s, Chapters: %03u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MB\n", bluray_title.ix + 1, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
 		}
 
 		if(p_bluray_json) {
 			printf("  {\n");
-			printf("   \"title\": %u,\n", bluray_title.ix);
+			printf("   \"title\": %u,\n", bluray_title.ix + 1);
 			printf("   \"playlist\": %u,\n", bluray_title.playlist);
 			printf("   \"length\": \"%s\",\n", bluray_title.length);
 			printf("   \"msecs\": %lu,\n", bluray_title.duration / 900);
@@ -633,7 +633,7 @@ int main(int argc, char **argv) {
 	}
 
 	if(p_bluray_info && !d_title_number && !d_main_title && d_num_titles != 1)
-		printf("Main title: %i\n", bluray_info.main_title);
+		printf("Main title: %i\n", bluray_info.main_title + 1);
 	
 	bd_free_title_info(bd_title);
 	bd_title = NULL;
