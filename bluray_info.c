@@ -71,7 +71,6 @@ int main(int argc, char **argv) {
 	uint64_t chapter_ix = 0;
 	uint32_t d_num_titles = 0;
 	uint32_t d_first_title = 0;
-	// uint32_t d_last_title = 0;
 	uint32_t d_title_counter = 0;
 	int retval = 0;
 
@@ -296,22 +295,20 @@ int main(int argc, char **argv) {
 
 	bluray_info.relevant_titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
 	d_first_title = 0;
-	// d_last_title = (uint32_t)bluray_info.relevant_titles;
 	d_num_titles = (uint32_t)bluray_info.relevant_titles;
 
 	// Select track passed as an argument
 	if(d_title_number) {
-		if(a_title_number == 0 || a_title_number > d_num_titles) {
-			printf("Could not open title %u, choose from 1 to %u\n", a_title_number, d_num_titles);
+		if(a_title_number > (d_num_titles - 1)) {
+			printf("Could not open title %u, choose from 0 to %u\n", a_title_number, d_num_titles - 1);
 			return 1;
 		}
-		retval = bd_select_title(bd, a_title_number - 1);
+		retval = bd_select_title(bd, a_title_number);
 		if(retval == 0) {
 			printf("Could not open title %u\n", a_title_number);
 			return 1;
 		}
-		d_first_title = a_title_number - 1;
-		// d_last_title = a_title_number - 1;
+		d_first_title = a_title_number;
 		d_num_titles = 1;
 	}
 
@@ -322,7 +319,6 @@ int main(int argc, char **argv) {
 			return 1;
 		}
 		d_first_title = bd_get_current_title(bd);
-		// d_last_title = d_first_title;
 		d_num_titles = 1;
 	}
 
@@ -330,7 +326,6 @@ int main(int argc, char **argv) {
 
 	if(d_main_title) {
 		d_first_title = (uint32_t)bluray_info.main_title;
-		// d_last_title = (uint32_t)bluray_info.main_title;
 		d_num_titles = 1;
 	}
 
@@ -442,12 +437,12 @@ int main(int argc, char **argv) {
 		}
 
 		if(p_bluray_info) {
-			printf("Title: %03u, Playlist: %04u, Length: %s, Chapters: %03u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MB\n", bluray_title.ix + 1, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
+			printf("Title: %03u, Playlist: %04u, Length: %s, Chapters: %03u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MB\n", bluray_title.ix, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
 		}
 
 		if(p_bluray_json) {
 			printf("  {\n");
-			printf("   \"title\": %u,\n", bluray_title.ix + 1);
+			printf("   \"title\": %u,\n", bluray_title.ix);
 			printf("   \"playlist\": %u,\n", bluray_title.playlist);
 			printf("   \"length\": \"%s\",\n", bluray_title.length);
 			printf("   \"msecs\": %lu,\n", bluray_title.duration / 900);
@@ -638,7 +633,7 @@ int main(int argc, char **argv) {
 	}
 
 	if(p_bluray_info && !d_title_number && !d_main_title && d_num_titles != 1)
-		printf("Main title: %i\n", bluray_info.main_title + 1);
+		printf("Main title: %i\n", bluray_info.main_title);
 	
 	bd_free_title_info(bd_title);
 	bd_title = NULL;
