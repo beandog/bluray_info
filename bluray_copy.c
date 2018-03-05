@@ -43,7 +43,7 @@ struct bluray_title {
 	uint8_t video_streams;
 	uint8_t audio_streams;
 	uint8_t pg_streams;
-	char length[12];
+	char length[BLURAY_DURATION + 1];
 };
 
 struct bluray_video {
@@ -56,7 +56,7 @@ struct bluray_video {
 struct bluray_chapter {
 	uint64_t ix;
 	uint64_t duration;
-	char length[13];
+	char length[BLURAY_DURATION + 1];
 	uint64_t size;
 	uint64_t size_mbs;
 };
@@ -347,7 +347,7 @@ int main(int argc, char **argv) {
 	bluray_title.chapters = bd_title->chapter_count;
 	bluray_title.clips = bd_title->clip_count;
 	bluray_title.angles = bd_title->angle_count;
-	strncpy(bluray_title.length, bluray_duration_length(bluray_title.duration), 12);
+	strncpy(bluray_title.length, bluray_duration_length(bluray_title.duration), BLURAY_DURATION + 1);
 
 	if(bluray_title.clips) {
 		bluray_title.video_streams = bd_title->clips[0].video_stream_count;
@@ -444,7 +444,7 @@ int main(int argc, char **argv) {
 	struct bluray_chapter bluray_chapter;
 	bluray_chapter.ix = 0;
 	bluray_chapter.duration = 0;
-	snprintf(bluray_chapter.length, 13, "%s", "00:00:00.000");
+	snprintf(bluray_chapter.length, BLURAY_DURATION + 1, "%s", "00:00:00.000");
 	bluray_chapter.size = 0;
 	bluray_chapter.size_mbs = 0;
 
@@ -499,7 +499,7 @@ int main(int argc, char **argv) {
 
 		bd_chapter = &bd_title->chapters[ix];
 		bluray_chapter.duration = bd_chapter->duration;
-		strncpy(bluray_chapter.length, bluray_duration_length(bd_chapter->duration), 12);
+		strncpy(bluray_chapter.length, bluray_duration_length(bd_chapter->duration), BLURAY_DURATION + 1);
 		if(p_bluray_copy)
 			printf("        Chapter: %02u, Length: %s, Filesize: %lu MBs\n", ix + 1, bluray_chapter.length, (chapter_stop_pos[ix] - chapter_start_pos[ix]) / 1024 / 1024);
 
