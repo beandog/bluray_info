@@ -6,6 +6,8 @@
 #include <stdbool.h>
 #include <inttypes.h>
 #include <getopt.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 #include "libbluray/bluray.h"
 #include "bluray_device.h"
 #include "bluray_time.h"
@@ -31,6 +33,7 @@ struct bluray_info {
 
 struct bluray_copy {
 	char *filename;
+	int fd;
 };
 
 struct bluray_title {
@@ -68,10 +71,11 @@ int main(int argc, char **argv) {
 	uint32_t ix = 0;
 	uint32_t d_num_titles = 0;
 	int retval = 0;
-	FILE *fd = NULL;
 	bool p_bluray_copy = true;
 	bool p_bluray_cat = false;
 	struct bluray_copy bluray_copy;
+	bluray_copy.filename = NULL;
+	bluray_copy.fd = -1;
 
 	// Parse options and arguments
 	bool opt_title_number = false;
@@ -385,8 +389,8 @@ int main(int argc, char **argv) {
 	}
 
 	if(p_bluray_copy) {
-		fd = fopen(bluray_copy.filename, "wb");
-		if(fd == NULL) {
+		bluray_copy.fd = open(bluray_copy.filename, O_WRONLY | O_CREAT | O_APPEND | O_TRUNC, 0644);
+		if(!bluray_copy.fd) {
 			fprintf(stderr, "Could not open filename %s\n", bluray_copy.filename);
 			bd_free_title_info(bd_title);
 			bd_title = NULL;
@@ -409,8 +413,8 @@ int main(int argc, char **argv) {
 
 	int64_t bd_bytes_read;
 
-	size_t bytes_written = 0;
-	size_t total_bytes_written = 0;
+	ssize_t bytes_written = 0;
+	ssize_t total_bytes_written = 0;
 
 	BLURAY_TITLE_CHAPTER *bd_chapter = NULL;
 
@@ -529,11 +533,10 @@ int main(int argc, char **argv) {
 			if(bd_bytes_read < 0 || bd_bytes_read == EOF)
 				break;
 
-			// Can safely cast bd_bytes_read here to size_t because
-			// if it is already less than zero, then we would have exited.
-			bytes_written = fwrite(buffer, 1, (size_t)bd_bytes_read, fd);
+			bytes_written = write(bluray_copy.fd, buffer, (unsigned long)buffer_size);
+			printf("bytes written: %lu\n", bytes_written);
 
-			if(bytes_written != (size_t)bd_bytes_read) {
+			if(bytes_written != bd_bytes_read) {
 				fprintf(stderr, "Read %zu bytes, but only wrote %zu ... out of disk space? Quitting.", bd_bytes_read, bytes_written);
 				copy_success = false;
 				retval = -1;
@@ -543,7 +546,7 @@ int main(int argc, char **argv) {
 			total_bytes_written += bytes_written;
 
 			if(p_bluray_copy) {
-				printf("Progress: %lu%% - %lu/%lu MBs\r", total_bytes_written * 100 / (uint64_t)total_bytes, total_bytes_written / 1024 / 1024, ((chapter_stop_pos[stop_chapter] - chapter_start_pos[start_chapter]) / 1024 / 1024));
+				printf("Progress: %lu%% - %lu/%lu MBs\r", total_bytes_written * 100 / (ssize_t)total_bytes, total_bytes_written / 1024 / 1024, ((chapter_stop_pos[stop_chapter] - chapter_start_pos[start_chapter]) / 1024 / 1024));
 				fflush(stdout);
 			}
 
@@ -563,7 +566,7 @@ int main(int argc, char **argv) {
 	bd = NULL;
 
 	if(p_bluray_copy) {
-		retval = fclose(fd);
+		retval = close(bluray_copy.fd);
 		if(retval < 0) {
 			fprintf(stderr, "Could not finish writing to %s\n", bluray_copy.filename);
 			return 1;
