@@ -11,8 +11,10 @@
 #include "bluray_time.h"
 
 #define BLURAY_COPY_VERSION "1.4"
-#define BLURAY_ECC_BLOCK 64 * 1024 // 64k
-#define BLURAY_COPY_BUFFER_SIZE ( BLURAY_ECC_BLOCK * 16 ) // 1 MB
+// 64k
+#define BLURAY_ECC_BLOCK ( 64 * 1024 )
+// 1 MB
+#define BLURAY_COPY_BUFFER_SIZE ( BLURAY_ECC_BLOCK * 16 )
 #define BLURAY_CAT_BUFFER_SIZE ( BLURAY_ECC_BLOCK * 1 )
 
 struct bluray_info {
@@ -541,7 +543,7 @@ int main(int argc, char **argv) {
 			total_bytes_written += bytes_written;
 
 			if(p_bluray_copy) {
-				printf("Progress: %lu%%\r", total_bytes_written * 100 / (uint64_t)total_bytes);
+				printf("Progress: %lu%% - %lu/%lu MBs\r", total_bytes_written * 100 / (uint64_t)total_bytes, total_bytes_written / 1024 / 1024, ((chapter_stop_pos[stop_chapter] - chapter_start_pos[start_chapter]) / 1024 / 1024));
 				fflush(stdout);
 			}
 
