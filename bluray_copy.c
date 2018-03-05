@@ -316,7 +316,7 @@ int main(int argc, char **argv) {
 		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
 		if(bluray_copy.filename == NULL) {
 			bluray_copy.filename = calloc(26, sizeof(unsigned char));
-			snprintf(bluray_copy.filename, 26, "%s%04u%s", "bluray_playlist_", bluray_title.ix + 1, ".m2ts");
+			snprintf(bluray_copy.filename, 26, "%s%04u%s", "bluray_playlist_", bluray_title.playlist, ".m2ts");
 		}
 	} else {
 		bluray_title.ix = (uint32_t)bluray_info.main_title;
