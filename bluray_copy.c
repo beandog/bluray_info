@@ -475,49 +475,6 @@ int main(int argc, char **argv) {
 	bluray_chapter.size = 0;
 	bluray_chapter.size_mbs = 0;
 
-	/**
-	 * Story time! (2018-03-01)
-	 *
-	 * In an effort to test my code against bdsplice, trying to see if I could get them
-	 * bit-exact. Used a disc from my collection (BDRBD) track 33 as a comparison.
-	 *
-	 * bdsplice (libbluray 1.0.2) will start at the beginning of the title, and go
-	 * until the end of the final chapter. bluray_copy gets the start position of
-	 * one chapter, and copies its entirety, and then goes to the next one. Because
-	 * of this difference, the amounts of the totals will change on each write loop
-	 * because bluray_copy recalculates the buffer size when a chapter iterates.
-	 *
-	 * bdsplice mixes signed and unsigned integers (bd_tell, bd_seek_chapter), while
-	 * bluray_copy is more strict. Both agree that there are two chapters, but
-	 * extracting it with bdsplice I didn't have much luck until hacking on it:
-	 * running "-t 33 -c 1-1" or "-c 2-2" won't create files, while "-c 1-2" will.
-	 *
-	 * In addition to that, we both use different buffer sizes when copying discs;
-	 * bluray_info uses much smaller, at 64k compared to 196k. We also create our
-	 * buffers differently, and more. Lots of differences between the two when
-	 * using variables.
-	 *
-	 * Long-story short: don't expect bit-exact copies unless you're willing to
-	 * go down the rabbit hole.
-	 *
-	 * After the research, I reached the conclusion that bluray_copy accurately
-	 * copies the chapters from its correct positions, and that bdsplice is most
-	 * likely copying extra data starting from position zero.
-	 *
-	 * A proper check could be done if bluray_info mimiced bdsplice in setting
-	 * the end position at the last position of the last chapter and then comparing
-	 * the two files.
-	 *
-	 * In the meantime, to duplicate ...
-	 * bluray_info: start at commit 16c3d1ff7d00529d1f5f32b2cc0fdccaa1a96dab
-	 * $ bdsplice -t 33 /dev/bluray bdsplice_033.m2ts 	# 16742400
-	 * $ bluray_copy -t 33 -o bluray_track_033.m2ts		# 16741632
-	 *
-	 * Can split off the beginning:
-	 * $ dd if=bdsplice_033.m2ts of=bdsplice_033_768k.m2ts bs=1 skip=768
-	 *
-	 */
-
 	// Chapters are zero-indexed on Blu-rays
 	for(ix = start_chapter; ix < stop_chapter + 1; ix++) {
 
