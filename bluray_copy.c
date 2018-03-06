@@ -18,6 +18,8 @@
 // 1 MB
 #define BLURAY_COPY_BUFFER_SIZE ( BLURAY_ECC_BLOCK * 16 )
 #define BLURAY_CAT_BUFFER_SIZE ( BLURAY_ECC_BLOCK * 1 )
+// Blu-ray specs optical device speed at 1x is 32 Mbits / seconds (aka 4.5 MBs), go fast! :D
+#define BLURAY_OPTICAL_DEVICE_BUFFER_SIZE 4718592
 
 struct bluray_info {
 	char bluray_id[41];
@@ -33,6 +35,9 @@ struct bluray_info {
 
 struct bluray_copy {
 	char *filename;
+	bool optical_drive;
+	unsigned char *buffer;
+	uint64_t buffer_size;
 	int fd;
 };
 
@@ -75,7 +80,11 @@ int main(int argc, char **argv) {
 	bool p_bluray_cat = false;
 	struct bluray_copy bluray_copy;
 	bluray_copy.filename = NULL;
+	bluray_copy.optical_drive = false;
+	bluray_copy.buffer = NULL;
+	bluray_copy.buffer_size = 1;
 	bluray_copy.fd = -1;
+	uint64_t buffer_size = 0;
 
 	// Parse options and arguments
 	bool opt_title_number = false;
@@ -218,10 +227,14 @@ int main(int argc, char **argv) {
 
 	const char *device_filename = NULL;
 
-	if(argv[optind])
+	if(argv[optind]) {
 		device_filename = argv[optind];
-	else
+		if(strncmp(device_filename, "/dev/", 5))
+			bluray_copy.optical_drive = true;
+	} else {
 		device_filename = DEFAULT_BLURAY_DEVICE;
+		bluray_copy.optical_drive = true;
+	}
 
 	// Open device
 	BLURAY *bd = NULL;
@@ -405,7 +418,6 @@ int main(int argc, char **argv) {
 	int64_t seek_pos = 0;
 	int64_t stop_pos = 0;
 
-	int64_t buffer_size = 0;
 	if(p_bluray_copy)
 		buffer_size = BLURAY_COPY_BUFFER_SIZE;
 	else if(p_bluray_cat)
@@ -420,9 +432,16 @@ int main(int argc, char **argv) {
 
 	BLURAY_TITLE_CHAPTER *bd_chapter = NULL;
 
-	unsigned char *buffer = NULL;
-	buffer = (unsigned char *)calloc(1, (uint64_t)buffer_size * sizeof(unsigned char));
-	if(buffer == NULL) {
+	if(bluray_copy.optical_drive)
+		bluray_copy.buffer_size = BLURAY_OPTICAL_DEVICE_BUFFER_SIZE;
+	else if(p_bluray_cat)
+		bluray_copy.buffer_size = BLURAY_CAT_BUFFER_SIZE;
+	else
+		bluray_copy.buffer_size = BLURAY_COPY_BUFFER_SIZE;
+
+	bluray_copy.buffer = calloc(bluray_copy.buffer_size, sizeof(unsigned char));
+
+	if(bluray_copy.buffer == NULL) {
 		fprintf(stderr, "Couldn't allocate memory for copy buffer\n");
 		return 1;
 	}
@@ -516,30 +535,23 @@ int main(int argc, char **argv) {
 
 		while(seek_pos < stop_pos && copy_success == true) {
 
-			if(p_bluray_copy)
-				buffer_size = BLURAY_COPY_BUFFER_SIZE;
-			else if(p_bluray_cat)
-				buffer_size = BLURAY_CAT_BUFFER_SIZE;
-			else
-				buffer_size = BLURAY_COPY_BUFFER_SIZE;
+			buffer_size = bluray_copy.buffer_size;
 
-			if(buffer_size > (stop_pos - seek_pos)) {
-				buffer_size = stop_pos - seek_pos;
+			if(bluray_copy.buffer_size > (uint64_t)(stop_pos - seek_pos)) {
+				buffer_size = (uint64_t)(stop_pos - seek_pos);
 			}
 
 			// bd_read will read from the start of the title, not from
 			// the seek position, meaning that the final filesize will
 			// be larger than the total of end seek position minus
 			// begin seek position (with the extra data at the front).
-			bd_bytes_read = bd_read(bd, buffer, (int32_t)buffer_size);
+			bd_bytes_read = bd_read(bd, bluray_copy.buffer, (int32_t)buffer_size);
 			if(bd_bytes_read < 0 || bd_bytes_read == EOF)
 				break;
 
-			bytes_written = write(bluray_copy.fd, buffer, (unsigned long)buffer_size);
+			bytes_written = write(bluray_copy.fd, bluray_copy.buffer, (unsigned long)buffer_size);
 
 			if(p_bluray_copy) {
-				printf("bytes written: %lu\n", bytes_written);
-
 				if(bytes_written != bd_bytes_read) {
 					fprintf(stderr, "Read %zu bytes, but only wrote %zu ... out of disk space? Quitting.", bd_bytes_read, bytes_written);
 					copy_success = false;
