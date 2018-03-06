@@ -178,7 +178,7 @@ int main(int argc, char **argv) {
 			case 'h':
 			case '?':
 				printf("bluray_info %s - display information about a Blu-ray disc\n\n", BLURAY_INFO_VERSION);
-				printf("Usage: bluray_info [options] [filename]\n\n");
+				printf("Usage: bluray_info [options] [bluray device]\n\n");
 				printf("Options:\n");
 				printf("  -t, --track [number]     Limit to one title track\n");
 				printf("  -p, --playlist [number]  Limit to one playlist\n");
