@@ -90,6 +90,7 @@ int main(int argc, char **argv) {
 	bool opt_title_number = false;
 	bool opt_playlist_number = false;
 	bool opt_main_title = false;
+	bool quiet = false;
 	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
 	// bool opt_angle_number = false;
@@ -104,7 +105,7 @@ int main(int argc, char **argv) {
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "a:c:hk:mo:p:t:z";
+	const char p_short_opts[] = "a:c:hk:mo:p:t:qz";
 	struct option p_long_opts[] = {
 		{ "angle", required_argument, NULL, 'a' },
 		{ "chapters", required_argument, NULL, 'c' },
@@ -114,6 +115,7 @@ int main(int argc, char **argv) {
 		{ "output_filename", required_argument, NULL, 'o' },
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "title", required_argument, NULL, 't' },
+		{ "quiet", no_argument, NULL, 'q' },
 		{ "debug", no_argument, NULL, 'z' },
 		{ 0, 0, 0, 0 }
 	};
@@ -181,6 +183,10 @@ int main(int argc, char **argv) {
 				arg_title_number = (unsigned int)strtoumax(optarg, NULL, 0);
 				break;
 
+			case 'q':
+				quiet = true;
+				break;
+
 			case 'z':
 				debug = true;
 				break;
@@ -197,6 +203,7 @@ int main(int argc, char **argv) {
 				printf("  -a, --angle #		Video angle (default: 1)\n");
 				printf("  -o, --output <file>	Save to filename\n");
 				printf("  -k, --keydb		Location to KEYDB.CFG (default: use libaacs to look up)\n\n");
+				printf("  -q, --quiet		Don't print progress output\n");
 				printf("Blu-ray path can be a device filename, a file, or a directory.\n\n");
 				printf("Examples:\n");
 				printf("  bluray_copy\n");
@@ -519,8 +526,10 @@ int main(int argc, char **argv) {
 
 			total_bytes_written += bytes_written;
 
-			fprintf(p_bluray_cat ? stderr : stdout, "Progress: %lu%% - %lu/%lu MBs\r", total_bytes_written * 100 / (ssize_t)total_bytes, total_bytes_written / 1024 / 1024, ((chapter_stop_pos[stop_chapter] - chapter_start_pos[start_chapter]) / 1024 / 1024));
-			fflush(p_bluray_cat ? stderr : stdout);
+			if(!quiet) {
+				fprintf(p_bluray_cat ? stderr : stdout, "Progress: %lu%% - %lu/%lu MBs\r", total_bytes_written * 100 / (ssize_t)total_bytes, total_bytes_written / 1024 / 1024, ((chapter_stop_pos[stop_chapter] - chapter_start_pos[start_chapter]) / 1024 / 1024));
+				fflush(p_bluray_cat ? stderr : stdout);
+			}
 
 			seek_pos = (int64_t)bd_tell(bd);
 
@@ -528,7 +537,8 @@ int main(int argc, char **argv) {
 
 	}
 
-	fprintf(p_bluray_cat ? stderr : stdout, "\n");
+	if(!quiet)
+		fprintf(p_bluray_cat ? stderr : stdout, "\n");
 
 	bd_free_title_info(bd_title);
 	bd_title = NULL;
