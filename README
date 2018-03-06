@@ -7,7 +7,7 @@ Includes:
 
 Requirements:
 
-* libbluray >= 1.0.0 (with or without libaacs support)
+* libbluray >= 1.0.0
 
 Disc access:
 
@@ -60,24 +60,10 @@ they are set up).
 
 bluray_info:
 
-Usage: bluray_info [options] [filename]
+Usage: bluray_info [options] [bluray device]
 
-Options:
-  -t, --track [number]     Limit to one title track
-  -p, --playlist [number]  Limit to one playlist
-  -m, --main               Limit to main title
-  -j, --json               Display output in JSON format
-  -k, --keydb              Location to KEYDB.CFG (default: use libaacs to look up)
-
-Extra information:
-  -v, --video              Display video stream details
-  -a, --audio              Display audio stream details
-  -s, --subtitles          Display subtitle details
-  -c, --chapters           Display chapter details
-  -x, --all                Display all information
-
-The syntax and output was designed to closely resemble the awesome program
-"lsdvd" (and later my own clone and other programs, from dvd_info).
+bluray_info syntax and output was designed to closely resemble the awesome
+program "lsdvd" (and later my own clone and other programs, from dvd_info).
 
 It will display as much relevant information I can get from the disc that is
 provided by libbluray. Sadly, there's no way to display the number of channels
@@ -87,19 +73,9 @@ examine the content of the stream, which would mean using multimedia libraries.
 
 bluray_copy:
 
-Usage: bluray_copy -o filename [options] [bluray device]
+Usage: bluray_copy [options] [bluray device]
 
-Options:
-  -m, --main            Copy main title (default)
-  -t, --title #         Copy title number
-  -p, --playlist #      Copy playlist number
-  -c, --chapters #[-#]  Copy chapter number(s)
-  -a, --angle #         Video angle (default: 1)
-  -o, --output <file>   Save to filename
-  -k, --keydb           Location to KEYDB.CFG (default: use libaacs to look up)
-
-You *must* specify an output file to export the audio/video stream to. While
-Blu-rays can store many codecs, the container is an MPEG-2 transport stream. If
+Blu-rays can store many codecs, and its container is an MPEG-2 transport stream.
 you so desire, you can easily remux it into another container -- and get the
 file much smaller by dropping audio tracks you don't want or need. I recommend
 using mkvmerge (from mkvtoolnix) or ffmpeg or avconv (libav).
@@ -107,21 +83,18 @@ using mkvmerge (from mkvtoolnix) or ffmpeg or avconv (libav).
 Two examples of remuxing the copied stream with only the first audio track:
 
   $ mkvmerge -o bluray.mkv -a 1 bluray.m2ts
-  $ ffmpeg (or avconv) -i bluray.m2ts -map 0:0 -map 0:1 -codec copy bluray.mkv
+  $ ffmpeg -i bluray.m2ts -map 0:0 -map 0:1 -codec copy bluray.mkv
+
+Or you can use bluray_copy to output to stdout and remux on the fly:
+
+  $ bluray_copy -o - | ffmpeg -i - -map 0:0 -map 0:1 -codec copy bluray.mkv
+  $ bluray_copy -o - | ffmpeg -i - -map 0:0 -map 0:1 -codec copy -f mpegts bluray.m2ts
 
 Blu-rays can hold a lot of stuff ... a lot. bluray_copy won't do anything
 fancy like check to see if you have enough space to copy the track you want to,
 so be careful. It will simply quit if it can't write to the hard drive anymore.
 
 If no argument is given, bluray_copy will simply select the longest track.
-
-Portability:
-
-I take a minimalist approach to my code, and so there is only the minimum
-of required autotools content in the repo: configure.ac and Makefile.am
-This allows the user to build the config files on their system. Run
-"autoreconf -fi" and you'll have the familiar configure, make, make install
-setup.
 
 Support:
 
