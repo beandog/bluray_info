@@ -398,6 +398,8 @@ int main(int argc, char **argv) {
 			bd = NULL;
 			return 1;
 		}
+	} else if(p_bluray_cat) {
+		bluray_copy.fd = 1;
 	}
 
 	int64_t seek_pos = 0;
@@ -534,21 +536,22 @@ int main(int argc, char **argv) {
 				break;
 
 			bytes_written = write(bluray_copy.fd, buffer, (unsigned long)buffer_size);
-			printf("bytes written: %lu\n", bytes_written);
 
-			if(bytes_written != bd_bytes_read) {
-				fprintf(stderr, "Read %zu bytes, but only wrote %zu ... out of disk space? Quitting.", bd_bytes_read, bytes_written);
-				copy_success = false;
-				retval = -1;
-				break;
+			if(p_bluray_copy) {
+				printf("bytes written: %lu\n", bytes_written);
+
+				if(bytes_written != bd_bytes_read) {
+					fprintf(stderr, "Read %zu bytes, but only wrote %zu ... out of disk space? Quitting.", bd_bytes_read, bytes_written);
+					copy_success = false;
+					retval = -1;
+					break;
+				}
 			}
 
 			total_bytes_written += bytes_written;
 
-			if(p_bluray_copy) {
-				printf("Progress: %lu%% - %lu/%lu MBs\r", total_bytes_written * 100 / (ssize_t)total_bytes, total_bytes_written / 1024 / 1024, ((chapter_stop_pos[stop_chapter] - chapter_start_pos[start_chapter]) / 1024 / 1024));
-				fflush(stdout);
-			}
+			fprintf(p_bluray_cat ? stderr : stdout, "Progress: %lu%% - %lu/%lu MBs\r", total_bytes_written * 100 / (ssize_t)total_bytes, total_bytes_written / 1024 / 1024, ((chapter_stop_pos[stop_chapter] - chapter_start_pos[start_chapter]) / 1024 / 1024));
+			fflush(p_bluray_cat ? stderr : stdout);
 
 			seek_pos = (int64_t)bd_tell(bd);
 
@@ -556,8 +559,7 @@ int main(int argc, char **argv) {
 
 	}
 
-	if(p_bluray_copy)
-		printf("\n");
+	fprintf(p_bluray_cat ? stderr : stdout, "\n");
 
 	bd_free_title_info(bd_title);
 	bd_title = NULL;
