@@ -10,6 +10,7 @@ bluray_info ChangeLog
 - Don't require an output filename, use defaults if none given
 - Fix indexing to match Blu-ray spec: zero-indexing
 - Fix displaying video and audio streams
+- bluray_copy reads optical drives at faster speeds
 
 1.3
 
