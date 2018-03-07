@@ -2,7 +2,6 @@ ChangeLog
 
 1.4
 
-- Display milliseconds to the third decimal point
 - Fix indexing to match Blu-ray spec for playlist numbers
 
 bluray_copy:
