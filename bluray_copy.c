@@ -206,8 +206,10 @@ int main(int argc, char **argv) {
 				printf("Examples:\n");
 				printf("  bluray_copy				 	# Copy main title to bluray_title_###.m2ts\n");
 				printf("  bluray_copy -m			 	# Copy main title to bluray_title_###.m2ts\n");
-				printf("  bluray_copy -t 71 -c 8-12		 	# Copy title 71, chapters 8 to 12 to bluray_track_###.m2ts\n");
-				printf("  bluray_copy -p				# Copy main playlist to bluray_playlist_###.m2ts\n");
+				printf("  bluray_copy -t 51			 	# Copy title 51 to bluray_title_051.m2ts\n");
+				printf("  bluray_copy -t 71 -c 8-12		 	# Copy title 71, chapters 8 to 12 to bluray_title_071.m2ts\n");
+				printf("  bluray_copy -p				# Copy main playlist to bluray_playlist_#####.m2ts\n");
+				printf("  bluray_copy -p 0				# Copy playlist 0 to bluray_playlist_00000.m2ts\n");
 				printf("  bluray_copy -m -o bluray_main_title.m2ts	# Copy main title to bluray_main_title.m2ts\n");
 				printf("  bluray_copy -o - > bluray_main_title.m2ts	# Stream output to bluray_main_title.m2ts\n");
 				printf("  bluray_copy /dev/bluray			# Copy from device filename\n");
