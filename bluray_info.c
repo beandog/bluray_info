@@ -260,7 +260,7 @@ int main(int argc, char **argv) {
 	bluray_info.main_title = 1;
 
 	if(bd_info->udf_volume_id)
-		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, 33);
+		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_TITLE + 1);
 
 	if(p_bluray_udf) {
 		printf("%s\n", bluray_info.bluray_title);
