@@ -294,7 +294,7 @@ int main(int argc, char **argv) {
 	bluray_title.video_streams = 0;
 	bluray_title.audio_streams = 0;
 	bluray_title.pg_streams = 0;
-	snprintf(bluray_title.length, BLURAY_DURATION + 1, "%s", "00:00:00.000");
+	snprintf(bluray_title.length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
 
 	// Select track passed as an argument
 	if(opt_title_number) {
@@ -467,7 +467,7 @@ int main(int argc, char **argv) {
 	struct bluray_chapter bluray_chapter;
 	bluray_chapter.ix = 0;
 	bluray_chapter.duration = 0;
-	snprintf(bluray_chapter.length, BLURAY_DURATION + 1, "%s", "00:00:00.000");
+	snprintf(bluray_chapter.length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
 
 	// Chapters are zero-indexed on Blu-rays
 	for(ix = start_chapter; ix < stop_chapter + 1; ix++) {
