@@ -400,6 +400,8 @@ int main(int argc, char **argv) {
 	struct bluray_audio bluray_audio;
 	memset(bluray_audio.lang, 0, sizeof(bluray_audio.lang));
 	memset(bluray_audio.codec, '\0', sizeof(bluray_audio.codec));
+	memset(bluray_audio.format, '\0', sizeof(bluray_audio.format));
+	memset(bluray_audio.rate, '\0', sizeof(bluray_audio.rate));
 
 	struct bluray_chapter bluray_chapter;
 	bluray_chapter.ix = 0;
@@ -512,8 +514,8 @@ int main(int argc, char **argv) {
 
 				memcpy(bluray_audio.lang, bd_stream->lang, sizeof(uint8_t) * 4);
 				bluray_audio_codec(bluray_audio.codec, bd_stream->coding_type);
-				bluray_audio_format(bluray_audio.format, bd_stream->coding_type);
-				bluray_audio_rate(bluray_audio.rate, bd_stream->coding_type);
+				bluray_audio_format(bluray_audio.format, bd_stream->format);
+				bluray_audio_rate(bluray_audio.rate, bd_stream->rate);
 
 				if(p_bluray_info && d_audio) {
 					printf("	Audio: %02u, Language: %s, Codec: %s, Format: %s, Rate: %s\n", stream_ix + 1, bluray_audio.lang, bluray_audio.codec, bluray_audio.format, bluray_audio.rate);
