@@ -7,6 +7,7 @@
 #include <inttypes.h>
 #include <getopt.h>
 #include "libbluray/bluray.h"
+#include "bluray_info.h"
 #include "bluray_device.h"
 #include "bluray_audio.h"
 #include "bluray_video.h"
@@ -15,8 +16,8 @@
 #define BLURAY_INFO_VERSION "1.4"
 
 struct bluray_info {
-	char bluray_id[41];
-	char bluray_title[33];
+	char bluray_id[BLURAY_ID + 1];
+	char bluray_title[BLURAY_TITLE + 1];
 	uint32_t hdmv_titles;
 	uint32_t bdj_titles;
 	uint32_t unsupported_titles;
@@ -42,14 +43,14 @@ struct bluray_title {
 };
 
 struct bluray_video {
-	char codec[6];
-	char format[6];
-	char framerate[6];
-	char aspect_ratio[5];
+	char codec[BLURAY_VIDEO_CODEC + 1];
+	char format[BLURAY_VIDEO_FORMAT + 1];
+	char framerate[BLURAY_VIDEO_FRAMERATE + 1];
+	char aspect_ratio[BLURAY_VIDEO_ASPECT_RATIO + 1];
 };
 
 struct bluray_audio {
-	uint8_t lang[4];
+	uint8_t lang[BLURAY_AUDIO_LANG + 1];
 	char codec[BLURAY_AUDIO_CODEC + 1];
 	char format[BLURAY_AUDIO_FORMAT + 1];
 	char rate[BLURAY_AUDIO_RATE + 1];
@@ -57,7 +58,7 @@ struct bluray_audio {
 
 struct bluray_pgs {
 	uint32_t ix;
-	uint8_t lang[4];
+	uint8_t lang[BLURAY_AUDIO_LANG + 1];
 };
 
 struct bluray_chapter {
@@ -464,10 +465,10 @@ int main(int argc, char **argv) {
 				if(bd_stream == NULL)
 					continue;
 
-				strncpy(bluray_video.codec, bluray_video_codec(bd_stream->coding_type), 6);
-				strncpy(bluray_video.format, bluray_video_format(bd_stream->format), 6);
-				strncpy(bluray_video.aspect_ratio, bluray_video_aspect_ratio(bd_stream->aspect), 5);
-				strncpy(bluray_video.framerate, bluray_video_framerate(bd_stream->rate), 6);
+				strncpy(bluray_video.codec, bluray_video_codec(bd_stream->coding_type), BLURAY_VIDEO_CODEC + 1);
+				strncpy(bluray_video.format, bluray_video_format(bd_stream->format), BLURAY_VIDEO_FORMAT + 1);
+				strncpy(bluray_video.aspect_ratio, bluray_video_aspect_ratio(bd_stream->aspect), BLURAY_VIDEO_ASPECT_RATIO + 1);
+				strncpy(bluray_video.framerate, bluray_video_framerate(bd_stream->rate), BLURAY_VIDEO_FRAMERATE + 1);
 
 				if(p_bluray_info && d_video) {
 					printf("	Video: %02u, Format: %s, Aspect ratio: %s, FPS: %s, Codec: %s\n", stream_ix + 1, bluray_video.format, bluray_video.aspect_ratio, bluray_video.framerate, bluray_video.codec);

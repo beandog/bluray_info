@@ -10,6 +10,7 @@
 #include <fcntl.h>
 #include "libbluray/bluray.h"
 #include "bluray_device.h"
+#include "bluray_info.h"
 #include "bluray_time.h"
 
 #define BLURAY_COPY_VERSION "1.4"
@@ -22,8 +23,8 @@
 #define BLURAY_OPTICAL_DEVICE_BUFFER_SIZE 4718592
 
 struct bluray_info {
-	char bluray_id[41];
-	char bluray_title[33];
+	char bluray_id[BLURAY_ID + 1];
+	char bluray_title[BLURAY_TITLE + 1];
 	uint32_t hdmv_titles;
 	uint32_t bdj_titles;
 	uint32_t unsupported_titles;
@@ -57,10 +58,10 @@ struct bluray_title {
 };
 
 struct bluray_video {
-	char codec[6];
-	char format[6];
-	char framerate[6];
-	char aspect_ratio[5];
+	char codec[BLURAY_VIDEO_CODEC + 1];
+	char format[BLURAY_VIDEO_FORMAT + 1];
+	char framerate[BLURAY_VIDEO_FRAMERATE + 1];
+	char aspect_ratio[BLURAY_VIDEO_ASPECT_RATIO + 1];
 };
 
 struct bluray_chapter {
