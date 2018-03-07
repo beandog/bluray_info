@@ -81,6 +81,7 @@ int main(int argc, char **argv) {
 	bool opt_title_number = false;
 	bool opt_playlist_number = false;
 	bool opt_main_title = false;
+	bool invalid_opt = false;
 	bool quiet = false;
 	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
@@ -179,8 +180,9 @@ int main(int argc, char **argv) {
 				debug = true;
 				break;
 
-			case 'h':
 			case '?':
+				invalid_opt = true;
+			case 'h':
 				printf("bluray_copy %s - Copy a title track or playlist entry to an MPEG2-TS file\n\n", BLURAY_COPY_VERSION);
 				printf("Usage: bluray_copy [options] [bluray device]\n\n");
 				printf("Options:\n");
@@ -202,6 +204,8 @@ int main(int argc, char **argv) {
 				printf("Default device filename is %s\n\n", DEFAULT_BLURAY_DEVICE);
 				printf("Default output filename is \"bluray_title_###.m2ts\" where number is main title\n");
 				printf("For more information, see http://dvds.beandog.org/\n");
+				if(invalid_opt)
+					return 1;
 				return 0;
 
 			case 0:

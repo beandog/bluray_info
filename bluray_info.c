@@ -91,6 +91,7 @@ int main(int argc, char **argv) {
 	bool d_audio = false;
 	bool d_subtitles = false;
 	bool d_chapters = false;
+	bool invalid_opt = false;
 	const char *key_db_filename = NULL;
 	int g_opt = 0;
 	int g_ix = 0;
@@ -178,8 +179,9 @@ int main(int argc, char **argv) {
 				d_subtitles = true;
 				break;
 
-			case 'h':
 			case '?':
+				invalid_opt = true;
+			case 'h':
 				printf("bluray_info %s - display information about a Blu-ray disc\n\n", BLURAY_INFO_VERSION);
 				printf("Usage: bluray_info [options] [bluray device]\n\n");
 				printf("Options:\n");
@@ -204,6 +206,8 @@ int main(int argc, char **argv) {
 				printf("  bluray_info bluray/\n\n");
 				printf("Default device filename is %s\n\n", DEFAULT_BLURAY_DEVICE);
 				printf("For more information, see http://dvds.beandog.org/\n");
+				if(invalid_opt)
+					return 1;
 				return 0;
 
 			case 0:
