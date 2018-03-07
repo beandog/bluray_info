@@ -13,7 +13,7 @@
 #include "bluray_info.h"
 #include "bluray_time.h"
 
-#define BLURAY_COPY_VERSION "1.4"
+#define BLURAY_COPY_VERSION BLURAY_INFO_VERSION
 // 64k
 #define BLURAY_ECC_BLOCK ( 64 * 1024 )
 // 1 MB
@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "a:c:hk:mo:p:t:qz";
+	const char p_short_opts[] = "a:c:hk:mo:p:t:qVz";
 	struct option p_long_opts[] = {
 		{ "angle", required_argument, NULL, 'a' },
 		{ "chapters", required_argument, NULL, 'c' },
@@ -105,6 +105,7 @@ int main(int argc, char **argv) {
 		{ "output", required_argument, NULL, 'o' },
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "title", required_argument, NULL, 't' },
+		{ "version", no_argument, NULL, 'V' },
 		{ "quiet", no_argument, NULL, 'q' },
 		{ "debug", no_argument, NULL, 'z' },
 		{ 0, 0, 0, 0 }
@@ -176,6 +177,10 @@ int main(int argc, char **argv) {
 				quiet = true;
 				break;
 
+			case 'V':
+				printf("bluray_copy %s - http://dvds.beandog.org/ - (c) 2018 Steve Dibb <steve.dibb@gmail.com>, licensed under GPL-2\n", BLURAY_INFO_VERSION);
+				return 0;
+
 			case 'z':
 				debug = true;
 				break;
@@ -184,26 +189,35 @@ int main(int argc, char **argv) {
 				invalid_opt = true;
 			case 'h':
 				printf("bluray_copy %s - Copy a title track or playlist entry to an MPEG2-TS file\n\n", BLURAY_COPY_VERSION);
-				printf("Usage: bluray_copy [options] [bluray device]\n\n");
+				printf("Usage: bluray_copy [options] [bluray path]\n\n");
 				printf("Options:\n");
 				printf("  -m, --main 		Copy main title (default)\n");
 				printf("  -t, --title # 	Copy title number\n");
 				printf("  -p, --playlist #	Copy playlist number\n");
 				printf("  -c, --chapters #[-#]	Copy chapter number(s)\n");
 				printf("  -a, --angle #		Video angle (default: 1)\n");
-				printf("  -o, --output <file>	Save to filename\n");
-				printf("  -k, --keydb		Location to KEYDB.CFG (default: use libaacs to look up)\n\n");
-				printf("  -q, --quiet		Don't print progress output\n");
-				printf("Blu-ray path can be a device filename, a file, or a directory.\n\n");
+				printf("  -o, --output <file>	Save to filename (default: bluray_track_###.m2ts)\n");
+				printf("  			Use - as filename to send to stdout\n");
+				printf("  -k, --keydb		Location to KEYDB.CFG (default: use libaacs to look up)\n");
+				printf("  -q, --quiet		Don't print progress output\n\n");
+				printf("Other:\n");
+				printf("  -h, --help		   This output\n");
+				printf("  -V, --version		   Version information\n\n");
+				printf("Blu-ray path can be a device filename, a file, or a directory; default is %s\n\n", DEFAULT_BLURAY_DEVICE);
 				printf("Examples:\n");
 				printf("  bluray_copy\n");
-				printf("  bluray_copy -o bluray.m2ts\n");
+				printf("  bluray_copy -o bluray_main_title.m2ts\n");
+				printf("  bluray_copy -o - > bluray_main_title.m2ts\n");
 				printf("  bluray_copy /dev/bluray\n");
+				printf("  bluray_copy /mnt/bluray\n");
 				printf("  bluray_copy bluray.iso\n");
 				printf("  bluray_copy Videos/Blu-ray/\n\n");
-				printf("Default device filename is %s\n\n", DEFAULT_BLURAY_DEVICE);
-				printf("Default output filename is \"bluray_title_###.m2ts\" where number is main title\n");
-				printf("For more information, see http://dvds.beandog.org/\n");
+				printf("Examples piping stdout to ffmpeg:\n");
+				printf("  bluray_copy -o - | ffprobe -\n");
+				printf("  bluray_copy -o - | ffmpeg -i - -codec copy -f mpegts bluray_main_title.m2ts\n");
+				printf("  bluray_copy -o - | ffmpeg -i - -codec copy bluray_main_title.mkv\n");
+				printf("  bluray_copy -o - | ffmpeg -i - -codec copy -map 0:0 -map 0:3 -map 0:7 bluray_main_title.mkv\n");
+				printf("  bluray_copy -o - | ffmpeg -i - -vcodec copy -acodec libfdk_aac -map 0:0 -map 0:3 bluray_main_title.mp4\n");
 				if(invalid_opt)
 					return 1;
 				return 0;

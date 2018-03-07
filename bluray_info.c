@@ -14,8 +14,6 @@
 #include "bluray_pgs.h"
 #include "bluray_time.h"
 
-#define BLURAY_INFO_VERSION "1.4"
-
 struct bluray_info {
 	char bluray_id[BLURAY_ID + 1];
 	char bluray_title[BLURAY_TITLE + 1];
@@ -96,7 +94,7 @@ int main(int argc, char **argv) {
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "achijk:mp:st:uvx";
+	const char p_short_opts[] = "achijk:mp:st:uVvx";
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
@@ -110,6 +108,7 @@ int main(int argc, char **argv) {
 		{ "title", required_argument, NULL, 't' },
 		{ "volname", no_argument, NULL, 'u' },
 		{ "video", no_argument, NULL, 'v' },
+		{ "version", no_argument, NULL, 'V' },
 		{ "all", no_argument, NULL, 'x' },
 		{ 0, 0, 0, 0 }
 	};
@@ -168,6 +167,10 @@ int main(int argc, char **argv) {
 				p_bluray_udf = true;
 				break;
 
+			case 'V':
+				printf("bluray_info %s - http://dvds.beandog.org/ - (c) 2018 Steve Dibb <steve.dibb@gmail.com>, licensed under GPL-2\n", BLURAY_INFO_VERSION);
+				return 0;
+
 			case 'v':
 				d_video = true;
 				break;
@@ -183,29 +186,32 @@ int main(int argc, char **argv) {
 				invalid_opt = true;
 			case 'h':
 				printf("bluray_info %s - display information about a Blu-ray disc\n\n", BLURAY_INFO_VERSION);
-				printf("Usage: bluray_info [options] [bluray device]\n\n");
+				printf("Usage: bluray_info [options] [bluray path]\n\n");
 				printf("Options:\n");
 				printf("  -t, --track [number]     Limit to one title track\n");
 				printf("  -p, --playlist [number]  Limit to one playlist\n");
 				printf("  -m, --main  	 	   Limit to main title\n");
 				printf("  -k, --keydb		   Location to KEYDB.CFG (default: use libaacs to look up)\n\n");
-				printf("Detailed information:\n");
-				printf("  -v, --video              Display video stream details\n");
-				printf("  -a, --audio              Display audio stream details\n");
-				printf("  -s, --subtitles          Display subtitle details\n");
-				printf("  -c, --chapters           Display chapter details\n");
-				printf("  -x, --all                Display all information\n\n");
+				printf("Extra information:\n");
+				printf("  -v, --video              Video streams\n");
+				printf("  -a, --audio              Audio streams\n");
+				printf("  -s, --subtitles          Subtitles\n");
+				printf("  -c, --chapters           Subtitles\n");
+				printf("  -x, --all                All information\n\n");
 				printf("Formatting:\n");
-				printf("  -j, --json               Display output in JSON format\n");
-				printf("  -i, --id		   Display disc ID\n");
-				printf("  -u, --volname		   Display UDF volume name title (iso or device only)\n");
-				printf("Blu-ray path can be a device filename, a file, or a directory.\n\n");
+				printf("  -j, --json               JSON format\n");
+				printf("  -i, --id		   Disc ID only\n");
+				printf("  -u, --volname		   UDF volume name only (on ISO file or device path)\n\n");
+				printf("Other:\n");
+				printf("  -h, --help		   This output\n");
+				printf("  -V, --version		   Version information\n\n");
+				printf("Blu-ray path can be a device filename, a file, or a directory; default is %s\n\n", DEFAULT_BLURAY_DEVICE);
 				printf("Examples:\n");
+				printf("  bluray_info\n");
 				printf("  bluray_info /dev/bluray\n");
-				printf("  bluray_info movie.iso\n");
-				printf("  bluray_info bluray/\n\n");
-				printf("Default device filename is %s\n\n", DEFAULT_BLURAY_DEVICE);
-				printf("For more information, see http://dvds.beandog.org/\n");
+				printf("  bluray_info /mnt/bluray\n");
+				printf("  bluray_info bluray.iso\n");
+				printf("  bluray_info Videos/Blu-ray/\n");
 				if(invalid_opt)
 					return 1;
 				return 0;
