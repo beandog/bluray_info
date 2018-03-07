@@ -58,13 +58,11 @@ struct bluray_audio {
 };
 
 struct bluray_pgs {
-	uint32_t ix;
 	char lang[BLURAY_PGS_LANG + 1];
 	char code[BLURAY_PGS_CHAR_CODE + 1];
 };
 
 struct bluray_chapter {
-	uint64_t ix;
 	uint64_t duration;
 	char length[BLURAY_DURATION + 1];
 };
@@ -411,7 +409,6 @@ int main(int argc, char **argv) {
 	memset(bluray_pgs.code, '\0', sizeof(bluray_pgs.code));
 
 	struct bluray_chapter bluray_chapter;
-	bluray_chapter.ix = 0;
 	bluray_chapter.duration = 0;
 	snprintf(bluray_chapter.length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
 
@@ -605,7 +602,6 @@ int main(int argc, char **argv) {
 				if(bd_chapter == NULL)
 					continue;
 				
-				bluray_chapter.ix = chapter_ix;
 				bluray_chapter.duration = bd_chapter->duration;
 				bluray_duration_length(bluray_chapter.length, bd_chapter->duration);
 
