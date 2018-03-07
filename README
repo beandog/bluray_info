@@ -2,12 +2,12 @@ bluray_info - a set of utilities for accessing Blu-ray discs
 
 Includes:
 
-* bluray_info - display information about a Blu-ray in human-readable or JSON output
-* bluray_copy - copy a title or playlist, optional chapter set to an MPEG2-TS video file
+* bluray_info - display information about a Blu-ray in multiple formats
+* bluray_copy - copy a title or playlist to a file or stdout
 
 Requirements:
 
-* libbluray >= 1.0.0
+* libbluray >= 1.0.0 (libaacs needed for decryption)
 
 Disc access:
 
@@ -62,6 +62,8 @@ bluray_info:
 
 Usage: bluray_info [options] [bluray device]
 
+See buray_info --help for all options.
+
 bluray_info syntax and output was designed to closely resemble the awesome
 program "lsdvd" (and later my own clone and other programs, from dvd_info).
 
@@ -74,6 +76,8 @@ examine the content of the stream, which would mean using multimedia libraries.
 bluray_copy:
 
 Usage: bluray_copy [options] [bluray device]
+
+See buray_copy --help for all options.
 
 Blu-rays can store many codecs, and its container is an MPEG-2 transport stream.
 you so desire, you can easily remux it into another container -- and get the
@@ -145,6 +149,8 @@ I use an nVidia Shield. I also would recommend both the PS3 and the PS4 for
 excellent clients as well.
 
 If you have questions, feel free to contact me at steve.dibb@gmail.com
+
+Also, check out more information at http://dvds.beandog.org/
 
 Copyright:
 
