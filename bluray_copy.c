@@ -58,7 +58,6 @@ struct bluray_title {
 };
 
 struct bluray_chapter {
-	uint64_t ix;
 	uint64_t duration;
 	char length[BLURAY_DURATION + 1];
 };
@@ -485,7 +484,6 @@ int main(int argc, char **argv) {
 	bool copy_success = true;
 
 	struct bluray_chapter bluray_chapter;
-	bluray_chapter.ix = 0;
 	bluray_chapter.duration = 0;
 	snprintf(bluray_chapter.length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
 
