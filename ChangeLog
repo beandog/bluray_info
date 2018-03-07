@@ -1,16 +1,23 @@
-bluray_info ChangeLog
+ChangeLog
 
 1.4
 
-- bluray_copy can now stream to stdout
-- Print errors to stderr
-- Increase buffer sizes for bluray_copy
-- Display main title even if one track is listed
 - Display milliseconds to the third decimal point
+- Fix indexing to match Blu-ray spec for playlist numbers
+
+bluray_copy:
+
+- can now stream to stdout
+- Print errors to stderr
+- Increase default buffer sizes
+- Increased buffer size for Blu-ray optical drives
 - Don't require an output filename, use defaults if none given
-- Fix indexing to match Blu-ray spec: zero-indexing
+- Optional quiet output to remove printing copy progress
+
+bluray_info:
+
+- Display main title even if one track is listed
 - Fix displaying video and audio streams
-- bluray_copy reads optical drives at faster speeds
 
 1.3
 
