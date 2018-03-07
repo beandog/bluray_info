@@ -350,6 +350,10 @@ int main(int argc, char **argv) {
 		fprintf(stderr, "Could not get info for title %u\n", bluray_title.ix + 1);
 		bd_close(bd);
 		bd = NULL;
+		if(bluray_copy.filename) {
+			free(bluray_copy.filename);
+			bluray_copy.filename = NULL;
+		}
 		return 1;
 	}
 
@@ -394,6 +398,10 @@ int main(int argc, char **argv) {
 		bd_title = NULL;
 		bd_close(bd);
 		bd = NULL;
+		if(bluray_copy.filename) {
+			free(bluray_copy.filename);
+			bluray_copy.filename = NULL;
+		}
 		return 1;
 	}
 
@@ -405,6 +413,10 @@ int main(int argc, char **argv) {
 			bd_title = NULL;
 			bd_close(bd);
 			bd = NULL;
+			if(bluray_copy.filename) {
+				free(bluray_copy.filename);
+				bluray_copy.filename = NULL;
+			}
 			return 1;
 		}
 	} else if(p_bluray_cat) {
@@ -443,6 +455,10 @@ int main(int argc, char **argv) {
 		bd_title = NULL;
 		bd_close(bd);
 		bd = NULL;
+		if(bluray_copy.filename) {
+			free(bluray_copy.filename);
+			bluray_copy.filename = NULL;
+		}
 		return 1;
 	}
 
@@ -546,8 +562,17 @@ int main(int argc, char **argv) {
 		retval = close(bluray_copy.fd);
 		if(retval < 0) {
 			fprintf(stderr, "Could not finish writing to %s\n", bluray_copy.filename);
+			if(bluray_copy.filename) {
+				free(bluray_copy.filename);
+				bluray_copy.filename = NULL;
+			}
 			return 1;
 		}
+	}
+
+	if(bluray_copy.filename) {
+		free(bluray_copy.filename);
+		bluray_copy.filename = NULL;
 	}
 	
 	return 0;
