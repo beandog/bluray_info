@@ -343,8 +343,8 @@ int main(int argc, char **argv) {
 		bluray_title.ix = bd_get_current_title(bd);
 		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
 		if(bluray_copy.filename == NULL) {
-			bluray_copy.filename = calloc(strlen("bluray_playlist_0000.m2ts") + 1, sizeof(unsigned char));
-			snprintf(bluray_copy.filename, strlen("bluray_playlist_0000.m2ts") + 1, "%s%04u%s", "bluray_playlist_", bluray_title.playlist, ".m2ts");
+			bluray_copy.filename = calloc(strlen("bluray_playlist_00000.m2ts") + 1, sizeof(unsigned char));
+			snprintf(bluray_copy.filename, strlen("bluray_playlist_00000.m2ts") + 1, "%s%05u%s", "bluray_playlist_", bluray_title.playlist, ".m2ts");
 		}
 	} else {
 		bluray_title.ix = (uint32_t)bluray_info.main_title;
