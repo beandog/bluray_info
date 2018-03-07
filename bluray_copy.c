@@ -102,7 +102,7 @@ int main(int argc, char **argv) {
 		{ "help", no_argument, NULL, 'h' },
 		{ "keydb", required_argument, NULL, 'k' },
 		{ "main", no_argument, NULL, 'm' },
-		{ "output_filename", required_argument, NULL, 'o' },
+		{ "output", required_argument, NULL, 'o' },
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "title", required_argument, NULL, 't' },
 		{ "quiet", no_argument, NULL, 'q' },
