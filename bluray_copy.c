@@ -439,6 +439,10 @@ int main(int argc, char **argv) {
 
 	if(bluray_copy.buffer == NULL) {
 		fprintf(stderr, "Couldn't allocate memory for copy buffer\n");
+		bd_free_title_info(bd_title);
+		bd_title = NULL;
+		bd_close(bd);
+		bd = NULL;
 		return 1;
 	}
 
