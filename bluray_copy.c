@@ -537,6 +537,11 @@ int main(int argc, char **argv) {
 	bd_close(bd);
 	bd = NULL;
 
+	if(bluray_copy.buffer) {
+		free(bluray_copy.buffer);
+		bluray_copy.buffer = NULL;
+	}
+
 	if(p_bluray_copy) {
 		retval = close(bluray_copy.fd);
 		if(retval < 0) {
