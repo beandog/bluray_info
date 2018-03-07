@@ -421,7 +421,7 @@ int main(int argc, char **argv) {
 	else
 		buffer_size = BLURAY_COPY_BUFFER_SIZE;
 
-	int64_t bd_bytes_read;
+	int64_t bd_bytes_read = 0;
 
 	ssize_t bytes_written = 0;
 	ssize_t total_bytes_written = 0;
