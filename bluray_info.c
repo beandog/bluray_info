@@ -45,12 +45,12 @@ struct bluray_title {
 struct bluray_video {
 	char codec[BLURAY_VIDEO_CODEC + 1];
 	char format[BLURAY_VIDEO_FORMAT + 1];
-	char framerate[BLURAY_VIDEO_FRAMERATE + 1];
+	double framerate;
 	char aspect_ratio[BLURAY_VIDEO_ASPECT_RATIO + 1];
 };
 
 struct bluray_audio {
-	uint8_t lang[BLURAY_AUDIO_LANG + 1];
+	char lang[BLURAY_AUDIO_LANG + 1];
 	char codec[BLURAY_AUDIO_CODEC + 1];
 	char format[BLURAY_AUDIO_FORMAT + 1];
 	char rate[BLURAY_AUDIO_RATE + 1];
@@ -395,11 +395,11 @@ int main(int argc, char **argv) {
 	struct bluray_video bluray_video;
 	memset(bluray_video.codec, '\0', sizeof(bluray_video.codec));
 	memset(bluray_video.format, '\0', sizeof(bluray_video.format));
-	memset(bluray_video.framerate, '\0', sizeof(bluray_video.framerate));
+	bluray_video.framerate = 0;
 	memset(bluray_video.aspect_ratio, '\0', sizeof(bluray_video.aspect_ratio));
 
 	struct bluray_audio bluray_audio;
-	memset(bluray_audio.lang, 0, sizeof(bluray_audio.lang));
+	memset(bluray_audio.lang, '\0', sizeof(bluray_audio.lang));
 	memset(bluray_audio.codec, '\0', sizeof(bluray_audio.codec));
 	memset(bluray_audio.format, '\0', sizeof(bluray_audio.format));
 	memset(bluray_audio.rate, '\0', sizeof(bluray_audio.rate));
@@ -468,13 +468,13 @@ int main(int argc, char **argv) {
 				if(bd_stream == NULL)
 					continue;
 
-				strncpy(bluray_video.codec, bluray_video_codec(bd_stream->coding_type), BLURAY_VIDEO_CODEC + 1);
-				strncpy(bluray_video.format, bluray_video_format(bd_stream->format), BLURAY_VIDEO_FORMAT + 1);
-				strncpy(bluray_video.aspect_ratio, bluray_video_aspect_ratio(bd_stream->aspect), BLURAY_VIDEO_ASPECT_RATIO + 1);
-				strncpy(bluray_video.framerate, bluray_video_framerate(bd_stream->rate), BLURAY_VIDEO_FRAMERATE + 1);
+				bluray_video_codec(bluray_video.codec, bd_stream->coding_type);
+				bluray_video_format(bluray_video.format, bd_stream->format);
+				bluray_video.framerate = bluray_video_framerate(bd_stream->rate);
+				bluray_video_aspect_ratio(bluray_video.aspect_ratio, bd_stream->aspect);
 
 				if(p_bluray_info && d_video) {
-					printf("	Video: %02u, Format: %s, Aspect ratio: %s, FPS: %s, Codec: %s\n", stream_ix + 1, bluray_video.format, bluray_video.aspect_ratio, bluray_video.framerate, bluray_video.codec);
+					printf("	Video: %02u, Format: %s, Aspect ratio: %s, FPS: %.02f, Codec: %s\n", stream_ix + 1, bluray_video.format, bluray_video.aspect_ratio, bluray_video.framerate, bluray_video.codec);
 				}
 
 				if(p_bluray_json) {
@@ -483,7 +483,7 @@ int main(int argc, char **argv) {
 					printf("     \"stream\": \"0x%x\",\n", bd_stream->pid);
 					printf("     \"format\": \"%s\",\n", bluray_video.format);
 					printf("     \"aspect ratio\": \"%s\",\n", bluray_video.aspect_ratio);
-					printf("     \"framerate\": \"%s\",\n", bluray_video.framerate);
+					printf("     \"framerate\": %.02f,\n", bluray_video.framerate);
 					printf("     \"codec\": \"%s\"\n", bluray_video.codec);
 					if(stream_ix + 1 < bluray_title.video_streams)
 						printf("    },\n");
@@ -513,7 +513,7 @@ int main(int argc, char **argv) {
 				if(bd_stream == NULL)
 					continue;
 
-				memcpy(bluray_audio.lang, bd_stream->lang, sizeof(uint8_t) * 4);
+				bluray_audio_lang(bluray_audio.lang, bd_stream->lang);
 				bluray_audio_codec(bluray_audio.codec, bd_stream->coding_type);
 				bluray_audio_format(bluray_audio.format, bd_stream->format);
 				bluray_audio_rate(bluray_audio.rate, bd_stream->rate);

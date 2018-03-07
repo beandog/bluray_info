@@ -1,99 +1,107 @@
 #include "bluray_video.h"
 
-const char *bluray_video_codec(const uint8_t coding_type) {
+void bluray_video_codec(char *str, const uint8_t coding_type) {
 
 	switch(coding_type) {
 
 		case BLURAY_STREAM_TYPE_VIDEO_H264:
-			return "h264";
+			strncpy(str, "h264", BLURAY_VIDEO_CODEC + 1);
+			return;
 
 		case BLURAY_STREAM_TYPE_VIDEO_MPEG1:
-			return "mpeg1";
+			strncpy(str, "mpeg1", BLURAY_VIDEO_CODEC + 1);
+			return;
 
 		case BLURAY_STREAM_TYPE_VIDEO_MPEG2:
-			return "mpeg2";
+			strncpy(str, "mpeg2", BLURAY_VIDEO_CODEC + 1);
+			return;
 
 		case BLURAY_STREAM_TYPE_VIDEO_VC1:
-			return "vc1";
+			strncpy(str, "vc1", BLURAY_VIDEO_CODEC + 1);
+			return;
 
 	}
 
-	return "";
-
 }
 
-const char *bluray_video_format(const uint8_t format) {
+void bluray_video_format(char *str, const uint8_t format) {
 
 	switch(format) {
 
 		case BLURAY_VIDEO_FORMAT_480I:
-			return "480i";
+			strncpy(str, "480i", BLURAY_VIDEO_FORMAT + 1);
+			return;
 
 		case BLURAY_VIDEO_FORMAT_480P:
-			return "480p";
+			strncpy(str, "480p", BLURAY_VIDEO_FORMAT + 1);
+			return;
 
 		case BLURAY_VIDEO_FORMAT_576I:
-			return "576i";
+			strncpy(str, "576i", BLURAY_VIDEO_FORMAT + 1);
+			return;
 
 		case BLURAY_VIDEO_FORMAT_576P:
-			return "576p";
+			strncpy(str, "576p", BLURAY_VIDEO_FORMAT + 1);
+			return;
 
 		case BLURAY_VIDEO_FORMAT_720P:
-			return "720p";
+			strncpy(str, "720p", BLURAY_VIDEO_FORMAT + 1);
+			return;
 
 		case BLURAY_VIDEO_FORMAT_1080I:
-			return "1080i";
+			strncpy(str, "1080i", BLURAY_VIDEO_FORMAT + 1);
+			return;
 
 		case BLURAY_VIDEO_FORMAT_1080P:
-			return "1080p";
+			strncpy(str, "1080p", BLURAY_VIDEO_FORMAT + 1);
+			return;
 	
 	}
 
-	return "";
-
 }
 
-const char *bluray_video_framerate(const uint8_t rate) {
+double bluray_video_framerate(const uint8_t rate) {
 
 	switch(rate) {
 
 		case BLURAY_VIDEO_RATE_24000_1001:
-			return "23.97";
+			return 23.97;
 
 		case BLURAY_VIDEO_RATE_24:
-			return "24";
+			return 24;
 
 		case BLURAY_VIDEO_RATE_25:
-			return "25";
+			return 25;
 	
 		case BLURAY_VIDEO_RATE_30000_1001:
-			return "29.97";
+			return 29.97;
 
 		case BLURAY_VIDEO_RATE_50:
-			return "50";
+			return 50;
 
 		case BLURAY_VIDEO_RATE_60000_1001:
-			return "59.94";
+			return 59.94;
 
 	}
 
-	return "";
+	return 0;
 
 }
 
-const char *bluray_video_aspect_ratio(const uint8_t aspect) {
+void bluray_video_aspect_ratio(char *str, const uint8_t aspect) {
 
 	switch(aspect) {
 
 		case BLURAY_ASPECT_RATIO_4_3:
-			return "4:3";
+			strncpy(str, "4:3", BLURAY_VIDEO_ASPECT_RATIO + 1);
+			return;
 
 		case BLURAY_ASPECT_RATIO_16_9:
-			return "16:9";
-
+			strncpy(str, "16:9", BLURAY_VIDEO_ASPECT_RATIO + 1);
+			return;
 
 	}
 
-	return "";
+	return;
 
 }

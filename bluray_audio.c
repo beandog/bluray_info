@@ -1,5 +1,11 @@
 #include "bluray_audio.h"
 
+void bluray_audio_lang(char *str, const uint8_t lang[4]) {
+
+	memcpy(str, lang, BLURAY_AUDIO_LANG + 1);
+
+}
+
 void bluray_audio_codec(char *str, const uint8_t coding_type) {
 
 	switch(coding_type) {
