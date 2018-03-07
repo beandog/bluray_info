@@ -61,8 +61,6 @@ struct bluray_chapter {
 	uint64_t ix;
 	uint64_t duration;
 	char length[BLURAY_DURATION + 1];
-	uint64_t size;
-	uint64_t size_mbs;
 };
 
 int main(int argc, char **argv) {
@@ -473,8 +471,6 @@ int main(int argc, char **argv) {
 	bluray_chapter.ix = 0;
 	bluray_chapter.duration = 0;
 	snprintf(bluray_chapter.length, BLURAY_DURATION + 1, "%s", "00:00:00.000");
-	bluray_chapter.size = 0;
-	bluray_chapter.size_mbs = 0;
 
 	// Chapters are zero-indexed on Blu-rays
 	for(ix = start_chapter; ix < stop_chapter + 1; ix++) {
