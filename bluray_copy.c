@@ -119,7 +119,6 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'c':
-				// opt_chapter_number = true;
 				token = strtok(optarg, "-"); {
 					if(strlen(token) > 2) {
 						fprintf(stderr, "Chapter range must be between 1 and 99\n");
