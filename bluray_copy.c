@@ -271,7 +271,7 @@ int main(int argc, char **argv) {
 	bluray_info.bdj_titles = 0;
 	bluray_info.unsupported_titles = 0;
 	bluray_info.longest_title = 0;
-	bluray_info.main_title = 0;
+	bluray_info.main_title = 1;
 
 	if(bd_info->udf_volume_id)
 		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, 33);
