@@ -1,85 +1,102 @@
 #include "bluray_audio.h"
 
-const char *bluray_audio_codec(const uint8_t coding_type) {
+void bluray_audio_codec(char *str, const uint8_t coding_type) {
 
 	switch(coding_type) {
 	
 		case BLURAY_STREAM_TYPE_AUDIO_MPEG1:
-			return "mpeg1";
+			strncpy(str, "mpeg1", BLURAY_AUDIO_CODEC + 1);
+			return;
 
 		case BLURAY_STREAM_TYPE_AUDIO_MPEG2:
-			return "mpeg2";
+			strncpy(str, "mpeg2", BLURAY_AUDIO_CODEC + 1);
+			return;
 
 		case BLURAY_STREAM_TYPE_AUDIO_LPCM:
-			return "lpcm";
+			strncpy(str, "lpcm", BLURAY_AUDIO_CODEC + 1);
+			return;
 
 		case BLURAY_STREAM_TYPE_AUDIO_AC3:
-			return "ac3";
+			strncpy(str, "ac3", BLURAY_AUDIO_CODEC + 1);
+			return;
 
 		case BLURAY_STREAM_TYPE_AUDIO_DTS:
-			return "dts";
+			strncpy(str, "dts", BLURAY_AUDIO_CODEC + 1);
+			return;
 
 		case BLURAY_STREAM_TYPE_AUDIO_TRUHD:
-			return "truhd";
+			strncpy(str, "truhd", BLURAY_AUDIO_CODEC + 1);
+			return;
 
 		case BLURAY_STREAM_TYPE_AUDIO_AC3PLUS:
 		case BLURAY_STREAM_TYPE_AUDIO_AC3PLUS_SECONDARY:
-			return "ac3plus";
+			strncpy(str, "ac3plus", BLURAY_AUDIO_CODEC + 1);
+			return;
 
 		case BLURAY_STREAM_TYPE_AUDIO_DTSHD:
 		case BLURAY_STREAM_TYPE_AUDIO_DTSHD_SECONDARY:
 		case BLURAY_STREAM_TYPE_AUDIO_DTSHD_MASTER:
-			return "dtshd";
+			strncpy(str, "dtshd", BLURAY_AUDIO_CODEC + 1);
+			return;
 
 	}
 
-	return "";
+	return;
 
 }
 
-const char *bluray_audio_format(const uint8_t format) {
+void bluray_audio_format(char *str, const uint8_t format) {
 
 	switch(format) {
 
 		case BLURAY_AUDIO_FORMAT_MONO:
-			return "mono";
+			strncpy(str, "mono", BLURAY_AUDIO_FORMAT + 1);
+			return;
 
 		case BLURAY_AUDIO_FORMAT_STEREO:
-			return "stereo";
+			strncpy(str, "stereo", BLURAY_AUDIO_FORMAT + 1);
+			return;
 
 		case BLURAY_AUDIO_FORMAT_MULTI_CHAN:
-			return "multi_chan";
+			strncpy(str, "multi_chan", BLURAY_AUDIO_FORMAT + 1);
+			return;
 
 		case BLURAY_AUDIO_FORMAT_COMBO:
-			return "combo";
+			strncpy(str, "combo", BLURAY_AUDIO_FORMAT + 1);
+			return;
 
 	}
 
-	return "";
+	return;
 
 }
 
-const char *bluray_audio_rate(const uint8_t rate) {
+void bluray_audio_rate(char *str, const uint8_t rate) {
 
 	switch(rate) {
 
 		case BLURAY_AUDIO_RATE_48:
-			return "48";
+			strncpy(str, "48", BLURAY_AUDIO_RATE + 1);
+			return;
 
 		case BLURAY_AUDIO_RATE_96:
-			return "96";
+			strncpy(str, "96", BLURAY_AUDIO_RATE + 1);
+			return;
 
 		case BLURAY_AUDIO_RATE_192:
-			return "192";
+			strncpy(str, "192", BLURAY_AUDIO_RATE + 1);
+			return;
 
 		case BLURAY_AUDIO_RATE_192_COMBO:
-			return "192_combo";
+			strncpy(str, "192_combo", BLURAY_AUDIO_RATE + 1);
+			return;
 
 		case BLURAY_AUDIO_RATE_96_COMBO:
-			return "96_combo";
+			strncpy(str, "96_combo", BLURAY_AUDIO_RATE + 1);
+			return;
 	
 	}
 
-	return "";
+	return;
 
 }

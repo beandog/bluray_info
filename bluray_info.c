@@ -50,7 +50,9 @@ struct bluray_video {
 
 struct bluray_audio {
 	uint8_t lang[4];
-	char codec[14];
+	char codec[BLURAY_AUDIO_CODEC + 1];
+	char format[BLURAY_AUDIO_FORMAT + 1];
+	char rate[BLURAY_AUDIO_RATE + 1];
 };
 
 struct bluray_pgs {
@@ -508,10 +510,12 @@ int main(int argc, char **argv) {
 					continue;
 
 				memcpy(bluray_audio.lang, bd_stream->lang, sizeof(uint8_t) * 4);
-				strncpy(bluray_audio.codec, bluray_audio_codec(bd_stream->coding_type), 14);
+				bluray_audio_codec(bluray_audio.codec, bd_stream->coding_type);
+				bluray_audio_format(bluray_audio.format, bd_stream->coding_type);
+				bluray_audio_rate(bluray_audio.rate, bd_stream->coding_type);
 
 				if(p_bluray_info && d_audio) {
-					printf("	Audio: %02u, Language: %s, Codec: %s, Format: %s, Rate: %s\n", stream_ix + 1, bluray_audio.lang, bluray_audio.codec, bluray_audio_format(bd_stream->format), bluray_audio_rate(bd_stream->rate));
+					printf("	Audio: %02u, Language: %s, Codec: %s, Format: %s, Rate: %s\n", stream_ix + 1, bluray_audio.lang, bluray_audio.codec, bluray_audio.format, bluray_audio.rate);
 				}
 
 				if(p_bluray_json) {
@@ -520,8 +524,8 @@ int main(int argc, char **argv) {
 					printf("     \"stream\": \"0x%x\",\n", bd_stream->pid);
 					printf("     \"language\": \"%s\",\n", bluray_audio.lang);
 					printf("     \"codec\": \"%s\",\n", bluray_audio.codec);
-					printf("     \"format\": \"%s\",\n", bluray_audio_format(bd_stream->format));
-					printf("     \"rate\": \"%s\"\n", bluray_audio_rate(bd_stream->rate));
+					printf("     \"format\": \"%s\",\n", bluray_audio.format);
+					printf("     \"rate\": \"%s\"\n", bluray_audio.rate);
 					if(stream_ix + 1 < bluray_title.audio_streams)
 						printf("    },\n");
 					else
