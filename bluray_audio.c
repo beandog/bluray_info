@@ -45,9 +45,11 @@ void bluray_audio_codec(char *str, const uint8_t coding_type) {
 			strncpy(str, "dtshd", BLURAY_AUDIO_CODEC + 1);
 			return;
 
-	}
+		default:
+			strncpy(str, "", BLURAY_AUDIO_CODEC + 1);
+			return;
 
-	return;
+	}
 
 }
 
@@ -71,9 +73,11 @@ void bluray_audio_format(char *str, const uint8_t format) {
 			strncpy(str, "combo", BLURAY_AUDIO_FORMAT + 1);
 			return;
 
-	}
+		default:
+			strncpy(str, "", BLURAY_AUDIO_FORMAT + 1);
+			return;
 
-	return;
+	}
 
 }
 
@@ -100,9 +104,11 @@ void bluray_audio_rate(char *str, const uint8_t rate) {
 		case BLURAY_AUDIO_RATE_96_COMBO:
 			strncpy(str, "96_combo", BLURAY_AUDIO_RATE + 1);
 			return;
+
+		default:
+			strncpy(str, "", BLURAY_AUDIO_RATE + 1);
+			return;
 	
 	}
-
-	return;
 
 }

@@ -55,7 +55,11 @@ void bluray_video_format(char *str, const uint8_t format) {
 		case BLURAY_VIDEO_FORMAT_1080P:
 			strncpy(str, "1080p", BLURAY_VIDEO_FORMAT + 1);
 			return;
-	
+
+		default:
+			strncpy(str, "", BLURAY_VIDEO_FORMAT + 1);
+			return;
+
 	}
 
 }
@@ -82,9 +86,10 @@ double bluray_video_framerate(const uint8_t rate) {
 		case BLURAY_VIDEO_RATE_60000_1001:
 			return 59.94;
 
-	}
+		default:
+			return 0;
 
-	return 0;
+	}
 
 }
 
@@ -100,8 +105,10 @@ void bluray_video_aspect_ratio(char *str, const uint8_t aspect) {
 			strncpy(str, "16:9", BLURAY_VIDEO_ASPECT_RATIO + 1);
 			return;
 
-	}
+		default:
+			strncpy(str, "", BLURAY_VIDEO_ASPECT_RATIO + 1);
+			return;
 
-	return;
+	}
 
 }

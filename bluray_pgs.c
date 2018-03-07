@@ -38,8 +38,10 @@ void bluray_pgs_code(char *str, const uint8_t code) {
 			strncpy(str, "big5", BLURAY_PGS_CHAR_CODE + 1);
 			return;
 
-	}
+		default:
+			strncpy(str, "", BLURAY_PGS_CHAR_CODE + 1);
+			return;
 
-	return;
+	}
 
 }
