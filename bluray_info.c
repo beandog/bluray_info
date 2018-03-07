@@ -387,7 +387,7 @@ int main(int argc, char **argv) {
 	bluray_title.video_streams = 0;
 	bluray_title.audio_streams = 0;
 	bluray_title.pg_streams = 0;
-	memset(bluray_title.length, '\0', sizeof(bluray_title.length));
+	snprintf(bluray_title.length, BLURAY_DURATION + 1, "%s", "00:00:00.000");
 
 	struct bluray_video bluray_video;
 	memset(bluray_video.codec, '\0', sizeof(bluray_video.codec));
@@ -401,7 +401,7 @@ int main(int argc, char **argv) {
 	struct bluray_chapter bluray_chapter;
 	bluray_chapter.ix = 0;
 	bluray_chapter.duration = 0;
-	memset(bluray_chapter.length, '\0', sizeof(bluray_chapter.length));
+	snprintf(bluray_chapter.length, BLURAY_DURATION + 1, "%s", "00:00:00.000");
 
 	if(p_bluray_json)
 		printf(" \"titles\": [\n");
