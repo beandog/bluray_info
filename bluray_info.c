@@ -396,6 +396,7 @@ int main(int argc, char **argv) {
 	memset(bluray_video.codec, '\0', sizeof(bluray_video.codec));
 	memset(bluray_video.format, '\0', sizeof(bluray_video.format));
 	memset(bluray_video.framerate, '\0', sizeof(bluray_video.framerate));
+	memset(bluray_video.aspect_ratio, '\0', sizeof(bluray_video.aspect_ratio));
 
 	struct bluray_audio bluray_audio;
 	memset(bluray_audio.lang, 0, sizeof(bluray_audio.lang));
