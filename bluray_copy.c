@@ -57,13 +57,6 @@ struct bluray_title {
 	char length[BLURAY_DURATION + 1];
 };
 
-struct bluray_video {
-	char codec[BLURAY_VIDEO_CODEC + 1];
-	char format[BLURAY_VIDEO_FORMAT + 1];
-	char framerate[BLURAY_VIDEO_FRAMERATE + 1];
-	char aspect_ratio[BLURAY_VIDEO_ASPECT_RATIO + 1];
-};
-
 struct bluray_chapter {
 	uint64_t ix;
 	uint64_t duration;
