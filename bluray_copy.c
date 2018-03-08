@@ -36,14 +36,7 @@
  * get access to those faster speeds.
  *
  * I have to take into account that I don't want to set the buffer size *too*
- * high because of who knows what kinds of problems that will run into. I also
- * haven't done enough testing with libav at this point to know if there's an
- * optimal amount of data to send to the pipe, either.
- *
- * One thing I don't like the idea of, performance wise, is doing a large
- * amount of pulls in such a small amount of data, such as a UDF block size
- * or an MPEG2TS packet size. It seems wasteful to me since we can grab so much
- * at once.
+ * high because of who knows what kinds of problems that will run into.
  *
  * Suffice it to say, I don't know what the best / optimal output rate is, so
  * it will probably change in the future as I do more research. For now, the
@@ -55,15 +48,16 @@
  * any difficulty.
  *
  * In this case, I'm setting the default fetch amount to 2 MBs, for no other
- * reason other than it looks nice on a pretty print of progress.
+ * reason other than it looks nice on a pretty print of progress, and it's a
+ * safe speed.
  *
  * The program does let you specify your drive speed, with an hidden option of
  * -x <drive speed> that requires a modulus of 2, and will max out at 12. That
  * will set the buffer to a variable amount, using potentially a lot of memory,
  * 54 MBs for a 12x, but that's up to you.
  *
- * I don't know of anyway right now to find out what the BD-ROM speed of an
- * optical drive is in Linux, so if anyone does know, shoot me a line.
+ * You can use cdrtools to find out what your drive speed is: cdrecord -prcap
+ * - see https://sourceforge.net/projects/cdrtools/
  *
  * I'd love to hear feedback from people on whether they think / notice / know
  * if the speeds are too low or too fast. I can only imagine what the read and
