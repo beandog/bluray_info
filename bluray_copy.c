@@ -258,9 +258,8 @@ int main(int argc, char **argv) {
 	const char *device_filename = NULL;
 
 	if(argv[optind]) {
-		device_filename = argv[optind];
-		if(strncmp(device_filename, "/dev/", 5))
-			bluray_copy.optical_drive = true;
+		device_filename = realpath(argv[optind], NULL);
+		bluray_copy.optical_drive = bluray_optical_drive(device_filename);
 	} else {
 		device_filename = DEFAULT_BLURAY_DEVICE;
 		bluray_copy.optical_drive = true;
