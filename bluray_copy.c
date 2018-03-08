@@ -84,6 +84,7 @@
 #define BLURAY_COPY_BUFFER_SIZE ( 1048576 * 2 )
 #define BLURAY_CAT_BUFFER_SIZE BLURAY_COPY_BUFFER_SIZE
 #define BLURAY_OPTICAL_DEVICE_BUFFER_SIZE 4718592
+#define BLURAY_MAX_OPTICAL_DRIVE_SPEED 12
 
 struct bluray_info {
 	char bluray_id[BLURAY_ID + 1];
@@ -249,8 +250,8 @@ int main(int argc, char **argv) {
 			case 'x':
 				opt_drive_speed = true;
 				arg_drive_speed = (unsigned int)strtoumax(optarg, NULL, 0);
-				if(((arg_drive_speed % 2) != 0) || arg_drive_speed > 16) {
-					fprintf(stderr, "Override drive speed must be a multiplier of 2, up to 16\n");
+				if(((arg_drive_speed % 2) != 0) || arg_drive_speed > BLURAY_MAX_OPTICAL_DRIVE_SPEED) {
+					fprintf(stderr, "Override drive speed must be a multiplier of 2, up to %d\n", BLURAY_MAX_OPTICAL_DRIVE_SPEED);
 					return 1;
 				}
 				break;
