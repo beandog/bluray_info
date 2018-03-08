@@ -16,69 +16,18 @@
 #define BLURAY_COPY_VERSION BLURAY_INFO_VERSION
 
 /**
- * A note about bluray_copy buffer sizes:
- *
- * It's hard to choose exactly how much data to pull off of a Blu-ray onto
- * the filesystem. There's a few variables, such as the source: an optical
- * media drive, a mounted directory, an ISO image, or an existing directory.
- * Here's why.
- *
- * There is obviously a *lot* of data on a Blu-ray disc, and players and
- * optical drives are designed to pull large amounts all at one. The specs for
- * an optical disc drive at a 1x base is 4.5 megabytes / second. So it's safe
- * to say that we can pull off at least that much at that speed.
- *
- * If a device drive is mounted on your system in Linux, then the filesystem
- * caching will kick in. Meaning that if you run bluray_copy on the first
- * round on one title, it will take its normal amount of speed. If you do it
- * subsequent times, it is much faster. Which is why I recommend in the README
- * that if a user is testing or playing around, that they mount the device to
- * get access to those faster speeds.
- *
- * I have to take into account that I don't want to set the buffer size *too*
- * high because of who knows what kinds of problems that will run into.
- *
- * Suffice it to say, I don't know what the best / optimal output rate is, so
- * it will probably change in the future as I do more research. For now, the
- * releases are intentionally targetted towards functionality over optimization.
- *
- * That said, if using an optical drive, the buffer is set to 4.5 MBs / second,
- * the spec speed of an optical drive that's 1x. My drive is 4x, and I've tried
- * dumping that much, and sure enough, it can drop 18 MBs every second without
- * any difficulty.
- *
- * In this case, I'm setting the default fetch amount to 2 MBs, for no other
- * reason other than it looks nice on a pretty print of progress, and it's a
- * safe speed.
- *
- * The program does let you specify your drive speed, with an hidden option of
- * -x <drive speed> that requires a modulus of 2, and will max out at 12. That
- * will set the buffer to a variable amount, using potentially a lot of memory,
- * 54 MBs for a 12x, but that's up to you.
- *
- * You can use cdrtools to find out what your drive speed is: cdrecord -prcap
- * - see https://sourceforge.net/projects/cdrtools/
- *
- * I'd love to hear feedback from people on whether they think / notice / know
- * if the speeds are too low or too fast. I can only imagine what the read and
- * write speeds would be on a faster optical drive and an SSD. My drive is
- * pretty old, one of the first models to be out, and I haven't gotten around
- * to getting a faster one yet. Part of the reason is that mine is region-free
- * for DVDs, and I like that since I do have some international ones in my
- * collection and I don't have to use regionset. Plus, I actually don't rip my
- * Blu-rays that often, or even have that many to begin with, so it's not a
- * practical pain point for me. I'm more than happy to take donations though
- * and do some testing. That'd be fun. :)
- *
- * Let me know if there's any issues either way: steve.dibb@gmail.com
- * Have funnnnnnnnnnn :D
- *
- */
+ * Blu-ray spec - 1x drive can read at 32 Mbits / second, or 4.5 MBs
+ * Fastest drives on the market right now (2018) are 12x, so limit to that max
+ * My drive from 2009 is a 4x, so you can probably handle at least that speed :)
+ * Default read speed is 128 Mbits / second, or 18 MBs
+ **/
+#define BLURAY_OPTICAL_DRIVE_SPEED_1X 4718592
+#define BLURAY_OPTICAL_DEFAULT_DRIVE_SPEED 4
+#define BLURAY_OPTICAL_BUFFER_SIZE ( BLURAY_OPTICAL_DRIVE_SPEED_1X * BLURAY_OPTICAL_DEFAULT_DRIVE_SPEED )
+#define BLURAY_OPTICAL_MAX_DRIVE_SPEED 12
 
-#define BLURAY_COPY_BUFFER_SIZE ( 1048576 * 2 )
-#define BLURAY_CAT_BUFFER_SIZE BLURAY_COPY_BUFFER_SIZE
-#define BLURAY_OPTICAL_DEVICE_BUFFER_SIZE 4718592
-#define BLURAY_MAX_OPTICAL_DRIVE_SPEED 12
+#define BLURAY_COPY_BUFFER_SIZE 1048576
+#define BLURAY_CAT_BUFFER_SIZE 1048576
 
 struct bluray_info {
 	char bluray_id[BLURAY_ID + 1];
@@ -244,8 +193,8 @@ int main(int argc, char **argv) {
 			case 'x':
 				opt_drive_speed = true;
 				arg_drive_speed = (unsigned int)strtoumax(optarg, NULL, 0);
-				if(((arg_drive_speed % 2) != 0) || arg_drive_speed > BLURAY_MAX_OPTICAL_DRIVE_SPEED) {
-					fprintf(stderr, "Override drive speed must be a multiplier of 2, up to %d\n", BLURAY_MAX_OPTICAL_DRIVE_SPEED);
+				if(((arg_drive_speed % 2) != 0) || arg_drive_speed > BLURAY_OPTICAL_MAX_DRIVE_SPEED) {
+					fprintf(stderr, "Override drive speed must be a multiplier of 2, up to %d\n", BLURAY_OPTICAL_MAX_DRIVE_SPEED);
 					return 1;
 				}
 				break;
@@ -474,7 +423,7 @@ int main(int argc, char **argv) {
 	stop_chapter = arg_last_chapter - 1;
 
 	if(p_bluray_copy && bluray_copy.optical_drive && opt_drive_speed && arg_drive_speed > 1)
-		fprintf(stderr, "*** EASTER EGG ALERT! Setting drive speed manually to %ux may break your face since its untested. Attempting to copy at %u MBs/second. Have fun and good luck..... :D\n", arg_drive_speed, (BLURAY_OPTICAL_DEVICE_BUFFER_SIZE * arg_drive_speed) / 1024 / 1024);
+		fprintf(stderr, "*** EASTER EGG ALERT! Setting drive speed manually to %ux may break your face since its untested. Attempting to copy at %u MBs/second. Have fun and good luck..... :D\n", arg_drive_speed, (BLURAY_OPTICAL_DRIVE_SPEED_1X * arg_drive_speed) / 1024 / 1024);
 
 
 	if(p_bluray_copy)
@@ -530,9 +479,9 @@ int main(int argc, char **argv) {
 	BLURAY_TITLE_CHAPTER *bd_chapter = NULL;
 
 	if(bluray_copy.optical_drive && !opt_drive_speed)
-		bluray_copy.buffer_size = BLURAY_OPTICAL_DEVICE_BUFFER_SIZE;
+		bluray_copy.buffer_size = BLURAY_OPTICAL_BUFFER_SIZE;
 	else if(bluray_copy.optical_drive && opt_drive_speed && arg_drive_speed)
-		bluray_copy.buffer_size = BLURAY_OPTICAL_DEVICE_BUFFER_SIZE * arg_drive_speed;
+		bluray_copy.buffer_size = BLURAY_OPTICAL_DRIVE_SPEED_1X * arg_drive_speed;
 	else if(p_bluray_cat)
 		bluray_copy.buffer_size = BLURAY_CAT_BUFFER_SIZE;
 	else
