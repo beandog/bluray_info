@@ -14,12 +14,75 @@
 #include "bluray_time.h"
 
 #define BLURAY_COPY_VERSION BLURAY_INFO_VERSION
-// 64k
-#define BLURAY_ECC_BLOCK ( 64 * 1024 )
-// 1 MB
-#define BLURAY_COPY_BUFFER_SIZE ( BLURAY_ECC_BLOCK * 16 )
-#define BLURAY_CAT_BUFFER_SIZE ( BLURAY_ECC_BLOCK * 1 )
-// Blu-ray specs optical device speed at 1x is 32 Mbits / seconds (aka 4.5 MBs), go fast! :D
+
+/**
+ * A note about bluray_copy buffer sizes:
+ *
+ * It's hard to choose exactly how much data to pull off of a Blu-ray onto
+ * the filesystem. There's a few variables, such as the source: an optical
+ * media drive, a mounted directory, an ISO image, or an existing directory.
+ * Here's why.
+ *
+ * There is obviously a *lot* of data on a Blu-ray disc, and players and
+ * optical drives are designed to pull large amounts all at one. The specs for
+ * an optical disc drive at a 1x base is 4.5 megabytes / second. So it's safe
+ * to say that we can pull off at least that much at that speed.
+ *
+ * If a device drive is mounted on your system in Linux, then the filesystem
+ * caching will kick in. Meaning that if you run bluray_copy on the first
+ * round on one title, it will take its normal amount of speed. If you do it
+ * subsequent times, it is much faster. Which is why I recommend in the README
+ * that if a user is testing or playing around, that they mount the device to
+ * get access to those faster speeds.
+ *
+ * I have to take into account that I don't want to set the buffer size *too*
+ * high because of who knows what kinds of problems that will run into. I also
+ * haven't done enough testing with libav at this point to know if there's an
+ * optimal amount of data to send to the pipe, either.
+ *
+ * One thing I don't like the idea of, performance wise, is doing a large
+ * amount of pulls in such a small amount of data, such as a UDF block size
+ * or an MPEG2TS packet size. It seems wasteful to me since we can grab so much
+ * at once.
+ *
+ * Suffice it to say, I don't know what the best / optimal output rate is, so
+ * it will probably change in the future as I do more research. For now, the
+ * releases are intentionally targetted towards functionality over optimization.
+ *
+ * That said, if using an optical drive, the buffer is set to 4.5 MBs / second,
+ * the spec speed of an optical drive that's 1x. My drive is 4x, and I've tried
+ * dumping that much, and sure enough, it can drop 18 MBs every second without
+ * any difficulty.
+ *
+ * In this case, I'm setting the default fetch amount to 2 MBs, for no other
+ * reason other than it looks nice on a pretty print of progress.
+ *
+ * The program does let you specify your drive speed, with an hidden option of
+ * -x <drive speed> that requires a modulus of 2, and will max out at 12. That
+ * will set the buffer to a variable amount, using potentially a lot of memory,
+ * 54 MBs for a 12x, but that's up to you.
+ *
+ * I don't know of anyway right now to find out what the BD-ROM speed of an
+ * optical drive is in Linux, so if anyone does know, shoot me a line.
+ *
+ * I'd love to hear feedback from people on whether they think / notice / know
+ * if the speeds are too low or too fast. I can only imagine what the read and
+ * write speeds would be on a faster optical drive and an SSD. My drive is
+ * pretty old, one of the first models to be out, and I haven't gotten around
+ * to getting a faster one yet. Part of the reason is that mine is region-free
+ * for DVDs, and I like that since I do have some international ones in my
+ * collection and I don't have to use regionset. Plus, I actually don't rip my
+ * Blu-rays that often, or even have that many to begin with, so it's not a
+ * practical pain point for me. I'm more than happy to take donations though
+ * and do some testing. That'd be fun. :)
+ *
+ * Let me know if there's any issues either way: steve.dibb@gmail.com
+ * Have funnnnnnnnnnn :D
+ *
+ */
+
+#define BLURAY_COPY_BUFFER_SIZE ( 1048576 * 2 )
+#define BLURAY_CAT_BUFFER_SIZE BLURAY_COPY_BUFFER_SIZE
 #define BLURAY_OPTICAL_DEVICE_BUFFER_SIZE 4718592
 
 struct bluray_info {
@@ -81,6 +144,7 @@ int main(int argc, char **argv) {
 	bool opt_title_number = false;
 	bool opt_playlist_number = false;
 	bool opt_main_title = false;
+	bool opt_drive_speed = false;
 	bool invalid_opt = false;
 	bool quiet = false;
 	uint32_t arg_title_number = 0;
@@ -89,13 +153,14 @@ int main(int argc, char **argv) {
 	uint32_t arg_first_chapter = 1;
 	uint32_t arg_last_chapter = 99;
 	uint32_t copy_chapters = 1;
+	uint32_t arg_drive_speed = 1;
 	bool debug = false;
 	const char *key_db_filename = NULL;
 	char *token = NULL;
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "a:c:hk:mo:p:t:qVz";
+	const char p_short_opts[] = "a:c:hk:mo:p:t:qVx:z";
 	struct option p_long_opts[] = {
 		{ "angle", required_argument, NULL, 'a' },
 		{ "chapters", required_argument, NULL, 'c' },
@@ -108,6 +173,7 @@ int main(int argc, char **argv) {
 		{ "version", no_argument, NULL, 'V' },
 		{ "quiet", no_argument, NULL, 'q' },
 		{ "debug", no_argument, NULL, 'z' },
+		{ "speed", required_argument, NULL, 'x' },
 		{ 0, 0, 0, 0 }
 	};
 	while((g_opt = getopt_long(argc, argv, p_short_opts, p_long_opts, &g_ix)) != -1) {
@@ -179,6 +245,15 @@ int main(int argc, char **argv) {
 			case 'V':
 				printf("bluray_copy %s - http://dvds.beandog.org/ - (c) 2018 Steve Dibb <steve.dibb@gmail.com>, licensed under GPL-2\n", BLURAY_INFO_VERSION);
 				return 0;
+
+			case 'x':
+				opt_drive_speed = true;
+				arg_drive_speed = (unsigned int)strtoumax(optarg, NULL, 0);
+				if(((arg_drive_speed % 2) != 0) || arg_drive_speed > 16) {
+					fprintf(stderr, "Override drive speed must be a multiplier of 2, up to 16\n");
+					return 1;
+				}
+				break;
 
 			case 'z':
 				debug = true;
@@ -403,6 +478,10 @@ int main(int argc, char **argv) {
 	start_chapter = arg_first_chapter - 1;
 	stop_chapter = arg_last_chapter - 1;
 
+	if(p_bluray_copy && bluray_copy.optical_drive && opt_drive_speed && arg_drive_speed > 1)
+		fprintf(stderr, "*** EASTER EGG ALERT! Setting drive speed manually to %ux may break your face since its untested. Attempting to copy at %u MBs/second. Have fun and good luck..... :D\n", arg_drive_speed, (BLURAY_OPTICAL_DEVICE_BUFFER_SIZE * arg_drive_speed) / 1024 / 1024);
+
+
 	if(p_bluray_copy)
 		printf("Title: %03u, Playlist: %04u, Length: %s, Chapters: %02u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MBs\n", bluray_title.ix + 1, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
 
@@ -455,8 +534,10 @@ int main(int argc, char **argv) {
 
 	BLURAY_TITLE_CHAPTER *bd_chapter = NULL;
 
-	if(bluray_copy.optical_drive)
+	if(bluray_copy.optical_drive && !opt_drive_speed)
 		bluray_copy.buffer_size = BLURAY_OPTICAL_DEVICE_BUFFER_SIZE;
+	else if(bluray_copy.optical_drive && opt_drive_speed && arg_drive_speed)
+		bluray_copy.buffer_size = BLURAY_OPTICAL_DEVICE_BUFFER_SIZE * arg_drive_speed;
 	else if(p_bluray_cat)
 		bluray_copy.buffer_size = BLURAY_CAT_BUFFER_SIZE;
 	else
@@ -506,6 +587,9 @@ int main(int argc, char **argv) {
 	// Chapters are zero-indexed on Blu-rays
 	for(ix = start_chapter; ix < stop_chapter + 1; ix++) {
 
+		if(total_bytes == total_bytes_written)
+			break;
+
 		if(!copy_success)
 			break;
 
@@ -519,6 +603,9 @@ int main(int argc, char **argv) {
 		stop_pos = chapter_stop_pos[ix];
 
 		while(seek_pos < stop_pos && copy_success == true) {
+
+			if(total_bytes == total_bytes_written)
+				break;
 
 			buffer_size = bluray_copy.buffer_size;
 
@@ -552,6 +639,9 @@ int main(int argc, char **argv) {
 				fflush(p_bluray_cat ? stderr : stdout);
 			}
 
+			if(total_bytes == total_bytes_written)
+				break;
+
 			seek_pos = (int64_t)bd_tell(bd);
 
 		}
@@ -561,33 +651,32 @@ int main(int argc, char **argv) {
 	if(!quiet)
 		fprintf(p_bluray_cat ? stderr : stdout, "\n");
 
+	if(bluray_copy.buffer)
+		bluray_copy.buffer = NULL;
+
 	bd_free_title_info(bd_title);
 	bd_title = NULL;
 
 	bd_close(bd);
 	bd = NULL;
 
-	if(bluray_copy.buffer) {
-		free(bluray_copy.buffer);
-		bluray_copy.buffer = NULL;
-	}
-
 	if(p_bluray_copy) {
+		if(debug)
+			fprintf(stderr, "Closing file ...");
 		retval = close(bluray_copy.fd);
+		if(debug)
+			fprintf(stderr, "done\n");
 		if(retval < 0) {
 			fprintf(stderr, "Could not finish writing to %s\n", bluray_copy.filename);
-			if(bluray_copy.filename) {
-				free(bluray_copy.filename);
+			if(bluray_copy.filename)
 				bluray_copy.filename = NULL;
-			}
+
 			return 1;
 		}
 	}
 
-	if(bluray_copy.filename) {
-		free(bluray_copy.filename);
+	if(bluray_copy.filename)
 		bluray_copy.filename = NULL;
-	}
 	
 	return 0;
 
