@@ -265,6 +265,9 @@ int main(int argc, char **argv) {
 		bluray_copy.optical_drive = true;
 	}
 
+	if(debug)
+		printf("Optical drive: %s\n", bluray_copy.optical_drive ? "yes" : "no");
+
 	// Open device
 	BLURAY *bd = NULL;
 	bd = bd_open(device_filename, key_db_filename);
@@ -485,6 +488,9 @@ int main(int argc, char **argv) {
 		bluray_copy.buffer_size = BLURAY_CAT_BUFFER_SIZE;
 	else
 		bluray_copy.buffer_size = BLURAY_COPY_BUFFER_SIZE;
+
+	if(debug)
+		printf("Buffer size: %lu\n", bluray_copy.buffer_size);
 
 	bluray_copy.buffer = calloc(bluray_copy.buffer_size, sizeof(unsigned char));
 
