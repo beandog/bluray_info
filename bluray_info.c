@@ -696,14 +696,14 @@ int main(int argc, char **argv) {
 				}
 
 				if(p_bluray_json) {
-					printf("    {\n");
-					printf("     \"chapter\": %lu,\n", chapter_ix + 1);
-					printf("     \"length\": \"%s\",\n", bluray_chapter.length);
-					printf("     \"msecs\": %lu\n", bd_chapter->duration / 900);
+					printf("    {");
+					printf(" \"chapter\": %lu,", chapter_ix + 1);
+					printf(" \"length\": \"%s\",", bluray_chapter.length);
+					printf(" \"msecs\": %lu", bd_chapter->duration / 900);
 					if(chapter_ix + 1 < bluray_title.chapters)
-						printf("    },\n");
+						printf(" },\n");
 					else
-						printf("    }\n");
+						printf(" }\n");
 				}
 
 			}
