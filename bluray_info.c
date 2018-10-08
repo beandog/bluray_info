@@ -535,12 +535,12 @@ int main(int argc, char **argv) {
 				continue;
 			}
 
-			printf("  {");
-			printf(" \"title\": %u,", bluray_title.number);
-			printf(" \"playlist\": %u,", bluray_title.playlist);
-			printf(" \"length\": \"%s\",", bluray_title.length);
-			printf(" \"msecs\": %lu,", bluray_title.duration / 900);
-			printf(" \"filesize\": %lu,\n", bluray_title.size);
+			printf("  {\n");
+			printf("   \"title\": %u,\n", bluray_title.number);
+			printf("   \"playlist\": %u,\n", bluray_title.playlist);
+			printf("   \"length\": \"%s\",\n", bluray_title.length);
+			printf("   \"msecs\": %lu,\n", bluray_title.duration / 900);
+			printf("   \"filesize\": %lu,\n", bluray_title.size);
 
 		}
 
@@ -567,17 +567,17 @@ int main(int argc, char **argv) {
 				}
 
 				if(p_bluray_json) {
-					printf("    {");
-					printf(" \"track\": %u,", stream_ix + 1);
-					printf(" \"stream\": \"0x%x\",", bd_stream->pid);
-					printf(" \"format\": \"%s\",", bluray_video.format);
-					printf(" \"aspect ratio\": \"%s\",", bluray_video.aspect_ratio);
-					printf(" \"framerate\": %.02f,", bluray_video.framerate);
-					printf(" \"codec\": \"%s\"", bluray_video.codec);
+					printf("    {\n");
+					printf("     \"track\": %u,\n", stream_ix + 1);
+					printf("     \"stream\": \"0x%x\",\n", bd_stream->pid);
+					printf("     \"format\": \"%s\",\n", bluray_video.format);
+					printf("     \"aspect ratio\": \"%s\",\n", bluray_video.aspect_ratio);
+					printf("     \"framerate\": %.02f,\n", bluray_video.framerate);
+					printf("     \"codec\": \"%s\"\n", bluray_video.codec);
 					if(stream_ix + 1 < bluray_title.video_streams)
-						printf(" },\n");
+						printf("    },\n");
 					else
-						printf(" }\n");
+						printf("    }\n");
 				}
 
 			}
@@ -612,17 +612,17 @@ int main(int argc, char **argv) {
 				}
 
 				if(p_bluray_json) {
-					printf("    {");
-					printf(" \"track\": %u,", stream_ix + 1);
-					printf(" \"stream\": \"0x%x\",", bd_stream->pid);
-					printf(" \"language\": \"%s\",", bluray_audio.lang);
-					printf(" \"codec\": \"%s\",", bluray_audio.codec);
-					printf(" \"format\": \"%s\",", bluray_audio.format);
-					printf(" \"rate\": \"%s\"", bluray_audio.rate);
+					printf("    {\n");
+					printf("     \"track\": %u,\n", stream_ix + 1);
+					printf("     \"stream\": \"0x%x\",\n", bd_stream->pid);
+					printf("     \"language\": \"%s\",\n", bluray_audio.lang);
+					printf("     \"codec\": \"%s\",\n", bluray_audio.codec);
+					printf("     \"format\": \"%s\",\n", bluray_audio.format);
+					printf("     \"rate\": \"%s\"\n", bluray_audio.rate);
 					if(stream_ix + 1 < bluray_title.audio_streams)
-						printf(" },\n");
+						printf("    },\n");
 					else
-						printf(" }\n");
+						printf("    }\n");
 				}
 
 			}
@@ -655,15 +655,15 @@ int main(int argc, char **argv) {
 				}
 
 				if(p_bluray_json) {
-					printf("    {");
-					printf(" \"track\": %u,", stream_ix + 1);
-					printf(" \"stream\": \"0x%x\",", bd_stream->pid);
-					printf(" \"language\": \"%s\",", bluray_pgs.lang);
-					printf(" \"character code\": \"%s\"", bluray_pgs.code);
+					printf("    {\n");
+					printf("     \"track\": %u,\n", stream_ix + 1);
+					printf("     \"stream\": \"0x%x\",\n", bd_stream->pid);
+					printf("     \"language\": \"%s\",\n", bluray_pgs.lang);
+					printf("     \"character code\": \"%s\"\n", bluray_pgs.code);
 					if(stream_ix + 1 < bluray_title.pg_streams)
-						printf(" },\n");
+						printf("    },\n");
 					else
-						printf(" }\n");
+						printf("    }\n");
 				}
 
 			}
@@ -696,14 +696,14 @@ int main(int argc, char **argv) {
 				}
 
 				if(p_bluray_json) {
-					printf("    {");
-					printf(" \"chapter\": %lu,", chapter_ix + 1);
-					printf(" \"length\": \"%s\",", bluray_chapter.length);
-					printf(" \"msecs\": %lu", bd_chapter->duration / 900);
+					printf("    {\n");
+					printf("     \"chapter\": %lu,\n", chapter_ix + 1);
+					printf("     \"length\": \"%s\",\n", bluray_chapter.length);
+					printf("     \"msecs\": %lu\n", bd_chapter->duration / 900);
 					if(chapter_ix + 1 < bluray_title.chapters)
-						printf(" },\n");
+						printf("    },\n");
 					else
-						printf(" }\n");
+						printf("    }\n");
 				}
 
 			}
