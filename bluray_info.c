@@ -243,12 +243,12 @@ int main(int argc, char **argv) {
 				printf("Narrow results:\n");
 				printf("  -A, --has-audio          Title has audio\n");
 				printf("  -S, --has-subtitles      Title has subtitles\n");
-				printf("  -E, --seconds <#>        Title has minimum number of seconds\n");
-				printf("  -M, --minutes <#>        Title has minimum number of minutes\n");
+				printf("  -E, --seconds <number>   Title has minimum number of seconds\n");
+				printf("  -M, --minutes <number>   Title has minimum number of minutes\n");
 				printf("\n");
 				printf("Limited information:\n");
-				printf("  -i, --id		   Display ID\n");
-				printf("  -u, --volname		   Display UDF volume name (device or filename path only)\n");
+				printf("  -i, --id		   Display ID only\n");
+				printf("  -u, --volname		   Display UDF volume name only (path must be device or filename)\n");
 				printf("  -q, --quiet		   Do not display disc title name and main title number\n");
 				printf("\n");
 				printf("Other:\n");
