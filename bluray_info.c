@@ -91,12 +91,13 @@ int main(int argc, char **argv) {
 	bool d_audio = false;
 	bool d_subtitles = false;
 	bool d_chapters = false;
+	bool d_quiet = false;
 	bool invalid_opt = false;
 	const char *key_db_filename = NULL;
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "achijk:mp:st:uVvx";
+	const char p_short_opts[] = "achijk:mp:qst:uVvx";
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
@@ -106,6 +107,7 @@ int main(int argc, char **argv) {
 		{ "keydb", required_argument, NULL, 'k' },
 		{ "main", no_argument, NULL, 'm' },
 		{ "playlist", required_argument, NULL, 'p' },
+		{ "quiet", no_argument, NULL, 'q' },
 		{ "subtitles", no_argument, NULL, 's' },
 		{ "title", required_argument, NULL, 't' },
 		{ "volname", no_argument, NULL, 'u' },
@@ -151,6 +153,10 @@ int main(int argc, char **argv) {
 				d_playlist_number = true;
 				d_main_title = false;
 				a_playlist_number = (unsigned int)strtoumax(optarg, NULL, 0);
+				break;
+
+			case 'q':
+				d_quiet = true;
 				break;
 
 			case 's':
@@ -209,6 +215,7 @@ int main(int argc, char **argv) {
 				printf("  -j, --json               Output as JSON\n");
 				printf("\n");
 				printf("Limited information:\n");
+				printf("  -q, --quiet		   Do not disc title name and main title number\n");
 				printf("  -i, --id		   Display ID\n");
 				printf("  -u, --volname		   Display UDF volume name (device or filename path only)\n");
 				printf("\n");
@@ -359,8 +366,8 @@ int main(int argc, char **argv) {
 		d_num_titles = 1;
 	}
 
-	if(p_bluray_info && bd_info->udf_volume_id)
-		printf("Disc Title: %s\n", bluray_info.bluray_title);
+	if(p_bluray_info && bd_info->udf_volume_id && d_quiet == false)
+		printf("Disc title: %s\n", bluray_info.bluray_title);
 
 	if(p_bluray_json) {
 
@@ -675,7 +682,7 @@ int main(int argc, char **argv) {
 		printf("}\n");
 	}
 
-	if(p_bluray_info && !d_title_number && !d_main_title && d_num_titles != 1)
+	if(p_bluray_info && !d_title_number && !d_main_title && d_num_titles != 1 && d_quiet == false)
 		printf("Main title: %i\n", bluray_info.main_title + 1);
 
 	bd_free_title_info(bd_title);
