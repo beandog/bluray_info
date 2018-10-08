@@ -1,5 +1,22 @@
 #include "bluray_time.h"
 
+uint64_t bluray_duration_seconds(const uint64_t duration) {
+
+	uint64_t seconds = duration / 90000;
+
+	return seconds;
+
+}
+
+uint64_t bluray_duration_minutes(const uint64_t duration) {
+
+	uint64_t seconds = duration / 90000;
+	uint64_t minutes = seconds / 60;
+
+	return minutes;
+
+}
+
 void bluray_duration_length(char *str, const uint64_t duration) {
 
 	uint64_t msecs = duration / 90000;

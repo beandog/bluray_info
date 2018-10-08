@@ -31,6 +31,8 @@ struct bluray_title {
 	uint32_t number;
 	uint32_t playlist;
 	uint64_t duration;
+	uint64_t seconds;
+	uint64_t minutes;
 	uint64_t size;
 	uint64_t size_mbs;
 	uint32_t chapters;
@@ -91,13 +93,17 @@ int main(int argc, char **argv) {
 	bool d_audio = false;
 	bool d_subtitles = false;
 	bool d_chapters = false;
+	uint32_t d_min_seconds = 0;
+	uint32_t d_min_minutes = 0;
+	uint32_t d_min_audio_streams = 0;
+	uint32_t d_min_pg_streams = 0;
 	bool d_quiet = false;
 	bool invalid_opt = false;
 	const char *key_db_filename = NULL;
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "achijk:mp:qst:uVvx";
+	const char p_short_opts[] = "achijk:mp:qst:uvxASE:M:V";
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
@@ -112,8 +118,12 @@ int main(int argc, char **argv) {
 		{ "title", required_argument, NULL, 't' },
 		{ "volname", no_argument, NULL, 'u' },
 		{ "video", no_argument, NULL, 'v' },
-		{ "version", no_argument, NULL, 'V' },
 		{ "all", no_argument, NULL, 'x' },
+		{ "minutes", required_argument, NULL, 'M' },
+		{ "seconds", required_argument, NULL, 'E' },
+		{ "has-audio", no_argument, NULL, 'A' },
+		{ "has-subs", no_argument, NULL, 'S' },
+		{ "version", no_argument, NULL, 'V' },
 		{ 0, 0, 0, 0 }
 	};
 	while((g_opt = getopt_long(argc, argv, p_short_opts, p_long_opts, &g_ix)) != -1) {
@@ -124,8 +134,16 @@ int main(int argc, char **argv) {
 				d_audio = true;
 				break;
 
+			case 'A':
+				d_min_audio_streams = 1;
+				break;
+
 			case 'c':
 				d_chapters = true;
+				break;
+
+			case 'E':
+				d_min_seconds = (unsigned int)strtoumax(optarg, NULL, 0);
 				break;
 
 			case 'i':
@@ -148,6 +166,10 @@ int main(int argc, char **argv) {
 				d_main_title = true;
 				break;
 
+			case 'M':
+				d_min_minutes = (unsigned int)strtoumax(optarg, NULL, 0);
+				break;
+
 			case 'p':
 				d_title_number = false;
 				d_playlist_number = true;
@@ -161,6 +183,10 @@ int main(int argc, char **argv) {
 
 			case 's':
 				d_subtitles = true;
+				break;
+
+			case 'S':
+				d_min_pg_streams = 1;
 				break;
 
 			case 't':
@@ -214,10 +240,16 @@ int main(int argc, char **argv) {
 				printf("  -H, --human		   Output as human readable (default)\n");
 				printf("  -j, --json               Output as JSON\n");
 				printf("\n");
+				printf("Narrow results:\n");
+				printf("  -A, --has-audio          Title has audio\n");
+				printf("  -S, --has-subtitles      Title has subtitles\n");
+				printf("  -E, --seconds <#>        Title has minimum number of seconds\n");
+				printf("  -M, --minutes <#>        Title has minimum number of minutes\n");
+				printf("\n");
 				printf("Limited information:\n");
-				printf("  -q, --quiet		   Do not disc title name and main title number\n");
 				printf("  -i, --id		   Display ID\n");
 				printf("  -u, --volname		   Display UDF volume name (device or filename path only)\n");
+				printf("  -q, --quiet		   Do not display disc title name and main title number\n");
 				printf("\n");
 				printf("Other:\n");
 				printf("  -h, --help		   This output\n");
@@ -417,6 +449,8 @@ int main(int argc, char **argv) {
 	bluray_title.number = bluray_title.ix + 1;
 	bluray_title.playlist = 0;
 	bluray_title.duration = 0;
+	bluray_title.seconds = 0;
+	bluray_title.minutes = 0;
 	bluray_title.size = 0;
 	bluray_title.size_mbs = 0;
 	bluray_title.chapters = 0;
@@ -465,6 +499,8 @@ int main(int argc, char **argv) {
 		bluray_title.number = bluray_title.ix + 1;
 		bluray_title.playlist = bd_title->playlist;
 		bluray_title.duration = bd_title->duration;
+		bluray_title.seconds = bluray_duration_seconds(bluray_title.duration);
+		bluray_title.minutes = bluray_duration_minutes(bluray_title.duration);
 		bluray_title.size = bd_get_title_size(bd);
 		bluray_title.size_mbs = bluray_title.size / 1024 / 1024;
 		bluray_title.chapters = bd_title->chapter_count;
@@ -482,16 +518,30 @@ int main(int argc, char **argv) {
 		}
 
 		if(p_bluray_info) {
+
+			if(!(bluray_title.seconds >= d_min_seconds && bluray_title.minutes >= d_min_minutes && bluray_title.audio_streams >= d_min_audio_streams && bluray_title.pg_streams >= d_min_pg_streams)) {
+				bd_stream = NULL;
+				continue;
+			}
+
 			printf("Title: %03u, Playlist: %05u, Length: %s, Chapters: %03u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MB\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
+
 		}
 
 		if(p_bluray_json) {
+
+			if(!(bluray_title.seconds >= d_min_seconds && bluray_title.minutes >= d_min_minutes && bluray_title.audio_streams >= d_min_audio_streams && bluray_title.pg_streams >= d_min_pg_streams)) {
+				bd_stream = NULL;
+				continue;
+			}
+
 			printf("  {\n");
 			printf("   \"title\": %u,\n", bluray_title.number);
 			printf("   \"playlist\": %u,\n", bluray_title.playlist);
 			printf("   \"length\": \"%s\",\n", bluray_title.length);
 			printf("   \"msecs\": %lu,\n", bluray_title.duration / 900);
 			printf("   \"filesize\": %lu,\n", bluray_title.size);
+
 		}
 
 		// Blu-ray video streams
