@@ -84,6 +84,7 @@ int main(int argc, char **argv) {
 	bool p_bluray_json = false;
 	bool p_bluray_id = false;
 	bool p_bluray_udf = false;
+	bool p_bluray_ogm = false;
 	bool d_title_number = false;
 	uint32_t a_title_number = 0;
 	bool d_playlist_number = false;
@@ -103,7 +104,7 @@ int main(int argc, char **argv) {
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "achijk:mp:qst:uvxAHSE:M:V";
+	const char p_short_opts[] = "acghijk:mp:qst:uvxAHSE:M:V";
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
@@ -113,6 +114,7 @@ int main(int argc, char **argv) {
 		{ "json", no_argument, NULL, 'j' },
 		{ "keydb", required_argument, NULL, 'k' },
 		{ "main", no_argument, NULL, 'm' },
+		{ "ogm", no_argument, NULL, 'g' },
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "quiet", no_argument, NULL, 'q' },
 		{ "subtitles", no_argument, NULL, 's' },
@@ -145,6 +147,11 @@ int main(int argc, char **argv) {
 
 			case 'E':
 				d_min_seconds = (unsigned int)strtoumax(optarg, NULL, 0);
+				break;
+
+			case 'g':
+				p_bluray_info = false;
+				p_bluray_ogm = true;
 				break;
 
 			case 'H':
@@ -252,6 +259,7 @@ int main(int argc, char **argv) {
 				printf("\n");
 				printf("Limited information:\n");
 				printf("  -i, --id		   Display ID only\n");
+				printf("  -g, --ogm		   Display OGM chapter format for title (default: main title)\n");
 				printf("  -u, --volname		   Display UDF volume name only (path must be device or filename)\n");
 				printf("  -q, --quiet		   Do not display disc title name and main title number\n");
 				printf("\n");
@@ -402,6 +410,15 @@ int main(int argc, char **argv) {
 		d_num_titles = 1;
 	}
 
+	if(p_bluray_ogm) {
+		if(d_title_number)
+			d_first_ix = a_title_number - 1;
+		 else
+			d_first_ix = (uint32_t)bluray_info.main_title;
+		d_first_title = d_first_ix + 1;
+		d_num_titles = 1;
+	}
+
 	if(p_bluray_info && bd_info->udf_volume_id && d_quiet == false)
 		printf("Disc title: %s\n", bluray_info.bluray_title);
 
@@ -487,6 +504,11 @@ int main(int argc, char **argv) {
 
 	if(p_bluray_json)
 		printf(" \"titles\": [\n");
+
+	if(p_bluray_ogm) {
+		printf("CHAPTER001=00:00:00.000\n");
+		printf("CHAPTER001NAME=Chapter 001\n");
+	}
 
 	for(ix = d_first_ix; d_title_counter < d_num_titles; ix++, d_title_counter++) {
 
@@ -680,7 +702,7 @@ int main(int argc, char **argv) {
 		}
 
 		// Blu-ray chapters
-		if((p_bluray_info && d_chapters) || p_bluray_json) {
+		if((p_bluray_info && d_chapters) || p_bluray_json || p_bluray_ogm) {
 
 			if(p_bluray_json)
 				printf("   \"chapters\": [\n");
@@ -708,6 +730,11 @@ int main(int argc, char **argv) {
 						printf("    },\n");
 					else
 						printf("    }\n");
+				}
+
+				if(p_bluray_ogm && ix == d_first_ix) {
+					printf("CHAPTER%03lu=%s\n", chapter_ix + 2, bluray_chapter.length);
+					printf("CHAPTER%03luNAME=Chapter %03lu\n", chapter_ix + 2, chapter_ix + 2);
 				}
 
 			}
