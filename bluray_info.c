@@ -28,6 +28,7 @@ struct bluray_info {
 
 struct bluray_title {
 	uint32_t ix;
+	uint32_t number;
 	uint32_t playlist;
 	uint64_t duration;
 	uint64_t size;
@@ -71,7 +72,8 @@ int main(int argc, char **argv) {
 	uint32_t stream_ix = 0;
 	uint64_t chapter_ix = 0;
 	uint32_t d_num_titles = 0;
-	uint32_t d_first_title = 0;
+	uint32_t d_first_ix = 0;
+	uint32_t d_first_title = d_first_ix + 1;
 	uint32_t d_title_counter = 0;
 	int retval = 0;
 
@@ -314,23 +316,27 @@ int main(int argc, char **argv) {
 	// a thing exists). bdpslice (part of libbluray) takes both a title number
 	// or a playlist number as an argument, and passing the playlist number
 	// is more certain.
+	//
+	// libbluray indexes titles starting at 0, but for human-readable, bluray_info
+	// starts at 1. Playlists start at 0, because they are indexed as such on the
+	// filesystem.
 
 	bluray_info.relevant_titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
-	d_first_title = 0;
 	d_num_titles = (uint32_t)bluray_info.relevant_titles;
 
 	// Select track passed as an argument
 	if(d_title_number) {
-		if(a_title_number > (d_num_titles - 1)) {
+		if(a_title_number > d_num_titles) {
 			printf("Could not open title %u, choose from 0 to %u\n", a_title_number, d_num_titles - 1);
 			return 1;
 		}
-		retval = bd_select_title(bd, a_title_number);
+		retval = bd_select_title(bd, a_title_number - 1);
 		if(retval == 0) {
 			printf("Could not open title %u\n", a_title_number);
 			return 1;
 		}
-		d_first_title = a_title_number;
+		d_first_ix = a_title_number - 1;
+		d_first_title = d_first_ix + 1;
 		d_num_titles = 1;
 	}
 
@@ -340,14 +346,16 @@ int main(int argc, char **argv) {
 			printf("Could not open playlist %u\n", a_playlist_number);
 			return 1;
 		}
-		d_first_title = bd_get_current_title(bd);
+		d_first_ix = bd_get_current_title(bd);
+		d_first_title = d_first_ix + 1;
 		d_num_titles = 1;
 	}
 
 	bluray_info.main_title = bd_get_main_title(bd);
 
 	if(d_main_title) {
-		d_first_title = (uint32_t)bluray_info.main_title;
+		d_first_ix = (uint32_t)bluray_info.main_title;
+		d_first_title = d_first_ix + 1;
 		d_num_titles = 1;
 	}
 
@@ -399,6 +407,7 @@ int main(int argc, char **argv) {
 
 	struct bluray_title bluray_title;
 	bluray_title.ix = 0;
+	bluray_title.number = bluray_title.ix + 1;
 	bluray_title.playlist = 0;
 	bluray_title.duration = 0;
 	bluray_title.size = 0;
@@ -434,7 +443,7 @@ int main(int argc, char **argv) {
 	if(p_bluray_json)
 		printf(" \"titles\": [\n");
 
-	for(ix = d_first_title; d_title_counter < d_num_titles; ix++, d_title_counter++) {
+	for(ix = d_first_ix; d_title_counter < d_num_titles; ix++, d_title_counter++) {
 
 		retval = bd_select_title(bd, ix);
 		if(retval == 0)
@@ -446,6 +455,7 @@ int main(int argc, char **argv) {
 			continue;
 
 		bluray_title.ix = ix;
+		bluray_title.number = bluray_title.ix + 1;
 		bluray_title.playlist = bd_title->playlist;
 		bluray_title.duration = bd_title->duration;
 		bluray_title.size = bd_get_title_size(bd);
@@ -465,12 +475,12 @@ int main(int argc, char **argv) {
 		}
 
 		if(p_bluray_info) {
-			printf("Title: %03u, Playlist: %05u, Length: %s, Chapters: %03u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MB\n", bluray_title.ix + 1, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
+			printf("Title: %03u, Playlist: %05u, Length: %s, Chapters: %03u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MB\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
 		}
 
 		if(p_bluray_json) {
 			printf("  {\n");
-			printf("   \"title\": %u,\n", bluray_title.ix + 1);
+			printf("   \"title\": %u,\n", bluray_title.number);
 			printf("   \"playlist\": %u,\n", bluray_title.playlist);
 			printf("   \"length\": \"%s\",\n", bluray_title.length);
 			printf("   \"msecs\": %lu,\n", bluray_title.duration / 900);
