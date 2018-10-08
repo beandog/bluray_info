@@ -387,7 +387,7 @@ int main(int argc, char **argv) {
 		printf(" },\n");
 
 	}
-	
+
 	struct bluray_title bluray_title;
 	bluray_title.ix = 0;
 	bluray_title.playlist = 0;
@@ -435,7 +435,7 @@ int main(int argc, char **argv) {
 
 		if(bd_title == NULL)
 			continue;
-		
+
 		bluray_title.ix = ix;
 		bluray_title.playlist = bd_title->playlist;
 		bluray_title.duration = bd_title->duration;
@@ -611,7 +611,7 @@ int main(int argc, char **argv) {
 
 				if(bd_chapter == NULL)
 					continue;
-				
+
 				bluray_chapter.duration = bd_chapter->duration;
 				bluray_duration_length(bluray_chapter.length, bd_chapter->duration);
 
@@ -658,13 +658,13 @@ int main(int argc, char **argv) {
 
 	if(p_bluray_info && !d_title_number && !d_main_title && d_num_titles != 1)
 		printf("Main title: %i\n", bluray_info.main_title + 1);
-	
+
 	bd_free_title_info(bd_title);
 	bd_title = NULL;
 
 	bd_close(bd);
 	bd = NULL;
-	
+
 	return 0;
 
 }
