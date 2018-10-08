@@ -103,11 +103,12 @@ int main(int argc, char **argv) {
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "achijk:mp:qst:uvxASE:M:V";
+	const char p_short_opts[] = "achijk:mp:qst:uvxAHSE:M:V";
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
 		{ "help", no_argument, NULL, 'h' },
+		{ "human", no_argument, NULL, 'H' },
 		{ "id", no_argument, NULL, 'i' },
 		{ "json", no_argument, NULL, 'j' },
 		{ "keydb", required_argument, NULL, 'k' },
@@ -144,6 +145,9 @@ int main(int argc, char **argv) {
 
 			case 'E':
 				d_min_seconds = (unsigned int)strtoumax(optarg, NULL, 0);
+				break;
+
+			case 'H':
 				break;
 
 			case 'i':
