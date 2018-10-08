@@ -658,7 +658,7 @@ int main(int argc, char **argv) {
 					printf("    {\n");
 					printf("     \"track\": %u,\n", stream_ix + 1);
 					printf("     \"stream\": \"0x%x\",\n", bd_stream->pid);
-					printf("     \"language\": \"%s\"\n", bluray_pgs.lang);
+					printf("     \"language\": \"%s\",\n", bluray_pgs.lang);
 					printf("     \"character code\": \"%s\"\n", bluray_pgs.code);
 					if(stream_ix + 1 < bluray_title.pg_streams)
 						printf("    },\n");
