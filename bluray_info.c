@@ -46,6 +46,7 @@ struct bluray_title {
 
 struct bluray_video {
 	char codec[BLURAY_VIDEO_CODEC + 1];
+	char codec_name[BLURAY_VIDEO_CODEC_NAME + 1];
 	char format[BLURAY_VIDEO_FORMAT + 1];
 	double framerate;
 	char aspect_ratio[BLURAY_VIDEO_ASPECT_RATIO + 1];
@@ -487,6 +488,7 @@ int main(int argc, char **argv) {
 
 	struct bluray_video bluray_video;
 	memset(bluray_video.codec, '\0', sizeof(bluray_video.codec));
+	memset(bluray_video.codec_name, '\0', sizeof(bluray_video.codec_name));
 	memset(bluray_video.format, '\0', sizeof(bluray_video.format));
 	bluray_video.framerate = 0;
 	memset(bluray_video.aspect_ratio, '\0', sizeof(bluray_video.aspect_ratio));
@@ -582,6 +584,7 @@ int main(int argc, char **argv) {
 					continue;
 
 				bluray_video_codec(bluray_video.codec, bd_stream->coding_type);
+				bluray_video_codec_name(bluray_video.codec_name, bd_stream->coding_type);
 				bluray_video_format(bluray_video.format, bd_stream->format);
 				bluray_video.framerate = bluray_video_framerate(bd_stream->rate);
 				bluray_video_aspect_ratio(bluray_video.aspect_ratio, bd_stream->aspect);
@@ -597,7 +600,8 @@ int main(int argc, char **argv) {
 					printf("     \"format\": \"%s\",\n", bluray_video.format);
 					printf("     \"aspect ratio\": \"%s\",\n", bluray_video.aspect_ratio);
 					printf("     \"framerate\": %.02f,\n", bluray_video.framerate);
-					printf("     \"codec\": \"%s\"\n", bluray_video.codec);
+					printf("     \"codec\": \"%s\",\n", bluray_video.codec);
+					printf("     \"codec name\": \"%s\"\n", bluray_video.codec_name);
 					if(stream_ix + 1 < bluray_title.video_streams)
 						printf("    },\n");
 					else
