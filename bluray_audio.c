@@ -41,8 +41,11 @@ void bluray_audio_codec(char *str, const uint8_t coding_type) {
 
 		case BLURAY_STREAM_TYPE_AUDIO_DTSHD:
 		case BLURAY_STREAM_TYPE_AUDIO_DTSHD_SECONDARY:
-		case BLURAY_STREAM_TYPE_AUDIO_DTSHD_MASTER:
 			strncpy(str, "dtshd", BLURAY_AUDIO_CODEC + 1);
+			break;
+
+		case BLURAY_STREAM_TYPE_AUDIO_DTSHD_MASTER:
+			strncpy(str, "dtshd-ma", BLURAY_AUDIO_CODEC + 1);
 			break;
 
 		default:
