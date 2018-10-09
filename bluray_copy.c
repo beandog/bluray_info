@@ -315,7 +315,7 @@ int main(int argc, char **argv) {
 	bluray_title.pg_streams = 0;
 	snprintf(bluray_title.length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
 
-	// Select track passed as an argument
+	// Select title passed as an argument
 	if(opt_title_number) {
 		bluray_title.ix = arg_title_number - 1;
 		if(bluray_title.ix > (d_num_titles - 1)) {
