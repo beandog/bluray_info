@@ -209,7 +209,7 @@ int main(int argc, char **argv) {
 				printf("Destination:\n");
 				printf("  -o, --output <filename>  Save to filename (default: bluray_title_###.m2ts)\n");
 				printf("  -o, --output -           Write to stdout\n");
-				printf("  -q, --quiet		   Don't print any information\n");
+				printf("  -q, --quiet		   Don't display copy progress\n");
 				printf("\n");
 				printf("Other:\n");
 				printf("  -k, --keydb <filename>   Location to KEYDB.CFG (default: ~/.config/aacs/KEYDB.cfg)\n");
