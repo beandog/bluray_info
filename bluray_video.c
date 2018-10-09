@@ -56,6 +56,10 @@ void bluray_video_format(char *str, const uint8_t format) {
 			strncpy(str, "1080p", BLURAY_VIDEO_FORMAT + 1);
 			break;
 
+		case BLURAY_VIDEO_FORMAT_2160P:
+			strncpy(str, "2160p", BLURAY_VIDEO_FORMAT + 1);
+			break;
+
 		default:
 			strncpy(str, "", BLURAY_VIDEO_FORMAT + 1);
 			break;
@@ -76,7 +80,7 @@ double bluray_video_framerate(const uint8_t rate) {
 
 		case BLURAY_VIDEO_RATE_25:
 			return 25;
-	
+
 		case BLURAY_VIDEO_RATE_30000_1001:
 			return 29.97;
 
