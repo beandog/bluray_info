@@ -64,7 +64,9 @@ struct bluray_pgs {
 };
 
 struct bluray_chapter {
+	uint64_t start;
 	uint64_t duration;
+	char start_time[BLURAY_DURATION + 1];
 	char length[BLURAY_DURATION + 1];
 };
 
@@ -73,6 +75,7 @@ int main(int argc, char **argv) {
 	uint32_t ix = 0;
 	uint32_t stream_ix = 0;
 	uint64_t chapter_ix = 0;
+	uint64_t chapter_start = 0;
 	uint32_t d_num_titles = 0;
 	uint32_t d_first_ix = 0;
 	uint32_t d_first_title = d_first_ix + 1;
@@ -714,11 +717,13 @@ int main(int argc, char **argv) {
 				if(bd_chapter == NULL)
 					continue;
 
+				bluray_chapter.start = chapter_start;
+				bluray_duration_length(bluray_chapter.start_time, bluray_chapter.start);
 				bluray_chapter.duration = bd_chapter->duration;
 				bluray_duration_length(bluray_chapter.length, bd_chapter->duration);
 
 				if(p_bluray_info && d_chapters) {
-					printf("	Chapter: %03lu, Length: %s\n", chapter_ix + 1, bluray_chapter.length);
+					printf("	Chapter: %03lu, Start: %s, Length: %s\n", chapter_ix + 1, bluray_chapter.start_time, bluray_chapter.length);
 				}
 
 				if(p_bluray_json) {
@@ -736,6 +741,8 @@ int main(int argc, char **argv) {
 					printf("CHAPTER%03lu=%s\n", chapter_ix + 2, bluray_chapter.length);
 					printf("CHAPTER%03luNAME=Chapter %03lu\n", chapter_ix + 2, chapter_ix + 2);
 				}
+
+				chapter_start += bluray_chapter.duration;
 
 			}
 
