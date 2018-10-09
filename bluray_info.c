@@ -61,7 +61,6 @@ struct bluray_audio {
 
 struct bluray_pgs {
 	char lang[BLURAY_PGS_LANG + 1];
-	char code[BLURAY_PGS_CHAR_CODE + 1];
 };
 
 struct bluray_chapter {
@@ -501,7 +500,6 @@ int main(int argc, char **argv) {
 
 	struct bluray_pgs bluray_pgs;
 	memset(bluray_pgs.lang, '\0', sizeof(bluray_pgs.lang));
-	memset(bluray_pgs.code, '\0', sizeof(bluray_pgs.code));
 
 	struct bluray_chapter bluray_chapter;
 	bluray_chapter.duration = 0;
@@ -673,21 +671,19 @@ int main(int argc, char **argv) {
 				bd_stream = &bd_title->clips[0].pg_streams[stream_ix];
 
 				bluray_pgs_lang(bluray_pgs.lang, bd_stream->lang);
-				bluray_pgs_code(bluray_pgs.code, bd_stream->char_code);
 
 				if(bd_stream == NULL)
 					continue;
 
 				if(p_bluray_info && d_subtitles) {
-					printf("	Subtitle: %02u, Language: %s, Character code: %s\n", stream_ix + 1, bluray_pgs.lang, strlen(bluray_pgs.code) ? bluray_pgs.code : "unset");
+					printf("	Subtitle: %02u, Language: %s\n", stream_ix + 1, bluray_pgs.lang);
 				}
 
 				if(p_bluray_json) {
 					printf("    {\n");
 					printf("     \"track\": %u,\n", stream_ix + 1);
 					printf("     \"stream\": \"0x%x\",\n", bd_stream->pid);
-					printf("     \"language\": \"%s\",\n", bluray_pgs.lang);
-					printf("     \"character code\": \"%s\"\n", bluray_pgs.code);
+					printf("     \"language\": \"%s\"\n", bluray_pgs.lang);
 					if(stream_ix + 1 < bluray_title.pg_streams)
 						printf("    },\n");
 					else
