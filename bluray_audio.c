@@ -9,7 +9,7 @@ void bluray_audio_lang(char *str, const uint8_t lang[4]) {
 void bluray_audio_codec(char *str, const uint8_t coding_type) {
 
 	switch(coding_type) {
-	
+
 		case BLURAY_STREAM_TYPE_AUDIO_MPEG1:
 			strncpy(str, "mpeg1", BLURAY_AUDIO_CODEC + 1);
 			break;
@@ -108,7 +108,7 @@ void bluray_audio_rate(char *str, const uint8_t rate) {
 		default:
 			strncpy(str, "", BLURAY_AUDIO_RATE + 1);
 			break;
-	
+
 	}
 
 }

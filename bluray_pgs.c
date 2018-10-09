@@ -9,7 +9,7 @@ void bluray_pgs_lang(char *str, const uint8_t lang[4]) {
 void bluray_pgs_code(char *str, const uint8_t code) {
 
 	switch(code) {
-	
+
 		case BLURAY_TEXT_CHAR_CODE_UTF8:
 			strncpy(str, "utf8", BLURAY_PGS_CHAR_CODE + 1);
 			break;

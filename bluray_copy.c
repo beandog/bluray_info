@@ -420,7 +420,7 @@ int main(int argc, char **argv) {
 
 	uint32_t start_chapter;
 	uint32_t stop_chapter;
-	
+
 	start_chapter = arg_first_chapter - 1;
 	stop_chapter = arg_last_chapter - 1;
 
@@ -626,7 +626,7 @@ int main(int argc, char **argv) {
 
 	if(bluray_copy.filename)
 		bluray_copy.filename = NULL;
-	
+
 	return 0;
 
 }
