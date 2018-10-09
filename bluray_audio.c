@@ -56,6 +56,56 @@ void bluray_audio_codec(char *str, const uint8_t coding_type) {
 
 }
 
+void bluray_audio_codec_name(char *str, const uint8_t coding_type) {
+
+	switch(coding_type) {
+
+		case BLURAY_STREAM_TYPE_AUDIO_MPEG1:
+			strncpy(str, "MPEG-1", BLURAY_AUDIO_CODEC_NAME + 1);
+			break;
+
+		case BLURAY_STREAM_TYPE_AUDIO_MPEG2:
+			strncpy(str, "MPEG-2", BLURAY_AUDIO_CODEC_NAME + 1);
+			break;
+
+		case BLURAY_STREAM_TYPE_AUDIO_LPCM:
+			strncpy(str, "LPCM", BLURAY_AUDIO_CODEC_NAME + 1);
+			break;
+
+		case BLURAY_STREAM_TYPE_AUDIO_AC3:
+			strncpy(str, "Dolby Digital", BLURAY_AUDIO_CODEC_NAME + 1);
+			break;
+
+		case BLURAY_STREAM_TYPE_AUDIO_DTS:
+			strncpy(str, "DTS", BLURAY_AUDIO_CODEC_NAME + 1);
+			break;
+
+		case BLURAY_STREAM_TYPE_AUDIO_TRUHD:
+			strncpy(str, "Dolby TrueHD", BLURAY_AUDIO_CODEC_NAME + 1);
+			break;
+
+		case BLURAY_STREAM_TYPE_AUDIO_AC3PLUS:
+		case BLURAY_STREAM_TYPE_AUDIO_AC3PLUS_SECONDARY:
+			strncpy(str, "Dolby Digital Plus", BLURAY_AUDIO_CODEC_NAME + 1);
+			break;
+
+		case BLURAY_STREAM_TYPE_AUDIO_DTSHD:
+		case BLURAY_STREAM_TYPE_AUDIO_DTSHD_SECONDARY:
+			strncpy(str, "DTS-HD", BLURAY_AUDIO_CODEC_NAME + 1);
+			break;
+
+		case BLURAY_STREAM_TYPE_AUDIO_DTSHD_MASTER:
+			strncpy(str, "DTS-HD Master", BLURAY_AUDIO_CODEC_NAME + 1);
+			break;
+
+		default:
+			strncpy(str, "", BLURAY_AUDIO_CODEC_NAME + 1);
+			break;
+
+	}
+
+}
+
 void bluray_audio_format(char *str, const uint8_t format) {
 
 	switch(format) {

@@ -54,6 +54,7 @@ struct bluray_video {
 struct bluray_audio {
 	char lang[BLURAY_AUDIO_LANG + 1];
 	char codec[BLURAY_AUDIO_CODEC + 1];
+	char codec_name[BLURAY_AUDIO_CODEC_NAME + 1];
 	char format[BLURAY_AUDIO_FORMAT + 1];
 	char rate[BLURAY_AUDIO_RATE + 1];
 };
@@ -494,6 +495,7 @@ int main(int argc, char **argv) {
 	struct bluray_audio bluray_audio;
 	memset(bluray_audio.lang, '\0', sizeof(bluray_audio.lang));
 	memset(bluray_audio.codec, '\0', sizeof(bluray_audio.codec));
+	memset(bluray_audio.codec_name, '\0', sizeof(bluray_audio.codec_name));
 	memset(bluray_audio.format, '\0', sizeof(bluray_audio.format));
 	memset(bluray_audio.rate, '\0', sizeof(bluray_audio.rate));
 
@@ -628,6 +630,7 @@ int main(int argc, char **argv) {
 
 				bluray_audio_lang(bluray_audio.lang, bd_stream->lang);
 				bluray_audio_codec(bluray_audio.codec, bd_stream->coding_type);
+				bluray_audio_codec_name(bluray_audio.codec_name, bd_stream->coding_type);
 				bluray_audio_format(bluray_audio.format, bd_stream->format);
 				bluray_audio_rate(bluray_audio.rate, bd_stream->rate);
 
@@ -641,6 +644,7 @@ int main(int argc, char **argv) {
 					printf("     \"stream\": \"0x%x\",\n", bd_stream->pid);
 					printf("     \"language\": \"%s\",\n", bluray_audio.lang);
 					printf("     \"codec\": \"%s\",\n", bluray_audio.codec);
+					printf("     \"codec name\": \"%s\",\n", bluray_audio.codec_name);
 					printf("     \"format\": \"%s\",\n", bluray_audio.format);
 					printf("     \"rate\": \"%s\"\n", bluray_audio.rate);
 					if(stream_ix + 1 < bluray_title.audio_streams)
