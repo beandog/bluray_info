@@ -8,6 +8,10 @@ void bluray_video_codec(char *str, const uint8_t coding_type) {
 			strncpy(str, "h264", BLURAY_VIDEO_CODEC + 1);
 			break;
 
+		case BLURAY_STREAM_TYPE_VIDEO_HEVC:
+			strncpy(str, "hevc", BLURAY_VIDEO_CODEC + 1);
+			break;
+
 		case BLURAY_STREAM_TYPE_VIDEO_MPEG1:
 			strncpy(str, "mpeg1", BLURAY_VIDEO_CODEC + 1);
 			break;
