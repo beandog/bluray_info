@@ -508,11 +508,6 @@ int main(int argc, char **argv) {
 	if(p_bluray_json)
 		printf(" \"titles\": [\n");
 
-	if(p_bluray_ogm) {
-		printf("CHAPTER001=00:00:00.000\n");
-		printf("CHAPTER001NAME=Chapter 001\n");
-	}
-
 	for(ix = d_first_ix; d_title_counter < d_num_titles; ix++, d_title_counter++) {
 
 		retval = bd_select_title(bd, ix);
@@ -740,8 +735,8 @@ int main(int argc, char **argv) {
 				}
 
 				if(p_bluray_ogm && ix == d_first_ix) {
-					printf("CHAPTER%03lu=%s\n", chapter_ix + 2, bluray_chapter.start_time);
-					printf("CHAPTER%03luNAME=Chapter %03lu\n", chapter_ix + 2, chapter_ix + 2);
+					printf("CHAPTER%03lu=%s\n", chapter_ix + 1, bluray_chapter.start_time);
+					printf("CHAPTER%03luNAME=Chapter %03lu\n", chapter_ix + 1, chapter_ix + 2);
 				}
 
 				chapter_start += bluray_chapter.duration;
