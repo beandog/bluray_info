@@ -1,5 +1,17 @@
 ChangeLog
 
+1.5
+
+bluray_info:
+
+- Properly label DTS-HD Master audio streams
+- Add displaying long audio and video codec names in JSON output
+- Can narrow results on minimum number of seconds or minutes, has an audio or
+subtitle track
+- Display chapter start times
+- Can output chapters in OGM format for muxing into MKV
+- Add quiet mode to strip header and footers
+
 1.4
 
 - Fix indexing to match Blu-ray spec for playlist numbers
