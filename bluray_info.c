@@ -495,7 +495,9 @@ int main(int argc, char **argv) {
 	bluray_title.pg_streams = 0;
 	snprintf(bluray_title.length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
 
-	uint32_t bluray_playlist_title[1000] = {1000};
+	uint32_t bluray_playlist_title[1000];
+	for(uint32_t playlist = 0; playlist < 1000; playlist++)
+		bluray_playlist_title[playlist] = 1000;
 	uint32_t bluray_highest_playlist = 0;
 
 	struct bluray_video bluray_video;
@@ -782,6 +784,23 @@ int main(int argc, char **argv) {
 	}
 
 	if(p_bluray_json) {
+		/*
+		printf(" ],\n");
+		printf(" \"playlists\": [\n");
+
+		for(uint32_t x = 0; x < bluray_highest_playlist; x++) {
+
+			if(bluray_playlist_title[x] == 1000)
+				continue;
+
+			if(x > bluray_highest_playlist)
+				break;
+
+			printf("  { \"playlist\": %u, \"title\" %u },\n", x, bluray_playlist_title[x]);
+
+		}
+		*/
+
 		printf(" ]\n");
 		printf("}\n");
 	}
