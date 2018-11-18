@@ -17,11 +17,12 @@
 struct bluray_info {
 	char bluray_id[BLURAY_ID + 1];
 	char bluray_title[BLURAY_TITLE + 1];
-	uint32_t hdmv_titles;
-	uint32_t bdj_titles;
-	uint32_t unsupported_titles;
 	uint32_t titles;
 	uint32_t relevant_titles;
+	uint32_t bdinfo_titles;
+	uint32_t bdj_titles;
+	uint32_t hdmv_titles;
+	uint32_t unsupported_titles;
 	uint32_t longest_title;
 	int main_title;
 };
@@ -333,11 +334,12 @@ int main(int argc, char **argv) {
 	struct bluray_info bluray_info;
 	memset(bluray_info.bluray_id, '\0', sizeof(bluray_info.bluray_id));
 	memset(bluray_info.bluray_title, '\0', sizeof(bluray_info.bluray_title));
-	bluray_info.hdmv_titles = 0;
-	bluray_info.bdj_titles = 0;
-	bluray_info.unsupported_titles = 0;
 	bluray_info.titles = 0;
 	bluray_info.relevant_titles = 0;
+	bluray_info.bdinfo_titles = 0;
+	bluray_info.bdj_titles = 0;
+	bluray_info.hdmv_titles = 0;
+	bluray_info.unsupported_titles = 0;
 	bluray_info.longest_title = 0;
 	bluray_info.main_title = 1;
 
@@ -349,10 +351,6 @@ int main(int argc, char **argv) {
 		return 0;
 	}
 
-	bluray_info.hdmv_titles = bd_info->num_hdmv_titles;
-	bluray_info.bdj_titles = bd_info->num_bdj_titles;
-	bluray_info.unsupported_titles = bd_info->num_unsupported_titles;
-	bluray_info.titles = bd_info->num_titles;
 	if(bd_info->libaacs_detected) {
 		for(ix = 0; ix < 20; ix++) {
 			sprintf(bluray_info.bluray_id + 2 * ix, "%02X", bd_info->disc_id[ix]);
@@ -382,8 +380,16 @@ int main(int argc, char **argv) {
 	// starts at 1. Playlists start at 0, because they are indexed as such on the
 	// filesystem.
 
-	bluray_info.relevant_titles = bd_get_titles(bd, TITLES_ALL, 0);
-	d_num_titles = (uint32_t)bluray_info.relevant_titles;
+	bluray_info.titles = bd_get_titles(bd, TITLES_ALL, 0);
+	bluray_info.relevant_titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
+	d_num_titles = (uint32_t)bluray_info.titles;
+
+	// libbluray has 'num_titles' and 'bd_get_titles()' both of which return different
+	// numbers. Keep track of them both.
+	bluray_info.bdinfo_titles = bd_info->num_titles;
+	bluray_info.bdj_titles = bd_info->num_bdj_titles;
+	bluray_info.hdmv_titles = bd_info->num_hdmv_titles;
+	bluray_info.unsupported_titles = bd_info->num_unsupported_titles;
 
 	// Select track passed as an argument
 	if(d_title_number) {
@@ -464,9 +470,11 @@ int main(int argc, char **argv) {
 		printf("  \"provider data\": \"%s\",\n", bd_info->provider_data);
 		printf("  \"3D content\": %s,\n", bd_info->content_exist_3D ? "true" : "false");
 		printf("  \"initial mode\": \"%s\",\n", bd_info->initial_output_mode_preference ? "3D" : "2D");
-		printf("  \"hdmv titles\": %u,\n", bd_info->num_hdmv_titles);
+		printf("  \"titles\": %u,\n", bluray_info.titles);
 		printf("  \"bdj titles\": %u,\n", bd_info->num_bdj_titles);
+		printf("  \"hdmv titles\": %u,\n", bd_info->num_hdmv_titles);
 		printf("  \"relevant titles\": %u,\n", bluray_info.relevant_titles);
+		printf("  \"unsupported titles\": %u,\n", bd_info->num_unsupported_titles);
 		printf("  \"main title\": %u,\n", bluray_info.main_title + 1);
 		printf("  \"main playlist\": %u,\n", main_playlist);
 		printf("  \"longest title\": %u,\n", longest_title + 1);
