@@ -471,9 +471,10 @@ int main(int argc, char **argv) {
 		printf("  \"3D content\": %s,\n", bd_info->content_exist_3D ? "true" : "false");
 		printf("  \"initial mode\": \"%s\",\n", bd_info->initial_output_mode_preference ? "3D" : "2D");
 		printf("  \"titles\": %u,\n", bluray_info.titles);
+		printf("  \"relevant titles\": %u,\n", bluray_info.relevant_titles);
+		printf("  \"bdinfo titles\": %u,\n", bd_info->num_titles);
 		printf("  \"bdj titles\": %u,\n", bd_info->num_bdj_titles);
 		printf("  \"hdmv titles\": %u,\n", bd_info->num_hdmv_titles);
-		printf("  \"relevant titles\": %u,\n", bluray_info.relevant_titles);
 		printf("  \"unsupported titles\": %u,\n", bd_info->num_unsupported_titles);
 		printf("  \"main title\": %u,\n", bluray_info.main_title + 1);
 		printf("  \"main playlist\": %u,\n", main_playlist);
