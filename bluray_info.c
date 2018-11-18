@@ -44,6 +44,12 @@ struct bluray_title {
 	char length[BLURAY_DURATION + 1];
 };
 
+struct bluray_playlist {
+	uint32_t ix;
+	uint32_t number;
+	uint32_t title;
+};
+
 struct bluray_video {
 	char codec[BLURAY_VIDEO_CODEC + 1];
 	char codec_name[BLURAY_VIDEO_CODEC_NAME + 1];
@@ -485,6 +491,11 @@ int main(int argc, char **argv) {
 	bluray_title.audio_streams = 0;
 	bluray_title.pg_streams = 0;
 	snprintf(bluray_title.length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
+
+	struct bluray_playlist bluray_playlist;
+	bluray_playlist.ix = 0;
+	bluray_playlist.number = 0;
+	bluray_playlist.title = 0;
 
 	struct bluray_video bluray_video;
 	memset(bluray_video.codec, '\0', sizeof(bluray_video.codec));
