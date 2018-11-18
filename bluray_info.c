@@ -567,7 +567,7 @@ int main(int argc, char **argv) {
 				continue;
 			}
 
-			printf("Title: %03u, Playlist: %05u, Length: %s, Chapters: %03u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MB\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
+			printf("Title: %03u, Playlist: %03u, Length: %s, Chapters: %03u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MB\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
 
 		}
 
