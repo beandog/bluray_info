@@ -496,6 +496,7 @@ int main(int argc, char **argv) {
 	snprintf(bluray_title.length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
 
 	uint32_t bluray_playlist_title[1000] = {1000};
+	uint32_t bluray_highest_playlist = 0;
 
 	struct bluray_video bluray_video;
 	memset(bluray_video.codec, '\0', sizeof(bluray_video.codec));
@@ -535,7 +536,6 @@ int main(int argc, char **argv) {
 		bluray_title.ix = ix;
 		bluray_title.number = bluray_title.ix + 1;
 		bluray_title.playlist = bd_title->playlist;
-		bluray_playlist_title[bluray_title.playlist] = bluray_title.ix;
 		bluray_title.duration = bd_title->duration;
 		bluray_title.seconds = bluray_duration_seconds(bluray_title.duration);
 		bluray_title.minutes = bluray_duration_minutes(bluray_title.duration);
@@ -554,6 +554,9 @@ int main(int argc, char **argv) {
 			bluray_title.audio_streams = 0;
 			bluray_title.pg_streams = 0;
 		}
+
+		bluray_playlist_title[bluray_title.playlist] = bluray_title.ix;
+		bluray_highest_playlist = ((bluray_title.playlist > bluray_highest_playlist) ? bluray_title.playlist : bluray_highest_playlist);
 
 		if(p_bluray_info) {
 
