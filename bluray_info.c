@@ -99,6 +99,7 @@ int main(int argc, char **argv) {
 	bool d_audio = false;
 	bool d_subtitles = false;
 	bool d_chapters = false;
+	bool d_relevant_titles = false;
 	uint32_t d_min_seconds = 0;
 	uint32_t d_min_minutes = 0;
 	uint32_t d_min_audio_streams = 0;
@@ -109,7 +110,7 @@ int main(int argc, char **argv) {
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "acghijk:mp:qst:uvxAHSE:M:V";
+	const char p_short_opts[] = "acghijk:mp:qrst:uvxAHSE:M:V";
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
@@ -122,6 +123,7 @@ int main(int argc, char **argv) {
 		{ "ogm", no_argument, NULL, 'g' },
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "quiet", no_argument, NULL, 'q' },
+		{ "relevant", no_argument, NULL, 'r' },
 		{ "subtitles", no_argument, NULL, 's' },
 		{ "title", required_argument, NULL, 't' },
 		{ "volname", no_argument, NULL, 'u' },
@@ -197,6 +199,10 @@ int main(int argc, char **argv) {
 				d_quiet = true;
 				break;
 
+			case 'r':
+				d_relevant_titles = true;
+				break;
+
 			case 's':
 				d_subtitles = true;
 				break;
@@ -263,6 +269,7 @@ int main(int argc, char **argv) {
 				printf("  -M, --minutes <number>   Title has minimum number of minutes\n");
 				printf("\n");
 				printf("Limited information:\n");
+				printf("  -r, --relevant	   Skip duplicate titles and clips\n");
 				printf("  -i, --id		   Display ID only\n");
 				printf("  -g, --ogm		   Display OGM chapter format for title (default: main title)\n");
 				printf("  -u, --volname		   Display UDF volume name only (path must be device or filename)\n");
@@ -375,7 +382,10 @@ int main(int argc, char **argv) {
 	// filesystem.
 
 	bluray_info.relevant_titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
-	bluray_info.titles = bd_get_titles(bd, TITLES_ALL, 0);
+	if(d_relevant_titles)
+		bluray_info.titles = bluray_info.relevant_titles;
+	else
+		bluray_info.titles = bd_get_titles(bd, TITLES_ALL, 0);
 	d_num_titles = (uint32_t)bluray_info.titles;
 
 	// libbluray has 'num_titles' and 'bd_get_titles()' both of which return different
