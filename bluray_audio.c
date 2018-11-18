@@ -106,6 +106,15 @@ void bluray_audio_codec_name(char *str, const uint8_t coding_type) {
 
 }
 
+bool bluray_audio_secondary_stream(const uint8_t coding_type) {
+
+	if(coding_type == BLURAY_STREAM_TYPE_AUDIO_AC3PLUS_SECONDARY || coding_type == BLURAY_STREAM_TYPE_AUDIO_DTSHD_SECONDARY)
+		return true;
+	else
+		return false;
+
+}
+
 void bluray_audio_format(char *str, const uint8_t format) {
 
 	switch(format) {
