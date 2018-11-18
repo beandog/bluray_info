@@ -45,12 +45,6 @@ struct bluray_title {
 	char length[BLURAY_DURATION + 1];
 };
 
-struct bluray_playlist {
-	uint32_t ix;
-	uint32_t number;
-	uint32_t title;
-};
-
 struct bluray_video {
 	char codec[BLURAY_VIDEO_CODEC + 1];
 	char codec_name[BLURAY_VIDEO_CODEC_NAME + 1];
@@ -501,10 +495,7 @@ int main(int argc, char **argv) {
 	bluray_title.pg_streams = 0;
 	snprintf(bluray_title.length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
 
-	struct bluray_playlist bluray_playlist;
-	bluray_playlist.ix = 0;
-	bluray_playlist.number = 0;
-	bluray_playlist.title = 0;
+	uint32_t bluray_playlist_title[1000] = {1000};
 
 	struct bluray_video bluray_video;
 	memset(bluray_video.codec, '\0', sizeof(bluray_video.codec));
@@ -544,6 +535,7 @@ int main(int argc, char **argv) {
 		bluray_title.ix = ix;
 		bluray_title.number = bluray_title.ix + 1;
 		bluray_title.playlist = bd_title->playlist;
+		bluray_playlist_title[bluray_title.playlist] = bluray_title.ix;
 		bluray_title.duration = bd_title->duration;
 		bluray_title.seconds = bluray_duration_seconds(bluray_title.duration);
 		bluray_title.minutes = bluray_duration_minutes(bluray_title.duration);
@@ -793,6 +785,10 @@ int main(int argc, char **argv) {
 
 	if(p_bluray_info && !d_title_number && !d_main_title && d_num_titles != 1 && d_quiet == false)
 		printf("Main title: %i\n", bluray_info.main_title + 1);
+
+	if(p_bluray_info) {
+
+	}
 
 	bd_free_title_info(bd_title);
 	bd_title = NULL;
