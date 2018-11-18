@@ -376,7 +376,7 @@ int main(int argc, char **argv) {
 	// starts at 1. Playlists start at 0, because they are indexed as such on the
 	// filesystem.
 
-	bluray_info.relevant_titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
+	bluray_info.relevant_titles = bd_get_titles(bd, TITLES_ALL, 0);
 	d_num_titles = (uint32_t)bluray_info.relevant_titles;
 
 	// Select track passed as an argument
