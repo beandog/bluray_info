@@ -7,6 +7,7 @@
 #include <inttypes.h>
 #include <getopt.h>
 #include "libbluray/bluray.h"
+#include "libbluray/meta_data.h"
 #include "bluray_info.h"
 #include "bluray_device.h"
 #include "bluray_audio.h"
@@ -17,6 +18,7 @@
 struct bluray_info {
 	char bluray_id[BLURAY_ID + 1];
 	char bluray_title[BLURAY_TITLE + 1];
+	char disc_name[BLURAY_DISC_NAME + 1];
 	uint32_t titles;
 	uint32_t relevant_titles;
 	uint32_t bdinfo_titles;
@@ -335,6 +337,7 @@ int main(int argc, char **argv) {
 	struct bluray_info bluray_info;
 	memset(bluray_info.bluray_id, '\0', sizeof(bluray_info.bluray_id));
 	memset(bluray_info.bluray_title, '\0', sizeof(bluray_info.bluray_title));
+	memset(bluray_info.disc_name, '\0', sizeof(bluray_info.disc_name));
 	bluray_info.titles = 0;
 	bluray_info.relevant_titles = 0;
 	bluray_info.bdinfo_titles = 0;
@@ -344,6 +347,9 @@ int main(int argc, char **argv) {
 	bluray_info.longest_title = 0;
 	bluray_info.main_title = 1;
 
+	const struct meta_dl *bluray_meta = NULL;
+	bluray_meta = bd_get_meta(bd);
+
 	if(bd_info->udf_volume_id)
 		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_TITLE + 1);
 
@@ -351,6 +357,9 @@ int main(int argc, char **argv) {
 		printf("%s\n", bluray_info.bluray_title);
 		return 0;
 	}
+
+	if(bluray_meta != NULL)
+		strncpy(bluray_info.disc_name, bluray_meta->di_name, BLURAY_DISC_NAME + 1);
 
 	if(bd_info->libaacs_detected) {
 		for(ix = 0; ix < 20; ix++) {
@@ -439,8 +448,8 @@ int main(int argc, char **argv) {
 		d_num_titles = 1;
 	}
 
-	if(p_bluray_info && bd_info->udf_volume_id && d_quiet == false)
-		printf("Disc title: %s\n", bluray_info.bluray_title);
+	if(p_bluray_info && d_quiet == false)
+		printf("Disc title: %s\n", bluray_info.disc_name);
 
 	if(p_bluray_json) {
 
@@ -467,8 +476,9 @@ int main(int argc, char **argv) {
 
 		printf("{\n");
 		printf(" \"bluray\": {\n");
-		printf("  \"disc title\": \"%s\",\n", bluray_info.bluray_title);
+		printf("  \"disc title\": \"%s\",\n", bluray_info.disc_name);
 		printf("  \"disc id\": \"%s\",\n", bluray_info.bluray_id);
+		printf("  \"udf title\": \"%s\",\n", bluray_info.bluray_title);
 		printf("  \"first play supported\": %s,\n", bd_info->first_play_supported ? "true" : "false");
 		printf("  \"top menu supported\": %s,\n", bd_info->first_play_supported ? "true" : "false");
 		printf("  \"provider data\": \"%s\",\n", bd_info->provider_data);
