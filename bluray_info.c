@@ -779,7 +779,7 @@ int main(int argc, char **argv) {
 					printf("    {\n");
 					printf("     \"chapter\": %lu,\n", chapter_ix + 1);
 					printf("     \"start time\": \"%s\",\n", bluray_chapter.start_time);
-					printf("     \"start\": %lu\n", bluray_chapter.start / 900);
+					printf("     \"start\": %lu,\n", bluray_chapter.start / 900);
 					printf("     \"length\": \"%s\",\n", bluray_chapter.length);
 					printf("     \"duration\": %lu\n", bd_chapter->duration / 900);
 					if(chapter_ix + 1 < bluray_title.chapters)
