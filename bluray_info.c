@@ -90,6 +90,7 @@ int main(int argc, char **argv) {
 	bool p_bluray_info = true;
 	bool p_bluray_json = false;
 	bool p_bluray_id = false;
+	bool p_bluray_disc_name = false;
 	bool p_bluray_udf = false;
 	bool p_bluray_ogm = false;
 	bool d_title_number = false;
@@ -112,7 +113,7 @@ int main(int argc, char **argv) {
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "acdghijk:mp:qst:uvxAHSE:M:V";
+	const char p_short_opts[] = "acdghijk:mnp:qst:uvxAHSE:M:V";
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
@@ -123,6 +124,7 @@ int main(int argc, char **argv) {
 		{ "json", no_argument, NULL, 'j' },
 		{ "keydb", required_argument, NULL, 'k' },
 		{ "main", no_argument, NULL, 'm' },
+		{ "name", no_argument, NULL, 'n' },
 		{ "ogm", no_argument, NULL, 'g' },
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "quiet", no_argument, NULL, 'q' },
@@ -192,6 +194,11 @@ int main(int argc, char **argv) {
 
 			case 'M':
 				d_min_minutes = (unsigned int)strtoumax(optarg, NULL, 0);
+				break;
+
+			case 'n':
+				p_bluray_info = false;
+				p_bluray_disc_name = true;
 				break;
 
 			case 'p':
@@ -273,6 +280,7 @@ int main(int argc, char **argv) {
 				printf("Limited information:\n");
 				printf("  -i, --id		   Display ID only\n");
 				printf("  -g, --ogm		   Display OGM chapter format for title (default: main title)\n");
+				printf("  -n, --name		   Display disc name only\n");
 				printf("  -u, --volname		   Display UDF volume name only (path must be device or filename)\n");
 				printf("  -q, --quiet		   Do not display disc title header and main title footer\n");
 				printf("\n");
@@ -350,16 +358,21 @@ int main(int argc, char **argv) {
 	const struct meta_dl *bluray_meta = NULL;
 	bluray_meta = bd_get_meta(bd);
 
+	if(bluray_meta != NULL)
+		strncpy(bluray_info.disc_name, bluray_meta->di_name, BLURAY_DISC_NAME + 1);
+
 	if(bd_info->udf_volume_id)
 		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_TITLE + 1);
+
+	if(p_bluray_disc_name) {
+		printf("%s\n", bluray_info.disc_name);
+		return 0;
+	}
 
 	if(p_bluray_udf) {
 		printf("%s\n", bluray_info.bluray_title);
 		return 0;
 	}
-
-	if(bluray_meta != NULL)
-		strncpy(bluray_info.disc_name, bluray_meta->di_name, BLURAY_DISC_NAME + 1);
 
 	if(bd_info->libaacs_detected) {
 		for(ix = 0; ix < 20; ix++) {
