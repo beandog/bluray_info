@@ -11,6 +11,9 @@ subtitle track
 - Display chapter start times
 - Can output chapters in OGM format for muxing into MKV
 - Add quiet mode to strip header and footers
+- Add option to display duplicate titles
+- Add option to display disc name only
+- Set disc title from Blu-ray disc metadata instead of UDF volume name
 
 1.4
 
