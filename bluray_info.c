@@ -274,7 +274,7 @@ int main(int argc, char **argv) {
 				printf("  -i, --id		   Display ID only\n");
 				printf("  -g, --ogm		   Display OGM chapter format for title (default: main title)\n");
 				printf("  -u, --volname		   Display UDF volume name only (path must be device or filename)\n");
-				printf("  -q, --quiet		   Do not display disc title name and main title number\n");
+				printf("  -q, --quiet		   Do not display disc title header and main title footer\n");
 				printf("\n");
 				printf("Other:\n");
 				printf("  -d, --duplicate	   Include duplicate titles and clips\n");
