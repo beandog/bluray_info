@@ -528,9 +528,6 @@ int main(int argc, char **argv) {
 	bluray_title.pg_streams = 0;
 	snprintf(bluray_title.length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
 
-	uint32_t bluray_playlist_title[1000];
-	for(uint32_t playlist = 0; playlist < 1000; playlist++)
-		bluray_playlist_title[playlist] = 1000;
 	uint32_t bluray_highest_playlist = 0;
 
 	struct bluray_video bluray_video;
@@ -590,7 +587,6 @@ int main(int argc, char **argv) {
 			bluray_title.pg_streams = 0;
 		}
 
-		bluray_playlist_title[bluray_title.playlist] = bluray_title.ix;
 		bluray_highest_playlist = ((bluray_title.playlist > bluray_highest_playlist) ? bluray_title.playlist : bluray_highest_playlist);
 
 		if(p_bluray_info) {
