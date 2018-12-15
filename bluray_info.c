@@ -820,10 +820,6 @@ int main(int argc, char **argv) {
 	if(p_bluray_info && !d_title_number && !d_main_title && d_num_titles != 1 && d_quiet == false)
 		printf("Main title: %i\n", bluray_info.main_title + 1);
 
-	if(p_bluray_info) {
-
-	}
-
 	bd_free_title_info(bd_title);
 	bd_title = NULL;
 
