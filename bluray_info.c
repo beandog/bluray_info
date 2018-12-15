@@ -813,23 +813,6 @@ int main(int argc, char **argv) {
 	}
 
 	if(p_bluray_json) {
-		/*
-		printf(" ],\n");
-		printf(" \"playlists\": [\n");
-
-		for(uint32_t x = 0; x < bluray_highest_playlist; x++) {
-
-			if(bluray_playlist_title[x] == 1000)
-				continue;
-
-			if(x > bluray_highest_playlist)
-				break;
-
-			printf("  { \"playlist\": %u, \"title\" %u },\n", x, bluray_playlist_title[x]);
-
-		}
-		*/
-
 		printf(" ]\n");
 		printf("}\n");
 	}
