@@ -528,9 +528,6 @@ int main(int argc, char **argv) {
 	bluray_title.pg_streams = 0;
 	snprintf(bluray_title.length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
 
-	uint32_t bluray_playlist_title[1000];
-	for(uint32_t playlist = 0; playlist < 1000; playlist++)
-		bluray_playlist_title[playlist] = 1000;
 	uint32_t bluray_highest_playlist = 0;
 
 	struct bluray_video bluray_video;
@@ -590,7 +587,6 @@ int main(int argc, char **argv) {
 			bluray_title.pg_streams = 0;
 		}
 
-		bluray_playlist_title[bluray_title.playlist] = bluray_title.ix;
 		bluray_highest_playlist = ((bluray_title.playlist > bluray_highest_playlist) ? bluray_title.playlist : bluray_highest_playlist);
 
 		if(p_bluray_info) {
@@ -600,7 +596,7 @@ int main(int argc, char **argv) {
 				continue;
 			}
 
-			printf("Title: %03u, Playlist: %03u, Length: %s, Chapters: %03u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MB\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
+			printf("Title: %03u, Playlist: %04u, Length: %s, Chapters: %03u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MB\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
 
 		}
 
@@ -817,33 +813,12 @@ int main(int argc, char **argv) {
 	}
 
 	if(p_bluray_json) {
-		/*
-		printf(" ],\n");
-		printf(" \"playlists\": [\n");
-
-		for(uint32_t x = 0; x < bluray_highest_playlist; x++) {
-
-			if(bluray_playlist_title[x] == 1000)
-				continue;
-
-			if(x > bluray_highest_playlist)
-				break;
-
-			printf("  { \"playlist\": %u, \"title\" %u },\n", x, bluray_playlist_title[x]);
-
-		}
-		*/
-
 		printf(" ]\n");
 		printf("}\n");
 	}
 
 	if(p_bluray_info && !d_title_number && !d_main_title && d_num_titles != 1 && d_quiet == false)
 		printf("Main title: %i\n", bluray_info.main_title + 1);
-
-	if(p_bluray_info) {
-
-	}
 
 	bd_free_title_info(bd_title);
 	bd_title = NULL;
