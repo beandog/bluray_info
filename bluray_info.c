@@ -786,7 +786,7 @@ int main(int argc, char **argv) {
 
 				if(p_bluray_xchap && ix == d_first_ix) {
 					printf("CHAPTER%03lu=%s\n", chapter_ix + 1, bluray_chapter.start_time);
-					printf("CHAPTER%03luNAME=Chapter %03lu\n", chapter_ix + 1, chapter_ix + 2);
+					printf("CHAPTER%03luNAME=Chapter %03lu\n", chapter_ix + 1, chapter_ix + 1);
 				}
 
 				chapter_start += bluray_chapter.duration;
