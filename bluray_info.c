@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
 	bool p_bluray_id = false;
 	bool p_bluray_disc_name = false;
 	bool p_bluray_udf = false;
-	bool p_bluray_ogm = false;
+	bool p_bluray_xchap = false;
 	bool d_title_number = false;
 	uint32_t a_title_number = 0;
 	bool d_playlist_number = false;
@@ -125,7 +125,7 @@ int main(int argc, char **argv) {
 		{ "keydb", required_argument, NULL, 'k' },
 		{ "main", no_argument, NULL, 'm' },
 		{ "name", no_argument, NULL, 'n' },
-		{ "ogm", no_argument, NULL, 'g' },
+		{ "xchap", no_argument, NULL, 'g' },
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "quiet", no_argument, NULL, 'q' },
 		{ "subtitles", no_argument, NULL, 's' },
@@ -166,7 +166,7 @@ int main(int argc, char **argv) {
 
 			case 'g':
 				p_bluray_info = false;
-				p_bluray_ogm = true;
+				p_bluray_xchap = true;
 				break;
 
 			case 'H':
@@ -279,7 +279,7 @@ int main(int argc, char **argv) {
 				printf("\n");
 				printf("Limited information:\n");
 				printf("  -i, --id		   Display ID only\n");
-				printf("  -g, --ogm		   Display OGM chapter format for title (default: main title)\n");
+				printf("  -g, --xchap		   Display title chapters in export format for ogmerge or mkvmerge\n");
 				printf("  -n, --name		   Display disc name only\n");
 				printf("  -u, --volname		   Display UDF volume name only (path must be device or filename)\n");
 				printf("  -q, --quiet		   Do not display disc title header and main title footer\n");
@@ -452,7 +452,7 @@ int main(int argc, char **argv) {
 		d_num_titles = 1;
 	}
 
-	if(p_bluray_ogm) {
+	if(p_bluray_xchap) {
 		if(d_title_number)
 			d_first_ix = a_title_number - 1;
 		 else
@@ -750,7 +750,7 @@ int main(int argc, char **argv) {
 		}
 
 		// Blu-ray chapters
-		if((p_bluray_info && d_chapters) || p_bluray_json || p_bluray_ogm) {
+		if((p_bluray_info && d_chapters) || p_bluray_json || p_bluray_xchap) {
 
 			if(p_bluray_json)
 				printf("   \"chapters\": [\n");
@@ -784,7 +784,7 @@ int main(int argc, char **argv) {
 						printf("    }\n");
 				}
 
-				if(p_bluray_ogm && ix == d_first_ix) {
+				if(p_bluray_xchap && ix == d_first_ix) {
 					printf("CHAPTER%03lu=%s\n", chapter_ix + 1, bluray_chapter.start_time);
 					printf("CHAPTER%03luNAME=Chapter %03lu\n", chapter_ix + 1, chapter_ix + 2);
 				}
