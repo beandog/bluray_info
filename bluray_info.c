@@ -136,7 +136,7 @@ int main(int argc, char **argv) {
 		{ "minutes", required_argument, NULL, 'M' },
 		{ "seconds", required_argument, NULL, 'E' },
 		{ "has-audio", no_argument, NULL, 'A' },
-		{ "has-subs", no_argument, NULL, 'S' },
+		{ "has-subtitles", no_argument, NULL, 'S' },
 		{ "version", no_argument, NULL, 'V' },
 		{ 0, 0, 0, 0 }
 	};
