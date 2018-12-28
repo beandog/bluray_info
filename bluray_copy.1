@@ -1,0 +1,86 @@
+.TH BLURAY_COPY 1 "2018-12-27" "1.5" "Blu-ray utilities"
+.SH NAME
+bluray_copy \- copy a Blu-ray title or playlist to a file
+.SH SYNOPSIS
+.B bluray_copy
+[\fIpath\fR] [\fIoptions\fR]
+.SH DESCRIPTION
+.B bluray_copy
+copies a title or playlist to an MPEG2-TS file or stdout.
+.TP
+Input path can be a device, a filename, or directory.
+.SH OPTIONS
+.TP
+.BR \-m ", " \-\-main
+Select main title to copy. This is not necessarily the longest title or the one that is the main feature.
+.TP
+.BI \-t\  number \fR,\ \ft\-\-title\  number
+Copy the selected title.
+.TP
+.BI \-p\  number \fR,\ \ft\-\-playlist\  number
+Copy the selected playlist.
+.TP
+.BI \-c\  start[-finish] \fR,\ \ft\-\-chapters\  start[-finish]
+Copy the selected chapter or chapters range.
+.TP
+.BI \-o\  filename \fR,\ \ft\-\-output\  filename
+Copy to output filename. For stdout, use
+.I -
+.TP
+.BI \-a\  number \fR,\ \ft\-\-angle\  number
+Specify the video angle.
+.TP
+.BI \-k\  filename \fR,\ \fB\-\-keydb\  filename
+Specify location of KEYDB.cfg file if disc has AACS DRM. libaacs uses ~/.config/aacs/KEYDB.cfg by default.
+.SH NOTES
+.TP
+The output file is an MPEG-2 transport stream container. Commonly used extensions are .m2ts and .mpegts.
+.SH EXAMPLES
+.TP
+Copy the main title from the default optical drive:
+.TP
+$ bluray_copy
+.TP
+Specify a playlist number and save it to bluray_playlist_00016.m2ts:
+.TP
+$ bluray_copy -p 16
+.TP
+Copy the same playlist, but only the first chapter:
+.TP
+$ bluray_copy -p 16 -c 1
+.TP
+Copy the first title track's second through fourth chapters:
+.TP
+$ bluray_copy -t 1 -c 1-4 -o bluray.m2ts
+.TP
+Use a mirrored Blu-ray in a directory as a source:
+.TP
+$ bluray_copy ~/Videos/Favorite-Blu-ray/ -o bluray.m2ts
+.TP
+Use ffmpeg to see what is in the main title:
+.TP
+$ bluray_copy -m -o - | ffprobe -
+.TP
+Use ffmpeg to remux the title directly into a Matroska file:
+.TP
+$ bluray_copy -m -o - | ffmpeg -i - -codec copy bluray_copy.mkv
+.SH DEFAULTS
+.TP
+Copies all chapters of main title from first optical drive to bluray_title_####.m2ts file.
+.TP
+Video angle is the first one.
+.TP
+Looks for KEYDB.cfg file in ~/.config/aacs/KEYDB.cfg
+.TP
+Input path is the Blu-ray drive based on the operating system: Linux /dev/sr0, DragonFly BSD and FreeBSD /dev/cd0, NetBSD /dev/cd0d, OpenBSD /dev/rcd0c, Mac /dev/disk1.
+.SH BUGS
+.B bluray_copy
+assumes that everything will copy as expected, and does not work around errors reading from the disc or problems with AACS. Will be fixed in future versions.
+.SH LICENSE
+.B bluray_copy
+is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; version 2 of the License.
+.SH AUTHORS
+.B bluray_copy
+was written by Steve Dibb <steve.dibb@gmail.com>
+.SH "SEE ALSO"
+.BR bluray_info (1)
