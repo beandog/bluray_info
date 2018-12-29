@@ -5,7 +5,10 @@
 #include <stdint.h>
 #include <string.h>
 #include <stdbool.h>
+
+#ifdef __GLIBC__
 #include <mntent.h>
+#endif
 
 #if defined (__linux__)
 #define DEFAULT_BLURAY_DEVICE "/dev/sr0"

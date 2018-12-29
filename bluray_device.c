@@ -6,6 +6,8 @@ bool bluray_optical_drive(const char *device_filename) {
 	if(strncmp(device_filename, "/dev/", 5) == 0)
 		return true;
 
+#ifdef __GLIBC__
+
 	FILE *mtab = setmntent("/proc/mounts", "r");
 
 	if(mtab == NULL)
@@ -22,6 +24,7 @@ bool bluray_optical_drive(const char *device_filename) {
 
 	}
 
+#endif
 	return false;
 
 }
