@@ -8,12 +8,11 @@
 #include <getopt.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#include "config.h"
 #include "libbluray/bluray.h"
 #include "bluray_device.h"
 #include "bluray_info.h"
 #include "bluray_time.h"
-
-#define BLURAY_COPY_VERSION BLURAY_INFO_VERSION
 
 /**
  * For reference:
@@ -186,7 +185,7 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'V':
-				printf("bluray_copy %s - http://dvds.beandog.org/ - (c) 2018 Steve Dibb <steve.dibb@gmail.com>, licensed under GPL-2\n", BLURAY_INFO_VERSION);
+				printf("bluray_copy %s\n", PACKAGE_VERSION);
 				return 0;
 
 			case 'z':
@@ -196,7 +195,7 @@ int main(int argc, char **argv) {
 			case '?':
 				invalid_opt = true;
 			case 'h':
-				printf("bluray_copy %s - copy a Blu-ray title or playlist to a file\n", BLURAY_COPY_VERSION);
+				printf("bluray_copy - copy a Blu-ray title or playlist to a file\n");
 				printf("\n");
 				printf("Usage: bluray_copy [path] [options]\n");
 				printf("\n");
