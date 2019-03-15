@@ -6,6 +6,7 @@
 #include <stdbool.h>
 #include <inttypes.h>
 #include <getopt.h>
+#include "config.h"
 #include "libbluray/bluray.h"
 #include "libbluray/meta_data.h"
 #include "bluray_info.h"
@@ -233,7 +234,7 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'V':
-				printf("bluray_info %s - (c) 2018 Steve Dibb <steve.dibb@gmail.com>, licensed under GPL-2\n", BLURAY_INFO_VERSION);
+				printf("%s\n", PACKAGE_STRING);
 				return 0;
 
 			case 'v':
@@ -250,7 +251,7 @@ int main(int argc, char **argv) {
 			case '?':
 				invalid_opt = true;
 			case 'h':
-				printf("bluray_info %s - display information about a Blu-ray disc\n", BLURAY_INFO_VERSION);
+				printf("bluray_info - display information about a Blu-ray disc\n");
 				printf("\n");
 				printf("Usage: bluray_info [path] [options]\n");
 				printf("\n");
