@@ -446,8 +446,8 @@ int main(int argc, char **argv) {
 
 	int64_t bd_bytes_read = 0;
 
-	ssize_t bytes_written = 0;
-	ssize_t total_bytes_written = 0;
+	int64_t bytes_written = 0;
+	int64_t total_bytes_written = 0;
 
 	BLURAY_TITLE_CHAPTER *bd_chapter = NULL;
 
@@ -538,7 +538,7 @@ int main(int argc, char **argv) {
 
 			if(p_bluray_copy) {
 				if(bytes_written != bd_bytes_read) {
-					fprintf(stderr, "Read %zu bytes, but only wrote %zu ... out of disk space? Quitting.", bd_bytes_read, bytes_written);
+					fprintf(stderr, "Read %ld bytes, but only wrote %ld ... out of disk space? Quitting.", bd_bytes_read, bytes_written);
 					copy_success = false;
 					retval = -1;
 					break;
