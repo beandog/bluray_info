@@ -484,7 +484,7 @@ int main(int argc, char **argv) {
 		else
 			chapter_stop_pos[ix] = bd_chapter_pos(bd, ix + 1);
 		if(debug && p_bluray_copy)
-			printf("Chapter %02i: %015ld - %015ld = %015ld, Filesize: %lu MBs\n", ix + 1, chapter_start_pos[ix], chapter_stop_pos[ix], chapter_stop_pos[ix] - chapter_start_pos[ix], (chapter_stop_pos[ix] - chapter_start_pos[ix]) / 1024 / 1024);
+			printf("Chapter %02i: %015ld - %015ld = %015ld, Filesize: %lu MBs\n", ix + 1, chapter_start_pos[ix], chapter_stop_pos[ix], chapter_stop_pos[ix] - chapter_start_pos[ix], (chapter_stop_pos[ix] - chapter_start_pos[ix]) / 1048576);
 	}
 
 	// Fix chapter size for first
@@ -545,7 +545,7 @@ int main(int argc, char **argv) {
 			total_bytes_written += bytes_written;
 
 			if(!quiet) {
-				fprintf(p_bluray_cat ? stderr : stdout, "Progress: %lu%% - %lu/%lu MBs\r", total_bytes_written * 100 / (ssize_t)total_bytes, total_bytes_written / 1024 / 1024, ((chapter_stop_pos[stop_chapter] - chapter_start_pos[start_chapter]) / 1024 / 1024));
+				fprintf(p_bluray_cat ? stderr : stdout, "Progress: %lu%% - %lu/%lu MBs\r", total_bytes_written * 100 / (ssize_t)total_bytes, total_bytes_written / 1048576, ((chapter_stop_pos[stop_chapter] - chapter_start_pos[start_chapter]) / 1048576));
 				fflush(p_bluray_cat ? stderr : stdout);
 			}
 
