@@ -46,7 +46,7 @@ struct bluray_copy {
 	char *filename;
 	bool optical_drive;
 	unsigned char *buffer;
-	uint64_t buffer_size;
+	int32_t buffer_size;
 	int fd;
 };
 
@@ -454,7 +454,7 @@ int main(int argc, char **argv) {
 	bluray_copy.buffer_size = BLURAY_COPY_BUFFER_SIZE;
 
 	if(debug)
-		printf("Buffer size: %lu\n", bluray_copy.buffer_size);
+		printf("Buffer size: %d\n", bluray_copy.buffer_size);
 
 	bluray_copy.buffer = calloc(bluray_copy.buffer_size, sizeof(unsigned char));
 
@@ -522,19 +522,19 @@ int main(int argc, char **argv) {
 
 			bluray_copy.buffer_size = BLURAY_COPY_BUFFER_SIZE;
 
-			if(bluray_copy.buffer_size > (uint64_t)(stop_pos - seek_pos)) {
-				bluray_copy.buffer_size = (uint64_t)(stop_pos - seek_pos);
+			if(bluray_copy.buffer_size > (int32_t)(stop_pos - seek_pos)) {
+				bluray_copy.buffer_size = (int32_t)(stop_pos - seek_pos);
 			}
 
 			// bd_read will read from the start of the title, not from
 			// the seek position, meaning that the final filesize will
 			// be larger than the total of end seek position minus
 			// begin seek position (with the extra data at the front).
-			bd_bytes_read = bd_read(bd, bluray_copy.buffer, (int32_t)bluray_copy.buffer_size);
+			bd_bytes_read = bd_read(bd, bluray_copy.buffer, bluray_copy.buffer_size);
 			if(bd_bytes_read < 0 || bd_bytes_read == EOF)
 				break;
 
-			bytes_written = write(bluray_copy.fd, bluray_copy.buffer, (unsigned long)bluray_copy.buffer_size);
+			bytes_written = write(bluray_copy.fd, bluray_copy.buffer, bluray_copy.buffer_size);
 
 			if(p_bluray_copy) {
 				if(bytes_written != bd_bytes_read) {
