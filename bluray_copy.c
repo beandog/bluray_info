@@ -534,7 +534,7 @@ int main(int argc, char **argv) {
 			if(bd_bytes_read < 0 || bd_bytes_read == EOF)
 				break;
 
-			bytes_written = write(bluray_copy.fd, bluray_copy.buffer, bluray_copy.buffer_size);
+			bytes_written = (int64_t)write(bluray_copy.fd, bluray_copy.buffer, bluray_copy.buffer_size);
 
 			if(p_bluray_copy) {
 				if(bytes_written != bd_bytes_read) {
