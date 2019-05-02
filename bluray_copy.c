@@ -480,12 +480,15 @@ int main(int argc, char **argv) {
 	for(ix = 0; ix < bluray_title.chapters; ix++) {
 		chapter_start_pos[ix] = bd_chapter_pos(bd, ix);
 		if(ix + 1 == bluray_title.chapters)
-			chapter_stop_pos[ix] = (int64_t)bluray_title.size - chapter_start_pos[0];
+			chapter_stop_pos[ix] = bluray_title.size;
 		else
 			chapter_stop_pos[ix] = bd_chapter_pos(bd, ix + 1);
 		if(debug && p_bluray_copy)
 			printf("Chapter %02i: %015ld - %015ld = %015ld, Filesize: %lu MBs\n", ix, chapter_start_pos[ix], chapter_stop_pos[ix], chapter_stop_pos[ix] - chapter_start_pos[ix], (chapter_stop_pos[ix] - chapter_start_pos[ix]) / 1024 / 1024);
 	}
+
+	// Fix chapter size for first
+	chapter_start_pos[0] = 0;
 
 	int64_t total_bytes = chapter_stop_pos[stop_chapter] - chapter_start_pos[start_chapter];
 	if(debug && p_bluray_copy)
