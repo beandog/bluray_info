@@ -503,9 +503,6 @@ int main(int argc, char **argv) {
 	// Chapters are zero-indexed on Blu-rays
 	for(ix = start_chapter; ix < stop_chapter + 1; ix++) {
 
-		if(total_bytes == total_bytes_written)
-			break;
-
 		if(!copy_success)
 			break;
 
@@ -519,9 +516,6 @@ int main(int argc, char **argv) {
 		stop_pos = chapter_stop_pos[ix];
 
 		while(seek_pos < stop_pos && copy_success == true) {
-
-			if(total_bytes == total_bytes_written)
-				break;
 
 			bluray_copy.buffer_size = BLURAY_COPY_BUFFER_SIZE;
 
@@ -554,9 +548,6 @@ int main(int argc, char **argv) {
 				fprintf(p_bluray_cat ? stderr : stdout, "Progress: %lu%% - %lu/%lu MBs\r", total_bytes_written * 100 / (ssize_t)total_bytes, total_bytes_written / 1024 / 1024, ((chapter_stop_pos[stop_chapter] - chapter_start_pos[start_chapter]) / 1024 / 1024));
 				fflush(p_bluray_cat ? stderr : stdout);
 			}
-
-			if(total_bytes == total_bytes_written)
-				break;
 
 			seek_pos = (int64_t)bd_tell(bd);
 
