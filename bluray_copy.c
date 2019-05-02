@@ -484,12 +484,12 @@ int main(int argc, char **argv) {
 		else
 			chapter_stop_pos[ix] = bd_chapter_pos(bd, ix + 1);
 		if(debug && p_bluray_copy)
-			printf("Chapter %02i: %015lo - %015lo = %015lo, Filesize: %lu MBs\n", ix, chapter_start_pos[ix], chapter_stop_pos[ix], chapter_stop_pos[ix] - chapter_start_pos[ix], (chapter_stop_pos[ix] - chapter_start_pos[ix]) / 1024 / 1024);
+			printf("Chapter %02i: %015ld - %015ld = %015ld, Filesize: %lu MBs\n", ix, chapter_start_pos[ix], chapter_stop_pos[ix], chapter_stop_pos[ix] - chapter_start_pos[ix], (chapter_stop_pos[ix] - chapter_start_pos[ix]) / 1024 / 1024);
 	}
 
 	int64_t total_bytes = chapter_stop_pos[stop_chapter] - chapter_start_pos[start_chapter];
 	if(debug && p_bluray_copy)
-		printf("Copy total bytes: %lo\n", total_bytes);
+		printf("Copy total bytes: %ld\n", total_bytes);
 
 	bool copy_success = true;
 
