@@ -73,7 +73,6 @@ int main(int argc, char **argv) {
 	bool opt_chapter_number = false;
 	bool opt_chapter_start = false;
 	bool opt_chapter_end = false;
-	bool opt_chapter_range = false;
 	bool invalid_opt = false;
 	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
@@ -147,7 +146,6 @@ int main(int argc, char **argv) {
 					opt_chapter_number = true;
 					opt_chapter_start = true;
 					opt_chapter_end = false;
-					opt_chapter_range = false;
 					arg_first_chapter = (uint8_t)strtoumax(optarg, NULL, 0);
 					break;
 				}
@@ -157,7 +155,6 @@ int main(int argc, char **argv) {
 					opt_chapter_number = true;
 					opt_chapter_start = false;
 					opt_chapter_end = true;
-					opt_chapter_range = true;
 					token = strtok(optarg, "-");
 					arg_last_chapter = (uint8_t)strtoumax(token, NULL, 0);
 					break;
@@ -174,7 +171,6 @@ int main(int argc, char **argv) {
 				// passed -c <chapter-number>-<chapter-number>
 				if(token != NULL) {
 					opt_chapter_end = true;
-					opt_chapter_range = true;
 					arg_last_chapter = (uint8_t)strtoumax(token, NULL, 0);
 					break;
 				}
@@ -182,7 +178,6 @@ int main(int argc, char **argv) {
 				// at this point, only passed -c <chapter-number>- which is
 				// handled the same as -c <chapter-number>
 				opt_chapter_end = false;
-				opt_chapter_range = false;
 
 				break;
 
