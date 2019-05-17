@@ -279,7 +279,7 @@ int main(int argc, char **argv) {
 	const char *device_filename = NULL;
 
 	if(argv[optind]) {
-		device_filename = realpath(argv[optind], NULL);
+		device_filename = argv[optind];
 	} else {
 		device_filename = DEFAULT_BLURAY_DEVICE;
 	}
