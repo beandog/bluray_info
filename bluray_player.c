@@ -9,6 +9,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <limits.h>
+#if defined (__linux__)
+#include <linux/limits.h>
+#endif
 #include <libbluray/bluray.h>
 #include "bluray_device.h"
 #include "bluray_info.h"
