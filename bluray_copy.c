@@ -32,7 +32,6 @@ struct bluray_info {
 
 struct bluray_copy {
 	char *filename;
-	bool optical_drive;
 	int fd;
 	int64_t size;
 	double size_mbs;
@@ -76,7 +75,6 @@ int main(int argc, char **argv) {
 	bool p_bluray_cat = false;
 	struct bluray_copy bluray_copy;
 	bluray_copy.filename = NULL;
-	bluray_copy.optical_drive = false;
 	bluray_copy.fd = -1;
 
 	// Parse options and arguments
@@ -225,15 +223,10 @@ int main(int argc, char **argv) {
 	const char *device_filename = NULL;
 
 	if(argv[optind]) {
-		device_filename = realpath(argv[optind], NULL);
-		bluray_copy.optical_drive = bluray_optical_drive(device_filename);
+		device_filename = argv[optind];
 	} else {
 		device_filename = DEFAULT_BLURAY_DEVICE;
-		bluray_copy.optical_drive = true;
 	}
-
-	if(debug)
-		printf("Optical drive: %s\n", bluray_copy.optical_drive ? "yes" : "no");
 
 	// Open device
 	BLURAY *bd = NULL;

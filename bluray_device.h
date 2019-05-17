@@ -6,10 +6,6 @@
 #include <string.h>
 #include <stdbool.h>
 
-#ifdef __GLIBC__
-#include <mntent.h>
-#endif
-
 #if defined (__linux__)
 #define DEFAULT_BLURAY_DEVICE "/dev/sr0"
 #elif defined (__DragonFly__)
@@ -25,7 +21,5 @@
 #else
 #define DEFAULT_BLURAY_DEVICE "/dev/sr0"
 #endif
-
-bool bluray_optical_drive(const char *device_filename);
 
 #endif
