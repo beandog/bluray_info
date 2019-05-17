@@ -83,7 +83,6 @@ int main(int argc, char **argv) {
 	uint64_t chapter_start = 0;
 	uint32_t d_num_titles = 0;
 	uint32_t d_first_ix = 0;
-	uint32_t d_first_title = d_first_ix + 1;
 	uint32_t d_title_counter = 0;
 	int retval = 0;
 
@@ -430,7 +429,6 @@ int main(int argc, char **argv) {
 			return 1;
 		}
 		d_first_ix = a_title_number - 1;
-		d_first_title = d_first_ix + 1;
 		d_num_titles = 1;
 	}
 
@@ -441,7 +439,6 @@ int main(int argc, char **argv) {
 			return 1;
 		}
 		d_first_ix = bd_get_current_title(bd);
-		d_first_title = d_first_ix + 1;
 		d_num_titles = 1;
 	}
 
@@ -449,7 +446,6 @@ int main(int argc, char **argv) {
 
 	if(d_main_title) {
 		d_first_ix = (uint32_t)bluray_info.main_title;
-		d_first_title = d_first_ix + 1;
 		d_num_titles = 1;
 	}
 
@@ -458,7 +454,6 @@ int main(int argc, char **argv) {
 			d_first_ix = a_title_number - 1;
 		 else
 			d_first_ix = (uint32_t)bluray_info.main_title;
-		d_first_title = d_first_ix + 1;
 		d_num_titles = 1;
 	}
 
