@@ -81,7 +81,6 @@ int main(int argc, char **argv) {
 	uint32_t arg_first_chapter = 0;
 	uint32_t arg_last_chapter = 0;
 	const char *key_db_filename = NULL;
-	const char *subtitles_filename = NULL;
 	const char *home_dir = getenv("HOME");
 
 	struct bluray_player bluray_player;
@@ -112,7 +111,7 @@ int main(int argc, char **argv) {
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "a:c:dfhk:l:mp:S:s:t:qVz";
+	const char p_short_opts[] = "a:c:dfhk:l:mp:s:t:qVz";
 	struct option p_long_opts[] = {
 		{ "chapters", required_argument, NULL, 'c' },
 		{ "deinterlace", no_argument, NULL, 'd' },
@@ -210,10 +209,6 @@ int main(int argc, char **argv) {
 			case 't':
 				opt_title_number = true;
 				arg_title_number = (unsigned int)strtoumax(optarg, NULL, 0);
-				break;
-
-			case 'S':
-				subtitles_filename = optarg;
 				break;
 
 			case 's':
