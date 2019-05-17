@@ -33,8 +33,6 @@ struct bluray_info {
 struct bluray_copy {
 	char *filename;
 	bool optical_drive;
-	unsigned char *buffer;
-	uint64_t buffer_size;
 	int fd;
 	int64_t size;
 	double size_mbs;
@@ -79,8 +77,6 @@ int main(int argc, char **argv) {
 	struct bluray_copy bluray_copy;
 	bluray_copy.filename = NULL;
 	bluray_copy.optical_drive = false;
-	bluray_copy.buffer = NULL;
-	bluray_copy.buffer_size = BLURAY_COPY_BUFFER_SIZE;
 	bluray_copy.fd = -1;
 
 	// Parse options and arguments
@@ -431,16 +427,6 @@ int main(int argc, char **argv) {
 		bluray_copy.fd = 1;
 	}
 
-	if(debug)
-		printf("Buffer size: %lu\n", bluray_copy.buffer_size);
-
-	bluray_copy.buffer = calloc(bluray_copy.buffer_size, 1);
-
-	if(bluray_copy.buffer == NULL) {
-		fprintf(stderr, "Couldn't allocate memory for copy buffer\n");
-		return 1;
-	}
-
 	/**
 	 * Seek positions
 	 *
@@ -682,11 +668,6 @@ int main(int argc, char **argv) {
 		fprintf(stderr, "* current chapter ix: %u\n", bd_get_current_chapter(bd));
 		fprintf(stderr, "* total bytes read: %ld bytes\n", bluray_read[2]);
 		fprintf(stderr, "* total MBs read: %lf bytes\n", ceil(ceil((double)bluray_read[2]) / 1048576));
-	}
-
-	if(bluray_copy.buffer) {
-		free(bluray_copy.buffer);
-		bluray_copy.buffer = NULL;
 	}
 
 	bd_free_title_info(bd_title);
