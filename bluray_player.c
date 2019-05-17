@@ -75,7 +75,6 @@ int main(int argc, char **argv) {
 	bool opt_chapter_end = false;
 	bool opt_chapter_range = false;
 	bool invalid_opt = false;
-	bool debug = false;
 	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
 	uint32_t arg_first_chapter = 0;
@@ -125,7 +124,6 @@ int main(int argc, char **argv) {
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "title", required_argument, NULL, 't' },
 		{ "version", no_argument, NULL, 'V' },
-		{ "debug", no_argument, NULL, 'z' },
 		{ 0, 0, 0, 0 }
 	};
 	while((g_opt = getopt_long(argc, argv, p_short_opts, p_long_opts, &g_ix)) != -1) {
@@ -218,10 +216,6 @@ int main(int argc, char **argv) {
 			case 'V':
 				printf("bluray_player %s\n", BLURAY_INFO_VERSION);
 				return 0;
-
-			case 'z':
-				debug = true;
-				break;
 
 			case '?':
 				invalid_opt = true;
