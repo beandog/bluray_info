@@ -7,7 +7,7 @@ bluray_info_LDADD = $(LIBBLURAY_LIBS)
 
 bluray_copy_SOURCES = bluray_copy.c bluray_time.c bluray_device.c
 bluray_copy_CFLAGS = $(LIBBLURAY_CFLAGS)
-bluray_copy_LDADD = $(LIBBLURAY_LIBS)
+bluray_copy_LDADD = $(LIBBLURAY_LIBS) -lm
 
 if BLURAY_PLAYER
 bin_PROGRAMS += bluray_player
