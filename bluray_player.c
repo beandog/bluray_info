@@ -70,7 +70,6 @@ int main(int argc, char **argv) {
 	bool opt_title_number = false;
 	bool opt_playlist_number = false;
 	bool opt_main_title = false;
-	bool opt_chapter_number = false;
 	bool opt_chapter_start = false;
 	bool opt_chapter_end = false;
 	bool invalid_opt = false;
@@ -143,7 +142,6 @@ int main(int argc, char **argv) {
 
 				// passed -c <chapter number>
 				if(strchr(optarg, '-') == NULL) {
-					opt_chapter_number = true;
 					opt_chapter_start = true;
 					opt_chapter_end = false;
 					arg_first_chapter = (uint8_t)strtoumax(optarg, NULL, 0);
@@ -152,7 +150,6 @@ int main(int argc, char **argv) {
 
 				// passed -c -<chapter number>
 				if(strncmp(optarg, "-", 1) == 0) {
-					opt_chapter_number = true;
 					opt_chapter_start = false;
 					opt_chapter_end = true;
 					token = strtok(optarg, "-");
@@ -161,7 +158,6 @@ int main(int argc, char **argv) {
 				}
 
 				// passed -c <chapter-number>-[|<chapter-number>]
-				opt_chapter_number = true;
 				opt_chapter_start = true;
 				token = strtok(optarg, "-");
 				arg_first_chapter = (uint8_t)strtoumax(token, NULL, 0);
