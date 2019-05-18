@@ -19,7 +19,7 @@
 #include <mpv/client.h>
 
 struct bluray_info {
-	char bluray_id[BLURAY_ID + 1];
+	char bluray_id[41];
 	char bluray_title[BLURAY_TITLE + 1];
 	uint32_t hdmv_titles;
 	uint32_t bdj_titles;
