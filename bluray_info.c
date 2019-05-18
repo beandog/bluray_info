@@ -18,7 +18,7 @@
 
 struct bluray_info {
 	char bluray_id[41];
-	char bluray_title[BLURAY_TITLE + 1];
+	char bluray_title[BLURAY_TITLE_STRLEN];
 	char disc_name[BLURAY_DISC_NAME + 1];
 	uint32_t titles;
 	uint32_t relevant_titles;
@@ -362,7 +362,7 @@ int main(int argc, char **argv) {
 		strncpy(bluray_info.disc_name, bluray_meta->di_name, BLURAY_DISC_NAME + 1);
 
 	if(bd_info->udf_volume_id)
-		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_TITLE + 1);
+		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_TITLE_STRLEN);
 
 	if(p_bluray_disc_name) {
 		printf("%s\n", bluray_info.disc_name);

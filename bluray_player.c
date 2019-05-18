@@ -20,7 +20,7 @@
 
 struct bluray_info {
 	char bluray_id[41];
-	char bluray_title[BLURAY_TITLE + 1];
+	char bluray_title[BLURAY_TITLE_STRLEN];
 	uint32_t hdmv_titles;
 	uint32_t bdj_titles;
 	uint32_t unsupported_titles;
@@ -301,7 +301,7 @@ int main(int argc, char **argv) {
 	bluray_info.main_title = 1;
 
 	if(bd_info->udf_volume_id)
-		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_TITLE + 1);
+		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_TITLE_STRLEN);
 	bluray_info.titles = bd_info->num_titles;
 	if(bd_info->libaacs_detected) {
 		for(ix = 0; ix < 20; ix++) {
