@@ -2,6 +2,7 @@
 
 void bluray_pgs_lang(char *str, const uint8_t lang[4]) {
 
-	memcpy(str, lang, BLURAY_PGS_LANG + 1);
+	memset(str, '\0', 4);
+	memcpy(str, lang, 3);
 
 }

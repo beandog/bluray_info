@@ -65,7 +65,7 @@ struct bluray_audio {
 };
 
 struct bluray_pgs {
-	char lang[BLURAY_PGS_LANG + 1];
+	char lang[BLURAY_PGS_LANG_STRLEN];
 };
 
 struct bluray_chapter {
