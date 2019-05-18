@@ -598,10 +598,30 @@ int main(int argc, char **argv) {
 
 		// Find out what AACS read error occurred
 		if(bluray_read[1] == -1) {
-			if(debug) {
-				fprintf(stderr, "\n");
-				fprintf(stderr, "* could not read data; current position: %lu\n", bd_tell(bd));
-				fprintf(stderr, "* bd_info->aacs_error_code: %d\n", bd_info->aacs_error_code);
+			fprintf(stderr, "\n");
+			fprintf(stderr, "* Error decoding AACS on disc: ");
+			switch(bd_info->aacs_error_code) {
+				case BD_AACS_CORRUPTED_DISC:
+					fprintf(stderr, "corrupted disc\n");
+					break;
+				case BD_AACS_NO_CONFIG:
+					fprintf(stderr, "missing configuration file\n");
+					break;
+				case BD_AACS_NO_PK:
+					fprintf(stderr, "no matching process key\n");
+					break;
+				case BD_AACS_NO_CERT:
+					fprintf(stderr, "no certificate\n");
+					break;
+				case BD_AACS_CERT_REVOKED:
+					fprintf(stderr, "certificate revoked\n");
+					break;
+				case BD_AACS_MMC_FAILED:
+					fprintf(stderr, "MMC authentication failed\n");
+					break;
+				default:
+					fprintf(stderr, "unknown\n");
+					break;
 			}
 			break;
 		}
