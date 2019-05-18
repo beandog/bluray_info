@@ -8,9 +8,11 @@ void bluray_video_codec(char *str, const uint8_t coding_type) {
 			strncpy(str, "h264", BLURAY_VIDEO_CODEC + 1);
 			break;
 
+#ifdef BLURAY_STREAM_TYPE_VIDEO_HEVC
 		case BLURAY_STREAM_TYPE_VIDEO_HEVC:
 			strncpy(str, "h265", BLURAY_VIDEO_CODEC + 1);
 			break;
+#endif
 
 		case BLURAY_STREAM_TYPE_VIDEO_MPEG1:
 			strncpy(str, "mpeg1", BLURAY_VIDEO_CODEC + 1);
@@ -36,9 +38,11 @@ void bluray_video_codec_name(char *str, const uint8_t coding_type) {
 			strncpy(str, "AVC", BLURAY_VIDEO_CODEC_NAME + 1);
 			break;
 
+#ifdef BLURAY_STREAM_TYPE_VIDEO_HEVC
 		case BLURAY_STREAM_TYPE_VIDEO_HEVC:
 			strncpy(str, "HEVC", BLURAY_VIDEO_CODEC_NAME + 1);
 			break;
+#endif
 
 		case BLURAY_STREAM_TYPE_VIDEO_MPEG1:
 			strncpy(str, "MPEG-1", BLURAY_VIDEO_CODEC_NAME + 1);
@@ -88,9 +92,11 @@ void bluray_video_format(char *str, const uint8_t format) {
 			strncpy(str, "1080p", BLURAY_VIDEO_FORMAT + 1);
 			break;
 
+#ifdef BLURAY_VIDEO_FORMAT_2160P
 		case BLURAY_VIDEO_FORMAT_2160P:
 			strncpy(str, "2160p", BLURAY_VIDEO_FORMAT + 1);
 			break;
+#endif
 
 		default:
 			strncpy(str, "", BLURAY_VIDEO_FORMAT + 1);
