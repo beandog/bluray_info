@@ -5,25 +5,25 @@ void bluray_video_codec(char *str, const uint8_t coding_type) {
 	switch(coding_type) {
 
 		case BLURAY_STREAM_TYPE_VIDEO_H264:
-			strncpy(str, "h264", BLURAY_VIDEO_CODEC + 1);
+			strcpy(str, "h264");
 			break;
 
 #ifdef BLURAY_STREAM_TYPE_VIDEO_HEVC
 		case BLURAY_STREAM_TYPE_VIDEO_HEVC:
-			strncpy(str, "h265", BLURAY_VIDEO_CODEC + 1);
+			strcpy(str, "h265");
 			break;
 #endif
 
 		case BLURAY_STREAM_TYPE_VIDEO_MPEG1:
-			strncpy(str, "mpeg1", BLURAY_VIDEO_CODEC + 1);
+			strcpy(str, "mpeg1");
 			break;
 
 		case BLURAY_STREAM_TYPE_VIDEO_MPEG2:
-			strncpy(str, "mpeg2", BLURAY_VIDEO_CODEC + 1);
+			strcpy(str, "mpeg2");
 			break;
 
 		case BLURAY_STREAM_TYPE_VIDEO_VC1:
-			strncpy(str, "vc1", BLURAY_VIDEO_CODEC + 1);
+			strcpy(str, "vc1");
 			break;
 
 	}

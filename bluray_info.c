@@ -49,7 +49,7 @@ struct bluray_title {
 };
 
 struct bluray_video {
-	char codec[BLURAY_VIDEO_CODEC + 1];
+	char codec[6];
 	char codec_name[BLURAY_VIDEO_CODEC_NAME + 1];
 	char format[BLURAY_VIDEO_FORMAT + 1];
 	double framerate;
