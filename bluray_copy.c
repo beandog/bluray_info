@@ -50,14 +50,14 @@ struct bluray_title {
 	uint8_t video_streams;
 	uint8_t audio_streams;
 	uint8_t pg_streams;
-	char length[BLURAY_DURATION + 1];
+	char length[12];
 };
 
 struct bluray_chapter {
 	uint64_t duration;
 	uint64_t start;
-	char start_time[BLURAY_DURATION + 1];
-	char length[BLURAY_DURATION + 1];
+	char start_time[12];
+	char length[12];
 	int64_t range[2];
 	int64_t size;
 	double size_mbs;
@@ -292,7 +292,7 @@ int main(int argc, char **argv) {
 	bluray_title.video_streams = 0;
 	bluray_title.audio_streams = 0;
 	bluray_title.pg_streams = 0;
-	snprintf(bluray_title.length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
+	strcpy(bluray_title.length, "00:00:00.00");
 
 	// Select title passed as an argument
 	if(opt_title_number) {
@@ -464,8 +464,8 @@ int main(int argc, char **argv) {
 
 		bluray_chapters[chapter_ix].duration = 0;
 		bluray_chapters[chapter_ix].start = chapter_start;
-		snprintf(bluray_chapters[chapter_ix].length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
-		snprintf(bluray_chapters[chapter_ix].start_time, BLURAY_DURATION + 1, "%s", "00:00:00.00");
+		strcpy(bluray_chapters[chapter_ix].length, "00:00:00.00");
+		strcpy(bluray_chapters[chapter_ix].start_time, "00:00:00.00");
 		bluray_chapters[chapter_ix].range[0] = 0;
 		bluray_chapters[chapter_ix].range[1] = 0;
 		bluray_chapters[chapter_ix].size = 0;

@@ -25,7 +25,7 @@ void bluray_duration_length(char *str, const uint64_t duration) {
 	uint64_t d_secs = msecs % 60;
 	uint64_t d_msecs = (duration / 900) % 100;
 
-	snprintf(str, BLURAY_DURATION + 1, "%02lu:%02lu:%02lu.%02lu", d_hours, d_mins, d_secs, d_msecs);
+	sprintf(str, "%02lu:%02lu:%02lu.%02lu", d_hours, d_mins, d_secs, d_msecs);
 
 }
 
@@ -62,10 +62,10 @@ void bluray_chapter_length(char *dest_str, struct bluray *bd, const uint32_t tit
 
 	duration = bluray_chapter_duration(bd, title_ix, chapter_ix);
 
-	char duration_str[BLURAY_DURATION + 1];
+	char duration_str[12];
 
 	bluray_duration_length(duration_str, duration);
 
-	sprintf(dest_str, "%s", duration_str);
+	strcpy(dest_str, duration_str);
 
 }

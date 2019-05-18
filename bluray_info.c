@@ -45,7 +45,7 @@ struct bluray_title {
 	uint8_t video_streams;
 	uint8_t audio_streams;
 	uint8_t pg_streams;
-	char length[BLURAY_DURATION + 1];
+	char length[12];
 };
 
 struct bluray_video {
@@ -71,8 +71,8 @@ struct bluray_pgs {
 struct bluray_chapter {
 	uint64_t start;
 	uint64_t duration;
-	char start_time[BLURAY_DURATION + 1];
-	char length[BLURAY_DURATION + 1];
+	char start_time[12];
+	char length[12];
 };
 
 int main(int argc, char **argv) {
@@ -522,7 +522,7 @@ int main(int argc, char **argv) {
 	bluray_title.video_streams = 0;
 	bluray_title.audio_streams = 0;
 	bluray_title.pg_streams = 0;
-	snprintf(bluray_title.length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
+	strcpy(bluray_title.length, "00:00:00.00");
 
 	uint32_t bluray_highest_playlist = 0;
 
@@ -545,7 +545,7 @@ int main(int argc, char **argv) {
 
 	struct bluray_chapter bluray_chapter;
 	bluray_chapter.duration = 0;
-	snprintf(bluray_chapter.length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
+	strcpy(bluray_chapter.length, "00:00:00.00");
 
 	if(p_bluray_json)
 		printf(" \"titles\": [\n");

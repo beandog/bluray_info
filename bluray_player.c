@@ -59,7 +59,7 @@ struct bluray_title {
 	uint8_t video_streams;
 	uint8_t audio_streams;
 	uint8_t pg_streams;
-	char length[BLURAY_DURATION + 1];
+	char length[12];
 };
 
 int main(int argc, char **argv) {
@@ -326,7 +326,7 @@ int main(int argc, char **argv) {
 	bluray_title.video_streams = 0;
 	bluray_title.audio_streams = 0;
 	bluray_title.pg_streams = 0;
-	snprintf(bluray_title.length, BLURAY_DURATION + 1, "%s", "00:00:00.00");
+	strcpy(bluray_title.length, "00:00:00.00");
 
 	// Select title passed as an argument
 	if(opt_title_number) {
