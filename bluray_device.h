@@ -19,7 +19,7 @@
 #elif defined (__APPLE__) && defined (__MACH__)
 #define DEFAULT_BLURAY_DEVICE "/dev/disk1"
 #elif defined (__CYGWIN__)
-#define DEFAULT_DVD_DEVICE "D:\\"
+#define DEFAULT_BLURAY_DEVICE "D:\\"
 #else
 #define DEFAULT_BLURAY_DEVICE "/dev/sr0"
 #endif
