@@ -140,15 +140,15 @@ void bluray_video_aspect_ratio(char *str, const uint8_t aspect) {
 	switch(aspect) {
 
 		case BLURAY_ASPECT_RATIO_4_3:
-			strncpy(str, "4:3", BLURAY_VIDEO_ASPECT_RATIO + 1);
+			strcpy(str, "4:3");
 			break;
 
 		case BLURAY_ASPECT_RATIO_16_9:
-			strncpy(str, "16:9", BLURAY_VIDEO_ASPECT_RATIO + 1);
+			strcpy(str, "16:9");
 			break;
 
 		default:
-			strncpy(str, "", BLURAY_VIDEO_ASPECT_RATIO + 1);
+			strcpy(str, "");
 			break;
 
 	}

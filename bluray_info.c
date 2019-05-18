@@ -53,7 +53,7 @@ struct bluray_video {
 	char codec_name[7];
 	char format[6];
 	double framerate;
-	char aspect_ratio[BLURAY_VIDEO_ASPECT_RATIO + 1];
+	char aspect_ratio[5];
 };
 
 struct bluray_audio {
