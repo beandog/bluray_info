@@ -1,6 +1,5 @@
 #ifndef BLURAY_INFO_VIDEO_H
 #define BLURAY_INFO_VIDEO_H
-#define BLURAY_VIDEO_FORMAT 5
 #define BLURAY_VIDEO_ASPECT_RATIO 4
 
 #include <string.h>

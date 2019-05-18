@@ -65,41 +65,41 @@ void bluray_video_format(char *str, const uint8_t format) {
 	switch(format) {
 
 		case BLURAY_VIDEO_FORMAT_480I:
-			strncpy(str, "480i", BLURAY_VIDEO_FORMAT + 1);
+			strcpy(str, "480i");
 			break;
 
 		case BLURAY_VIDEO_FORMAT_480P:
-			strncpy(str, "480p", BLURAY_VIDEO_FORMAT + 1);
+			strcpy(str, "480p");
 			break;
 
 		case BLURAY_VIDEO_FORMAT_576I:
-			strncpy(str, "576i", BLURAY_VIDEO_FORMAT + 1);
+			strcpy(str, "576i");
 			break;
 
 		case BLURAY_VIDEO_FORMAT_576P:
-			strncpy(str, "576p", BLURAY_VIDEO_FORMAT + 1);
+			strcpy(str, "576p");
 			break;
 
 		case BLURAY_VIDEO_FORMAT_720P:
-			strncpy(str, "720p", BLURAY_VIDEO_FORMAT + 1);
+			strcpy(str, "720p");
 			break;
 
 		case BLURAY_VIDEO_FORMAT_1080I:
-			strncpy(str, "1080i", BLURAY_VIDEO_FORMAT + 1);
+			strcpy(str, "1080i");
 			break;
 
 		case BLURAY_VIDEO_FORMAT_1080P:
-			strncpy(str, "1080p", BLURAY_VIDEO_FORMAT + 1);
+			strcpy(str, "1080p");
 			break;
 
 #ifdef BLURAY_VIDEO_FORMAT_2160P
 		case BLURAY_VIDEO_FORMAT_2160P:
-			strncpy(str, "2160p", BLURAY_VIDEO_FORMAT + 1);
+			strcpy(str, "2160p");
 			break;
 #endif
 
 		default:
-			strncpy(str, "", BLURAY_VIDEO_FORMAT + 1);
+			strcpy(str, "");
 			break;
 
 	}
