@@ -394,12 +394,12 @@ int main(int argc, char **argv) {
 
 	// Display disc title
 	if(bd_info->udf_volume_id && d_num_titles) {
-		printf("Disc Title: %s\n", bluray_info.bluray_title);
+		fprintf(io, "Disc Title: %s\n", bluray_info.bluray_title);
 	}
 
 	// Display title information
 	if(p_bluray_copy) {
-		printf("Title: %03u, Playlist: %04u, Length: %s, Chapters: %02u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05.0lf MBs\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
+		fprintf(io, "Title: %03u, Playlist: %04u, Length: %s, Chapters: %02u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05.0lf MBs\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
 	}
 
 	// Check for valid angle number
@@ -413,7 +413,7 @@ int main(int argc, char **argv) {
 	if(p_bluray_copy) {
 		bluray_copy.fd = open(bluray_copy.filename, O_WRONLY | O_CREAT | O_APPEND | O_TRUNC, 0644);
 		if(!bluray_copy.fd) {
-			fprintf(io, "Could not open filename %s\n", bluray_copy.filename);
+			fprintf(stderr, "Could not open filename %s\n", bluray_copy.filename);
 			return 1;
 		}
 	} else if(p_bluray_cat) {
