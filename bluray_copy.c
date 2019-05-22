@@ -76,6 +76,8 @@ int main(int argc, char **argv) {
 	struct bluray_copy bluray_copy;
 	bluray_copy.filename = NULL;
 	bluray_copy.fd = -1;
+	bluray_copy.size = 0;
+	bluray_copy.size_mbs = 0;
 
 	// Parse options and arguments
 	bool opt_title_number = false;
