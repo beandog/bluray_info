@@ -92,8 +92,8 @@ int main(int argc, char **argv) {
 
 	// Chapter range selection
 	uint32_t arg_chapters[2];
-	arg_chapters[0] = 0;
-	arg_chapters[1] = 0;
+	arg_chapters[0] = 1;
+	arg_chapters[1] = 1;
 
 	char *token = NULL;
 	int g_opt = 0;
@@ -549,7 +549,11 @@ int main(int argc, char **argv) {
 
 	// Get the total size to be copied from the first position of the
 	// first chapter, to the end of the second.
-	bluray_copy.size = bluray_chapters[chapters_range[1]].range[1] - bluray_chapters[chapters_range[0]].range[0];
+	if(bluray_title.chapters == 1) {
+		bluray_copy.size = bluray_chapters[0].range[1] - bluray_chapters[0].range[0];
+	} else {
+		bluray_copy.size = bluray_chapters[chapters_range[1]].range[1] - bluray_chapters[chapters_range[0]].range[0];
+	}
 	bluray_copy.size_mbs = ceil(ceil((double)bluray_copy.size) / 1048576);
 
 	if(debug) {
