@@ -374,7 +374,7 @@ int main(int argc, char **argv) {
 		arg_chapters[0] = 1;
 	// Handle no argument given for last chapter
 	if(arg_chapters[1] == 0)
-		arg_chapters[1] = bluray_title.chapters - 1;
+		arg_chapters[1] = bluray_title.chapters;
 	// Handle first chapter argument being past last chapter argument
 	if(arg_chapters[0] > arg_chapters[1])
 		arg_chapters[0] = arg_chapters[1];
