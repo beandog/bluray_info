@@ -2,18 +2,32 @@ ChangeLog
 
 1.5
 
+All:
+
+- Add bluray_player, a small Blu-ray player using libmpv
+- Add man pages
+- Add support for 4K
+- Set default drive for Cygwin
+
 bluray_info:
 
 - Properly label DTS-HD Master audio streams
 - Add displaying long audio and video codec names in JSON output
 - Can narrow results on minimum number of seconds or minutes, has an audio or
-subtitle track
+  subtitle track
 - Display chapter start times
 - Can output chapters in OGM format for muxing into MKV
 - Add quiet mode to strip header and footers
 - Add option to display duplicate titles
 - Add option to display disc name only
 - Set disc title from Blu-ray disc metadata instead of UDF volume name
+- Drop option to not list duplicate titles
+
+bluray_copy:
+
+- General rewrite for readability and stability
+- Fixed pulling in extra data between title start and first chapter
+- Check for AACS errors and display it
 
 1.4
 
