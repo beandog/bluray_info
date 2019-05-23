@@ -11,6 +11,7 @@ bluray_copy_LDADD = $(LIBBLURAY_LIBS) -lm
 
 if BLURAY_PLAYER
 bin_PROGRAMS += bluray_player
+man_MANS += bluray_player.1
 bluray_player_SOURCES = bluray_player.c bluray_video.c bluray_audio.c bluray_pgs.c bluray_time.c
 bluray_player_CFLAGS = $(LIBBLURAY_CFLAGS) $(MPV_CFLAGS)
 bluray_player_LDADD = $(LIBBLURAY_LIBS) $(MPV_LIBS)
