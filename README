@@ -112,42 +112,6 @@ Here's my Amazon wishlist: http://a.co/ik9j9Fw if you're feeling generous!
 For this project, the code is at github - https://github.com/beandog/bluray_info
 However, I run releases through SourceForge - http://bluray-info.sf.net/
 
-About Me:
-
-I love working with multimedia on Linux! It's a lot of fun. I have done and do
-push a lot of my support and development into Gentoo Linux and that is where I
-could best provide support if you're hitting problems.
-
-I have an old blog where I would write about my adventures in multimedia as
-well, so there may be some content there if you're willing to dig for it at
-http://wonkabar.org/ While the posts are old, the content is still relevant.
-
-I'm a big fan of DVDs as well, and have a super big library of cartoons and
-other stuff (asking me what my favorite one is changes from week to week).
-
-This project has been super fun to work on, my DVD utilities in the dvd_info
-github repo was the first time I'd ever gotten to learn and write code in C,
-and I love the programming language. It's a tough learning curve, but fun.
-I try really hard to do clean code and best practices, and my target is to have
-the binaries build with as little warnings as possible. I use clang -Weverything
-on my local development.
-
-DVDs and Blu-rays are a lot of fun to work with. Optical media is not going
-away anytime soon, and there are always good reasons to prefer or rely on it:
-hobby collectors, no online requirements, save bandwidth, fun collections,
-guaranteed compatability, access to content, ability to archive, cool shelves
-to pack a display with, etc., etc.
-
-I do a lot of work with encoding and multimedia in other areas, too, not just
-DVDs and Blu-rays. One of my favorite things is to find new devices that
-support video playback and then get things working on them! Good times. I'm
-a total multimedia geek.
-
-In case someone is curious on my take about an HTPC setup, I use (and
-have used) and would recommend: Kodi, minidlna, and Plex. For hardware,
-I use an nVidia Shield. I also would recommend both the PS3 and the PS4 for
-excellent clients as well.
-
 If you have questions, feel free to contact me at steve.dibb@gmail.com
 
 Also, check out more information at http://dvds.beandog.org/
