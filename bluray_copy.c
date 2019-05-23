@@ -92,8 +92,8 @@ int main(int argc, char **argv) {
 
 	// Chapter range selection
 	uint32_t arg_chapters[2];
-	arg_chapters[0] = 1;
-	arg_chapters[1] = 1;
+	arg_chapters[0] = 0;
+	arg_chapters[1] = 0;
 
 	char *token = NULL;
 	int g_opt = 0;
