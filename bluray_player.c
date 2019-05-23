@@ -13,6 +13,7 @@
 #include <linux/limits.h>
 #endif
 #include <libbluray/bluray.h>
+#include "config.h"
 #include "bluray_device.h"
 #include "bluray_info.h"
 #include "bluray_time.h"
@@ -196,13 +197,13 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'V':
-				printf("bluray_player %s\n", BLURAY_INFO_VERSION);
+				printf("bluray_player %s\n", PACKAGE_VERSION);
 				return 0;
 
 			case '?':
 				invalid_opt = true;
 			case 'h':
-				printf("bluray_player %s\n", BLURAY_INFO_VERSION);
+				printf("bluray_player %s - Play back a Blu-ray using libmpv engine\n", PACKAGE_VERSION);
 				printf("\n");
 				printf("Usage: bluray_player [bluray path] [options]\n");
 				printf("\n");

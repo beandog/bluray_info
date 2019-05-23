@@ -243,7 +243,7 @@ int main(int argc, char **argv) {
 			case '?':
 				invalid_opt = true;
 			case 'h':
-				printf("bluray_info - display information about a Blu-ray disc\n");
+				printf("bluray_info %s - display information about a Blu-ray\n", PACKAGE_VERSION);
 				printf("\n");
 				printf("Usage: bluray_info [path] [options]\n");
 				printf("\n");
