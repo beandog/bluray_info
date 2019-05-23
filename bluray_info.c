@@ -393,7 +393,7 @@ int main(int argc, char **argv) {
 	// filesystem.
 
 	bluray_info.titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
-	d_num_titles = (uint32_t)bluray_info.titles;
+	d_num_titles = bluray_info.titles;
 
 	// libbluray has 'num_titles' and 'bd_get_titles()' both of which return different
 	// numbers. Keep track of them both.
