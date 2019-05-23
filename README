@@ -12,11 +12,11 @@ Requirements:
 Disc access:
 
 Decrypting Blu-ray discs is done through libaacs, which libbluray is built with
-or without support for. Even with libaacs, you will need a KEYDB.CFG file to
+or without support for. Even with libaacs, you will need a KEYDB.cfg file to
 bypass the encryption, and can be found various places online. I keep a copy of
 the one I'm using at http://bluray.beandog.org/keydb/
 
-libaacs by default will look for KEYDB.CFG in ~/.config/aacs/ but with these
+libaacs by default will look for KEYDB.cfg in ~/.config/aacs/ but with these
 utilities, you can specify the path directly if you'd like.
 
 Disc drives:
@@ -80,7 +80,7 @@ Usage: bluray_copy [options] [bluray device]
 See buray_copy --help for all options.
 
 Blu-rays can store many codecs, and its container is an MPEG-2 transport stream.
-you so desire, you can easily remux it into another container -- and get the
+If you so desire, you can easily remux it into another container -- and get the
 file much smaller by dropping audio tracks you don't want or need. I recommend
 using mkvmerge (from mkvtoolnix) or ffmpeg or avconv (libav).
 
