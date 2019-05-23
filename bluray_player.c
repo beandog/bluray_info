@@ -43,7 +43,6 @@ struct bluray_playback {
 	char subtitles_lang[4];
 	char chapter_start[5];
 	char chapter_end[5];
-	char loop[4];
 };
 
 struct bluray_title {
@@ -101,8 +100,6 @@ int main(int argc, char **argv) {
 	mpv_event *bluray_mpv_event = NULL;
 	struct mpv_event_log_message *bluray_mpv_log_message = NULL;
 
-	memset(bluray_playback.loop, '\0', sizeof(bluray_playback.loop));
-
 	char *token = NULL;
 	int g_opt = 0;
 	int g_ix = 0;
@@ -114,7 +111,6 @@ int main(int argc, char **argv) {
 		{ "fullscreen", no_argument, NULL, 'f' },
 		{ "help", no_argument, NULL, 'h' },
 		{ "keydb", required_argument, NULL, 'k' },
-		{ "loop", no_argument, NULL, 'l' },
 		{ "main", no_argument, NULL, 'm' },
 		{ "alang", required_argument, NULL, 'a' },
 		{ "slang", required_argument, NULL, 's' },
@@ -181,10 +177,6 @@ int main(int argc, char **argv) {
 				key_db_filename = optarg;
 				break;
 
-			case 'l':
-				strncpy(bluray_playback.loop, optarg, 3);
-				break;
-
 			case 'm':
 				opt_main_title = true;
 				break;
@@ -227,7 +219,6 @@ int main(int argc, char **argv) {
 				printf("Playback:\n");
 				printf("  -f, --fullscreen	   Display fullscreen\n");
 				printf("  -d, --deinterlace	   Deinterlace video\n");
-				printf("  -l, --loop <#|inf>	   Loop playback number of times, or infinitely\n");
 				printf("\n");
 				printf("Other:\n");
 				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
@@ -436,8 +427,6 @@ int main(int argc, char **argv) {
 		mpv_set_option_string(bluray_mpv, "start", bluray_playback.chapter_start);
 	if(opt_chapter_end && arg_last_chapter > 0)
 		mpv_set_option_string(bluray_mpv, "end", bluray_playback.chapter_end);
-	if(strlen(bluray_playback.loop) > 0)
-		mpv_set_option_string(bluray_mpv, "loop", bluray_playback.loop);
 
 	// mpv zero-indexes titles
 	sprintf(bluray_mpv_args, "bd://%03u", bluray_playback.title - 1);
