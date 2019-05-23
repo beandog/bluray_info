@@ -101,6 +101,7 @@ int main(int argc, char **argv) {
 	bool d_audio = false;
 	bool d_subtitles = false;
 	bool d_chapters = false;
+	long int arg_number = 0;
 	uint32_t d_min_seconds = 0;
 	uint32_t d_min_minutes = 0;
 	uint32_t d_min_audio_streams = 0;
@@ -198,7 +199,11 @@ int main(int argc, char **argv) {
 				d_title_number = false;
 				d_playlist_number = true;
 				d_main_title = false;
-				a_playlist_number = (unsigned int)strtoumax(optarg, NULL, 0);
+				arg_number = strtol(optarg, NULL, 10);
+				if(arg_number < 0)
+					a_playlist_number = 0;
+				else
+					a_playlist_number = (uint32_t)arg_number;
 				break;
 
 			case 'q':
@@ -217,7 +222,11 @@ int main(int argc, char **argv) {
 				d_title_number = true;
 				d_playlist_number = false;
 				d_main_title = false;
-				a_title_number = (unsigned int)strtoumax(optarg, NULL, 0);
+				arg_number = strtol(optarg, NULL, 10);
+				if(arg_number < 1)
+					a_title_number = 1;
+				else
+					a_title_number = (uint32_t)arg_number;
 				break;
 
 			case 'u':

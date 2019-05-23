@@ -72,6 +72,7 @@ int main(int argc, char **argv) {
 	bool opt_chapter_start = false;
 	bool opt_chapter_end = false;
 	bool invalid_opt = false;
+	long int arg_number = 0;
 	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
 	uint32_t arg_first_chapter = 0;
@@ -184,12 +185,20 @@ int main(int argc, char **argv) {
 
 			case 'p':
 				opt_playlist_number = true;
-				arg_playlist_number = (unsigned int)strtoumax(optarg, NULL, 0);
+				arg_number = strtol(optarg, NULL, 10);
+				if(arg_number < 0)
+					arg_playlist_number = 0;
+				else
+					arg_playlist_number = (uint32_t)arg_number;
 				break;
 
 			case 't':
 				opt_title_number = true;
-				arg_title_number = (unsigned int)strtoumax(optarg, NULL, 0);
+				arg_number = strtol(optarg, NULL, 10);
+				if(arg_number < 1)
+					arg_title_number = 1;
+				else
+					arg_title_number = (uint32_t)arg_number;
 				break;
 
 			case 's':
