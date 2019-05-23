@@ -21,7 +21,6 @@ struct bluray_info {
 	char bluray_title[BLURAY_TITLE_STRLEN];
 	char disc_name[BLURAY_DISC_NAME_STRLEN];
 	uint32_t titles;
-	uint32_t relevant_titles;
 	uint32_t bdinfo_titles;
 	uint32_t bdj_titles;
 	uint32_t hdmv_titles;
@@ -102,7 +101,6 @@ int main(int argc, char **argv) {
 	bool d_audio = false;
 	bool d_subtitles = false;
 	bool d_chapters = false;
-	bool d_duplicate_titles = false;
 	uint32_t d_min_seconds = 0;
 	uint32_t d_min_minutes = 0;
 	uint32_t d_min_audio_streams = 0;
@@ -117,7 +115,6 @@ int main(int argc, char **argv) {
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
-		{ "duplicate", no_argument, NULL, 'd' },
 		{ "help", no_argument, NULL, 'h' },
 		{ "human", no_argument, NULL, 'H' },
 		{ "id", no_argument, NULL, 'i' },
@@ -154,10 +151,6 @@ int main(int argc, char **argv) {
 
 			case 'c':
 				d_chapters = true;
-				break;
-
-			case 'd':
-				d_duplicate_titles = true;
 				break;
 
 			case 'E':
@@ -285,7 +278,6 @@ int main(int argc, char **argv) {
 				printf("  -q, --quiet		   Do not display disc title header and main title footer\n");
 				printf("\n");
 				printf("Other:\n");
-				printf("  -d, --duplicate	   Include duplicate titles and clips\n");
 				printf("  -h, --help		   This output\n");
 				printf("  -V, --version		   Version information\n");
 				printf("\n");
@@ -347,7 +339,6 @@ int main(int argc, char **argv) {
 	memset(bluray_info.bluray_title, '\0', sizeof(bluray_info.bluray_title));
 	memset(bluray_info.disc_name, '\0', sizeof(bluray_info.disc_name));
 	bluray_info.titles = 0;
-	bluray_info.relevant_titles = 0;
 	bluray_info.bdinfo_titles = 0;
 	bluray_info.bdj_titles = 0;
 	bluray_info.hdmv_titles = 0;
@@ -389,9 +380,7 @@ int main(int argc, char **argv) {
 	//
 	// libbluray has a "title" which is a really an index it uses to list the
 	// playlists based on the type queried. It has stuck as the "title index" for
-	// media players (mplayer, mpv). There are more titles than just the relevant
-	// ones, so fetch all of them, then map the "relevant" ones, so we can display
-	// both (or keep track of them).
+	// media players (mplayer, mpv).
 	//
 	// The de facto title index can cause problems if using another application
 	// that prefers another index method for accessing the playlists (if such
@@ -403,11 +392,7 @@ int main(int argc, char **argv) {
 	// starts at 1. Playlists start at 0, because they are indexed as such on the
 	// filesystem.
 
-	bluray_info.relevant_titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
-	bluray_info.titles = bluray_info.relevant_titles;
-	if(d_duplicate_titles) {
-		bluray_info.titles = bd_get_titles(bd, TITLES_ALL, 0);
-	}
+	bluray_info.titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
 	d_num_titles = (uint32_t)bluray_info.titles;
 
 	// libbluray has 'num_titles' and 'bd_get_titles()' both of which return different
@@ -467,7 +452,7 @@ int main(int argc, char **argv) {
 		uint32_t main_playlist = 0;
 		uint32_t longest_title = 1;
 		uint32_t longest_playlist = 0;
-		for(ix = 0; ix < bluray_info.relevant_titles; ix++) {
+		for(ix = 0; ix < bluray_info.titles; ix++) {
 			bd_title = bd_get_title_info(bd, ix, 0);
 			if(bd_title == NULL) {
 				continue;
@@ -494,7 +479,6 @@ int main(int argc, char **argv) {
 		printf("  \"3D content\": %s,\n", bd_info->content_exist_3D ? "true" : "false");
 		printf("  \"initial mode\": \"%s\",\n", bd_info->initial_output_mode_preference ? "3D" : "2D");
 		printf("  \"titles\": %u,\n", bluray_info.titles);
-		printf("  \"relevant titles\": %u,\n", bluray_info.relevant_titles);
 		printf("  \"bdinfo titles\": %u,\n", bd_info->num_titles);
 		printf("  \"bdj titles\": %u,\n", bd_info->num_bdj_titles);
 		printf("  \"hdmv titles\": %u,\n", bd_info->num_hdmv_titles);
