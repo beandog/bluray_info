@@ -195,7 +195,7 @@ int main(int argc, char **argv) {
 				printf("      --output -           Write to stdout\n");
 				printf("\n");
 				printf("Other:\n");
-				printf("  -k, --keydb <filename>   Location to KEYDB.CFG (default: ~/.config/aacs/KEYDB.cfg)\n");
+				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
 				printf("  -a, --angle <#>          Video angle (default: 1)\n");
 				printf("  -h, --help		   This output\n");
 				printf("  -V, --version		   Version information\n");

@@ -251,7 +251,7 @@ int main(int argc, char **argv) {
 				printf("  -m, --main  	 	   Limit to main title (default: all)\n");
 				printf("  -t, --title <number>     Limit to selected title\n");
 				printf("  -p, --playlist <number>  Limit to selected playlist\n");
-				printf("  -k, --keydb <filename>   Location to KEYDB.CFG (default: ~/.config/aacs/KEYDB.cfg)\n");
+				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
 				printf("\n");
 				printf("Extra information:\n");
 				printf("  -v, --video              Display video streams\n");
