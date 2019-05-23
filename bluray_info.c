@@ -272,7 +272,7 @@ int main(int argc, char **argv) {
 				printf("\n");
 				printf("Limited information:\n");
 				printf("  -i, --id		   Display ID only\n");
-				printf("  -g, --xchap		   Display title chapters in export format for ogmerge or mkvmerge\n");
+				printf("  -g, --xchap		   Display title chapters in export format for mkvmerge or ogmmerge\n");
 				printf("  -n, --name		   Display disc name only\n");
 				printf("  -u, --volname		   Display UDF volume name only (path must be device or filename)\n");
 				printf("  -q, --quiet		   Do not display disc title header and main title footer\n");
