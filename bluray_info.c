@@ -404,8 +404,8 @@ int main(int argc, char **argv) {
 
 	// Select track passed as an argument
 	if(d_title_number) {
-		if(a_title_number > d_num_titles) {
-			printf("Could not open title %u, choose from 0 to %u\n", a_title_number, d_num_titles - 1);
+		if(a_title_number > bluray_info.titles) {
+			printf("Could not open title %u, choose from 1 to %u\n", a_title_number, bluray_info.titles);
 			return 1;
 		}
 		retval = bd_select_title(bd, a_title_number - 1);
