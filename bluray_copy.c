@@ -91,9 +91,9 @@ int main(int argc, char **argv) {
 	const char *key_db_filename = NULL;
 
 	// Chapter range selection
-	uint32_t arg_chapters[2];
-	arg_chapters[0] = 0;
-	arg_chapters[1] = 0;
+	uint32_t arg_chapter_numbers[2];
+	arg_chapter_numbers[0] = 0;
+	arg_chapter_numbers[1] = 0;
 
 	char *token = NULL;
 	int g_opt = 0;
@@ -128,18 +128,18 @@ int main(int argc, char **argv) {
 						fprintf(stderr, "Chapter range must be between 1 and 99\n");
 						return 1;
 					}
-					arg_chapters[0] = (uint32_t)strtoumax(token, NULL, 0);
+					arg_chapter_numbers[0] = (uint32_t)strtoumax(token, NULL, 0);
 				}
 
 				token = strtok(NULL, "-");
 				if(token == NULL) {
-					arg_chapters[1] = arg_chapters[0];
+					arg_chapter_numbers[1] = arg_chapter_numbers[0];
 				} else {
 					if(strlen(token) > 2) {
 						fprintf(stderr, "Chapter range must be between 1 and 99\n");
 						return 1;
 					}
-					arg_chapters[1] = (uint32_t)strtoumax(token, NULL, 0);
+					arg_chapter_numbers[1] = (uint32_t)strtoumax(token, NULL, 0);
 				}
 				break;
 
@@ -370,23 +370,23 @@ int main(int argc, char **argv) {
 	bluray_title.chapters = bd_title->chapter_count;
 
 	// Handle no argument given for first chapter
-	if(arg_chapters[0] == 0)
-		arg_chapters[0] = 1;
+	if(arg_chapter_numbers[0] == 0)
+		arg_chapter_numbers[0] = 1;
 	// Handle no argument given for last chapter
-	if(arg_chapters[1] == 0)
-		arg_chapters[1] = bluray_title.chapters;
+	if(arg_chapter_numbers[1] == 0)
+		arg_chapter_numbers[1] = bluray_title.chapters;
 	// Handle first chapter argument being past last chapter argument
-	if(arg_chapters[0] > arg_chapters[1])
-		arg_chapters[0] = arg_chapters[1];
+	if(arg_chapter_numbers[0] > arg_chapter_numbers[1])
+		arg_chapter_numbers[0] = arg_chapter_numbers[1];
 	// Handle chapter selection for first or last being out of bounds
-	if(arg_chapters[0] > bluray_title.chapters || arg_chapters[1] > bluray_title.chapters) {
+	if(arg_chapter_numbers[0] > bluray_title.chapters || arg_chapter_numbers[1] > bluray_title.chapters) {
 		fprintf(stderr, "Chapter selection is out of bounds, select between 1 and %u\n", bluray_title.chapters);
 		return 1;
 	}
 	// Finally set the actual zero-based chapter range indexes
 	uint32_t chapters_range[2];
-	chapters_range[0] = arg_chapters[0] - 1;
-	chapters_range[1] = arg_chapters[1] - 1;
+	chapters_range[0] = arg_chapter_numbers[0] - 1;
+	chapters_range[1] = arg_chapter_numbers[1] - 1;
 
 	// Pouplate title
 	bluray_title.duration = bd_title->duration;
