@@ -1,228 +1,182 @@
-.TH BLURAY_INFO 1 "2018-12-27" "1.5" "Blu-ray utilities"
-.SH NAME
-bluray_info \- display Blu-ray information
-.SH SYNOPSIS
-.B bluray_info
-[\fIpath\fR] [\fIoptions\fR]
-.SH DESCRIPTION
-.B bluray_info
-displays detailed information about a Blu-ray, such as its audio and video streams, chapters, subtitles in multiple output formats.
-.TP
-Input path can be a device, a filename, or directory.
-.TP
-Default output is summarized human-readable format of all titles.
-.SH OPTIONS
-.TP
-Display extra information:
-.TP
-.BR \-v ", " \-\-video
-Display video tracks, codec, format, aspect ratio, and framerate.
-.TP
-.BR \-a ", " \-\-audio
-Display audio tracks, language, codec, format, and channel rate.
-.TP
-.BR \-s ", " \-\-subtitles
-Display subtitle tracks and language.
-.TP
-.BR \-c ", " \-\-chapters
-Display chapter indexes, starting time, and duration.
-.TP
-.BR \-x ", " \-\-all
-Display all of the above.
-.TP
-Results can be limited by matching certain criteria:
-.TP
-.BR \-A ", " \-\-has-audio
-Only display titles that have audio tracks.
-.TP
-.BR \-S ", " \-\-has-subtitles
-Only display titles that have subtitles.
-.TP
-.BI \-E\  number \fR,\ \fB\-\-seconds\  number
-Title has a minimum number of seconds.
-.TP
-.BI \-E\  number \fR,\ \fB\-\-minutes\  number
-Title has a minimum number of minutes (cannot be combined with seconds).
-.TP
-Display can be limited to a specific title or playlist:
-.TP
-.BR \-m ", " \-\-main
-Limit to main title as designated by libbluray. This is not necessarily the longest title or the one that is the main feature.
-.TP
-.BI \-t\  number \fR,\ \ft\-\-title\  number
-Limit to selected title.
-.TP
-.BI \-p\  number \fR,\ \ft\-\-playlist\  number
-Limit to selected playlist.
-.TP
-.BR \-j ", " \-\-json
-Display output in JSON format. Useful for scripting. The JSON output includes much more information than the human-readable output does.
-.TP
-.BR \-i ", " \-\-id
-Display the Blu-ray's alphanumeric ID of 40 characters, if available. Not all discs have this, so it is not safe to use as a unique identifier. Requires AACS (DRM) to be present on Blu-ray.
-.TP
-.BR \-n ", " \-\-name
-Display the Blu-ray's name, if it set.
-.TP
-.BR \-u ", " \-\-volname
-Display the disc's UDF volume name.
-Input path must be a disc device or single file.
-.TP
-.BR \-d ", " \-\-xchap
-Display chapters in an export format compatible with muxing applications such as ogmmerge and mkvmerge.
-.TP
-.BR -\q ", " \-\-quiet
-Quiet mode. Trim the "Disc title" header and "Main title" footer from human-readable output format.
-.TP
-libaacs:
-.TP
-.BI \-k\  filename \fR,\ \fB\-\-keydb\  filename
-Specify location of KEYDB.cfg file if disc has AACS DRM. libaacs uses ~/.config/aacs/KEYDB.cfg by default.
-.SH NOTES
-.TP
-Blu-ray video display sizes and formats:
-.TP
-.BR 480i
-.RS
-480 pixels in height of interlaced video.
+'\" t
+.\"     Title: bluray_info
+.\"    Author: [see the "AUTHOR" section]
+.\" Generator: DocBook XSL Stylesheets v1.79.1 <http://docbook.sf.net/>
+.\"      Date: 05/22/2019
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "BLURAY_INFO" "1" "05/22/2019" "\ \&" "\ \&"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+bluray_info \- displays information about a Blu\-ray
+.SH "SYNOPSIS"
+.sp
+\fBbluray_info\fR [\fIPATH\fR] [\fIOPTIONS\fR]
+.SH "DESCRIPTION"
+.sp
+The bluray_info(1) program displays information about a Blu\-ray disc, image, or directory in human\-readable, JSON, or formatted chapter outputs\&.
+.sp
+Input path can be a single filename (image), a directory, or a device name\&. The default device is based on your operating system, and is the primary optical drive\&.
+.SH "OPTIONS"
+.PP
+\fB\-m, \-\-main\fR
+.RS 4
+Display only the main title / playlist as defined by the metadata\&. By default, bluray_info will display all titles\&.
 .RE
-.TP
-.BR 480p
-.RS
-480 pixels in height of progressive video.
+.PP
+\fB\-t, \-\-title\fR=\fITITLE\fR
+.RS 4
+Limit output to the selected title\&.
 .RE
-.TP
-.BR 576i
-.RS
-576 pixels in height of interlaced video.
+.PP
+\fB\-p, \-\-playlist\fR=\fIPLAYLIST\fR
+.RS 4
+Limit output to selected playlist\&.
 .RE
-.TP
-.BR 576p
-.RS
-576 pixels in height of progressive video.
+.PP
+\fB\-k, \-\-keydb\fR=\fIFILE\fR
+.RS 4
+Location to
+\fIKEYDB\&.CFG\fR
+used by libaacs for decryption\&. Default is
+\fI~/\&.config/aacs/KEYDB\&.cfg\fR\&.
 .RE
-.TP
-.BR 720p
-.RS
-720 pixels in height of progressive video.
+.PP
+\fB\-v, \-\-video\fR
+.RS 4
+Display detailed information about video streams\&.
 .RE
-.TP
-.BR 1080i
-.RS
-1080 pixels in height of interlaced video.
+.PP
+\fB\-a, \-\-audio\fR
+.RS 4
+Display detailed information about audio streams\&.
 .RE
-.TP
-.BR 1080p
-.RS
-1080 pixels in height of progressive video.
+.PP
+\fB\-s, \-\-subtitles\fR
+.RS 4
+Display detailed information about subtitles\&.
 .RE
-.TP
-.BR 2160p
-.RS
-2160 pixels in height of progressive video. Also known as 4K.
+.PP
+\fB\-c, \-\-chapters\fR
+.RS 4
+Display detailed information about chapters\&.
 .RE
-.TP
-Blu-ray video codecs:
-.TP
-.BR h264
-.RS
-H.264 / MPEG-4 Part 10 / AVC (Advanced Video Codec)
+.PP
+\fB\-x, \-\-all\fR
+.RS 4
+Display all optional detailed information\&.
 .RE
-.TP
-.BR h265
-.RS
-H.265 / MPEG-H Part 2 / HEVC (High Efficiency Video Codec)
+.PP
+\fB\-j, \-\-json\fR
+.RS 4
+Format output in JSON\&. All detailed information is included\&.
 .RE
-.TP
-.BR mpeg1
-.RS
-MPEG-1 Part 2
+.PP
+\fB\-A, \-\-has\-audio\fR
+.RS 4
+Limit output to titles that have audio tracks\&.
 .RE
-.TP
-.BR mpeg2
-.RS
-MPEG-2 Part 2
+.PP
+\fB\-S, \-\-has\-subtitles\fR
+.RS 4
+Limit output to titles that have subtitles\&.
 .RE
-.TP
-.BR vc1
-.RS
-SMPTE 421M
+.PP
+\fB\-E, \-\-seconds\fR=\fISECONDS\fR
+.RS 4
+Limit output to titles with a minimum length of number of seconds\&.
 .RE
-.TP
-Blu-ray video framerates:
-.TP
-Possible FPS (frames per second) values are 23.97 (24000/1001), 24, 25, 29.97 (30000/1001), 50, and 59.94 (60000/1001).
-.TP
-Blu-ray audio codecs:
-.TP
-.BR ac3
-.RS
-Dolby Digital / DD / ATSC / A/52
+.PP
+\fB\-M, \-\-minutes\fR=\fIMINUTES\fR
+.RS 4
+Limit output to titles with a minimum length of number of minutes\&. Cannot be used in combination with
+\fI\-\-seconds\fR\&.
 .RE
-.TP
-.BR ac3plus
-.RS
-Dolby Digital Plus / Enhanced AC-3 / DD+ / E-AC-3
+.PP
+\fB\-i, \-\-id\fR
+.RS 4
+Display the Blu\-ray ID only\&.
 .RE
-.TP
-.BR truhd
-.RS
-Dolby TrueHD
+.PP
+\fB\-n, \-\-name\fR
+.RS 4
+Display the Blu\-ray disc name only\&.
 .RE
-.TP
-.BR dts
-.RS
-DTS / Digital Theater Systems / DCA
+.PP
+\fB\-u, \-\-volname\fR
+.RS 4
+Display the UDF volume name only\&. Input path must be an image or device\&. See also udfinfo(1)\&.
 .RE
-.TP
-.BR dtshd
-.RS
-DTS-HD
+.PP
+\fB\-g, \-\-xchap\fR
+.RS 4
+Display title chapters in export format suitable for mkmerge(1) and ogmmerge(1)\&. See also dvdxchap(1) for details on format syntax\&.
 .RE
-.TP
-.BR dtshd-ma
-.RS
-DTS-HD Master Audio / DTS++
+.PP
+\fB\-q, \-\-quiet\fR
+.RS 4
+Do not display the
+\fIDisc Title\fR
+header and
+\fILongest title\fR
+footer\&.
 .RE
-.TP
-.BR lpcm
-.RS
-Linear PCM / Linear pulse-code modulation
+.PP
+\fB\-h, \-\-help\fR
+.RS 4
+Display help output\&.
 .RE
-.TP
-.BR mpeg1
-.RS
-MPEG-1
+.PP
+\fB\-V, \-\-version\fR
+.RS 4
+Display version information\&.
 .RE
-.TP
-.BR mpeg2
-.RS
-MPEG-2 / MP2
+.SH "EXIT STATUS"
+.PP
+\fB0\fR
+.RS 4
+Success
 .RE
-.TP
-Blu-ray subtitles:
-.TP
-All subtitles are PGS format - Presentation Graphic Stream.
-.TP
-Blu-ray DRM (Digital Rights Management):
-.TP
-Discs with AACS (Advanced Access Content System) uses libaacs to decrypt content if libbluray is compiiled wih support for it.
-.SH DEFAULTS
-.TP
-Display output is summarized human-readable format of all titles.
-.TP
-JSON output displays all titles.
-.TP
-Chapter export format displays the main title.
-.TP
-Looks for KEYDB.cfg file in ~/.config/aacs/KEYDB.cfg
-.TP
-Input path is the Blu-ray drive based on the operating system: Linux /dev/sr0, DragonFly BSD and FreeBSD /dev/cd0, NetBSD /dev/cd0d, OpenBSD /dev/rcd0c, Mac /dev/disk1.
-.SH LICENSE
-.B bluray_info
-is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation; version 2 of the License.
-.SH AUTHORS
-.B bluray_info
-was written by Steve Dibb <steve.dibb@gmail.com>
-.SH "SEE ALSO"
-.BR bluray_copy (1)
+.PP
+\fB1\fR
+.RS 4
+Failure either in syntax or opening and reading the disc\&.
+.RE
+.SH "BUGS"
+.sp
+\fBbluray_info\fR does not wait for an optical device to be ready\&. Wait for it to finish "polling" before running the program\&.
+.sp
+Some discs fail to be opened if they have encryption that libaacs cannot read\&.
+.sp
+Please file bugs at https://github\&.com/beandog/bluray_info/issues
+.SH "AUTHOR"
+.sp
+bluray_info was written by Steve Dibb <steve\&.dibb@gmail\&.com>
+.SH "RESOURCES"
+.sp
+Source code available at GitHub: https://github\&.com/beandog/bluray_info
+.sp
+Main web site: https://dvds\&.beandog\&.org
+.SH "COPYING"
+.sp
+Copyright (C) 2017 Steve Dibb\&. Free use of this software is granted under the terms of the GNU General Public License, version 2 (GPL)\&.
