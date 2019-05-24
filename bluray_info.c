@@ -679,12 +679,12 @@ int main(int argc, char **argv) {
 				bluray_audio_rate(bluray_audio.rate, bd_stream->rate);
 
 				if(p_bluray_info && d_audio) {
-					printf("	Audio: %02u, Language: %s, Codec: %s, Format: %s, Rate: %s\n", audio_stream_number, bluray_audio.lang, bluray_audio.codec, bluray_audio.format, bluray_audio.rate);
+					printf("	Audio: %02" PRIu8 ", Language: %s, Codec: %s, Format: %s, Rate: %s\n", audio_stream_number, bluray_audio.lang, bluray_audio.codec, bluray_audio.format, bluray_audio.rate);
 				}
 
 				if(p_bluray_json) {
 					printf("    {\n");
-					printf("     \"track\": %u,\n", audio_stream_number);
+					printf("     \"track\": %" PRIu8 ",\n", audio_stream_number);
 					printf("     \"stream\": \"0x%x\",\n", bd_stream->pid);
 					printf("     \"language\": \"%s\",\n", bluray_audio.lang);
 					printf("     \"codec\": \"%s\",\n", bluray_audio.codec);
