@@ -76,6 +76,8 @@ struct bluray_chapter {
 int main(int argc, char **argv) {
 
 	uint32_t ix = 0;
+	uint8_t video_stream_ix = 0;
+	uint8_t video_stream_number = 0;
 	uint32_t stream_ix = 0;
 	uint64_t chapter_ix = 0;
 	uint64_t chapter_start = 0;
@@ -612,9 +614,10 @@ int main(int argc, char **argv) {
 			if(p_bluray_json)
 				printf("   \"video\": [\n");
 
-			for(stream_ix = 0; stream_ix < bluray_title.video_streams; stream_ix++) {
+			for(video_stream_ix = 0; video_stream_ix < bluray_title.video_streams; video_stream_ix++) {
 
-				bd_stream = &bd_title->clips[0].video_streams[stream_ix];
+				video_stream_number = video_stream_ix + 1;
+				bd_stream = &bd_title->clips[0].video_streams[video_stream_ix];
 
 				if(bd_stream == NULL)
 					continue;
@@ -626,19 +629,19 @@ int main(int argc, char **argv) {
 				bluray_video_aspect_ratio(bluray_video.aspect_ratio, bd_stream->aspect);
 
 				if(p_bluray_info && d_video) {
-					printf("	Video: %02u, Format: %s, Aspect ratio: %s, FPS: %.02f, Codec: %s\n", stream_ix + 1, bluray_video.format, bluray_video.aspect_ratio, bluray_video.framerate, bluray_video.codec);
+					printf("	Video: %02u, Format: %s, Aspect ratio: %s, FPS: %.02f, Codec: %s\n", video_stream_number, bluray_video.format, bluray_video.aspect_ratio, bluray_video.framerate, bluray_video.codec);
 				}
 
 				if(p_bluray_json) {
 					printf("    {\n");
-					printf("     \"track\": %u,\n", stream_ix + 1);
+					printf("     \"track\": %u,\n", video_stream_number);
 					printf("     \"stream\": \"0x%x\",\n", bd_stream->pid);
 					printf("     \"format\": \"%s\",\n", bluray_video.format);
 					printf("     \"aspect ratio\": \"%s\",\n", bluray_video.aspect_ratio);
 					printf("     \"framerate\": %.02f,\n", bluray_video.framerate);
 					printf("     \"codec\": \"%s\",\n", bluray_video.codec);
 					printf("     \"codec name\": \"%s\"\n", bluray_video.codec_name);
-					if(stream_ix + 1 < bluray_title.video_streams)
+					if(video_stream_number < bluray_title.video_streams)
 						printf("    },\n");
 					else
 						printf("    }\n");
