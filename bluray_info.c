@@ -724,12 +724,12 @@ int main(int argc, char **argv) {
 					continue;
 
 				if(p_bluray_info && d_subtitles) {
-					printf("	Subtitle: %02u, Language: %s\n", pg_stream_number, bluray_pgs.lang);
+					printf("	Subtitle: %02" PRIu8 ", Language: %s\n", pg_stream_number, bluray_pgs.lang);
 				}
 
 				if(p_bluray_json) {
 					printf("    {\n");
-					printf("     \"track\": %u,\n", pg_stream_number);
+					printf("     \"track\": %" PRIu8 ",\n", pg_stream_number);
 					printf("     \"stream\": \"0x%x\",\n", bd_stream->pid);
 					printf("     \"language\": \"%s\"\n", bluray_pgs.lang);
 					if(pg_stream_number < bluray_title.pg_streams)
