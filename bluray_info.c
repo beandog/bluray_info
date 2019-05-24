@@ -155,7 +155,9 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'E':
-				d_min_seconds = (unsigned int)strtoumax(optarg, NULL, 0);
+				arg_number = strtol(optarg, NULL, 10);
+				if(arg_number > 0)
+					d_min_seconds = (uint32_t)arg_number;
 				break;
 
 			case 'g':
@@ -187,7 +189,9 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'M':
-				d_min_minutes = (unsigned int)strtoumax(optarg, NULL, 0);
+				arg_number = strtol(optarg, NULL, 10);
+				if(arg_number > 0)
+					d_min_minutes  = (uint32_t)arg_number;
 				break;
 
 			case 'n':
