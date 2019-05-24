@@ -78,6 +78,8 @@ int main(int argc, char **argv) {
 	uint32_t ix = 0;
 	uint8_t video_stream_ix = 0;
 	uint8_t video_stream_number = 0;
+	uint8_t audio_stream_ix = 0;
+	uint8_t audio_stream_number = 0;
 	uint32_t stream_ix = 0;
 	uint64_t chapter_ix = 0;
 	uint64_t chapter_start = 0;
@@ -662,9 +664,10 @@ int main(int argc, char **argv) {
 			if(p_bluray_json)
 				printf("   \"audio\": [\n");
 
-			for(stream_ix = 0; stream_ix < bluray_title.audio_streams; stream_ix++) {
+			for(audio_stream_ix = 0; audio_stream_ix < bluray_title.audio_streams; audio_stream_ix++) {
 
-				bd_stream = &bd_title->clips[0].audio_streams[stream_ix];
+				audio_stream_number = audio_stream_ix + 1;
+				bd_stream = &bd_title->clips[0].audio_streams[audio_stream_ix];
 
 				if(bd_stream == NULL)
 					continue;
@@ -676,19 +679,19 @@ int main(int argc, char **argv) {
 				bluray_audio_rate(bluray_audio.rate, bd_stream->rate);
 
 				if(p_bluray_info && d_audio) {
-					printf("	Audio: %02u, Language: %s, Codec: %s, Format: %s, Rate: %s\n", stream_ix + 1, bluray_audio.lang, bluray_audio.codec, bluray_audio.format, bluray_audio.rate);
+					printf("	Audio: %02u, Language: %s, Codec: %s, Format: %s, Rate: %s\n", audio_stream_number, bluray_audio.lang, bluray_audio.codec, bluray_audio.format, bluray_audio.rate);
 				}
 
 				if(p_bluray_json) {
 					printf("    {\n");
-					printf("     \"track\": %u,\n", stream_ix + 1);
+					printf("     \"track\": %u,\n", audio_stream_number);
 					printf("     \"stream\": \"0x%x\",\n", bd_stream->pid);
 					printf("     \"language\": \"%s\",\n", bluray_audio.lang);
 					printf("     \"codec\": \"%s\",\n", bluray_audio.codec);
 					printf("     \"codec name\": \"%s\",\n", bluray_audio.codec_name);
 					printf("     \"format\": \"%s\",\n", bluray_audio.format);
 					printf("     \"rate\": \"%s\"\n", bluray_audio.rate);
-					if(stream_ix + 1 < bluray_title.audio_streams)
+					if(audio_stream_number < bluray_title.audio_streams)
 						printf("    },\n");
 					else
 						printf("    }\n");
