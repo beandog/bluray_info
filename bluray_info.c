@@ -430,7 +430,7 @@ int main(int argc, char **argv) {
 	if(d_playlist_number) {
 		retval = bd_select_playlist(bd, a_playlist_number);
 		if(retval == 0) {
-			printf("Could not open playlist %u\n", a_playlist_number);
+			printf("Could not open playlist %" PRIu32 "\n", a_playlist_number);
 			return 1;
 		}
 		d_first_ix = bd_get_current_title(bd);
