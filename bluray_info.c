@@ -161,8 +161,10 @@ int main(int argc, char **argv) {
 
 			case 'E':
 				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number > 0)
+				if(arg_number > 0) {
 					d_min_seconds = (uint32_t)arg_number;
+				}
+				arg_number = 0;
 				break;
 
 			case 'g':
@@ -195,8 +197,10 @@ int main(int argc, char **argv) {
 
 			case 'M':
 				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number > 0)
+				if(arg_number > 0) {
 					d_min_minutes  = (uint32_t)arg_number;
+				}
+				arg_number = 0;
 				break;
 
 			case 'n':
@@ -209,10 +213,12 @@ int main(int argc, char **argv) {
 				d_playlist_number = true;
 				d_main_title = false;
 				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number < 0)
+				if(arg_number < 0) {
 					a_playlist_number = 0;
-				else
+				} else {
 					a_playlist_number = (uint32_t)arg_number;
+				}
+				arg_number = 0;
 				break;
 
 			case 'q':
@@ -232,10 +238,12 @@ int main(int argc, char **argv) {
 				d_playlist_number = false;
 				d_main_title = false;
 				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number < 1)
+				if(arg_number < 1) {
 					a_title_number = 1;
-				else
+				} else {
 					a_title_number = (uint32_t)arg_number;
+				}
+				arg_number = 0;
 				break;
 
 			case 'u':

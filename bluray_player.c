@@ -142,8 +142,10 @@ int main(int argc, char **argv) {
 					opt_chapter_start = true;
 					opt_chapter_end = false;
 					arg_number = strtol(optarg, NULL, 10);
-					if(arg_number > 0)
+					if(arg_number > 0) {
 						arg_first_chapter = (uint8_t)arg_number;
+					}
+					arg_number = 0;
 					break;
 				}
 
@@ -153,8 +155,10 @@ int main(int argc, char **argv) {
 					opt_chapter_end = true;
 					token = strtok(optarg, "-");
 					arg_number = strtol(token, NULL, 10);
-					if(arg_number > 0)
+					if(arg_number > 0) {
 						arg_last_chapter = (uint8_t)arg_number;
+					}
+					arg_number = 0;
 					break;
 				}
 
@@ -162,8 +166,10 @@ int main(int argc, char **argv) {
 				opt_chapter_start = true;
 				token = strtok(optarg, "-");
 				arg_number = strtol(token, NULL, 10);
-				if(arg_number > 0)
+				if(arg_number > 0) {
 					arg_first_chapter = (uint8_t)arg_number;
+				}
+				arg_number = 0;
 
 				token = strtok(NULL, "-");
 
@@ -171,8 +177,10 @@ int main(int argc, char **argv) {
 				if(token != NULL) {
 					opt_chapter_end = true;
 					arg_number = strtol(token, NULL, 10);
-					if(arg_number > 0)
+					if(arg_number > 0) {
 						arg_last_chapter = (uint8_t)arg_number;
+					}
+					arg_number = 0;
 					break;
 				}
 
@@ -194,19 +202,23 @@ int main(int argc, char **argv) {
 			case 'p':
 				opt_playlist_number = true;
 				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number < 0)
+				if(arg_number < 0) {
 					arg_playlist_number = 0;
-				else
+				} else {
 					arg_playlist_number = (uint32_t)arg_number;
+				}
+				arg_number = 0;
 				break;
 
 			case 't':
 				opt_title_number = true;
 				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number < 1)
+				if(arg_number < 1) {
 					arg_title_number = 1;
-				else
+				} else {
 					arg_title_number = (uint32_t)arg_number;
+				}
+				arg_number = 0;
 				break;
 
 			case 's':
