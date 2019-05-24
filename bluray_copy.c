@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
 
 	// Chapter range selection
 	uint32_t arg_chapter_numbers[2];
-	arg_chapter_numbers[0] = 0;
+	arg_chapter_numbers[0] = 1;
 	arg_chapter_numbers[1] = 0;
 
 	char *token = NULL;
@@ -129,8 +129,9 @@ int main(int argc, char **argv) {
 			case 'c':
 				token = strtok(optarg, "-"); {
 					arg_number = strtol(token, NULL, 10);
-					if(arg_number > 1)
+					if(arg_number > 0) {
 						arg_chapter_numbers[0] = (uint32_t)arg_number;
+					}
 				}
 
 				token = strtok(NULL, "-");
@@ -138,8 +139,9 @@ int main(int argc, char **argv) {
 					arg_chapter_numbers[1] = arg_chapter_numbers[0];
 				} else {
 					arg_number = strtol(token, NULL, 10);
-					if(arg_number > 1)
+					if(arg_number > 0) {
 						arg_chapter_numbers[1] = (uint32_t)arg_number;
+					}
 				}
 				break;
 
@@ -369,9 +371,6 @@ int main(int argc, char **argv) {
 	// Check for out of bounds chapter selection
 	bluray_title.chapters = bd_title->chapter_count;
 
-	// Handle no argument given for first chapter
-	if(arg_chapter_numbers[0] == 0)
-		arg_chapter_numbers[0] = 1;
 	// Handle no argument given for last chapter
 	if(arg_chapter_numbers[1] == 0)
 		arg_chapter_numbers[1] = bluray_title.chapters;
