@@ -598,11 +598,11 @@ int main(int argc, char **argv) {
 
 			printf("  {\n");
 			printf("   \"title\": %u,\n", bluray_title.number);
-			printf("   \"playlist\": %u,\n", bluray_title.playlist);
+			printf("   \"playlist\": %" PRIu32 ",\n", bluray_title.playlist);
 			printf("   \"length\": \"%s\",\n", bluray_title.length);
-			printf("   \"msecs\": %lu,\n", bluray_title.duration / 900);
-			printf("   \"angles\": %u,\n", bluray_title.angles);
-			printf("   \"filesize\": %lu,\n", bluray_title.size);
+			printf("   \"msecs\": %" PRIu64 ",\n", bluray_title.duration / 900);
+			printf("   \"angles\": %" PRIu8 ",\n", bluray_title.angles);
+			printf("   \"filesize\": %" PRIu64 ",\n", bluray_title.size);
 
 		}
 
