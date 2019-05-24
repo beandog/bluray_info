@@ -128,10 +128,6 @@ int main(int argc, char **argv) {
 
 			case 'c':
 				token = strtok(optarg, "-"); {
-					if(strlen(token) > 2) {
-						fprintf(stderr, "Chapter range must be between 1 and 99\n");
-						return 1;
-					}
 					arg_number = strtol(token, NULL, 10);
 					if(arg_number > 1)
 						arg_chapter_numbers[0] = (uint32_t)arg_number;
@@ -141,10 +137,6 @@ int main(int argc, char **argv) {
 				if(token == NULL) {
 					arg_chapter_numbers[1] = arg_chapter_numbers[0];
 				} else {
-					if(strlen(token) > 2) {
-						fprintf(stderr, "Chapter range must be between 1 and 99\n");
-						return 1;
-					}
 					arg_number = strtol(token, NULL, 10);
 					if(arg_number > 1)
 						arg_chapter_numbers[1] = (uint32_t)arg_number;
