@@ -132,7 +132,9 @@ int main(int argc, char **argv) {
 						fprintf(stderr, "Chapter range must be between 1 and 99\n");
 						return 1;
 					}
-					arg_chapter_numbers[0] = (uint32_t)strtoumax(token, NULL, 0);
+					arg_number = strtol(token, NULL, 10);
+					if(arg_number > 1)
+						arg_chapter_numbers[0] = (uint32_t)arg_number;
 				}
 
 				token = strtok(NULL, "-");
@@ -143,7 +145,9 @@ int main(int argc, char **argv) {
 						fprintf(stderr, "Chapter range must be between 1 and 99\n");
 						return 1;
 					}
-					arg_chapter_numbers[1] = (uint32_t)strtoumax(token, NULL, 0);
+					arg_number = strtol(token, NULL, 10);
+					if(arg_number > 1)
+						arg_chapter_numbers[1] = (uint32_t)arg_number;
 				}
 				break;
 
