@@ -352,13 +352,13 @@ int main(int argc, char **argv) {
 	if(opt_title_number) {
 		bluray_title.ix = arg_title_number - 1;
 		if(bluray_title.ix > (d_num_titles - 1)) {
-			fprintf(stderr, "Could not open title %u, choose from 1 to %u\n", bluray_title.ix + 1, d_num_titles);
+			fprintf(stderr, "Could not open title %" PRIu32 ", choose from 1 to %" PRIu32 "\n", bluray_title.ix + 1, d_num_titles);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
 		}
 		if(bd_select_title(bd, bluray_title.ix) == 0) {
-			fprintf(stderr, "Could not open title %u\n", bluray_title.ix + 1);
+			fprintf(stderr, "Could not open title %" PRIu32 "\n", bluray_title.ix + 1);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
@@ -368,7 +368,7 @@ int main(int argc, char **argv) {
 	} else if(opt_playlist_number) {
 		bluray_title.playlist = arg_playlist_number;
 		if(bd_select_playlist(bd, bluray_title.playlist) == 0) {
-			fprintf(stderr, "Could not open playlist %u\n", bluray_title.playlist);
+			fprintf(stderr, "Could not open playlist %" PRIu32 "\n", bluray_title.playlist);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
@@ -378,7 +378,7 @@ int main(int argc, char **argv) {
 	} else {
 		bluray_title.ix = (uint32_t)bluray_info.main_title;
 		if(bd_select_title(bd, bluray_title.ix) == 0) {
-			fprintf(stderr, "Could not open title %u\n", bluray_title.ix + 1);
+			fprintf(stderr, "Could not open title %" PRIu32 "\n", bluray_title.ix + 1);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
@@ -387,7 +387,7 @@ int main(int argc, char **argv) {
 	}
 
 	if(bd_title == NULL) {
-		fprintf(stderr, "Could not get info for title %u\n", bluray_title.ix + 1);
+		fprintf(stderr, "Could not get info for title %" PRIu32 "\n", bluray_title.ix + 1);
 		bd_close(bd);
 		bd = NULL;
 		return 1;
@@ -412,7 +412,7 @@ int main(int argc, char **argv) {
 		bluray_title.pg_streams = bd_title->clips[0].pg_stream_count;
 	}
 
-	printf("Title: %03u, Playlist: %04u, Length: %s, Chapters: %02u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05lu MBs\n", bluray_title.ix + 1, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
+	printf("Title: %03" PRIu32 ", Playlist: %04" PRIu32 ", Length: %s, Chapters: %02" PRIu32 ", Video streams: %02" PRIu8 ", Audio streams: %02" PRIu8 ", Subtitles: %02" PRIu8 ", Filesize: %05" PRIu64 " MBs\n", bluray_title.ix + 1, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
 
 	// Finished with libbluray
 	bd_free_title_info(bd_title);
