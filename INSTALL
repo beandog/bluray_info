@@ -16,7 +16,7 @@ Here's instrutions generic to each Linux environment:
 
 DragonFly BSD
 -------------
-# pkg install autoconf automake pkgconf
+# pkg install autoconf automake pkgconf libaacs libbluray
 # ./configure
 # make
 # make install
