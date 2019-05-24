@@ -510,8 +510,8 @@ int main(int argc, char **argv) {
 		chapter_pos = bd_chapter_pos(bd, chapter_ix);
 		bluray_chapters[chapter_ix].range[0] = chapter_pos;
 		if(debug) {
-			fprintf(stderr, "* setting chapter ix %2u start to %12ld\n", chapter_ix, chapter_pos);
-			fprintf(stderr, "* bluray_chapters ix %2u range 0: %ld\n", chapter_ix, bluray_chapters[chapter_ix].range[0]);
+			fprintf(stderr, "* setting chapter ix %2" PRIu32 " start to %12" PRIi64 "\n", chapter_ix, chapter_pos);
+			fprintf(stderr, "* bluray_chapters ix %2" PRIu32 " range 0: %" PRIi64 "\n", chapter_ix, bluray_chapters[chapter_ix].range[0]);
 		}
 	}
 
@@ -528,20 +528,20 @@ int main(int argc, char **argv) {
 		}
 		bluray_chapters[chapter_ix].range[1] = chapter_pos;
 		if(debug) {
-			fprintf(stderr, "* setting chapter ix %2u stop to	%12ld\n", chapter_ix, bluray_chapters[chapter_ix].range[1]);
+			fprintf(stderr, "* setting chapter ix %2" PRIu32 " stop to	%12" PRIi64 "\n", chapter_ix, bluray_chapters[chapter_ix].range[1]);
 		}
 
 		chapter_size = bluray_chapters[chapter_ix].range[1] - bluray_chapters[chapter_ix].range[0];
 		bluray_chapters[chapter_ix].size = chapter_size;
 		bluray_chapters[chapter_ix].size_mbs = round((double)chapter_size / 1048576);
 		if(debug) {
-			fprintf(stderr, "* setting chapter ix %2u size to	%12ld\n", chapter_ix, bluray_chapters[chapter_ix].size);
+			fprintf(stderr, "* setting chapter ix %2" PRIu32 " size to	%12" PRIi64 "\n", chapter_ix, bluray_chapters[chapter_ix].size);
 		}
 
 	}
 
 	if(debug) {
-		fprintf(stderr, "* last chapter stop should be title size %ld which is: %ld\n", bluray_title.size, bluray_chapters[bluray_title.chapters - 1].range[1]);
+		fprintf(stderr, "* last chapter stop should be title size %" PRIi64 " which is: %" PRIi64 "\n", bluray_title.size, bluray_chapters[bluray_title.chapters - 1].range[1]);
 	}
 
 	// Buffer to read into
@@ -582,13 +582,13 @@ int main(int argc, char **argv) {
 	bd_seek_chapter(bd, chapter_ix);
 
 	if(debug) {
-		printf("* chapters_range[0]: %u\n", chapters_range[0]);
-		printf("* chapter_number: %u\n", chapter_number);
+		printf("* chapters_range[0]: %" PRIu32 "\n", chapters_range[0]);
+		printf("* chapter_number: %" PRIu32 "\n", chapter_number);
 		printf("* bd_tell: %" PRIu64 "\n", bd_tell(bd));
 	}
 
 	// Display the first chapter
-	fprintf(io, "	Chapter: %03d, Start: %s, Length: %s\n", chapter_number, bluray_chapters[chapter_ix].start_time, bluray_chapters[chapter_ix].length);
+	fprintf(io, "	Chapter: %03" PRIu32 ", Start: %s, Length: %s\n", chapter_number, bluray_chapters[chapter_ix].start_time, bluray_chapters[chapter_ix].length);
 
 	// Loop until specifically broken out
 	while(true) {
@@ -597,7 +597,7 @@ int main(int argc, char **argv) {
 		// positions, the first chapter position will actually be hit twice.
 		if(bluray_chapters[chapter_ix].range[0] == (int64_t)bd_tell(bd) && chapter_number <= bluray_title.chapters && chapter_ix > chapters_range[0]) {
 			fprintf(io, "\33[2K");
-			fprintf(io, "	Chapter: %03d, Start: %s, Length: %s\n", chapter_number, bluray_chapters[chapter_ix].start_time, bluray_chapters[chapter_ix].length);
+			fprintf(io, "	Chapter: %03" PRIu32 ", Start: %s, Length: %s\n", chapter_number, bluray_chapters[chapter_ix].start_time, bluray_chapters[chapter_ix].length);
 		}
 
 		// Read from the bluray
@@ -674,7 +674,7 @@ int main(int argc, char **argv) {
 			progress[1]++;
 			progress[2] = (progress[1] / bluray_copy.size_mbs) * 100;
 			if(debug) {
-				fprintf(stderr, "* success: %08" PRIi64 " bytes; total size_mbs read: %06" PRIi64 "; position: %012" PRIu64 ", chapter ix: %03u, chapter number: %03u; Progress: %.0lf/%.0lf MBs\r", bluray_read[1], bluray_read[2] / 1048576, bd_tell(bd), bd_get_current_chapter(bd), bd_get_current_chapter(bd) + 1, progress[1], bluray_copy.size_mbs);
+				fprintf(stderr, "* success: %08" PRIi64 " bytes; total size_mbs read: %06" PRIi64 "; position: %012" PRIu64 ", chapter ix: %03" PRIu32 ", chapter number: %03" PRIu32 "; Progress: %.0lf/%.0lf MBs\r", bluray_read[1], bluray_read[2] / 1048576, bd_tell(bd), bd_get_current_chapter(bd), bd_get_current_chapter(bd) + 1, progress[1], bluray_copy.size_mbs);
 				fflush(stderr);
 			}
 			fprintf(stderr, "Progress: %6.0lf/%.0lf MBs (%.0lf%%)\r", progress[1], bluray_copy.size_mbs, progress[2]);
@@ -696,7 +696,7 @@ int main(int argc, char **argv) {
 	fprintf(io, "\n");
 
 	if(debug) {
-		fprintf(stderr, "* current chapter ix: %u\n", bd_get_current_chapter(bd));
+		fprintf(stderr, "* current chapter ix: %" PRIu32 "\n", bd_get_current_chapter(bd));
 		fprintf(stderr, "* total bytes read: %" PRIi64 " bytes\n", bluray_read[2]);
 		fprintf(stderr, "* total MBs read: %lf bytes\n", ceil(ceil((double)bluray_read[2]) / 1048576));
 	}
