@@ -80,6 +80,8 @@ int main(int argc, char **argv) {
 	uint8_t video_stream_number = 0;
 	uint8_t audio_stream_ix = 0;
 	uint8_t audio_stream_number = 0;
+	uint8_t pg_stream_ix = 0;
+	uint8_t pg_stream_number = 0;
 	uint32_t stream_ix = 0;
 	uint64_t chapter_ix = 0;
 	uint64_t chapter_start = 0;
@@ -712,9 +714,10 @@ int main(int argc, char **argv) {
 			if(p_bluray_json)
 				printf("   \"subtitles\": [\n");
 
-			for(stream_ix = 0; stream_ix < bluray_title.pg_streams; stream_ix++) {
+			for(pg_stream_ix = 0; pg_stream_ix < bluray_title.pg_streams; pg_stream_ix++) {
 
-				bd_stream = &bd_title->clips[0].pg_streams[stream_ix];
+				pg_stream_number = pg_stream_ix + 1;
+				bd_stream = &bd_title->clips[0].pg_streams[pg_stream_ix];
 
 				bluray_pgs_lang(bluray_pgs.lang, bd_stream->lang);
 
@@ -722,15 +725,15 @@ int main(int argc, char **argv) {
 					continue;
 
 				if(p_bluray_info && d_subtitles) {
-					printf("	Subtitle: %02u, Language: %s\n", stream_ix + 1, bluray_pgs.lang);
+					printf("	Subtitle: %02u, Language: %s\n", pg_stream_number, bluray_pgs.lang);
 				}
 
 				if(p_bluray_json) {
 					printf("    {\n");
-					printf("     \"track\": %u,\n", stream_ix + 1);
+					printf("     \"track\": %u,\n", pg_stream_number);
 					printf("     \"stream\": \"0x%x\",\n", bd_stream->pid);
 					printf("     \"language\": \"%s\"\n", bluray_pgs.lang);
-					if(stream_ix + 1 < bluray_title.pg_streams)
+					if(pg_stream_number < bluray_title.pg_streams)
 						printf("    },\n");
 					else
 						printf("    }\n");
