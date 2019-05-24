@@ -4,18 +4,14 @@ box. Check out https://dvds.beandog.org/ for latest build instructions
 on your OS.
 
 bluray_info doesn't package the autotools components with the source code,
-so you will need to rebuild them if manually building it.
+so you will need to rebuild them if manually building it. You will also
+need pkg-config installed.
 
 You can see bluray_device.h to see which OSes it's been ported and tested
 for. If it's listed in there, it will use the default optical drive.
 
 If you want to use bluray_player, libmpv must be installed on the system,
 and then add '--with-libmpv' to './configure'
-
-Here's instrutions generic to each Linux environment:
-- install autotools
-- install build and run time dependencies
-- install to filesystem
 
 DragonFly BSD
 -------------
@@ -32,6 +28,14 @@ Linux
 -----
 Assuming all your build essentials are already installed:
 # autoreconf -fi
+# ./configure
+# make
+# make install
+
+NetBSD
+------
+You will have needed to install pkgsrc first.
+# pkgin install automake autoconf pkgconf libaacs libbluray
 # ./configure
 # make
 # make install
