@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
 	uint8_t audio_stream_number = 0;
 	uint8_t pg_stream_ix = 0;
 	uint8_t pg_stream_number = 0;
-	uint64_t chapter_ix = 0;
+	uint32_t chapter_ix = 0;
 	uint64_t chapter_start = 0;
 	uint32_t d_num_titles = 0;
 	uint32_t d_first_ix = 0;
@@ -766,12 +766,12 @@ int main(int argc, char **argv) {
 				bluray_duration_length(bluray_chapter.start_time, bluray_chapter.start);
 
 				if(p_bluray_info && d_chapters) {
-					printf("	Chapter: %03lu, Start: %s, Length: %s\n", chapter_ix + 1, bluray_chapter.start_time, bluray_chapter.length);
+					printf("	Chapter: %03u, Start: %s, Length: %s\n", chapter_ix + 1, bluray_chapter.start_time, bluray_chapter.length);
 				}
 
 				if(p_bluray_json) {
 					printf("    {\n");
-					printf("     \"chapter\": %lu,\n", chapter_ix + 1);
+					printf("     \"chapter\": %u,\n", chapter_ix + 1);
 					printf("     \"start time\": \"%s\",\n", bluray_chapter.start_time);
 					printf("     \"length\": \"%s\",\n", bluray_chapter.length);
 					printf("     \"start\": %lu,\n", bluray_chapter.start / 900);
@@ -783,8 +783,8 @@ int main(int argc, char **argv) {
 				}
 
 				if(p_bluray_xchap && ix == d_first_ix) {
-					printf("CHAPTER%03lu=%s\n", chapter_ix + 1, bluray_chapter.start_time);
-					printf("CHAPTER%03luNAME=Chapter %03lu\n", chapter_ix + 1, chapter_ix + 1);
+					printf("CHAPTER%03u=%s\n", chapter_ix + 1, bluray_chapter.start_time);
+					printf("CHAPTER%03uNAME=Chapter %03u\n", chapter_ix + 1, chapter_ix + 1);
 				}
 
 				chapter_start += bluray_chapter.duration;
