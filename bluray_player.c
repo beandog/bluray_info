@@ -141,7 +141,9 @@ int main(int argc, char **argv) {
 				if(strchr(optarg, '-') == NULL) {
 					opt_chapter_start = true;
 					opt_chapter_end = false;
-					arg_first_chapter = (uint8_t)strtoumax(optarg, NULL, 0);
+					arg_number = strtol(optarg, NULL, 10);
+					if(arg_number > 0)
+						arg_first_chapter = (uint8_t)arg_number;
 					break;
 				}
 
@@ -150,21 +152,27 @@ int main(int argc, char **argv) {
 					opt_chapter_start = false;
 					opt_chapter_end = true;
 					token = strtok(optarg, "-");
-					arg_last_chapter = (uint8_t)strtoumax(token, NULL, 0);
+					arg_number = strtol(token, NULL, 10);
+					if(arg_number > 0)
+						arg_last_chapter = (uint8_t)arg_number;
 					break;
 				}
 
 				// passed -c <chapter-number>-[|<chapter-number>]
 				opt_chapter_start = true;
 				token = strtok(optarg, "-");
-				arg_first_chapter = (uint8_t)strtoumax(token, NULL, 0);
+				arg_number = strtol(token, NULL, 10);
+				if(arg_number > 0)
+					arg_first_chapter = (uint8_t)arg_number;
 
 				token = strtok(NULL, "-");
 
 				// passed -c <chapter-number>-<chapter-number>
 				if(token != NULL) {
 					opt_chapter_end = true;
-					arg_last_chapter = (uint8_t)strtoumax(token, NULL, 0);
+					arg_number = strtol(token, NULL, 10);
+					if(arg_number > 0)
+						arg_last_chapter = (uint8_t)arg_number;
 					break;
 				}
 
