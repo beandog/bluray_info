@@ -86,7 +86,7 @@ int main(int argc, char **argv) {
 	long int arg_number = 0;
 	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
-	uint32_t arg_angle_number = 1;
+	uint8_t arg_angle_number = 1;
 	bool debug = false;
 	const char *key_db_filename = NULL;
 
@@ -119,7 +119,11 @@ int main(int argc, char **argv) {
 		switch(g_opt) {
 
 			case 'a':
-				arg_angle_number = (unsigned int)strtoumax(optarg, NULL, 0);
+				arg_number = strtol(optarg, NULL, 10);
+				if(arg_number < 1)
+					arg_angle_number = 1;
+				else
+					arg_angle_number = (uint8_t)arg_number;
 				break;
 
 			case 'c':
@@ -413,6 +417,10 @@ int main(int argc, char **argv) {
 	}
 
 	// Check for valid angle number
+	if(arg_angle_number > bluray_title.angles) {
+		fprintf(stderr, "Cannot select angle %u, highest angle number is %u.\n", arg_angle_number, bluray_title.angles);
+		return 1;
+	}
 	retval = bd_select_angle(bd, arg_angle_number);
 	if(retval < 0) {
 		fprintf(stderr, "Could not select angle # %u\n", arg_angle_number);
