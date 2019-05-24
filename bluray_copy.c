@@ -549,7 +549,7 @@ int main(int argc, char **argv) {
 
 	// Current position
 	if(debug) {
-		fprintf(stderr, "* bd_tell position: %lu\n", bd_tell(bd));
+		fprintf(stderr, "* bd_tell position: %" PRIu64 "\n", bd_tell(bd));
 	}
 
 	// Keep track of when it's time to display next chapter's information
