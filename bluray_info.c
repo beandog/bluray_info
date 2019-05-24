@@ -754,7 +754,7 @@ int main(int argc, char **argv) {
 
 				bluray_chapter.start = chapter_start;
 				bluray_chapter.duration = bd_chapter->duration;
-				bluray_duration_length(bluray_chapter.length, bd_chapter->duration);
+				bluray_duration_length(bluray_chapter.length, bluray_chapter.duration);
 				bluray_duration_length(bluray_chapter.start_time, bluray_chapter.start);
 
 				if(p_bluray_info && d_chapters) {
