@@ -25,7 +25,7 @@ struct bluray_info {
 	uint32_t bdj_titles;
 	uint32_t hdmv_titles;
 	uint32_t longest_title;
-	int main_title;
+	int32_t main_title;
 };
 
 struct bluray_title {
@@ -443,7 +443,7 @@ int main(int argc, char **argv) {
 		d_num_titles = 1;
 	}
 
-	bluray_info.main_title = bd_get_main_title(bd);
+	bluray_info.main_title = (int32_t)bd_get_main_title(bd);
 
 	if(d_main_title) {
 		d_first_ix = (uint32_t)bluray_info.main_title;
@@ -818,7 +818,7 @@ int main(int argc, char **argv) {
 	}
 
 	if(p_bluray_info && !d_title_number && !d_main_title && d_num_titles != 1 && d_quiet == false)
-		printf("Main title: %i\n", bluray_info.main_title + 1);
+		printf("Main title: %" PRIi32 "\n", bluray_info.main_title + 1);
 
 	bd_free_title_info(bd_title);
 	bd_title = NULL;
