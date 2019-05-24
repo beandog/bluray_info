@@ -415,12 +415,12 @@ int main(int argc, char **argv) {
 	// Select track passed as an argument
 	if(d_title_number) {
 		if(a_title_number > bluray_info.titles || a_title_number < 1) {
-			printf("Could not open title %u, choose from 1 to %u\n", a_title_number, bluray_info.titles);
+			printf("Could not open title %" PRIu32 ", choose from 1 to %" PRIu32 "\n", a_title_number, bluray_info.titles);
 			return 1;
 		}
 		retval = bd_select_title(bd, a_title_number - 1);
 		if(retval == 0) {
-			printf("Could not open title %u\n", a_title_number);
+			printf("Could not open title %" PRIu32 "\n", a_title_number);
 			return 1;
 		}
 		d_first_ix = a_title_number - 1;
@@ -488,7 +488,7 @@ int main(int argc, char **argv) {
 		printf("  \"provider data\": \"%s\",\n", bd_info->provider_data);
 		printf("  \"3D content\": %s,\n", bd_info->content_exist_3D ? "true" : "false");
 		printf("  \"initial mode\": \"%s\",\n", bd_info->initial_output_mode_preference ? "3D" : "2D");
-		printf("  \"titles\": %u,\n", bluray_info.titles);
+		printf("  \"titles\": %" PRIu32 ",\n", bluray_info.titles);
 		printf("  \"bdinfo titles\": %u,\n", bd_info->num_titles);
 		printf("  \"bdj titles\": %u,\n", bd_info->num_bdj_titles);
 		printf("  \"hdmv titles\": %u,\n", bd_info->num_hdmv_titles);
