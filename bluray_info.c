@@ -82,7 +82,6 @@ int main(int argc, char **argv) {
 	uint8_t audio_stream_number = 0;
 	uint8_t pg_stream_ix = 0;
 	uint8_t pg_stream_number = 0;
-	uint32_t stream_ix = 0;
 	uint64_t chapter_ix = 0;
 	uint64_t chapter_start = 0;
 	uint32_t d_num_titles = 0;
