@@ -489,13 +489,13 @@ int main(int argc, char **argv) {
 		printf("  \"3D content\": %s,\n", bd_info->content_exist_3D ? "true" : "false");
 		printf("  \"initial mode\": \"%s\",\n", bd_info->initial_output_mode_preference ? "3D" : "2D");
 		printf("  \"titles\": %" PRIu32 ",\n", bluray_info.titles);
-		printf("  \"bdinfo titles\": %u,\n", bd_info->num_titles);
-		printf("  \"bdj titles\": %u,\n", bd_info->num_bdj_titles);
-		printf("  \"hdmv titles\": %u,\n", bd_info->num_hdmv_titles);
-		printf("  \"main title\": %u,\n", bluray_info.main_title + 1);
-		printf("  \"main playlist\": %u,\n", main_playlist);
-		printf("  \"longest title\": %u,\n", longest_title + 1);
-		printf("  \"longest playlist\": %u\n", longest_playlist);
+		printf("  \"bdinfo titles\": %" PRIu32 ",\n", bd_info->num_titles);
+		printf("  \"bdj titles\": %" PRIu32 ",\n", bd_info->num_bdj_titles);
+		printf("  \"hdmv titles\": %" PRIu32 ",\n", bd_info->num_hdmv_titles);
+		printf("  \"main title\": %" PRIu32 ",\n", bluray_info.main_title + 1);
+		printf("  \"main playlist\": %" PRIu32 ",\n", main_playlist);
+		printf("  \"longest title\": %" PRIu32 ",\n", longest_title + 1);
+		printf("  \"longest playlist\": %" PRIu32 "\n", longest_playlist);
 		printf(" },\n");
 
 	}
