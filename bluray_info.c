@@ -768,16 +768,16 @@ int main(int argc, char **argv) {
 				bluray_duration_length(bluray_chapter.start_time, bluray_chapter.start);
 
 				if(p_bluray_info && d_chapters) {
-					printf("	Chapter: %03u, Start: %s, Length: %s\n", chapter_number, bluray_chapter.start_time, bluray_chapter.length);
+					printf("	Chapter: %03" PRIu32 ", Start: %s, Length: %s\n", chapter_number, bluray_chapter.start_time, bluray_chapter.length);
 				}
 
 				if(p_bluray_json) {
 					printf("    {\n");
-					printf("     \"chapter\": %u,\n", chapter_number);
+					printf("     \"chapter\": %" PRIu32 ",\n", chapter_number);
 					printf("     \"start time\": \"%s\",\n", bluray_chapter.start_time);
 					printf("     \"length\": \"%s\",\n", bluray_chapter.length);
-					printf("     \"start\": %lu,\n", bluray_chapter.start / 900);
-					printf("     \"duration\": %lu\n", bd_chapter->duration / 900);
+					printf("     \"start\": %" PRIu64 ",\n", bluray_chapter.start / 900);
+					printf("     \"duration\": %" PRIu64 "\n", bd_chapter->duration / 900);
 					if(chapter_number < bluray_title.chapters)
 						printf("    },\n");
 					else
@@ -785,8 +785,8 @@ int main(int argc, char **argv) {
 				}
 
 				if(p_bluray_xchap && ix == d_first_ix) {
-					printf("CHAPTER%03u=%s\n", chapter_number, bluray_chapter.start_time);
-					printf("CHAPTER%03uNAME=Chapter %03u\n", chapter_number, chapter_number);
+					printf("CHAPTER%03" PRIu8 "=%s\n", chapter_number, bluray_chapter.start_time);
+					printf("CHAPTER%03" PRIu8 "NAME=Chapter %03" PRIu8 "\n", chapter_number, chapter_number);
 				}
 
 				chapter_start += bluray_chapter.duration;
