@@ -634,7 +634,7 @@ int main(int argc, char **argv) {
 
 				if(p_bluray_json) {
 					printf("    {\n");
-					printf("     \"track\": %u,\n", video_stream_number);
+					printf("     \"track\": %" PRIu8 ",\n", video_stream_number);
 					printf("     \"stream\": \"0x%x\",\n", bd_stream->pid);
 					printf("     \"format\": \"%s\",\n", bluray_video.format);
 					printf("     \"aspect ratio\": \"%s\",\n", bluray_video.aspect_ratio);
