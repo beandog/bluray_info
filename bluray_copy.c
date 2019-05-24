@@ -309,7 +309,7 @@ int main(int argc, char **argv) {
 		bluray_title.number = arg_title_number;
 		bluray_title.ix = bluray_title.number - 1;
 		if(bluray_title.number > d_num_titles) {
-			fprintf(stderr, "Could not open title %u, choose from 1 to %u\n", bluray_title.number, d_num_titles);
+			fprintf(stderr, "Could not open title %" PRIu32 ", choose from 1 to %" PRIu32 "\n", bluray_title.number, d_num_titles);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
@@ -324,12 +324,12 @@ int main(int argc, char **argv) {
 		bluray_title.playlist = bd_title->playlist;
 		if(bluray_copy.filename == NULL) {
 			bluray_copy.filename = calloc(strlen("bluray_title_000.m2ts") + 1, sizeof(unsigned char));
-			snprintf(bluray_copy.filename, strlen("bluray_title_000.m2ts") + 1, "%s%03u%s", "bluray_title_", bluray_title.number, ".m2ts");
+			snprintf(bluray_copy.filename, strlen("bluray_title_000.m2ts") + 1, "%s%03" PRIu32 "%s", "bluray_title_", bluray_title.number, ".m2ts");
 		}
 	} else if(opt_playlist_number) {
 		bluray_title.playlist = arg_playlist_number;
 		if(bd_select_playlist(bd, bluray_title.playlist) == 0) {
-			fprintf(stderr, "Could not open playlist %u\n", bluray_title.playlist);
+			fprintf(stderr, "Could not open playlist %" PRIu32 "\n", bluray_title.playlist);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
@@ -338,12 +338,12 @@ int main(int argc, char **argv) {
 		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
 		if(bluray_copy.filename == NULL) {
 			bluray_copy.filename = calloc(strlen("bluray_playlist_00000.m2ts") + 1, sizeof(unsigned char));
-			snprintf(bluray_copy.filename, strlen("bluray_playlist_00000.m2ts") + 1, "%s%05u%s", "bluray_playlist_", bluray_title.playlist, ".m2ts");
+			snprintf(bluray_copy.filename, strlen("bluray_playlist_00000.m2ts") + 1, "%s%05" PRIu32 "%s", "bluray_playlist_", bluray_title.playlist, ".m2ts");
 		}
 	} else {
 		bluray_title.ix = (uint32_t)bluray_info.main_title;
 		if(bd_select_title(bd, bluray_title.ix) == 0) {
-			fprintf(stderr, "Could not open title %u\n", bluray_title.number);
+			fprintf(stderr, "Could not open title %" PRIu32 "\n", bluray_title.number);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
@@ -351,12 +351,12 @@ int main(int argc, char **argv) {
 		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
 		if(bluray_copy.filename == NULL) {
 			bluray_copy.filename = calloc(strlen("bluray_title_000.m2ts") + 1, sizeof(unsigned char));
-			snprintf(bluray_copy.filename, strlen("bluray_title_000.m2ts") + 1, "%s%03u%s", "bluray_title_", bluray_title.number, ".m2ts");
+			snprintf(bluray_copy.filename, strlen("bluray_title_000.m2ts") + 1, "%s%03" PRIu32 "%s", "bluray_title_", bluray_title.number, ".m2ts");
 		}
 	}
 
 	if(bd_title == NULL) {
-		fprintf(stderr, "Could not get info for title %u\n", bluray_title.number);
+		fprintf(stderr, "Could not get info for title %" PRIu32 "\n", bluray_title.number);
 		bd_close(bd);
 		bd = NULL;
 		if(bluray_copy.filename) {
@@ -380,7 +380,7 @@ int main(int argc, char **argv) {
 		arg_chapter_numbers[0] = arg_chapter_numbers[1];
 	// Handle chapter selection for first or last being out of bounds
 	if(arg_chapter_numbers[0] > bluray_title.chapters || arg_chapter_numbers[1] > bluray_title.chapters) {
-		fprintf(stderr, "Chapter selection is out of bounds, select between 1 and %u\n", bluray_title.chapters);
+		fprintf(stderr, "Chapter selection is out of bounds, select between 1 and %" PRIu32 "\n", bluray_title.chapters);
 		return 1;
 	}
 	// Finally set the actual zero-based chapter range indexes
@@ -409,17 +409,17 @@ int main(int argc, char **argv) {
 
 	// Display title information
 	if(p_bluray_copy) {
-		fprintf(io, "Title: %03u, Playlist: %04u, Length: %s, Chapters: %02u, Video streams: %02u, Audio streams: %02u, Subtitles: %02u, Filesize: %05.0lf MBs\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
+		fprintf(io, "Title: %03" PRIu32 ", Playlist: %04" PRIu32 ", Length: %s, Chapters: %02u, Video streams: %02" PRIu8 ", Audio streams: %02" PRIu8 ", Subtitles: %02" PRIu8 ", Filesize: %05.0lf MBs\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
 	}
 
 	// Check for valid angle number
 	if(arg_angle_number > bluray_title.angles) {
-		fprintf(stderr, "Cannot select angle %u, highest angle number is %u.\n", arg_angle_number, bluray_title.angles);
+		fprintf(stderr, "Cannot select angle %" PRIu8 ", highest angle number is %" PRIu8 ".\n", arg_angle_number, bluray_title.angles);
 		return 1;
 	}
 	retval = bd_select_angle(bd, arg_angle_number);
 	if(retval < 0) {
-		fprintf(stderr, "Could not select angle # %u\n", arg_angle_number);
+		fprintf(stderr, "Could not select angle # %" PRIu8 "\n", arg_angle_number);
 		return 1;
 	}
 
@@ -569,9 +569,9 @@ int main(int argc, char **argv) {
 	bluray_copy.size_mbs = ceil(ceil((double)bluray_copy.size) / 1048576);
 
 	if(debug) {
-		printf("* bluray_copy.size: %ld\n", bluray_copy.size);
+		printf("* bluray_copy.size: %" PRIi64 "\n", bluray_copy.size);
 		printf("* bluray_copy.size_mbs: %lf\n", bluray_copy.size_mbs);
-		printf("* bd_tell: %lu\n", bd_tell(bd));
+		printf("* bd_tell: %" PRIu64 "\n", bd_tell(bd));
 	}
 
 	// Reset indexes
@@ -584,7 +584,7 @@ int main(int argc, char **argv) {
 	if(debug) {
 		printf("* chapters_range[0]: %u\n", chapters_range[0]);
 		printf("* chapter_number: %u\n", chapter_number);
-		printf("* bd_tell: %lu\n", bd_tell(bd));
+		printf("* bd_tell: %" PRIu64 "\n", bd_tell(bd));
 	}
 
 	// Display the first chapter
@@ -674,7 +674,7 @@ int main(int argc, char **argv) {
 			progress[1]++;
 			progress[2] = (progress[1] / bluray_copy.size_mbs) * 100;
 			if(debug) {
-				fprintf(stderr, "* success: %08ld bytes; total size_mbs read: %06ld; position: %012lu, chapter ix: %03u, chapter number: %03u; Progress: %.0lf/%.0lf MBs\r", bluray_read[1], bluray_read[2] / 1048576, bd_tell(bd), bd_get_current_chapter(bd), bd_get_current_chapter(bd) + 1, progress[1], bluray_copy.size_mbs);
+				fprintf(stderr, "* success: %08" PRIi64 " bytes; total size_mbs read: %06" PRIi64 "; position: %012" PRIu64 ", chapter ix: %03u, chapter number: %03u; Progress: %.0lf/%.0lf MBs\r", bluray_read[1], bluray_read[2] / 1048576, bd_tell(bd), bd_get_current_chapter(bd), bd_get_current_chapter(bd) + 1, progress[1], bluray_copy.size_mbs);
 				fflush(stderr);
 			}
 			fprintf(stderr, "Progress: %6.0lf/%.0lf MBs (%.0lf%%)\r", progress[1], bluray_copy.size_mbs, progress[2]);
@@ -697,7 +697,7 @@ int main(int argc, char **argv) {
 
 	if(debug) {
 		fprintf(stderr, "* current chapter ix: %u\n", bd_get_current_chapter(bd));
-		fprintf(stderr, "* total bytes read: %ld bytes\n", bluray_read[2]);
+		fprintf(stderr, "* total bytes read: %" PRIi64 " bytes\n", bluray_read[2]);
 		fprintf(stderr, "* total MBs read: %lf bytes\n", ceil(ceil((double)bluray_read[2]) / 1048576));
 	}
 
