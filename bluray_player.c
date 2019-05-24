@@ -430,8 +430,8 @@ int main(int argc, char **argv) {
 		arg_first_chapter = arg_last_chapter;
 
 	// When choosing a chapter range, mpv will add 1 to the last one requested
-	snprintf(bluray_playback.chapter_start, 5, "#%03d", arg_first_chapter);
-	snprintf(bluray_playback.chapter_end, 5, "#%03d", arg_last_chapter + 1);
+	snprintf(bluray_playback.chapter_start, 5, "#%03" PRIu32, arg_first_chapter);
+	snprintf(bluray_playback.chapter_end, 5, "#%03" PRIu32, arg_last_chapter + 1);
 
 	// Load user's mpv configuration in ~/.config/bluray_player/mpv.conf (and friends)
 	if(strlen(bluray_player.mpv_config_dir) > 0) {
@@ -459,7 +459,7 @@ int main(int argc, char **argv) {
 		mpv_set_option_string(bluray_mpv, "end", bluray_playback.chapter_end);
 
 	// mpv zero-indexes titles
-	sprintf(bluray_mpv_args, "bd://%03u", bluray_playback.title - 1);
+	sprintf(bluray_mpv_args, "bd://%03" PRIu32, bluray_playback.title - 1);
 
 	// MPV uses zero-indexing for titles, bluray_info uses one instead
 	const char *bluray_mpv_commands[] = {
