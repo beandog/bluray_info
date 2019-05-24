@@ -793,8 +793,8 @@ int main(int argc, char **argv) {
 				}
 
 				if(p_bluray_xchap && ix == d_first_ix) {
-					printf("CHAPTER%03" PRIu8 "=%s\n", chapter_number, bluray_chapter.start_time);
-					printf("CHAPTER%03" PRIu8 "NAME=Chapter %03" PRIu8 "\n", chapter_number, chapter_number);
+					printf("CHAPTER%03" PRIu32 "=%s\n", chapter_number, bluray_chapter.start_time);
+					printf("CHAPTER%03" PRIu32 "NAME=Chapter %03" PRIu32 "\n", chapter_number, chapter_number);
 				}
 
 				chapter_start += bluray_chapter.duration;
