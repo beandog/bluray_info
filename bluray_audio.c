@@ -1,9 +1,9 @@
 #include "bluray_audio.h"
 
-void bluray_audio_lang(char *str, const uint8_t lang[4]) {
+void bluray_audio_lang(char *str, const uint8_t lang[BLURAY_INFO_AUDIO_LANG_STRLEN]) {
 
-	memset(str, '\0', BLURAY_INFO_AUDIO_LANG + 1);
-	memcpy(str, lang, BLURAY_INFO_AUDIO_LANG + 1);
+	memset(str, '\0', BLURAY_INFO_AUDIO_LANG_STRLEN);
+	memcpy(str, lang, BLURAY_INFO_AUDIO_LANG_STRLEN - 1);
 
 }
 
