@@ -9,6 +9,6 @@ struct bluray_pgs {
 	char lang[BLURAY_PGS_LANG_STRLEN];
 };
 
-void bluray_pgs_lang(char *str, const uint8_t lang[4]);
+void bluray_pgs_lang(char *str, const uint8_t lang[BLURAY_PGS_LANG_STRLEN]);
 
 #endif
