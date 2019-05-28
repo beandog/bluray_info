@@ -17,26 +17,6 @@
 #include "bluray_pgs.h"
 #include "bluray_time.h"
 
-struct bluray_video {
-	char codec[6];
-	char codec_name[7];
-	char format[6];
-	double framerate;
-	char aspect_ratio[5];
-};
-
-struct bluray_audio {
-	char lang[BLURAY_AUDIO_LANG + 1];
-	char codec[BLURAY_AUDIO_CODEC + 1];
-	char codec_name[BLURAY_AUDIO_CODEC_NAME + 1];
-	char format[BLURAY_AUDIO_FORMAT + 1];
-	char rate[BLURAY_AUDIO_RATE + 1];
-};
-
-struct bluray_pgs {
-	char lang[BLURAY_PGS_LANG_STRLEN];
-};
-
 int main(int argc, char **argv) {
 
 	uint32_t ix = 0;

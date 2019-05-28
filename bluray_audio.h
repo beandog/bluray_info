@@ -10,6 +10,14 @@
 #include <string.h>
 #include "libbluray/bluray.h"
 
+struct bluray_audio {
+	char lang[BLURAY_AUDIO_LANG + 1];
+	char codec[BLURAY_AUDIO_CODEC + 1];
+	char codec_name[BLURAY_AUDIO_CODEC_NAME + 1];
+	char format[BLURAY_AUDIO_FORMAT + 1];
+	char rate[BLURAY_AUDIO_RATE + 1];
+};
+
 void bluray_audio_lang(char *str, const uint8_t lang[4]);
 
 void bluray_audio_codec(char *str, const uint8_t coding_type);
