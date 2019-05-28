@@ -354,7 +354,6 @@ int main(int argc, char **argv) {
 	memset(bluray_info.disc_name, '\0', sizeof(bluray_info.disc_name));
 	bluray_info.titles = 0;
 	bluray_info.bdinfo_titles = 0;
-	bluray_info.longest_title_ix = 0;
 	bluray_info.main_title = 1;
 
 	const struct meta_dl *bluray_meta = NULL;

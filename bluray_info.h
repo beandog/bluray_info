@@ -10,7 +10,6 @@ struct bluray_info {
 	char bluray_title[BLURAY_TITLE_STRLEN];
 	char disc_name[BLURAY_DISC_NAME_STRLEN];
 	uint32_t titles;
-	uint32_t longest_title_ix;
 	int32_t main_title;
 	bool first_play_supported;
 	bool top_menu_supported;

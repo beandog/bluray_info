@@ -303,7 +303,6 @@ int main(int argc, char **argv) {
 	struct bluray_info bluray_info;
 	memset(bluray_info.bluray_id, '\0', sizeof(bluray_info.bluray_id));
 	memset(bluray_info.bluray_title, '\0', sizeof(bluray_info.bluray_title));
-	bluray_info.longest_title_ix = 0;
 	bluray_info.main_title = 1;
 
 	if(bd_info->udf_volume_id)
