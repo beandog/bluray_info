@@ -120,23 +120,23 @@ void bluray_audio_format(char *str, const uint8_t format) {
 	switch(format) {
 
 		case BLURAY_AUDIO_FORMAT_MONO:
-			strncpy(str, "mono", BLURAY_AUDIO_FORMAT + 1);
+			strncpy(str, "mono", BLURAY_INFO_AUDIO_FORMAT + 1);
 			break;
 
 		case BLURAY_AUDIO_FORMAT_STEREO:
-			strncpy(str, "stereo", BLURAY_AUDIO_FORMAT + 1);
+			strncpy(str, "stereo", BLURAY_INFO_AUDIO_FORMAT + 1);
 			break;
 
 		case BLURAY_AUDIO_FORMAT_MULTI_CHAN:
-			strncpy(str, "multi_chan", BLURAY_AUDIO_FORMAT + 1);
+			strncpy(str, "multi_chan", BLURAY_INFO_AUDIO_FORMAT + 1);
 			break;
 
 		case BLURAY_AUDIO_FORMAT_COMBO:
-			strncpy(str, "combo", BLURAY_AUDIO_FORMAT + 1);
+			strncpy(str, "combo", BLURAY_INFO_AUDIO_FORMAT + 1);
 			break;
 
 		default:
-			strncpy(str, "", BLURAY_AUDIO_FORMAT + 1);
+			strncpy(str, "", BLURAY_INFO_AUDIO_FORMAT + 1);
 			break;
 
 	}
