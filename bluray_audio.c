@@ -9,6 +9,8 @@ void bluray_audio_lang(char *str, const uint8_t lang[4]) {
 
 void bluray_audio_codec(char *str, const uint8_t coding_type) {
 
+	memset(str, '\0', BLURAY_INFO_AUDIO_CODEC_STRLEN);
+
 	switch(coding_type) {
 
 		case BLURAY_STREAM_TYPE_AUDIO_MPEG1:
@@ -49,15 +51,13 @@ void bluray_audio_codec(char *str, const uint8_t coding_type) {
 			strncpy(str, "dtshd-ma", BLURAY_INFO_AUDIO_CODEC_STRLEN);
 			break;
 
-		default:
-			strncpy(str, "", BLURAY_INFO_AUDIO_CODEC_STRLEN);
-			break;
-
 	}
 
 }
 
 void bluray_audio_codec_name(char *str, const uint8_t coding_type) {
+
+	memset(str, '\0', BLURAY_INFO_AUDIO_CODEC_NAME_STRLEN);
 
 	switch(coding_type) {
 
@@ -99,10 +99,6 @@ void bluray_audio_codec_name(char *str, const uint8_t coding_type) {
 			strncpy(str, "DTS-HD Master", BLURAY_INFO_AUDIO_CODEC_NAME_STRLEN);
 			break;
 
-		default:
-			strncpy(str, "", BLURAY_INFO_AUDIO_CODEC_NAME_STRLEN);
-			break;
-
 	}
 
 }
@@ -117,6 +113,8 @@ bool bluray_audio_secondary_stream(const uint8_t coding_type) {
 }
 
 void bluray_audio_format(char *str, const uint8_t format) {
+
+	memset(str, '\0', BLURAY_INFO_AUDIO_FORMAT + 1);
 
 	switch(format) {
 
@@ -136,40 +134,34 @@ void bluray_audio_format(char *str, const uint8_t format) {
 			strncpy(str, "combo", BLURAY_INFO_AUDIO_FORMAT + 1);
 			break;
 
-		default:
-			strncpy(str, "", BLURAY_INFO_AUDIO_FORMAT + 1);
-			break;
-
 	}
 
 }
 
 void bluray_audio_rate(char *str, const uint8_t rate) {
 
+	memset(str, '\0', BLURAY_INFO_AUDIO_RATE_STRLEN);
+
 	switch(rate) {
 
 		case BLURAY_AUDIO_RATE_48:
-			strncpy(str, "48", BLURAY_INFO_AUDIO_RATE + 1);
+			strncpy(str, "48", BLURAY_INFO_AUDIO_RATE_STRLEN);
 			break;
 
 		case BLURAY_AUDIO_RATE_96:
-			strncpy(str, "96", BLURAY_INFO_AUDIO_RATE + 1);
+			strncpy(str, "96", BLURAY_INFO_AUDIO_RATE_STRLEN);
 			break;
 
 		case BLURAY_AUDIO_RATE_192:
-			strncpy(str, "192", BLURAY_INFO_AUDIO_RATE + 1);
+			strncpy(str, "192", BLURAY_INFO_AUDIO_RATE_STRLEN);
 			break;
 
 		case BLURAY_AUDIO_RATE_192_COMBO:
-			strncpy(str, "192_combo", BLURAY_INFO_AUDIO_RATE + 1);
+			strncpy(str, "192_combo", BLURAY_INFO_AUDIO_RATE_STRLEN);
 			break;
 
 		case BLURAY_AUDIO_RATE_96_COMBO:
-			strncpy(str, "96_combo", BLURAY_INFO_AUDIO_RATE + 1);
-			break;
-
-		default:
-			strncpy(str, "", BLURAY_INFO_AUDIO_RATE + 1);
+			strncpy(str, "96_combo", BLURAY_INFO_AUDIO_RATE_STRLEN);
 			break;
 
 	}
