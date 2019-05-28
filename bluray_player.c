@@ -12,7 +12,7 @@
 #include <libbluray/bluray.h>
 #include "config.h"
 #include "bluray_device.h"
-#include "bluray_info.h"
+#include "bluray_open.h"
 #include "bluray_time.h"
 #include "bluray_player.h"
 #include <mpv/client.h>

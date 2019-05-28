@@ -12,7 +12,7 @@
 #include "config.h"
 #include "libbluray/bluray.h"
 #include "bluray_device.h"
-#include "bluray_info.h"
+#include "bluray_open.h"
 #include "bluray_time.h"
 #include "bluray_copy.h"
 

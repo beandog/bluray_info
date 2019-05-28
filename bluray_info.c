@@ -11,11 +11,15 @@
 #include "libbluray/bluray.h"
 #include "libbluray/meta_data.h"
 #include "bluray_info.h"
+#include "bluray_open.h"
 #include "bluray_device.h"
 #include "bluray_audio.h"
 #include "bluray_video.h"
 #include "bluray_pgs.h"
 #include "bluray_time.h"
+
+int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info);
+
 
 int main(int argc, char **argv) {
 
@@ -289,34 +293,18 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	// Fetch info
-	const BLURAY_DISC_INFO *bd_info = NULL;
-
-	bd_info = bd_get_disc_info(bd);
-
-	if(bd_info == NULL) {
-		printf("Could not get Blu-ray disc info\n");
-		return 1;
-	}
-
 	BLURAY_TITLE_INFO *bd_title = NULL;
 	BLURAY_STREAM_INFO *bd_stream = NULL;
 	BLURAY_TITLE_CHAPTER *bd_chapter = NULL;
 
 	// Blu-ray
 	struct bluray_info bluray_info;
-	memset(bluray_info.bluray_id, '\0', BLURAY_INFO_ID_STRLEN);
-	memset(bluray_info.bluray_title, '\0', BLURAY_INFO_TITLE_STRLEN);
-	memset(bluray_info.disc_name, '\0', BLURAY_INFO_DISC_NAME_STRLEN);
+	retval = bluray_info_init(bd, &bluray_info);
 
-	const struct meta_dl *bluray_meta = NULL;
-	bluray_meta = bd_get_meta(bd);
-
-	if(bluray_meta != NULL)
-		strncpy(bluray_info.disc_name, bluray_meta->di_name, BLURAY_INFO_DISC_NAME_STRLEN - 1);
-
-	if(bd_info->udf_volume_id)
-		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_INFO_TITLE_STRLEN - 1);
+	if(retval) {
+		printf("* Couldn't open Blu-ray\n");
+		return 1;
+	}
 
 	if(p_bluray_disc_name) {
 		printf("%s\n", bluray_info.disc_name);
@@ -328,45 +316,12 @@ int main(int argc, char **argv) {
 		return 0;
 	}
 
-	if(bd_info->libaacs_detected) {
-		for(ix = 0; ix < 20; ix++) {
-			sprintf(bluray_info.bluray_id + 2 * ix, "%02X", bd_info->disc_id[ix]);
-		}
-	}
-
 	if(p_bluray_id) {
 		printf("%s\n", bluray_info.bluray_id);
 		return 0;
 	}
 
-	// Titles, Indexes and Playlists
-	//
-	// libbluray has a "title" which is a really an index it uses to list the
-	// playlists based on the type queried. It has stuck as the "title index" for
-	// media players (mplayer, mpv).
-	//
-	// The de facto title index can cause problems if using another application
-	// that prefers another index method for accessing the playlists (if such
-	// a thing exists). bdpslice (part of libbluray) takes both a title number
-	// or a playlist number as an argument, and passing the playlist number
-	// is more certain.
-	//
-	// libbluray indexes titles starting at 0, but for human-readable, bluray_info
-	// starts at 1. Playlists start at 0, because they are indexed as such on the
-	// filesystem.
-
-	bluray_info.titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
 	d_num_titles = bluray_info.titles;
-
-	// These are going to change depending on if you have the JVM installed or not
-	bluray_info.first_play_supported = (bd_info->first_play_supported ? true : false);
-	bluray_info.top_menu_supported = (bd_info->top_menu_supported ? true : false);
-	bluray_info.hdmv_titles = bd_info->num_hdmv_titles;
-	bluray_info.bdj_titles = bd_info->num_bdj_titles;
-	bluray_info.unsupported_titles = bd_info->num_unsupported_titles;
-	bluray_info.aacs = (bd_info->aacs_detected ? true : false);
-	bluray_info.bdplus = (bd_info->bdplus_detected ? true : false);
-	bluray_info.bdj = (bd_info->bdj_detected ? true : false);
 
 	// Select track passed as an argument
 	if(d_title_number) {
@@ -394,7 +349,6 @@ int main(int argc, char **argv) {
 	}
 
 	int bd_main_title = bd_get_main_title(bd);
-	bluray_info.main_title_ix = 0;
 	if(bd_main_title >= 0)
 		bluray_info.main_title_ix = (uint32_t)bd_main_title;
 
@@ -448,11 +402,11 @@ int main(int argc, char **argv) {
 		printf("  \"longest playlist\": %" PRIu32 ",\n", longest_playlist);
 		printf("  \"first play supported\": %s,\n", bluray_info.first_play_supported ? "true" : "false");
 		printf("  \"top menu supported\": %s,\n", bluray_info.top_menu_supported ? "true" : "false");
-		printf("  \"provider data\": \"%s\",\n", bd_info->provider_data);
-		printf("  \"3D content\": %s,\n", bd_info->content_exist_3D ? "true" : "false");
-		printf("  \"initial mode\": \"%s\",\n", bd_info->initial_output_mode_preference ? "3D" : "2D");
+		printf("  \"provider data\": \"%s\",\n", bluray_info.provider_data);
+		printf("  \"3D content\": %s,\n", bluray_info.content_exist_3D ? "true" : "false");
+		printf("  \"initial mode\": \"%s\",\n", bluray_info.initial_output_mode_preference);
 		printf("  \"titles\": %" PRIu32 ",\n", bluray_info.titles);
-		printf("  \"bdinfo titles\": %" PRIu32 ",\n", bd_info->num_titles);
+		printf("  \"bdinfo titles\": %" PRIu32 ",\n", bluray_info.disc_num_titles);
 		printf("  \"hdmv titles\": %" PRIu32 ",\n", bluray_info.hdmv_titles);
 		printf("  \"bdj titles\": %" PRIu32 ",\n", bluray_info.bdj_titles);
 		printf("  \"unsupported titles\": %" PRIu32 ",\n", bluray_info.unsupported_titles);
