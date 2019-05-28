@@ -5,6 +5,7 @@
 #include <string.h>
 #include <stdbool.h>
 #include <inttypes.h>
+#include <math.h>
 #include <getopt.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -33,21 +34,6 @@ struct bluray_playback {
 	char subtitles_lang[4];
 	char chapter_start[5];
 	char chapter_end[5];
-};
-
-struct bluray_title {
-	uint32_t ix;
-	uint32_t playlist;
-	uint64_t duration;
-	uint64_t size;
-	uint64_t size_mbs;
-	uint32_t chapters;
-	uint32_t clips;
-	uint8_t angles;
-	uint8_t video_streams;
-	uint8_t audio_streams;
-	uint8_t pg_streams;
-	char length[12];
 };
 
 int main(int argc, char **argv) {
@@ -386,7 +372,7 @@ int main(int argc, char **argv) {
 
 	bluray_title.duration = bd_title->duration;
 	bluray_title.size = bd_get_title_size(bd);
-	bluray_title.size_mbs = bluray_title.size / 1024 / 1024;
+	bluray_title.size_mbs = ceil((double)bluray_title.size / 1048576);
 	bluray_title.chapters = bd_title->chapter_count;
 	bluray_title.clips = bd_title->clip_count;
 	bluray_title.angles = bd_title->angle_count;
@@ -398,7 +384,7 @@ int main(int argc, char **argv) {
 		bluray_title.pg_streams = bd_title->clips[0].pg_stream_count;
 	}
 
-	printf("Title: %03" PRIu32 ", Playlist: %04" PRIu32 ", Length: %s, Chapters: %02" PRIu32 ", Video streams: %02" PRIu8 ", Audio streams: %02" PRIu8 ", Subtitles: %02" PRIu8 ", Filesize: %05" PRIu64 " MBs\n", bluray_title.ix + 1, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
+	printf("Title: %03" PRIu32 ", Playlist: %04" PRIu32 ", Length: %s, Chapters: %02" PRIu32 ", Video streams: %02" PRIu8 ", Audio streams: %02" PRIu8 ", Subtitles: %02" PRIu8 ", Filesize: %05.0lf MBs\n", bluray_title.ix + 1, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
 
 	// Finished with libbluray
 	bd_free_title_info(bd_title);

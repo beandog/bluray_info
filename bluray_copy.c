@@ -25,22 +25,6 @@ struct bluray_copy {
 	double size_mbs;
 };
 
-struct bluray_title {
-	uint32_t ix;
-	uint32_t number;
-	uint32_t playlist;
-	uint64_t duration;
-	int64_t size;
-	double size_mbs;
-	uint32_t chapters;
-	uint32_t clips;
-	uint8_t angles;
-	uint8_t video_streams;
-	uint8_t audio_streams;
-	uint8_t pg_streams;
-	char length[12];
-};
-
 struct bluray_chapter {
 	uint64_t duration;
 	uint64_t start;
@@ -382,7 +366,7 @@ int main(int argc, char **argv) {
 
 	// Pouplate title
 	bluray_title.duration = bd_title->duration;
-	bluray_title.size = (int64_t)bd_get_title_size(bd);
+	bluray_title.size = bd_get_title_size(bd);
 	bluray_title.size_mbs = ceil((double)bluray_title.size / 1048576);
 	bluray_title.clips = bd_title->clip_count;
 	bluray_title.angles = bd_title->angle_count;
@@ -514,7 +498,7 @@ int main(int argc, char **argv) {
 
 		chapter_number = chapter_ix + 1;
 		if(chapter_number == bluray_title.chapters) {
-			chapter_pos = bluray_title.size;
+			chapter_pos = (int64_t)bluray_title.size;
 		} else {
 			chapter_pos = bluray_chapters[chapter_ix + 1].range[0];
 		}
@@ -533,7 +517,7 @@ int main(int argc, char **argv) {
 	}
 
 	if(debug) {
-		fprintf(stderr, "* last chapter stop should be title size %" PRIi64 " which is: %" PRIi64 "\n", bluray_title.size, bluray_chapters[bluray_title.chapters - 1].range[1]);
+		fprintf(stderr, "* last chapter stop should be title size %" PRIu64 " which is: %" PRIi64 "\n", bluray_title.size, bluray_chapters[bluray_title.chapters - 1].range[1]);
 	}
 
 	// Buffer to read into
