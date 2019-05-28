@@ -486,7 +486,7 @@ int main(int argc, char **argv) {
 		printf("  \"disc id\": \"%s\",\n", bluray_info.bluray_id);
 		printf("  \"udf title\": \"%s\",\n", bluray_info.bluray_title);
 		printf("  \"first play supported\": %s,\n", bd_info->first_play_supported ? "true" : "false");
-		printf("  \"top menu supported\": %s,\n", bd_info->first_play_supported ? "true" : "false");
+		printf("  \"top menu supported\": %s,\n", bd_info->top_menu_supported ? "true" : "false");
 		printf("  \"provider data\": \"%s\",\n", bd_info->provider_data);
 		printf("  \"3D content\": %s,\n", bd_info->content_exist_3D ? "true" : "false");
 		printf("  \"initial mode\": \"%s\",\n", bd_info->initial_output_mode_preference ? "3D" : "2D");
