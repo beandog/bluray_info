@@ -10,7 +10,6 @@
 #include "config.h"
 #include "libbluray/bluray.h"
 #include "libbluray/meta_data.h"
-#include "bluray_info.h"
 #include "bluray_open.h"
 #include "bluray_device.h"
 #include "bluray_audio.h"
