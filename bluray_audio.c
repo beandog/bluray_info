@@ -148,27 +148,27 @@ void bluray_audio_rate(char *str, const uint8_t rate) {
 	switch(rate) {
 
 		case BLURAY_AUDIO_RATE_48:
-			strncpy(str, "48", BLURAY_AUDIO_RATE + 1);
+			strncpy(str, "48", BLURAY_INFO_AUDIO_RATE + 1);
 			break;
 
 		case BLURAY_AUDIO_RATE_96:
-			strncpy(str, "96", BLURAY_AUDIO_RATE + 1);
+			strncpy(str, "96", BLURAY_INFO_AUDIO_RATE + 1);
 			break;
 
 		case BLURAY_AUDIO_RATE_192:
-			strncpy(str, "192", BLURAY_AUDIO_RATE + 1);
+			strncpy(str, "192", BLURAY_INFO_AUDIO_RATE + 1);
 			break;
 
 		case BLURAY_AUDIO_RATE_192_COMBO:
-			strncpy(str, "192_combo", BLURAY_AUDIO_RATE + 1);
+			strncpy(str, "192_combo", BLURAY_INFO_AUDIO_RATE + 1);
 			break;
 
 		case BLURAY_AUDIO_RATE_96_COMBO:
-			strncpy(str, "96_combo", BLURAY_AUDIO_RATE + 1);
+			strncpy(str, "96_combo", BLURAY_INFO_AUDIO_RATE + 1);
 			break;
 
 		default:
-			strncpy(str, "", BLURAY_AUDIO_RATE + 1);
+			strncpy(str, "", BLURAY_INFO_AUDIO_RATE + 1);
 			break;
 
 	}

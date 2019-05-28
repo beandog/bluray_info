@@ -3,7 +3,7 @@
 #define BLURAY_INFO_AUDIO_CODEC 9
 #define BLURAY_INFO_AUDIO_CODEC_NAME 18
 #define BLURAY_INFO_AUDIO_FORMAT 10
-#define BLURAY_AUDIO_RATE 9
+#define BLURAY_INFO_AUDIO_RATE 9
 #define BLURAY_AUDIO_LANG 3
 
 #include <stdbool.h>
@@ -15,7 +15,7 @@ struct bluray_audio {
 	char codec[BLURAY_INFO_AUDIO_CODEC + 1];
 	char codec_name[BLURAY_INFO_AUDIO_CODEC_NAME + 1];
 	char format[BLURAY_INFO_AUDIO_FORMAT + 1];
-	char rate[BLURAY_AUDIO_RATE + 1];
+	char rate[BLURAY_INFO_AUDIO_RATE + 1];
 };
 
 void bluray_audio_lang(char *str, const uint8_t lang[4]);
