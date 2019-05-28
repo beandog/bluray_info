@@ -317,7 +317,7 @@ int main(int argc, char **argv) {
 	// Use relevant titles as index / reference
 	bluray_info.titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
 	d_num_titles = (uint32_t)bluray_info.titles;
-	bluray_info.main_title = bd_get_main_title(bd);
+	bluray_info.main_title = (int32_t)bd_get_main_title(bd);
 
 	struct bluray_title bluray_title;
 	bluray_title.ix = 0;
