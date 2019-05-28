@@ -14,16 +14,7 @@
 #include "bluray_device.h"
 #include "bluray_info.h"
 #include "bluray_time.h"
-
-// libbluray packet size
-#define BLURAY_COPY_BUFFER_SIZE 192
-
-struct bluray_copy {
-	char *filename;
-	int fd;
-	int64_t size;
-	double size_mbs;
-};
+#include "bluray_copy.h"
 
 int main(int argc, char **argv) {
 
