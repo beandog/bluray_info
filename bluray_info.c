@@ -17,9 +17,6 @@
 #include "bluray_pgs.h"
 #include "bluray_time.h"
 
-int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info);
-
-
 int main(int argc, char **argv) {
 
 	uint32_t ix = 0;
