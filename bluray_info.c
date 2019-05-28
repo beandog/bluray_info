@@ -414,6 +414,7 @@ int main(int argc, char **argv) {
 	bluray_info.unsupported_titles = bd_info->num_unsupported_titles;
 	bluray_info.aacs = (bd_info->aacs_detected ? true : false);
 	bluray_info.bdplus = (bd_info->bdplus_detected ? true : false);
+	bluray_info.bdj = (bd_info->bdj_detected ? true : false);
 	bluray_info.bdinfo_titles = bd_info->num_titles;
 
 	// Select track passed as an argument
@@ -499,6 +500,7 @@ int main(int argc, char **argv) {
 		printf("  \"unsupported titles\": %" PRIu32 ",\n", bluray_info.unsupported_titles);
 		printf("  \"aacs\": %s,\n", bluray_info.aacs ? "true" : "false");
 		printf("  \"bdplus\": %s,\n", bluray_info.bdplus ? "true" : "false");
+		printf("  \"bd-j\": %s,\n", bluray_info.bdj ? "true" : "false");
 		printf("  \"main title\": %" PRIu32 ",\n", bluray_info.main_title + 1);
 		printf("  \"main playlist\": %" PRIu32 ",\n", main_playlist);
 		printf("  \"longest title\": %" PRIu32 ",\n", longest_title_ix + 1);
