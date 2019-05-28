@@ -303,7 +303,7 @@ int main(int argc, char **argv) {
 	struct bluray_info bluray_info;
 	memset(bluray_info.bluray_id, '\0', sizeof(bluray_info.bluray_id));
 	memset(bluray_info.bluray_title, '\0', sizeof(bluray_info.bluray_title));
-	bluray_info.main_title = 1;
+	bluray_info.main_title_ix = 1;
 
 	if(bd_info->udf_volume_id)
 		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_TITLE_STRLEN);
@@ -317,7 +317,7 @@ int main(int argc, char **argv) {
 	// Use relevant titles as index / reference
 	bluray_info.titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
 	d_num_titles = (uint32_t)bluray_info.titles;
-	bluray_info.main_title = (int32_t)bd_get_main_title(bd);
+	bluray_info.main_title_ix = (int32_t)bd_get_main_title(bd);
 
 	struct bluray_title bluray_title;
 	bluray_title.ix = 0;
@@ -361,7 +361,7 @@ int main(int argc, char **argv) {
 		bluray_title.ix = bd_get_current_title(bd);
 		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
 	} else {
-		bluray_title.ix = (uint32_t)bluray_info.main_title;
+		bluray_title.ix = (uint32_t)bluray_info.main_title_ix;
 		if(bd_select_title(bd, bluray_title.ix) == 0) {
 			fprintf(stderr, "Could not open title %" PRIu32 "\n", bluray_title.ix + 1);
 			bd_close(bd);

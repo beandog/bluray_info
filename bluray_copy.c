@@ -267,7 +267,7 @@ int main(int argc, char **argv) {
 	struct bluray_info bluray_info;
 	memset(bluray_info.bluray_id, '\0', sizeof(bluray_info.bluray_id));
 	memset(bluray_info.bluray_title, '\0', sizeof(bluray_info.bluray_title));
-	bluray_info.main_title = 1;
+	bluray_info.main_title_ix = 1;
 
 	if(bd_info->udf_volume_id)
 		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_TITLE_STRLEN);
@@ -281,7 +281,7 @@ int main(int argc, char **argv) {
 	// Use relevant titles as index / reference
 	bluray_info.titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
 	d_num_titles = (uint32_t)bluray_info.titles;
-	bluray_info.main_title = (int32_t)bd_get_main_title(bd);
+	bluray_info.main_title_ix = (int32_t)bd_get_main_title(bd);
 
 	struct bluray_title bluray_title;
 	bluray_title.ix = 0;
@@ -335,7 +335,7 @@ int main(int argc, char **argv) {
 			snprintf(bluray_copy.filename, strlen("bluray_playlist_00000.m2ts") + 1, "%s%05" PRIu32 "%s", "bluray_playlist_", bluray_title.playlist, ".m2ts");
 		}
 	} else {
-		bluray_title.ix = (uint32_t)bluray_info.main_title;
+		bluray_title.ix = (uint32_t)bluray_info.main_title_ix;
 		if(bd_select_title(bd, bluray_title.ix) == 0) {
 			fprintf(stderr, "Could not open title %" PRIu32 "\n", bluray_title.number);
 			bd_close(bd);
