@@ -488,6 +488,10 @@ int main(int argc, char **argv) {
 		printf("  \"disc title\": \"%s\",\n", bluray_info.disc_name);
 		printf("  \"disc id\": \"%s\",\n", bluray_info.bluray_id);
 		printf("  \"udf title\": \"%s\",\n", bluray_info.bluray_title);
+		printf("  \"main title\": %" PRIu32 ",\n", bluray_info.main_title + 1);
+		printf("  \"main playlist\": %" PRIu32 ",\n", main_playlist);
+		printf("  \"longest title\": %" PRIu32 ",\n", longest_title_ix + 1);
+		printf("  \"longest playlist\": %" PRIu32 ",\n", longest_playlist);
 		printf("  \"first play supported\": %s,\n", bluray_info.first_play_supported ? "true" : "false");
 		printf("  \"top menu supported\": %s,\n", bluray_info.top_menu_supported ? "true" : "false");
 		printf("  \"provider data\": \"%s\",\n", bd_info->provider_data);
@@ -500,11 +504,7 @@ int main(int argc, char **argv) {
 		printf("  \"unsupported titles\": %" PRIu32 ",\n", bluray_info.unsupported_titles);
 		printf("  \"aacs\": %s,\n", bluray_info.aacs ? "true" : "false");
 		printf("  \"bdplus\": %s,\n", bluray_info.bdplus ? "true" : "false");
-		printf("  \"bd-j\": %s,\n", bluray_info.bdj ? "true" : "false");
-		printf("  \"main title\": %" PRIu32 ",\n", bluray_info.main_title + 1);
-		printf("  \"main playlist\": %" PRIu32 ",\n", main_playlist);
-		printf("  \"longest title\": %" PRIu32 ",\n", longest_title_ix + 1);
-		printf("  \"longest playlist\": %" PRIu32 "\n", longest_playlist);
+		printf("  \"bd-j\": %s\n", bluray_info.bdj ? "true" : "false");
 		printf(" },\n");
 
 	}
