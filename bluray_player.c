@@ -9,32 +9,13 @@
 #include <getopt.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include <limits.h>
-#if defined (__linux__)
-#include <linux/limits.h>
-#endif
 #include <libbluray/bluray.h>
 #include "config.h"
 #include "bluray_device.h"
 #include "bluray_info.h"
 #include "bluray_time.h"
+#include "bluray_player.h"
 #include <mpv/client.h>
-
-struct bluray_player {
-	char config_dir[23];
-	char mpv_config_dir[PATH_MAX - 1];
-};
-
-struct bluray_playback {
-	uint32_t title;
-	uint32_t playlist;
-	bool fullscreen;
-	bool deinterlace;
-	char audio_lang[4];
-	char subtitles_lang[4];
-	char chapter_start[5];
-	char chapter_end[5];
-};
 
 int main(int argc, char **argv) {
 
@@ -56,10 +37,10 @@ int main(int argc, char **argv) {
 	const char *home_dir = getenv("HOME");
 
 	struct bluray_player bluray_player;
-	snprintf(bluray_player.config_dir, 23, "/.config/bluray_player");
+	snprintf(bluray_player.config_dir, BLURAY_CONFIG_DIR_STRLEN, "/.config/bluray_player");
 	memset(bluray_player.mpv_config_dir, '\0', sizeof(bluray_player.mpv_config_dir));
 	if(home_dir != NULL)
-		snprintf(bluray_player.mpv_config_dir, PATH_MAX - 1, "%s%s", home_dir, bluray_player.config_dir);
+		snprintf(bluray_player.mpv_config_dir, BLURAY_PLAYER_PATH_MAX, "%s%s", home_dir, bluray_player.config_dir);
 
 	struct bluray_playback bluray_playback;
 	bluray_playback.title = 1;
