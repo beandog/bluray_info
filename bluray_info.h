@@ -13,7 +13,7 @@ struct bluray_info {
 	uint32_t bdinfo_titles;
 	uint32_t bdj_titles;
 	uint32_t hdmv_titles;
-	uint32_t longest_title;
+	uint32_t longest_title_ix;
 	int32_t main_title;
 };
 

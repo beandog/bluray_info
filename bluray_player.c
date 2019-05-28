@@ -305,7 +305,7 @@ int main(int argc, char **argv) {
 	memset(bluray_info.bluray_title, '\0', sizeof(bluray_info.bluray_title));
 	bluray_info.hdmv_titles = 0;
 	bluray_info.bdj_titles = 0;
-	bluray_info.longest_title = 0;
+	bluray_info.longest_title_ix = 0;
 	bluray_info.main_title = 1;
 
 	if(bd_info->udf_volume_id)

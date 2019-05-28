@@ -356,7 +356,7 @@ int main(int argc, char **argv) {
 	bluray_info.bdinfo_titles = 0;
 	bluray_info.bdj_titles = 0;
 	bluray_info.hdmv_titles = 0;
-	bluray_info.longest_title = 0;
+	bluray_info.longest_title_ix = 0;
 	bluray_info.main_title = 1;
 
 	const struct meta_dl *bluray_meta = NULL;
@@ -462,7 +462,7 @@ int main(int argc, char **argv) {
 		// Find the longest title
 		uint64_t max_duration = 0;
 		uint32_t main_playlist = 0;
-		uint32_t longest_title = 1;
+		uint32_t longest_title_ix = 1;
 		uint32_t longest_playlist = 0;
 		for(ix = 0; ix < bluray_info.titles; ix++) {
 			bd_title = bd_get_title_info(bd, ix, 0);
@@ -474,7 +474,7 @@ int main(int argc, char **argv) {
 				main_playlist = bd_title->playlist;
 
 			if(bd_title->duration > max_duration) {
-				longest_title = ix;
+				longest_title_ix = ix;
 				longest_playlist = bd_title->playlist;
 				max_duration = bd_title->duration;
 			}
@@ -496,7 +496,7 @@ int main(int argc, char **argv) {
 		printf("  \"hdmv titles\": %" PRIu32 ",\n", bd_info->num_hdmv_titles);
 		printf("  \"main title\": %" PRIu32 ",\n", bluray_info.main_title + 1);
 		printf("  \"main playlist\": %" PRIu32 ",\n", main_playlist);
-		printf("  \"longest title\": %" PRIu32 ",\n", longest_title + 1);
+		printf("  \"longest title\": %" PRIu32 ",\n", longest_title_ix + 1);
 		printf("  \"longest playlist\": %" PRIu32 "\n", longest_playlist);
 		printf(" },\n");
 
