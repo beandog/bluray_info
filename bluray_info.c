@@ -483,13 +483,7 @@ int main(int argc, char **argv) {
 	uint32_t bluray_highest_playlist = 0;
 
 	struct bluray_video bluray_video;
-
 	struct bluray_audio bluray_audio;
-	memset(bluray_audio.lang, '\0', sizeof(bluray_audio.lang));
-	memset(bluray_audio.codec, '\0', sizeof(bluray_audio.codec));
-	memset(bluray_audio.codec_name, '\0', sizeof(bluray_audio.codec_name));
-	memset(bluray_audio.format, '\0', sizeof(bluray_audio.format));
-	memset(bluray_audio.rate, '\0', sizeof(bluray_audio.rate));
 
 	struct bluray_pgs bluray_pgs;
 	memset(bluray_pgs.lang, '\0', sizeof(bluray_pgs.lang));
