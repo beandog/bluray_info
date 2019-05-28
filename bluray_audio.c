@@ -114,24 +114,24 @@ bool bluray_audio_secondary_stream(const uint8_t coding_type) {
 
 void bluray_audio_format(char *str, const uint8_t format) {
 
-	memset(str, '\0', BLURAY_INFO_AUDIO_FORMAT + 1);
+	memset(str, '\0', BLURAY_INFO_AUDIO_FORMAT_STRLEN);
 
 	switch(format) {
 
 		case BLURAY_AUDIO_FORMAT_MONO:
-			strncpy(str, "mono", BLURAY_INFO_AUDIO_FORMAT + 1);
+			strncpy(str, "mono", BLURAY_INFO_AUDIO_FORMAT_STRLEN);
 			break;
 
 		case BLURAY_AUDIO_FORMAT_STEREO:
-			strncpy(str, "stereo", BLURAY_INFO_AUDIO_FORMAT + 1);
+			strncpy(str, "stereo", BLURAY_INFO_AUDIO_FORMAT_STRLEN);
 			break;
 
 		case BLURAY_AUDIO_FORMAT_MULTI_CHAN:
-			strncpy(str, "multi_chan", BLURAY_INFO_AUDIO_FORMAT + 1);
+			strncpy(str, "multi_chan", BLURAY_INFO_AUDIO_FORMAT_STRLEN);
 			break;
 
 		case BLURAY_AUDIO_FORMAT_COMBO:
-			strncpy(str, "combo", BLURAY_INFO_AUDIO_FORMAT + 1);
+			strncpy(str, "combo", BLURAY_INFO_AUDIO_FORMAT_STRLEN);
 			break;
 
 	}
