@@ -230,24 +230,14 @@ int main(int argc, char **argv) {
 
 	// Blu-ray
 	struct bluray_info bluray_info;
-	memset(bluray_info.bluray_id, '\0', BLURAY_INFO_ID_STRLEN);
-	memset(bluray_info.bluray_title, '\0', BLURAY_INFO_TITLE_STRLEN);
+	retval = bluray_info_init(bd, &bluray_info);
 
-	if(bd_info->udf_volume_id)
-		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_INFO_TITLE_STRLEN - 1);
-	if(bd_info->libaacs_detected) {
-		for(ix = 0; ix < 20; ix++) {
-			sprintf(bluray_info.bluray_id + 2 * ix, "%02X", bd_info->disc_id[ix]);
-		}
+	if(retval) {
+		printf("* Couldn't open Blu-ray\n");
+		return 1;
 	}
 
-	// Use relevant titles as index / reference
-	bluray_info.titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
 	d_num_titles = bluray_info.titles;
-	int bd_main_title = bd_get_main_title(bd);
-	bluray_info.main_title_ix = 0;
-	if(bd_main_title >= 0)
-		bluray_info.main_title_ix = (uint32_t)bd_main_title;
 
 	struct bluray_title bluray_title;
 	bluray_title.ix = 0;
