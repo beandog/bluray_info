@@ -307,7 +307,6 @@ int main(int argc, char **argv) {
 
 	if(bd_info->udf_volume_id)
 		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_TITLE_STRLEN);
-	bluray_info.titles = bd_info->num_titles;
 	if(bd_info->libaacs_detected) {
 		for(ix = 0; ix < 20; ix++) {
 			sprintf(bluray_info.bluray_id + 2 * ix, "%02X", bd_info->disc_id[ix]);
@@ -316,7 +315,7 @@ int main(int argc, char **argv) {
 
 	// Use relevant titles as index / reference
 	bluray_info.titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
-	d_num_titles = (uint32_t)bluray_info.titles;
+	d_num_titles = bluray_info.titles;
 	int bd_main_title = bd_get_main_title(bd);
 	if(bd_main_title >= 0)
 		bluray_info.main_title_ix = (uint32_t)bd_main_title;

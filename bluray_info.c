@@ -352,7 +352,6 @@ int main(int argc, char **argv) {
 	memset(bluray_info.bluray_id, '\0', sizeof(bluray_info.bluray_id));
 	memset(bluray_info.bluray_title, '\0', sizeof(bluray_info.bluray_title));
 	memset(bluray_info.disc_name, '\0', sizeof(bluray_info.disc_name));
-	bluray_info.titles = 0;
 	bluray_info.main_title_ix = 0;
 
 	const struct meta_dl *bluray_meta = NULL;
