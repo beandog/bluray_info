@@ -354,8 +354,6 @@ int main(int argc, char **argv) {
 	memset(bluray_info.disc_name, '\0', sizeof(bluray_info.disc_name));
 	bluray_info.titles = 0;
 	bluray_info.bdinfo_titles = 0;
-	bluray_info.bdj_titles = 0;
-	bluray_info.hdmv_titles = 0;
 	bluray_info.longest_title_ix = 0;
 	bluray_info.main_title = 1;
 
@@ -408,11 +406,13 @@ int main(int argc, char **argv) {
 	bluray_info.titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
 	d_num_titles = bluray_info.titles;
 
-	// libbluray has 'num_titles' and 'bd_get_titles()' both of which return different
-	// numbers. Keep track of them both.
-	bluray_info.bdinfo_titles = bd_info->num_titles;
-	bluray_info.bdj_titles = bd_info->num_bdj_titles;
+	// These are going to change depending on if you have the JVM installed or not
+	bluray_info.first_play_supported = (bd_info->first_play_supported ? true : false);
+	bluray_info.top_menu_supported = (bd_info->top_menu_supported ? true : false);
 	bluray_info.hdmv_titles = bd_info->num_hdmv_titles;
+	bluray_info.bdj_titles = bd_info->num_bdj_titles;
+	bluray_info.unsupported_titles = bd_info->num_unsupported_titles;
+	bluray_info.bdinfo_titles = bd_info->num_titles;
 
 	// Select track passed as an argument
 	if(d_title_number) {
@@ -485,15 +485,16 @@ int main(int argc, char **argv) {
 		printf("  \"disc title\": \"%s\",\n", bluray_info.disc_name);
 		printf("  \"disc id\": \"%s\",\n", bluray_info.bluray_id);
 		printf("  \"udf title\": \"%s\",\n", bluray_info.bluray_title);
-		printf("  \"first play supported\": %s,\n", bd_info->first_play_supported ? "true" : "false");
-		printf("  \"top menu supported\": %s,\n", bd_info->top_menu_supported ? "true" : "false");
+		printf("  \"first play supported\": %s,\n", bluray_info.first_play_supported ? "true" : "false");
+		printf("  \"top menu supported\": %s,\n", bluray_info.top_menu_supported ? "true" : "false");
 		printf("  \"provider data\": \"%s\",\n", bd_info->provider_data);
 		printf("  \"3D content\": %s,\n", bd_info->content_exist_3D ? "true" : "false");
 		printf("  \"initial mode\": \"%s\",\n", bd_info->initial_output_mode_preference ? "3D" : "2D");
 		printf("  \"titles\": %" PRIu32 ",\n", bluray_info.titles);
 		printf("  \"bdinfo titles\": %" PRIu32 ",\n", bd_info->num_titles);
-		printf("  \"bdj titles\": %" PRIu32 ",\n", bd_info->num_bdj_titles);
-		printf("  \"hdmv titles\": %" PRIu32 ",\n", bd_info->num_hdmv_titles);
+		printf("  \"hdmv titles\": %" PRIu32 ",\n", bluray_info.hdmv_titles);
+		printf("  \"bdj titles\": %" PRIu32 ",\n", bluray_info.bdj_titles);
+		printf("  \"unsupported titles\": %" PRIu32 ",\n", bluray_info.unsupported_titles);
 		printf("  \"main title\": %" PRIu32 ",\n", bluray_info.main_title + 1);
 		printf("  \"main playlist\": %" PRIu32 ",\n", main_playlist);
 		printf("  \"longest title\": %" PRIu32 ",\n", longest_title_ix + 1);
