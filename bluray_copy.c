@@ -336,7 +336,7 @@ int main(int argc, char **argv) {
 			snprintf(bluray_copy.filename, strlen("bluray_playlist_00000.m2ts") + 1, "%s%05" PRIu32 "%s", "bluray_playlist_", bluray_title.playlist, ".m2ts");
 		}
 	} else {
-		bluray_title.ix = (uint32_t)bluray_info.main_title_ix;
+		bluray_title.ix = bluray_info.main_title_ix;
 		if(bd_select_title(bd, bluray_title.ix) == 0) {
 			fprintf(stderr, "Could not open title %" PRIu32 "\n", bluray_title.number);
 			bd_close(bd);
