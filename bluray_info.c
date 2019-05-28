@@ -353,7 +353,6 @@ int main(int argc, char **argv) {
 	memset(bluray_info.bluray_title, '\0', sizeof(bluray_info.bluray_title));
 	memset(bluray_info.disc_name, '\0', sizeof(bluray_info.disc_name));
 	bluray_info.titles = 0;
-	bluray_info.bdinfo_titles = 0;
 	bluray_info.main_title_ix = 0;
 
 	const struct meta_dl *bluray_meta = NULL;
@@ -414,7 +413,6 @@ int main(int argc, char **argv) {
 	bluray_info.aacs = (bd_info->aacs_detected ? true : false);
 	bluray_info.bdplus = (bd_info->bdplus_detected ? true : false);
 	bluray_info.bdj = (bd_info->bdj_detected ? true : false);
-	bluray_info.bdinfo_titles = bd_info->num_titles;
 
 	// Select track passed as an argument
 	if(d_title_number) {
