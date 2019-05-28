@@ -360,7 +360,7 @@ int main(int argc, char **argv) {
 	}
 
 	// Display disc title
-	if(bd_info->udf_volume_id && d_num_titles) {
+	if(strlen(bluray_info.bluray_title) && d_num_titles) {
 		fprintf(io, "Disc Title: %s\n", bluray_info.bluray_title);
 	}
 

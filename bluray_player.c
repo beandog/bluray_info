@@ -348,7 +348,7 @@ int main(int argc, char **argv) {
 
 	bluray_playback.title = bluray_title.ix + 1;
 
-	if(bd_info->udf_volume_id && d_num_titles)
+	if(strlen(bluray_info.bluray_title) && d_num_titles)
 		printf("Disc Title: %s\n", bluray_info.bluray_title);
 
 	bluray_title.duration = bd_title->duration;
