@@ -4,12 +4,17 @@
 #include <string.h>
 #include "libbluray/bluray.h"
 
+#define BLURAY_INFO_VIDEO_CODEC_STRLEN 6
+#define BLURAY_INFO_VIDEO_CODEC_NAME_STRLEN 7
+#define BLURAY_INFO_VIDEO_FORMAT_STRLEN 7
+#define BLURAY_INFO_VIDEO_ASPECT_RATIO_STRLEN 7
+
 struct bluray_video {
-	char codec[6];
-	char codec_name[7];
-	char format[6];
+	char codec[BLURAY_INFO_VIDEO_CODEC_STRLEN];
+	char codec_name[BLURAY_INFO_VIDEO_CODEC_NAME_STRLEN];
+	char format[BLURAY_INFO_VIDEO_FORMAT_STRLEN];
 	double framerate;
-	char aspect_ratio[5];
+	char aspect_ratio[BLURAY_INFO_VIDEO_ASPECT_RATIO_STRLEN];
 };
 
 void bluray_video_codec(char *str, const uint8_t coding_type);
