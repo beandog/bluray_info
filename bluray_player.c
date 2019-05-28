@@ -19,17 +19,6 @@
 #include "bluray_time.h"
 #include <mpv/client.h>
 
-struct bluray_info {
-	char bluray_id[41];
-	char bluray_title[BLURAY_TITLE_STRLEN];
-	uint32_t hdmv_titles;
-	uint32_t bdj_titles;
-	uint32_t unsupported_titles;
-	uint32_t titles;
-	uint32_t longest_title;
-	int main_title;
-};
-
 struct bluray_player {
 	char config_dir[23];
 	char mpv_config_dir[PATH_MAX - 1];

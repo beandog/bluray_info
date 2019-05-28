@@ -16,18 +16,6 @@
 #include "bluray_pgs.h"
 #include "bluray_time.h"
 
-struct bluray_info {
-	char bluray_id[41];
-	char bluray_title[BLURAY_TITLE_STRLEN];
-	char disc_name[BLURAY_DISC_NAME_STRLEN];
-	uint32_t titles;
-	uint32_t bdinfo_titles;
-	uint32_t bdj_titles;
-	uint32_t hdmv_titles;
-	uint32_t longest_title;
-	int32_t main_title;
-};
-
 struct bluray_title {
 	uint32_t ix;
 	uint32_t number;
