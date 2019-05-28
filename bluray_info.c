@@ -354,7 +354,7 @@ int main(int argc, char **argv) {
 	memset(bluray_info.disc_name, '\0', sizeof(bluray_info.disc_name));
 	bluray_info.titles = 0;
 	bluray_info.bdinfo_titles = 0;
-	bluray_info.main_title_ix = 1;
+	bluray_info.main_title_ix = 0;
 
 	const struct meta_dl *bluray_meta = NULL;
 	bluray_meta = bd_get_meta(bd);
@@ -441,10 +441,12 @@ int main(int argc, char **argv) {
 		d_num_titles = 1;
 	}
 
-	bluray_info.main_title_ix = (int32_t)bd_get_main_title(bd);
+	int bd_main_title = bd_get_main_title(bd);
+	if(bd_main_title >= 0)
+		bluray_info.main_title_ix = (uint32_t)bd_main_title;
 
 	if(d_main_title) {
-		d_first_ix = (uint32_t)bluray_info.main_title_ix;
+		d_first_ix = bluray_info.main_title_ix;
 		d_num_titles = 1;
 	}
 
@@ -452,7 +454,7 @@ int main(int argc, char **argv) {
 		if(d_title_number)
 			d_first_ix = a_title_number - 1;
 		 else
-			d_first_ix = (uint32_t)bluray_info.main_title_ix;
+			d_first_ix = bluray_info.main_title_ix;
 		d_num_titles = 1;
 	}
 
@@ -472,7 +474,7 @@ int main(int argc, char **argv) {
 				continue;
 			}
 
-			if(bd_title->idx == (uint32_t)bluray_info.main_title_ix)
+			if(bd_title->idx == bluray_info.main_title_ix)
 				main_playlist = bd_title->playlist;
 
 			if(bd_title->duration > max_duration) {
@@ -820,7 +822,7 @@ int main(int argc, char **argv) {
 	}
 
 	if(p_bluray_info && !d_title_number && !d_main_title && d_num_titles != 1 && d_quiet == false)
-		printf("Main title: %" PRIi32 "\n", bluray_info.main_title_ix + 1);
+		printf("Main title: %" PRIu32 "\n", bluray_info.main_title_ix + 1);
 
 	bd_free_title_info(bd_title);
 	bd_title = NULL;

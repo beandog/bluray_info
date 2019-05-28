@@ -267,7 +267,7 @@ int main(int argc, char **argv) {
 	struct bluray_info bluray_info;
 	memset(bluray_info.bluray_id, '\0', sizeof(bluray_info.bluray_id));
 	memset(bluray_info.bluray_title, '\0', sizeof(bluray_info.bluray_title));
-	bluray_info.main_title_ix = 1;
+	bluray_info.main_title_ix = 0;
 
 	if(bd_info->udf_volume_id)
 		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_TITLE_STRLEN);
@@ -281,7 +281,9 @@ int main(int argc, char **argv) {
 	// Use relevant titles as index / reference
 	bluray_info.titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
 	d_num_titles = (uint32_t)bluray_info.titles;
-	bluray_info.main_title_ix = (int32_t)bd_get_main_title(bd);
+	int bd_main_title = bd_get_main_title(bd);
+	if(bd_main_title >= 0)
+		bluray_info.main_title_ix = (uint32_t)bd_main_title;
 
 	struct bluray_title bluray_title;
 	bluray_title.ix = 0;
