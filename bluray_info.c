@@ -305,18 +305,18 @@ int main(int argc, char **argv) {
 
 	// Blu-ray
 	struct bluray_info bluray_info;
-	memset(bluray_info.bluray_id, '\0', sizeof(bluray_info.bluray_id));
-	memset(bluray_info.bluray_title, '\0', sizeof(bluray_info.bluray_title));
-	memset(bluray_info.disc_name, '\0', sizeof(bluray_info.disc_name));
+	memset(bluray_info.bluray_id, '\0', BLURAY_INFO_ID_STRLEN);
+	memset(bluray_info.bluray_title, '\0', BLURAY_INFO_TITLE_STRLEN);
+	memset(bluray_info.disc_name, '\0', BLURAY_INFO_DISC_NAME_STRLEN);
 
 	const struct meta_dl *bluray_meta = NULL;
 	bluray_meta = bd_get_meta(bd);
 
 	if(bluray_meta != NULL)
-		strncpy(bluray_info.disc_name, bluray_meta->di_name, BLURAY_DISC_NAME_STRLEN);
+		strncpy(bluray_info.disc_name, bluray_meta->di_name, BLURAY_INFO_DISC_NAME_STRLEN - 1);
 
 	if(bd_info->udf_volume_id)
-		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_TITLE_STRLEN);
+		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_INFO_TITLE_STRLEN - 1);
 
 	if(p_bluray_disc_name) {
 		printf("%s\n", bluray_info.disc_name);

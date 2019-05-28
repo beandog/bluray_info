@@ -1,15 +1,17 @@
 #ifndef BLURAY_INFO_H
 #define BLURAY_INFO_H
 
-#define BLURAY_ID_STRLEN 41
-#define BLURAY_TITLE_STRLEN 33
-#define BLURAY_DISC_NAME_STRLEN 256
-#define BLURAY_TIME_STRLEN 12
+#define BLURAY_INFO_ID_STRLEN 41
+#define BLURAY_INFO_TITLE_STRLEN 33
+#define BLURAY_INFO_DISC_NAME_STRLEN 256
+
+// Time format: 00:00:00.00
+#define BLURAY_INFO_TIME_STRLEN 12
 
 struct bluray_info {
-	char bluray_id[BLURAY_ID_STRLEN];
-	char bluray_title[BLURAY_TITLE_STRLEN];
-	char disc_name[BLURAY_DISC_NAME_STRLEN];
+	char bluray_id[BLURAY_INFO_ID_STRLEN];
+	char bluray_title[BLURAY_INFO_TITLE_STRLEN];
+	char disc_name[BLURAY_INFO_DISC_NAME_STRLEN];
 	uint32_t titles;
 	uint32_t main_title_ix;
 	bool first_play_supported;
@@ -37,14 +39,14 @@ struct bluray_title {
 	uint8_t video_streams;
 	uint8_t audio_streams;
 	uint8_t pg_streams;
-	char length[BLURAY_TIME_STRLEN];
+	char length[BLURAY_INFO_TIME_STRLEN];
 };
 
 struct bluray_chapter {
 	uint64_t duration;
 	uint64_t start;
-	char start_time[BLURAY_TIME_STRLEN];
-	char length[BLURAY_TIME_STRLEN];
+	char start_time[BLURAY_INFO_TIME_STRLEN];
+	char length[BLURAY_INFO_TIME_STRLEN];
 	int64_t range[2];
 	int64_t size;
 	double size_mbs;

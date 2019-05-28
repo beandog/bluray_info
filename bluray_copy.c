@@ -230,11 +230,11 @@ int main(int argc, char **argv) {
 
 	// Blu-ray
 	struct bluray_info bluray_info;
-	memset(bluray_info.bluray_id, '\0', sizeof(bluray_info.bluray_id));
-	memset(bluray_info.bluray_title, '\0', sizeof(bluray_info.bluray_title));
+	memset(bluray_info.bluray_id, '\0', BLURAY_INFO_ID_STRLEN);
+	memset(bluray_info.bluray_title, '\0', BLURAY_INFO_TITLE_STRLEN);
 
 	if(bd_info->udf_volume_id)
-		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_TITLE_STRLEN);
+		strncpy(bluray_info.bluray_title, bd_info->udf_volume_id, BLURAY_INFO_TITLE_STRLEN - 1);
 	if(bd_info->libaacs_detected) {
 		for(ix = 0; ix < 20; ix++) {
 			sprintf(bluray_info.bluray_id + 2 * ix, "%02X", bd_info->disc_id[ix]);
