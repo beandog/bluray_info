@@ -72,3 +72,60 @@ int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info) {
 	return 0;
 
 }
+
+/**
+ * Initialize and populate a bluray_title struct
+ */
+int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint32_t title_ix) {
+
+	// Initialize to safe values
+	bluray_title->ix = title_ix;
+	bluray_title->number = title_ix + 1;
+	bluray_title->playlist = 0;
+	bluray_title->duration = 0;
+	bluray_title->seconds = 0;
+	bluray_title->minutes = 0;
+	bluray_title->size = 0;
+	bluray_title->size_mbs = 0;
+	bluray_title->chapters = 0;
+	bluray_title->clips = 0;
+	bluray_title->angles = 0;
+	bluray_title->video_streams = 0;
+	bluray_title->audio_streams = 0;
+	bluray_title->pg_streams = 0;
+	strcpy(bluray_title->length, "00:00:00.00");
+
+	int retval = 0;
+
+	// Quit if couldn't open title
+	retval = bd_select_title(bd, title_ix);
+	if(retval == 0)
+		return 1;
+
+	// Quit if couldn't get title info
+	BLURAY_TITLE_INFO *bd_title = NULL;
+	uint32_t angle = 0;
+	bd_title = bd_get_title_info(bd, title_ix, angle);
+	if(bd_title == NULL)
+		return 2;
+
+	// Populate data
+	bluray_title->playlist = bd_title->playlist;
+	bluray_title->duration = bd_title->duration;
+	bluray_title->size = bd_get_title_size(bd);
+	bluray_title->size_mbs = ceil((double)bluray_title->size / 1048576);
+	bluray_title->chapters = bd_title->chapter_count;
+	bluray_title->clips = bd_title->clip_count;
+	bluray_title->angles = bd_title->angle_count;
+	if(bluray_title->clips) {
+		bluray_title->video_streams = bd_title->clips[0].video_stream_count;
+		bluray_title->audio_streams = bd_title->clips[0].audio_stream_count;
+		bluray_title->pg_streams = bd_title->clips[0].pg_stream_count;
+	}
+
+	bluray_title->clip_info = bd_title->clips;
+	bluray_title->title_chapters = bd_title->chapters;
+
+	return 0;
+
+}

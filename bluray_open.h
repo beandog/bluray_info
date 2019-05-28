@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <math.h>
 #include "libbluray/bluray.h"
 #include "libbluray/meta_data.h"
 
@@ -52,6 +53,8 @@ struct bluray_title {
 	uint8_t audio_streams;
 	uint8_t pg_streams;
 	char length[BLURAY_INFO_TIME_STRLEN];
+	BLURAY_CLIP_INFO *clip_info;
+	BLURAY_TITLE_CHAPTER *title_chapters;
 };
 
 struct bluray_chapter {
@@ -65,5 +68,7 @@ struct bluray_chapter {
 };
 
 int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info);
+
+int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint32_t title_ix);
 
 #endif

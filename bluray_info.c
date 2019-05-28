@@ -50,6 +50,7 @@ int main(int argc, char **argv) {
 	bool d_audio = false;
 	bool d_subtitles = false;
 	bool d_chapters = false;
+	bool debug = false;
 	long int arg_number = 0;
 	uint32_t d_min_seconds = 0;
 	uint32_t d_min_minutes = 0;
@@ -289,7 +290,6 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	BLURAY_TITLE_INFO *bd_title = NULL;
 	BLURAY_STREAM_INFO *bd_stream = NULL;
 	BLURAY_TITLE_CHAPTER *bd_chapter = NULL;
 
@@ -371,8 +371,12 @@ int main(int argc, char **argv) {
 		uint32_t main_playlist = 0;
 		uint32_t longest_title_ix = 1;
 		uint32_t longest_playlist = 0;
+		uint32_t angle = 0;
+		BLURAY_TITLE_INFO *bd_title = NULL;
 		for(ix = 0; ix < bluray_info.titles; ix++) {
-			bd_title = bd_get_title_info(bd, ix, 0);
+
+			bd_title = bd_get_title_info(bd, ix, angle);
+
 			if(bd_title == NULL) {
 				continue;
 			}
@@ -385,6 +389,10 @@ int main(int argc, char **argv) {
 				longest_playlist = bd_title->playlist;
 				max_duration = bd_title->duration;
 			}
+
+			bd_free_title_info(bd_title);
+			bd_title = NULL;
+
 		}
 
 		printf("{\n");
@@ -414,21 +422,6 @@ int main(int argc, char **argv) {
 	}
 
 	struct bluray_title bluray_title;
-	bluray_title.ix = 0;
-	bluray_title.number = bluray_title.ix + 1;
-	bluray_title.playlist = 0;
-	bluray_title.duration = 0;
-	bluray_title.seconds = 0;
-	bluray_title.minutes = 0;
-	bluray_title.size = 0;
-	bluray_title.size_mbs = 0;
-	bluray_title.chapters = 0;
-	bluray_title.clips = 0;
-	bluray_title.angles = 0;
-	bluray_title.video_streams = 0;
-	bluray_title.audio_streams = 0;
-	bluray_title.pg_streams = 0;
-	strcpy(bluray_title.length, "00:00:00.00");
 
 	uint32_t bluray_highest_playlist = 0;
 
@@ -445,36 +438,23 @@ int main(int argc, char **argv) {
 
 	for(ix = d_first_ix; d_title_counter < d_num_titles; ix++, d_title_counter++) {
 
-		retval = bd_select_title(bd, ix);
-		if(retval == 0)
+		retval = bluray_title_init(bd, &bluray_title, ix);
+
+		// Skip if there was a problem getting it
+		if(retval) {
+
+			if(debug && retval == 1)
+				fprintf(stderr, "* could not open title %" PRIu32 "\n", ix + 1);
+			if(debug && retval == 2)
+				fprintf(stderr, "* could not get title info %" PRIu32 "\n", ix + 1);
+
 			continue;
 
-		bd_title = bd_get_title_info(bd, ix, 0);
+		}
 
-		if(bd_title == NULL)
-			continue;
-
-		bluray_title.ix = ix;
-		bluray_title.number = bluray_title.ix + 1;
-		bluray_title.playlist = bd_title->playlist;
-		bluray_title.duration = bd_title->duration;
 		bluray_title.seconds = bluray_duration_seconds(bluray_title.duration);
 		bluray_title.minutes = bluray_duration_minutes(bluray_title.duration);
-		bluray_title.size = bd_get_title_size(bd);
-		bluray_title.size_mbs = ceil((double)bluray_title.size / 1048576);
-		bluray_title.chapters = bd_title->chapter_count;
-		bluray_title.clips = bd_title->clip_count;
-		bluray_title.angles = bd_title->angle_count;
 		bluray_duration_length(bluray_title.length, bluray_title.duration);
-		if(bluray_title.clips) {
-			bluray_title.video_streams = bd_title->clips[0].video_stream_count;
-			bluray_title.audio_streams = bd_title->clips[0].audio_stream_count;
-			bluray_title.pg_streams = bd_title->clips[0].pg_stream_count;
-		} else {
-			bluray_title.video_streams = 0;
-			bluray_title.audio_streams = 0;
-			bluray_title.pg_streams = 0;
-		}
 
 		bluray_highest_playlist = ((bluray_title.playlist > bluray_highest_playlist) ? bluray_title.playlist : bluray_highest_playlist);
 
@@ -515,7 +495,8 @@ int main(int argc, char **argv) {
 			for(video_stream_ix = 0; video_stream_ix < bluray_title.video_streams; video_stream_ix++) {
 
 				video_stream_number = video_stream_ix + 1;
-				bd_stream = &bd_title->clips[0].video_streams[video_stream_ix];
+				// bd_stream = &bd_title->clips[0].video_streams[video_stream_ix];
+				bd_stream = &bluray_title.clip_info[0].video_streams[video_stream_ix];
 
 				if(bd_stream == NULL)
 					continue;
@@ -563,7 +544,8 @@ int main(int argc, char **argv) {
 			for(audio_stream_ix = 0; audio_stream_ix < bluray_title.audio_streams; audio_stream_ix++) {
 
 				audio_stream_number = audio_stream_ix + 1;
-				bd_stream = &bd_title->clips[0].audio_streams[audio_stream_ix];
+				// bd_stream = &bd_title->clips[0].audio_streams[audio_stream_ix];
+				bd_stream = &bluray_title.clip_info[0].audio_streams[audio_stream_ix];
 
 				if(bd_stream == NULL)
 					continue;
@@ -611,7 +593,8 @@ int main(int argc, char **argv) {
 			for(pg_stream_ix = 0; pg_stream_ix < bluray_title.pg_streams; pg_stream_ix++) {
 
 				pg_stream_number = pg_stream_ix + 1;
-				bd_stream = &bd_title->clips[0].pg_streams[pg_stream_ix];
+				// bd_stream = &bd_title->clips[0].pg_streams[pg_stream_ix];
+				bd_stream = &bluray_title.clip_info[0].pg_streams[pg_stream_ix];
 
 				bluray_pgs_lang(bluray_pgs.lang, bd_stream->lang);
 
@@ -651,7 +634,8 @@ int main(int argc, char **argv) {
 			for(chapter_ix = 0; chapter_ix < bluray_title.chapters; chapter_ix++) {
 
 				chapter_number = chapter_ix + 1;
-				bd_chapter = &bd_title->chapters[chapter_ix];
+				// bd_chapter = &bd_title->chapters[chapter_ix];
+				bd_chapter = &bluray_title.title_chapters[chapter_ix];
 
 				if(bd_chapter == NULL)
 					continue;
@@ -701,9 +685,6 @@ int main(int argc, char **argv) {
 				printf("  }\n");
 		}
 
-		bd_free_title_info(bd_title);
-		bd_title = NULL;
-
 	}
 
 	if(p_bluray_json) {
@@ -713,9 +694,6 @@ int main(int argc, char **argv) {
 
 	if(p_bluray_info && !d_title_number && !d_main_title && d_num_titles != 1 && d_quiet == false)
 		printf("Main title: %" PRIu32 "\n", bluray_info.main_title_ix + 1);
-
-	bd_free_title_info(bd_title);
-	bd_title = NULL;
 
 	bd_close(bd);
 	bd = NULL;
