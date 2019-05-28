@@ -40,4 +40,14 @@ struct bluray_title {
 	char length[BLURAY_LENGTH_STRLEN];
 };
 
+struct bluray_chapter {
+	uint64_t duration;
+	uint64_t start;
+	char start_time[BLURAY_LENGTH_STRLEN];
+	char length[BLURAY_LENGTH_STRLEN];
+	int64_t range[2];
+	int64_t size;
+	double size_mbs;
+};
+
 #endif

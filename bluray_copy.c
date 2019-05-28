@@ -25,16 +25,6 @@ struct bluray_copy {
 	double size_mbs;
 };
 
-struct bluray_chapter {
-	uint64_t duration;
-	uint64_t start;
-	char start_time[12];
-	char length[12];
-	int64_t range[2];
-	int64_t size;
-	double size_mbs;
-};
-
 int main(int argc, char **argv) {
 
 	FILE *io = stdout;

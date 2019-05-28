@@ -37,13 +37,6 @@ struct bluray_pgs {
 	char lang[BLURAY_PGS_LANG_STRLEN];
 };
 
-struct bluray_chapter {
-	uint64_t start;
-	uint64_t duration;
-	char start_time[12];
-	char length[12];
-};
-
 int main(int argc, char **argv) {
 
 	uint32_t ix = 0;
