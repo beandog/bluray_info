@@ -19,7 +19,6 @@
 
 int main(int argc, char **argv) {
 
-	uint32_t ix = 0;
 	uint32_t d_num_titles = 0;
 
 	bool opt_title_number = false;
