@@ -18,6 +18,7 @@ struct bluray_info {
 	uint32_t bdj_titles;
 	uint32_t unsupported_titles;
 	bool aacs;
+	bool bdplus;
 	uint32_t bdinfo_titles;
 };
 
