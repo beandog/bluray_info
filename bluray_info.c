@@ -452,9 +452,6 @@ int main(int argc, char **argv) {
 
 		}
 
-		bluray_title.seconds = bluray_duration_seconds(bluray_title.duration);
-		bluray_title.minutes = bluray_duration_minutes(bluray_title.duration);
-		bluray_duration_length(bluray_title.length, bluray_title.duration);
 
 		bluray_highest_playlist = ((bluray_title.playlist > bluray_highest_playlist) ? bluray_title.playlist : bluray_highest_playlist);
 

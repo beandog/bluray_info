@@ -1,4 +1,5 @@
 #include "bluray_open.h"
+#include "bluray_time.h"
 
 /**
  * Get main Blu-ray metadata from disc
@@ -112,6 +113,9 @@ int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint
 	// Populate data
 	bluray_title->playlist = bd_title->playlist;
 	bluray_title->duration = bd_title->duration;
+	bluray_title->seconds = bluray_duration_seconds(bluray_title->duration);
+	bluray_title->minutes = bluray_duration_minutes(bluray_title->duration);
+	bluray_duration_length(bluray_title->length, bluray_title->duration);
 	bluray_title->size = bd_get_title_size(bd);
 	bluray_title->size_mbs = ceil((double)bluray_title->size / 1048576);
 	bluray_title->chapters = bd_title->chapter_count;
