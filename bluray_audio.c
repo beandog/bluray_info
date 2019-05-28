@@ -14,41 +14,41 @@ void bluray_audio_codec(char *str, const uint8_t coding_type) {
 	switch(coding_type) {
 
 		case BLURAY_STREAM_TYPE_AUDIO_MPEG1:
-			strncpy(str, "mpeg1", BLURAY_INFO_AUDIO_CODEC_STRLEN);
+			strcpy(str, "mpeg1");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_MPEG2:
-			strncpy(str, "mpeg2", BLURAY_INFO_AUDIO_CODEC_STRLEN);
+			strcpy(str, "mpeg2");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_LPCM:
-			strncpy(str, "lpcm", BLURAY_INFO_AUDIO_CODEC_STRLEN);
+			strcpy(str, "lpcm");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_AC3:
-			strncpy(str, "ac3", BLURAY_INFO_AUDIO_CODEC_STRLEN);
+			strcpy(str, "ac3");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_DTS:
-			strncpy(str, "dts", BLURAY_INFO_AUDIO_CODEC_STRLEN);
+			strcpy(str, "dts");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_TRUHD:
-			strncpy(str, "truhd", BLURAY_INFO_AUDIO_CODEC_STRLEN);
+			strcpy(str, "truhd");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_AC3PLUS:
 		case BLURAY_STREAM_TYPE_AUDIO_AC3PLUS_SECONDARY:
-			strncpy(str, "ac3plus", BLURAY_INFO_AUDIO_CODEC_STRLEN);
+			strcpy(str, "ac3plus");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_DTSHD:
 		case BLURAY_STREAM_TYPE_AUDIO_DTSHD_SECONDARY:
-			strncpy(str, "dtshd", BLURAY_INFO_AUDIO_CODEC_STRLEN);
+			strcpy(str, "dtshd");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_DTSHD_MASTER:
-			strncpy(str, "dtshd-ma", BLURAY_INFO_AUDIO_CODEC_STRLEN);
+			strcpy(str, "dtshd-ma");
 			break;
 
 	}
@@ -62,41 +62,41 @@ void bluray_audio_codec_name(char *str, const uint8_t coding_type) {
 	switch(coding_type) {
 
 		case BLURAY_STREAM_TYPE_AUDIO_MPEG1:
-			strncpy(str, "MPEG-1", BLURAY_INFO_AUDIO_CODEC_NAME_STRLEN);
+			strcpy(str, "MPEG-1");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_MPEG2:
-			strncpy(str, "MPEG-2", BLURAY_INFO_AUDIO_CODEC_NAME_STRLEN);
+			strcpy(str, "MPEG-2");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_LPCM:
-			strncpy(str, "LPCM", BLURAY_INFO_AUDIO_CODEC_NAME_STRLEN);
+			strcpy(str, "LPCM");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_AC3:
-			strncpy(str, "Dolby Digital", BLURAY_INFO_AUDIO_CODEC_NAME_STRLEN);
+			strcpy(str, "Dolby Digital");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_DTS:
-			strncpy(str, "DTS", BLURAY_INFO_AUDIO_CODEC_NAME_STRLEN);
+			strcpy(str, "DTS");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_TRUHD:
-			strncpy(str, "Dolby TrueHD", BLURAY_INFO_AUDIO_CODEC_NAME_STRLEN);
+			strcpy(str, "Dolby TrueHD");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_AC3PLUS:
 		case BLURAY_STREAM_TYPE_AUDIO_AC3PLUS_SECONDARY:
-			strncpy(str, "Dolby Digital Plus", BLURAY_INFO_AUDIO_CODEC_NAME_STRLEN);
+			strcpy(str, "Dolby Digital Plus");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_DTSHD:
 		case BLURAY_STREAM_TYPE_AUDIO_DTSHD_SECONDARY:
-			strncpy(str, "DTS-HD", BLURAY_INFO_AUDIO_CODEC_NAME_STRLEN);
+			strcpy(str, "DTS-HD");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_DTSHD_MASTER:
-			strncpy(str, "DTS-HD Master", BLURAY_INFO_AUDIO_CODEC_NAME_STRLEN);
+			strcpy(str, "DTS-HD Master");
 			break;
 
 	}
@@ -119,19 +119,19 @@ void bluray_audio_format(char *str, const uint8_t format) {
 	switch(format) {
 
 		case BLURAY_AUDIO_FORMAT_MONO:
-			strncpy(str, "mono", BLURAY_INFO_AUDIO_FORMAT_STRLEN);
+			strcpy(str, "mono");
 			break;
 
 		case BLURAY_AUDIO_FORMAT_STEREO:
-			strncpy(str, "stereo", BLURAY_INFO_AUDIO_FORMAT_STRLEN);
+			strcpy(str, "stereo");
 			break;
 
 		case BLURAY_AUDIO_FORMAT_MULTI_CHAN:
-			strncpy(str, "multi_chan", BLURAY_INFO_AUDIO_FORMAT_STRLEN);
+			strcpy(str, "multi_chan");
 			break;
 
 		case BLURAY_AUDIO_FORMAT_COMBO:
-			strncpy(str, "combo", BLURAY_INFO_AUDIO_FORMAT_STRLEN);
+			strcpy(str, "combo");
 			break;
 
 	}
@@ -145,23 +145,23 @@ void bluray_audio_rate(char *str, const uint8_t rate) {
 	switch(rate) {
 
 		case BLURAY_AUDIO_RATE_48:
-			strncpy(str, "48", BLURAY_INFO_AUDIO_RATE_STRLEN);
+			strcpy(str, "48");
 			break;
 
 		case BLURAY_AUDIO_RATE_96:
-			strncpy(str, "96", BLURAY_INFO_AUDIO_RATE_STRLEN);
+			strcpy(str, "96");
 			break;
 
 		case BLURAY_AUDIO_RATE_192:
-			strncpy(str, "192", BLURAY_INFO_AUDIO_RATE_STRLEN);
+			strcpy(str, "192");
 			break;
 
 		case BLURAY_AUDIO_RATE_192_COMBO:
-			strncpy(str, "192_combo", BLURAY_INFO_AUDIO_RATE_STRLEN);
+			strcpy(str, "192_combo");
 			break;
 
 		case BLURAY_AUDIO_RATE_96_COMBO:
-			strncpy(str, "96_combo", BLURAY_INFO_AUDIO_RATE_STRLEN);
+			strcpy(str, "96_combo");
 			break;
 
 	}
