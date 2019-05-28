@@ -484,9 +484,7 @@ int main(int argc, char **argv) {
 
 	struct bluray_video bluray_video;
 	struct bluray_audio bluray_audio;
-
 	struct bluray_pgs bluray_pgs;
-	memset(bluray_pgs.lang, '\0', sizeof(bluray_pgs.lang));
 
 	struct bluray_chapter bluray_chapter;
 	bluray_chapter.duration = 0;
