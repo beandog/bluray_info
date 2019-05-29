@@ -398,6 +398,11 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
+	retval = mpv_command(bluray_mpv, bluray_mpv_commands);
+	if(retval) {
+		fprintf(stderr, "Could not send MPV arguments: %s; using defaults\n", bluray_mpv_args);
+	}
+
 	// Have to set playback languages after init to override mpv.conf
 	if(strlen(bluray_playback.audio_lang) > 0)
 		retval = mpv_set_option_string(bluray_mpv, "alang", bluray_playback.audio_lang);
