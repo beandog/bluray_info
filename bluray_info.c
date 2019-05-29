@@ -217,7 +217,6 @@ int main(int argc, char **argv) {
 				printf("\n");
 				printf("Limited information:\n");
 				printf("  -g, --xchap		   Display title chapters in export format for mkvmerge or ogmmerge\n");
-				printf("  -q, --quiet		   Do not display disc title header and main title footer\n");
 				printf("\n");
 				printf("Other:\n");
 				printf("  -h, --help		   This output\n");
