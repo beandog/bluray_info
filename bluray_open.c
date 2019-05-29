@@ -71,7 +71,7 @@ int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info) {
 	bluray_info->bdj = (bd_disc_info->bdj_detected ? true : false);
 	bluray_info->content_exist_3D = (bd_disc_info->content_exist_3D ? true : false);
 	memset(bluray_info->provider_data, '\0', BLURAY_INFO_PROVIDER_DATA_STRLEN);
-	snprintf(bluray_info->provider_data, BLURAY_INFO_PROVIDER_DATA_STRLEN - 1, "%s", bd_disc_info->provider_data);
+	snprintf(bluray_info->provider_data, BLURAY_INFO_PROVIDER_DATA_STRLEN, "%s", bd_disc_info->provider_data);
 	memset(bluray_info->initial_output_mode_preference, '\0', 3);
 	strcpy(bluray_info->initial_output_mode_preference, (bd_disc_info->initial_output_mode_preference ? "3D" : "2D"));
 
