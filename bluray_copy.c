@@ -58,6 +58,7 @@ int main(int argc, char **argv) {
 	long int arg_number = 0;
 	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
+	uint32_t main_title_number = 1;
 	uint8_t arg_angle_number = 1;
 	bool debug = false;
 	const char *key_db_filename = NULL;
@@ -253,6 +254,7 @@ int main(int argc, char **argv) {
 	}
 
 	d_num_titles = bluray_info.titles;
+	main_title_number = bluray_info.main_title_ix + 1;
 
 	struct bluray_title bluray_title;
 
@@ -267,8 +269,8 @@ int main(int argc, char **argv) {
 			return 1;
 		}
 		if(bluray_copy.filename == NULL) {
-			bluray_copy.filename = calloc(strlen("bluray_title_000.m2ts") + 1, sizeof(unsigned char));
-			snprintf(bluray_copy.filename, strlen("bluray_title_000.m2ts") + 1, "%s%03" PRIu32 "%s", "bluray_title_", arg_title_number, ".m2ts");
+			bluray_copy.filename = calloc(32, sizeof(unsigned char));
+			sprintf(bluray_copy.filename, "%s%03" PRIu32 "%s", "bluray_title_", arg_title_number, ".m2ts");
 		}
 	} else if(opt_playlist_number) {
 		if(bd_select_playlist(bd, arg_playlist_number) == 0) {
@@ -278,15 +280,15 @@ int main(int argc, char **argv) {
 			return 1;
 		}
 		if(bluray_copy.filename == NULL) {
-			bluray_copy.filename = calloc(strlen("bluray_playlist_00000.m2ts") + 1, sizeof(unsigned char));
-			snprintf(bluray_copy.filename, strlen("bluray_playlist_00000.m2ts") + 1, "%s%05" PRIu32 "%s", "bluray_playlist_", arg_playlist_number, ".m2ts");
+			bluray_copy.filename = calloc(32, sizeof(unsigned char));
+			sprintf(bluray_copy.filename, "%s%05" PRIu32 "%s", "bluray_playlist_", arg_playlist_number, ".m2ts");
 		}
 		bluray_title.ix = bd_get_current_title(bd);
 	} else {
 		bluray_title.ix = bluray_info.main_title_ix;
 		if(bluray_copy.filename == NULL) {
-			bluray_copy.filename = calloc(strlen("bluray_title_000.m2ts") + 1, sizeof(unsigned char));
-			snprintf(bluray_copy.filename, strlen("bluray_title_000.m2ts") + 1, "%s%03" PRIu32 "%s", "bluray_title_", bluray_title.ix + 1, ".m2ts");
+			bluray_copy.filename = calloc(32, sizeof(unsigned char));
+			sprintf(bluray_copy.filename, "%s%03" PRIu32 "%s", "bluray_title_", main_title_number, ".m2ts");
 		}
 	}
 
