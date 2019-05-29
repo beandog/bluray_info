@@ -58,7 +58,7 @@ int main(int argc, char **argv) {
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "acdghjk:mp:st:vxASE:M:V";
+	const char p_short_opts[] = "acghjk:mp:st:vxASE:M:V";
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
@@ -296,8 +296,9 @@ int main(int argc, char **argv) {
 		d_num_titles = 1;
 	}
 
-	if(p_bluray_info)
-		printf("Disc title: %s\n", bluray_info.disc_name);
+	if(p_bluray_info) {
+		printf("Disc title: '%s', Volume name: '%s', Main title: %03" PRIu32 ", AACS: %s, BD-J: %s, BD+: %s\n", bluray_info.disc_name, bluray_info.udf_volume_id, bluray_info.main_title_ix + 1, (bluray_info.aacs ? "yes" : "no"), bluray_info.bdj ? "yes" : "no", bluray_info.bdplus ? "yes": "no");
+	}
 
 	if(p_bluray_json) {
 
