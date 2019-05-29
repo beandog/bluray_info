@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdbool.h>
+#include <errno.h>
 #include <inttypes.h>
 #include <math.h>
 #include <getopt.h>
@@ -444,6 +445,8 @@ int main(int argc, char **argv) {
 		}
 	}
 
+	ssize_t write_retval = -1;
+
 	// Set the final position size using the previous one as its ending point.
 	// For the last chapter, it's simply the title size.
 	// Calculate the chapter size as well.
@@ -596,7 +599,18 @@ int main(int argc, char **argv) {
 
 		// Write to the file
 		bluray_write[0] = bluray_read[1];
-		bluray_write[1] = (int64_t)write(bluray_copy.fd, bluray_buffer, (size_t)bluray_write[0]);
+		write_retval = write(bluray_copy.fd, bluray_buffer, (size_t)bluray_write[0]);
+
+		// Check for failed write
+		if(write_retval < 0) {
+			if(errno == ENOSPC)
+				fprintf(stderr, "Could not write to device, no remaining space available\n");
+			fprintf(stderr, "Tried to write %" PRIi64 " bytes to %s and failed, quitting\n", bluray_write[0], bluray_copy.filename);
+			close(bluray_copy.fd);
+			return 1;
+		}
+
+		bluray_write[1] = (int64_t)write_retval;
 		bluray_write[2] += bluray_write[1];
 
 		progress[0] = (double)bluray_read[2] / 1048576;
