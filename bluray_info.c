@@ -341,10 +341,6 @@ int main(int argc, char **argv) {
 		d_num_titles = 1;
 	}
 
-	int bd_main_title = bd_get_main_title(bd);
-	if(bd_main_title >= 0)
-		bluray_info.main_title_ix = (uint32_t)bd_main_title;
-
 	if(d_main_title) {
 		d_first_ix = bluray_info.main_title_ix;
 		d_num_titles = 1;
