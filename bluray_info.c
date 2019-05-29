@@ -297,9 +297,10 @@ int main(int argc, char **argv) {
 		d_num_titles = 1;
 	}
 
-	if(p_bluray_json) {
-
+	if(p_bluray_info)
 		printf("Disc title: %s\n", bluray_info.disc_name);
+
+	if(p_bluray_json) {
 
 		// Find the longest title
 		uint64_t max_duration = 0;
