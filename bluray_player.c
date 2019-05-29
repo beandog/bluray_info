@@ -70,7 +70,6 @@ int main(int argc, char **argv) {
 	memset(bluray_playback.chapter_start, '\0', sizeof(bluray_playback.chapter_start));
 	memset(bluray_playback.chapter_end, '\0', sizeof(bluray_playback.chapter_end));
 
-	mpv_handle *bluray_mpv = NULL;
 	mpv_event *bluray_mpv_event = NULL;
 	struct mpv_event_log_message *bluray_mpv_log_message = NULL;
 
@@ -336,7 +335,12 @@ int main(int argc, char **argv) {
 	bd = NULL;
 
 	// Blu-ray playback using libmpv
+	mpv_handle *bluray_mpv = NULL;
 	bluray_mpv = mpv_create();
+	if(bluray_mpv == NULL) {
+		fprintf(stderr, "Could not create an MPV instance, quitting\n");
+		return 1;
+	}
 
 	if(arg_last_chapter > 0 && arg_last_chapter > bluray_title.chapters)
 		arg_last_chapter = bluray_title.chapters;
