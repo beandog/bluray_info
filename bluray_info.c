@@ -57,9 +57,9 @@ int main(int argc, char **argv) {
 	bool p_bluray_json = false;
 	bool p_bluray_xchap = false;
 	bool d_title_number = false;
-	uint32_t a_title_number = 0;
+	uint32_t arg_title_number = 0;
 	bool d_playlist_number = false;
-	uint32_t a_playlist_number = 0;
+	uint32_t arg_playlist_number = 0;
 	bool d_main_title = false;
 	bool d_video = false;
 	bool d_audio = false;
@@ -158,9 +158,9 @@ int main(int argc, char **argv) {
 				d_main_title = false;
 				arg_number = strtol(optarg, NULL, 10);
 				if(arg_number < 0) {
-					a_playlist_number = 0;
+					arg_playlist_number = 0;
 				} else {
-					a_playlist_number = (uint32_t)arg_number;
+					arg_playlist_number = (uint32_t)arg_number;
 				}
 				arg_number = 0;
 				break;
@@ -179,9 +179,9 @@ int main(int argc, char **argv) {
 				d_main_title = false;
 				arg_number = strtol(optarg, NULL, 10);
 				if(arg_number < 1) {
-					a_title_number = 1;
+					arg_title_number = 1;
 				} else {
-					a_title_number = (uint32_t)arg_number;
+					arg_title_number = (uint32_t)arg_number;
 				}
 				arg_number = 0;
 				break;
@@ -278,23 +278,23 @@ int main(int argc, char **argv) {
 
 	// Select track passed as an argument
 	if(d_title_number) {
-		if(a_title_number > bluray_info.titles || a_title_number < 1) {
-			printf("Could not open title %" PRIu32 ", choose from 1 to %" PRIu32 "\n", a_title_number, bluray_info.titles);
+		if(arg_title_number > bluray_info.titles || arg_title_number < 1) {
+			printf("Could not open title %" PRIu32 ", choose from 1 to %" PRIu32 "\n", arg_title_number, bluray_info.titles);
 			return 1;
 		}
-		retval = bd_select_title(bd, a_title_number - 1);
+		retval = bd_select_title(bd, arg_title_number - 1);
 		if(retval == 0) {
-			printf("Could not open title %" PRIu32 "\n", a_title_number);
+			printf("Could not open title %" PRIu32 "\n", arg_title_number);
 			return 1;
 		}
-		d_first_ix = a_title_number - 1;
+		d_first_ix = arg_title_number - 1;
 		d_num_titles = 1;
 	}
 
 	if(d_playlist_number) {
-		retval = bd_select_playlist(bd, a_playlist_number);
+		retval = bd_select_playlist(bd, arg_playlist_number);
 		if(retval == 0) {
-			printf("Could not open playlist %" PRIu32 "\n", a_playlist_number);
+			printf("Could not open playlist %" PRIu32 "\n", arg_playlist_number);
 			return 1;
 		}
 		d_first_ix = bd_get_current_title(bd);
@@ -308,7 +308,7 @@ int main(int argc, char **argv) {
 
 	if(p_bluray_xchap) {
 		if(d_title_number)
-			d_first_ix = a_title_number - 1;
+			d_first_ix = arg_title_number - 1;
 		 else
 			d_first_ix = bluray_info.main_title_ix;
 		d_num_titles = 1;
