@@ -26,7 +26,7 @@ struct bluray_info {
 	char udf_volume_id[BLURAY_INFO_UDF_VOLUME_ID_STRLEN];
 	char disc_id[BLURAY_INFO_DISC_ID_STRLEN];
 	uint32_t titles;
-	uint32_t main_title_ix;
+	uint32_t main_title;
 	bool first_play_supported;
 	bool top_menu_supported;
 	uint32_t disc_num_titles;

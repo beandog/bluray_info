@@ -52,11 +52,11 @@ int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info) {
 	// starts at 1. Playlists start at 0, because they are indexed as such on the
 	// filesystem.
 	bluray_info->titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
-	bluray_info->main_title_ix = 0;
+	bluray_info->main_title = 0;
 
 	int bd_main_title = bd_get_main_title(bd);
 	if(bd_main_title >= 0)
-		bluray_info->main_title_ix = (uint32_t)bd_main_title;
+		bluray_info->main_title = (uint32_t)bd_main_title;
 
 	// These are going to change depending on if you have the JVM installed or not
 	bluray_info->first_play_supported = (bd_disc_info->first_play_supported ? true : false);

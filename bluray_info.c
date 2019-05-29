@@ -301,7 +301,7 @@ int main(int argc, char **argv) {
 	}
 
 	if(d_main_title) {
-		d_first_ix = bluray_info.main_title_ix;
+		d_first_ix = bluray_info.main_title;
 		d_num_titles = 1;
 	}
 
@@ -309,11 +309,11 @@ int main(int argc, char **argv) {
 		if(d_title_number)
 			d_first_ix = arg_title_number - 1;
 		 else
-			d_first_ix = bluray_info.main_title_ix;
+			d_first_ix = bluray_info.main_title;
 		d_num_titles = 1;
 	}
 
-	main_title_number = bluray_info.main_title_ix + 1;
+	main_title_number = bluray_info.main_title + 1;
 
 	if(p_bluray_info) {
 		printf("Disc title: '%s', Volume name: '%s', Main title: %03" PRIu32 ", AACS: %s, BD-J: %s, BD+: %s\n", bluray_info.disc_name, bluray_info.udf_volume_id, main_title_number, (bluray_info.aacs ? "yes" : "no"), bluray_info.bdj ? "yes" : "no", bluray_info.bdplus ? "yes": "no");
@@ -336,7 +336,7 @@ int main(int argc, char **argv) {
 				continue;
 			}
 
-			if(bd_title->idx == bluray_info.main_title_ix)
+			if(bd_title->idx == bluray_info.main_title)
 				main_playlist = bd_title->playlist;
 
 			if(bd_title->duration > max_duration) {

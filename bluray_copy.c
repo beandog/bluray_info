@@ -254,7 +254,7 @@ int main(int argc, char **argv) {
 	}
 
 	d_num_titles = bluray_info.titles;
-	main_title_number = bluray_info.main_title_ix + 1;
+	main_title_number = bluray_info.main_title + 1;
 
 	struct bluray_title bluray_title;
 
@@ -285,7 +285,7 @@ int main(int argc, char **argv) {
 		}
 		bluray_title.ix = bd_get_current_title(bd);
 	} else {
-		bluray_title.ix = bluray_info.main_title_ix;
+		bluray_title.ix = bluray_info.main_title;
 		if(bluray_copy.filename == NULL) {
 			bluray_copy.filename = calloc(32, sizeof(unsigned char));
 			sprintf(bluray_copy.filename, "%s%03" PRIu32 "%s", "bluray_title_", main_title_number, ".m2ts");

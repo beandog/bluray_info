@@ -286,7 +286,7 @@ int main(int argc, char **argv) {
 	retval = bluray_info_init(bd, &bluray_info);
 
 	d_num_titles = bluray_info.titles;
-	main_title_number = bluray_info.main_title_ix + 1;
+	main_title_number = bluray_info.main_title + 1;
 
 	struct bluray_title bluray_title;
 
@@ -314,7 +314,7 @@ int main(int argc, char **argv) {
 		}
 		bluray_title.ix = bd_get_current_title(bd);
 	} else {
-		bluray_title.ix = bluray_info.main_title_ix;
+		bluray_title.ix = bluray_info.main_title;
 		if(bd_select_title(bd, bluray_title.ix) == 0) {
 			fprintf(stderr, "Could not open main title # %" PRIu32 "\n", main_title_number);
 			bd_close(bd);
