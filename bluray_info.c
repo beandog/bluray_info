@@ -683,9 +683,6 @@ int main(int argc, char **argv) {
 		printf("}\n");
 	}
 
-	if(p_bluray_info && !d_title_number && !d_main_title && d_num_titles != 1 && d_quiet == false)
-		printf("Main title: %" PRIu32 "\n", bluray_info.main_title_ix + 1);
-
 	bd_close(bd);
 	bd = NULL;
 
