@@ -1,11 +1,6 @@
 #ifndef BLURAY_DEVICE_H
 #define BLURAY_DEVICE_H
 
-#include <stdio.h>
-#include <stdint.h>
-#include <string.h>
-#include <stdbool.h>
-
 #if defined (__linux__)
 #define DEFAULT_BLURAY_DEVICE "/dev/sr0"
 #elif defined (__DragonFly__)
