@@ -78,10 +78,10 @@ int main(int argc, char **argv) {
 		{ "seconds", required_argument, NULL, 'E' },
 		{ "minutes", required_argument, NULL, 'M' },
 		{ "has-subs", no_argument, NULL, 'S' },
-		{ "version", no_argument, NULL, 'V' },
+		{ "version", no_argument, NULL, 'Z' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "acghjk:mp:st:vxAE:M:SV", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "acghjk:mp:st:vxAE:M:SZ", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -170,10 +170,6 @@ int main(int argc, char **argv) {
 				arg_number = 0;
 				break;
 
-			case 'V':
-				printf("bluray_info %s\n", PACKAGE_VERSION);
-				return 0;
-
 			case 'v':
 				d_video = true;
 				break;
@@ -184,6 +180,10 @@ int main(int argc, char **argv) {
 				d_chapters = true;
 				d_subtitles = true;
 				break;
+
+			case 'Z':
+				printf("bluray_info %s\n", PACKAGE_VERSION);
+				return 0;
 
 			case '?':
 				invalid_opt = true;
@@ -215,7 +215,7 @@ int main(int argc, char **argv) {
 				printf("  -g, --xchap		   Display title's chapter format for mkvmerge\n");
 				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
 				printf("  -h, --help		   This output\n");
-				printf("  -V, --version		   Version information\n");
+				printf("      --version		   Version information\n");
 				printf("\n");
 				printf("Blu-ray path can be a device, a filename, or directory (default: %s)\n", DEFAULT_BLURAY_DEVICE);
 				if(invalid_opt)

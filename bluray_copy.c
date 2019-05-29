@@ -77,11 +77,11 @@ int main(int argc, char **argv) {
 		{ "output", required_argument, NULL, 'o' },
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "title", required_argument, NULL, 't' },
-		{ "version", no_argument, NULL, 'V' },
 		{ "debug", no_argument, NULL, 'z' },
+		{ "version", no_argument, NULL, 'Z' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "a:c:hk:mo:p:t:Vz", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "a:c:hk:mo:p:t:zZ", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -156,13 +156,13 @@ int main(int argc, char **argv) {
 				arg_number = 0;
 				break;
 
-			case 'V':
-				printf("bluray_copy %s\n", PACKAGE_VERSION);
-				return 0;
-
 			case 'z':
 				debug = true;
 				break;
+
+			case 'Z':
+				printf("bluray_copy %s\n", PACKAGE_VERSION);
+				return 0;
 
 			case '?':
 				invalid_opt = true;
@@ -185,7 +185,7 @@ int main(int argc, char **argv) {
 				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
 				printf("  -a, --angle <#>          Video angle (default: 1)\n");
 				printf("  -h, --help		   This output\n");
-				printf("  -V, --version		   Version information\n");
+				printf("      --version		   Version information\n");
 				printf("\n");
 				printf("Blu-ray path can be a device, a filename, or directory; default is %s\n", DEFAULT_BLURAY_DEVICE);
 				if(invalid_opt)

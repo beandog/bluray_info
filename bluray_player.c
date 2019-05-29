@@ -89,10 +89,10 @@ int main(int argc, char **argv) {
 		{ "slang", required_argument, NULL, 's' },
 		{ "sid", required_argument, NULL, 'S' },
 		{ "title", required_argument, NULL, 't' },
-		{ "version", no_argument, NULL, 'V' },
+		{ "version", no_argument, NULL, 'Z' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "a:A:c:dfhk:mp:s:S:t:V", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "a:A:c:dfhk:mp:s:S:t:Z", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -221,7 +221,7 @@ int main(int argc, char **argv) {
 				arg_number = 0;
 				break;
 
-			case 'V':
+			case 'Z':
 				printf("bluray_player %s\n", PACKAGE_VERSION);
 				return 0;
 
@@ -253,7 +253,7 @@ int main(int argc, char **argv) {
 				printf("Other:\n");
 				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
 				printf("  -h, --help		   This output\n");
-				printf("  -V, --version		   Version information\n");
+				printf("      --version		   Version information\n");
 				printf("\n");
 				printf("MPV configuration is read from ~/.config/bluray_player/mpv.conf\n");
 				printf("\n");
