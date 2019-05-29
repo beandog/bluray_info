@@ -290,9 +290,6 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	BLURAY_STREAM_INFO *bd_stream = NULL;
-	BLURAY_TITLE_CHAPTER *bd_chapter = NULL;
-
 	// Blu-ray
 	struct bluray_info bluray_info;
 	retval = bluray_info_init(bd, &bluray_info);
@@ -421,17 +418,18 @@ int main(int argc, char **argv) {
 
 	}
 
+	BLURAY_STREAM_INFO *bd_stream = NULL;
+	BLURAY_TITLE_CHAPTER *bd_chapter = NULL;
+
 	struct bluray_title bluray_title;
-
-	uint32_t bluray_highest_playlist = 0;
-
 	struct bluray_video bluray_video;
 	struct bluray_audio bluray_audio;
 	struct bluray_pgs bluray_pgs;
-
 	struct bluray_chapter bluray_chapter;
 	bluray_chapter.duration = 0;
 	strcpy(bluray_chapter.length, "00:00:00.00");
+
+	uint32_t bluray_highest_playlist = 0;
 
 	if(p_bluray_json)
 		printf(" \"titles\": [\n");
