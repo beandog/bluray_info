@@ -9,8 +9,8 @@
 #include <getopt.h>
 #include "libbluray/bluray.h"
 #include "libbluray/meta_data.h"
-#include "bluray_open.h"
 #include "bluray_device.h"
+#include "bluray_open.h"
 #include "bluray_audio.h"
 #include "bluray_video.h"
 #include "bluray_pgs.h"
