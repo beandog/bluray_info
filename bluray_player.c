@@ -228,6 +228,8 @@ int main(int argc, char **argv) {
 				printf("  -h, --help		   This output\n");
 				printf("  -V, --version		   Version information\n");
 				printf("\n");
+				printf("MPV configuration is read from ~/.config/bluray_player/mpv.conf\n");
+				printf("\n");
 				printf("Blu-ray path can be a device, a filename, or directory (default: %s)\n", DEFAULT_BLURAY_DEVICE);
 				if(invalid_opt)
 					return 1;
