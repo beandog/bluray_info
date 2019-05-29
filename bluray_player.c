@@ -70,9 +70,6 @@ int main(int argc, char **argv) {
 	memset(bluray_playback.chapter_start, '\0', sizeof(bluray_playback.chapter_start));
 	memset(bluray_playback.chapter_end, '\0', sizeof(bluray_playback.chapter_end));
 
-	mpv_event *bluray_mpv_event = NULL;
-	struct mpv_event_log_message *bluray_mpv_log_message = NULL;
-
 	char *token = NULL;
 	int g_opt = 0;
 	int g_ix = 0;
@@ -390,6 +387,9 @@ int main(int argc, char **argv) {
 
 	mpv_initialize(bluray_mpv);
 	mpv_command(bluray_mpv, bluray_mpv_commands);
+
+	mpv_event *bluray_mpv_event = NULL;
+	struct mpv_event_log_message *bluray_mpv_log_message = NULL;
 
 	while(true) {
 
