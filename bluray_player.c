@@ -301,14 +301,16 @@ int main(int argc, char **argv) {
 			bd = NULL;
 			return 1;
 		}
-		if(bd_select_title(bd, bluray_title.ix) == 0) {
+		retval = bd_select_title(bd, bluray_title.ix);
+		if(retval == 0) {
 			fprintf(stderr, "Could not open title %" PRIu32 "\n", arg_title_number);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
 		}
 	} else if(opt_playlist_number) {
-		if(bd_select_playlist(bd, bluray_title.playlist) == 0) {
+		retval = bd_select_playlist(bd, bluray_title.playlist);
+		if(retval == 0) {
 			fprintf(stderr, "Could not open playlist %" PRIu32 "\n", arg_playlist_number);
 			bd_close(bd);
 			bd = NULL;
@@ -317,7 +319,8 @@ int main(int argc, char **argv) {
 		bluray_title.ix = bd_get_current_title(bd);
 	} else {
 		bluray_title.ix = bluray_info.main_title;
-		if(bd_select_title(bd, bluray_title.ix) == 0) {
+		retval = bd_select_title(bd, bluray_title.ix);
+		if(retval == 0) {
 			fprintf(stderr, "Could not open main title # %" PRIu32 "\n", main_title_number);
 			bd_close(bd);
 			bd = NULL;
