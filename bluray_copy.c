@@ -274,7 +274,8 @@ int main(int argc, char **argv) {
 			sprintf(bluray_copy.filename, "%s%03" PRIu32 "%s", "bluray_title_", arg_title_number, ".m2ts");
 		}
 	} else if(opt_playlist_number) {
-		if(bd_select_playlist(bd, arg_playlist_number) == 0) {
+		retval = bd_select_playlist(bd, arg_playlist_number);
+		if(retval == 0) {
 			fprintf(stderr, "Could not open playlist %" PRIu32 "\n", arg_playlist_number);
 			bd_close(bd);
 			bd = NULL;
