@@ -37,10 +37,6 @@
 int main(int argc, char **argv) {
 
 	FILE *io = stdout;
-	uint32_t ix = 0;
-	uint32_t chapter_ix = 0;
-	uint32_t chapter_number = 1;
-	uint32_t d_num_titles = 0;
 	int retval = 0;
 	bool p_bluray_copy = true;
 	bool p_bluray_cat = false;
@@ -58,7 +54,6 @@ int main(int argc, char **argv) {
 	long int arg_number = 0;
 	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
-	uint32_t main_title_number = 1;
 	uint8_t arg_angle_number = 1;
 	bool debug = false;
 	const char *key_db_filename = NULL;
@@ -252,7 +247,10 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
+	uint32_t d_num_titles;
 	d_num_titles = bluray_info.titles;
+
+	uint32_t main_title_number;
 	main_title_number = bluray_info.main_title + 1;
 
 	struct bluray_title bluray_title;
@@ -403,6 +401,7 @@ int main(int argc, char **argv) {
 	// Initialize chapters array
 	struct bluray_chapter bluray_chapters[bluray_title.chapters];
 	uint64_t chapter_start = 0;
+	uint32_t chapter_ix = 0;
 	for(chapter_ix = 0; chapter_ix < bluray_title.chapters; chapter_ix++) {
 
 		bluray_chapters[chapter_ix].duration = 0;
@@ -448,6 +447,7 @@ int main(int argc, char **argv) {
 	// Set the final position size using the previous one as its ending point.
 	// For the last chapter, it's simply the title size.
 	// Calculate the chapter size as well.
+	uint32_t chapter_number = 1;
 	for(chapter_ix = 0; chapter_ix < bluray_title.chapters; chapter_ix++) {
 
 		chapter_number = chapter_ix + 1;
