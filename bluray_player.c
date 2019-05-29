@@ -78,7 +78,6 @@ int main(int argc, char **argv) {
 	char *token = NULL;
 	int g_opt = 0;
 	int g_ix = 0;
-	opterr = 1;
 	const char p_short_opts[] = "a:c:dfhk:l:mp:s:t:qVz";
 	struct option p_long_opts[] = {
 		{ "chapters", required_argument, NULL, 'c' },

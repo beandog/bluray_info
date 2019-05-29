@@ -74,7 +74,6 @@ int main(int argc, char **argv) {
 	const char *key_db_filename = NULL;
 	int g_opt = 0;
 	int g_ix = 0;
-	opterr = 1;
 	const char p_short_opts[] = "acghjk:mp:st:vxASE:M:V";
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },

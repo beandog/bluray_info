@@ -70,7 +70,6 @@ int main(int argc, char **argv) {
 	char *token = NULL;
 	int g_opt = 0;
 	int g_ix = 0;
-	opterr = 1;
 	const char p_short_opts[] = "a:c:hk:mo:p:t:qVz";
 	struct option p_long_opts[] = {
 		{ "angle", required_argument, NULL, 'a' },
