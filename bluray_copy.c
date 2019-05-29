@@ -269,6 +269,13 @@ int main(int argc, char **argv) {
 			bd = NULL;
 			return 1;
 		}
+		retval = bd_select_title(bd, bluray_title.ix);
+		if(retval == 0) {
+			fprintf(stderr, "Could not open title %" PRIu32 "\n", arg_title_number);
+			bd_close(bd);
+			bd = NULL;
+			return 1;
+		}
 		if(bluray_copy.filename == NULL) {
 			bluray_copy.filename = calloc(32, sizeof(unsigned char));
 			sprintf(bluray_copy.filename, "%s%03" PRIu32 "%s", "bluray_title_", arg_title_number, ".m2ts");
