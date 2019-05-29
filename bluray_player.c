@@ -43,8 +43,7 @@ int main(int argc, char **argv) {
 		snprintf(bluray_player.mpv_config_dir, BLURAY_PLAYER_PATH_MAX, "%s%s", home_dir, bluray_player.config_dir);
 
 	struct bluray_playback bluray_playback;
-	bluray_playback.title = 1;
-	bluray_playback.playlist = 0;
+	bluray_playback.title = 0;
 	bluray_playback.fullscreen = false;
 	bluray_playback.deinterlace = false;
 	memset(bluray_playback.audio_lang, '\0', sizeof(bluray_playback.audio_lang));
@@ -264,8 +263,6 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	BLURAY_TITLE_INFO *bd_title = NULL;
-
 	// Blu-ray
 	struct bluray_info bluray_info;
 	retval = bluray_info_init(bd, &bluray_info);
@@ -273,89 +270,52 @@ int main(int argc, char **argv) {
 	d_num_titles = bluray_info.titles;
 
 	struct bluray_title bluray_title;
-	bluray_title.ix = 0;
-	bluray_title.playlist = 0;
-	bluray_title.duration = 0;
-	bluray_title.size = 0;
-	bluray_title.size_mbs = 0;
-	bluray_title.chapters = 0;
-	bluray_title.clips = 0;
-	bluray_title.angles = 0;
-	bluray_title.video_streams = 0;
-	bluray_title.audio_streams = 0;
-	bluray_title.pg_streams = 0;
-	strcpy(bluray_title.length, "00:00:00.00");
 
 	// Select title passed as an argument
 	if(opt_title_number) {
 		bluray_title.ix = arg_title_number - 1;
 		if(arg_title_number > d_num_titles) {
-			fprintf(stderr, "Could not open title %" PRIu32 ", choose from 1 to %" PRIu32 "\n", bluray_title.ix + 1, d_num_titles);
+			fprintf(stderr, "Could not open title %" PRIu32 ", choose from 1 to %" PRIu32 "\n", arg_title_number, d_num_titles);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
 		}
 		if(bd_select_title(bd, bluray_title.ix) == 0) {
-			fprintf(stderr, "Could not open title %" PRIu32 "\n", bluray_title.ix + 1);
+			fprintf(stderr, "Could not open title %" PRIu32 "\n", arg_title_number);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
 		}
-		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
-		bluray_title.playlist = bd_title->playlist;
 	} else if(opt_playlist_number) {
-		bluray_title.playlist = arg_playlist_number;
 		if(bd_select_playlist(bd, bluray_title.playlist) == 0) {
-			fprintf(stderr, "Could not open playlist %" PRIu32 "\n", bluray_title.playlist);
+			fprintf(stderr, "Could not open playlist %" PRIu32 "\n", arg_playlist_number);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
 		}
 		bluray_title.ix = bd_get_current_title(bd);
-		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
 	} else {
 		bluray_title.ix = bluray_info.main_title_ix;
 		if(bd_select_title(bd, bluray_title.ix) == 0) {
-			fprintf(stderr, "Could not open title %" PRIu32 "\n", bluray_title.ix + 1);
+			fprintf(stderr, "Could not open main title # %" PRIu32 "\n", bluray_info.main_title_ix + 1);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
 		}
-		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
 	}
 
-	if(bd_title == NULL) {
-		fprintf(stderr, "Could not get info for title %" PRIu32 "\n", bluray_title.ix + 1);
-		bd_close(bd);
-		bd = NULL;
-		return 1;
-	}
+	// Init bluray_title struct
+	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix);
 
-	bluray_playback.title = bluray_title.ix + 1;
+	// MPV zero-indexes title numbers
+	bluray_playback.title = bluray_title.ix;
 
 	if(strlen(bluray_info.bluray_title) && d_num_titles)
 		printf("Disc Title: %s\n", bluray_info.bluray_title);
 
-	bluray_title.duration = bd_title->duration;
-	bluray_title.size = bd_get_title_size(bd);
-	bluray_title.size_mbs = ceil((double)bluray_title.size / 1048576);
-	bluray_title.chapters = bd_title->chapter_count;
-	bluray_title.clips = bd_title->clip_count;
-	bluray_title.angles = bd_title->angle_count;
-	bluray_duration_length(bluray_title.length, bluray_title.duration);
-
-	if(bluray_title.clips) {
-		bluray_title.video_streams = bd_title->clips[0].video_stream_count;
-		bluray_title.audio_streams = bd_title->clips[0].audio_stream_count;
-		bluray_title.pg_streams = bd_title->clips[0].pg_stream_count;
-	}
-
-	printf("Title: %03" PRIu32 ", Playlist: %04" PRIu32 ", Length: %s, Chapters: %02" PRIu32 ", Video streams: %02" PRIu8 ", Audio streams: %02" PRIu8 ", Subtitles: %02" PRIu8 ", Filesize: %05.0lf MBs\n", bluray_title.ix + 1, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
+	printf("Title: %03" PRIu32 ", Playlist: %04" PRIu32 ", Length: %s, Chapters: %02" PRIu32 ", Video streams: %02" PRIu8 ", Audio streams: %02" PRIu8 ", Subtitles: %02" PRIu8 ", Filesize: %05.0lf MBs\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
 
 	// Finished with libbluray
-	bd_free_title_info(bd_title);
-	bd_title = NULL;
-
 	bd_close(bd);
 	bd = NULL;
 
@@ -397,7 +357,7 @@ int main(int argc, char **argv) {
 		mpv_set_option_string(bluray_mpv, "end", bluray_playback.chapter_end);
 
 	// mpv zero-indexes titles
-	sprintf(bluray_mpv_args, "bd://%03" PRIu32, bluray_playback.title - 1);
+	sprintf(bluray_mpv_args, "bd://%03" PRIu32, bluray_playback.title);
 
 	// MPV uses zero-indexing for titles, bluray_info uses one instead
 	const char *bluray_mpv_commands[] = {
