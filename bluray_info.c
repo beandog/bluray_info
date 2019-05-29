@@ -324,7 +324,7 @@ int main(int argc, char **argv) {
 		// Find the longest title
 		uint64_t max_duration = 0;
 		uint32_t main_playlist = 0;
-		uint32_t longest_title_ix = 1;
+		uint32_t longest_title_number = 1;
 		uint32_t longest_playlist = 0;
 		uint32_t angle = 0;
 		BLURAY_TITLE_INFO *bd_title = NULL;
@@ -340,7 +340,7 @@ int main(int argc, char **argv) {
 				main_playlist = bd_title->playlist;
 
 			if(bd_title->duration > max_duration) {
-				longest_title_ix = ix;
+				longest_title_number = ix + 1;
 				longest_playlist = bd_title->playlist;
 				max_duration = bd_title->duration;
 			}
@@ -357,7 +357,7 @@ int main(int argc, char **argv) {
 		printf("  \"disc id\": \"%s\",\n", bluray_info.disc_id);
 		printf("  \"main title\": %" PRIu32 ",\n", main_title_number);
 		printf("  \"main playlist\": %" PRIu32 ",\n", main_playlist);
-		printf("  \"longest title\": %" PRIu32 ",\n", longest_title_ix + 1);
+		printf("  \"longest title\": %" PRIu32 ",\n", longest_title_number);
 		printf("  \"longest playlist\": %" PRIu32 ",\n", longest_playlist);
 		printf("  \"first play supported\": %s,\n", bluray_info.first_play_supported ? "true" : "false");
 		printf("  \"top menu supported\": %s,\n", bluray_info.top_menu_supported ? "true" : "false");
