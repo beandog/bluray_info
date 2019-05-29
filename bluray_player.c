@@ -319,6 +319,12 @@ int main(int argc, char **argv) {
 	// Init bluray_title struct
 	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix);
 
+	// Silently check and fix chapter boundaries for playback
+	if(arg_last_chapter > 0 && arg_last_chapter > bluray_title.chapters)
+		arg_last_chapter = bluray_title.chapters;
+	if(arg_last_chapter > 0 && arg_first_chapter > arg_last_chapter)
+		arg_first_chapter = arg_last_chapter;
+
 	// MPV zero-indexes title numbers
 	bluray_playback.title = bluray_title.ix;
 
@@ -338,11 +344,6 @@ int main(int argc, char **argv) {
 		fprintf(stderr, "Could not create an MPV instance, quitting\n");
 		return 1;
 	}
-
-	if(arg_last_chapter > 0 && arg_last_chapter > bluray_title.chapters)
-		arg_last_chapter = bluray_title.chapters;
-	if(arg_last_chapter > 0 && arg_first_chapter > arg_last_chapter)
-		arg_first_chapter = arg_last_chapter;
 
 	// When choosing a chapter range, mpv will add 1 to the last one requested
 	snprintf(bluray_playback.chapter_start, 5, "#%03" PRIu32, arg_first_chapter);
