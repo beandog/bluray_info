@@ -329,6 +329,11 @@ int main(int argc, char **argv) {
 	uint32_t angle_ix = 0;
 	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix, angle_ix);
 
+	if(retval) {
+		fprintf(stderr, "Could not open title %" PRIu32 ", quitting\n", bluray_title.ix + 1);
+		return 1;
+	}
+
 	// Silently check and fix chapter boundaries for playback
 	if(arg_last_chapter > 0 && arg_last_chapter > bluray_title.chapters)
 		arg_last_chapter = bluray_title.chapters;
