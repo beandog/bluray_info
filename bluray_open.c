@@ -28,11 +28,11 @@ int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info) {
 		strncpy(bluray_info->udf_volume_id, bd_disc_info->udf_volume_id, BLURAY_INFO_UDF_VOLUME_ID_STRLEN - 1);
 
 	// Set the disc ID if AACS is present
-	memset(bluray_info->bluray_id, '\0', BLURAY_INFO_ID_STRLEN);
+	memset(bluray_info->disc_id, '\0', BLURAY_INFO_DISC_ID_STRLEN);
 	uint32_t ix = 0;
 	if(bd_disc_info->libaacs_detected) {
 		for(ix = 0; ix < 20; ix++) {
-			sprintf(bluray_info->bluray_id + 2 * ix, "%02X", bd_disc_info->disc_id[ix]);
+			sprintf(bluray_info->disc_id + 2 * ix, "%02X", bd_disc_info->disc_id[ix]);
 		}
 	}
 
