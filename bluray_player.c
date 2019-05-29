@@ -391,7 +391,11 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	mpv_command(bluray_mpv, bluray_mpv_commands);
+	retval = mpv_command(bluray_mpv, bluray_mpv_commands);
+	if(retval) {
+		fprintf(stderr, "Could not send bluray commands: %s\n", bluray_mpv_args);
+		return 1;
+	}
 
 	mpv_event *bluray_mpv_event = NULL;
 	struct mpv_event_log_message *bluray_mpv_log_message = NULL;
