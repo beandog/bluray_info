@@ -375,7 +375,7 @@ int main(int argc, char **argv) {
 	// mpv zero-indexes titles
 	char bluray_mpv_args[9];
 	memset(bluray_mpv_args, '\0', sizeof(bluray_mpv_args));
-	sprintf(bluray_mpv_args, "bd://%03" PRIu32, bluray_playback.title);
+	snprintf(bluray_mpv_args, 9, "bd://%03" PRIu32, bluray_playback.title);
 
 	// MPV uses zero-indexing for titles, bluray_info uses one instead
 	const char *bluray_mpv_commands[] = {
