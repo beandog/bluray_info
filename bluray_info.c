@@ -58,12 +58,11 @@ int main(int argc, char **argv) {
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "acdghjk:mp:st:vxAHSE:M:V";
+	const char p_short_opts[] = "acdghjk:mp:st:vxASE:M:V";
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
 		{ "help", no_argument, NULL, 'h' },
-		{ "human", no_argument, NULL, 'H' },
 		{ "id", no_argument, NULL, 'i' },
 		{ "json", no_argument, NULL, 'j' },
 		{ "keydb", required_argument, NULL, 'k' },
@@ -206,7 +205,6 @@ int main(int argc, char **argv) {
 				printf("  -x, --all                Display all\n");
 				printf("\n");
 				printf("Formatting:\n");
-				printf("  -H, --human		   Output as human readable (default)\n");
 				printf("  -j, --json               Output as JSON\n");
 				printf("\n");
 				printf("Narrow results:\n");
