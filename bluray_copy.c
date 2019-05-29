@@ -452,8 +452,6 @@ int main(int argc, char **argv) {
 		}
 	}
 
-	ssize_t write_retval = -1;
-
 	// Set the final position size using the previous one as its ending point.
 	// For the last chapter, it's simply the title size.
 	// Calculate the chapter size as well.
@@ -531,6 +529,7 @@ int main(int argc, char **argv) {
 	fprintf(io, "	Chapter: %03" PRIu32 ", Start: %s, Length: %s\n", chapter_number, bluray_chapters[chapter_ix].start_time, bluray_chapters[chapter_ix].length);
 
 	// Loop until specifically broken out
+	ssize_t write_retval = -1;
 	while(true) {
 
 		// Display chapter information -- have to start on the second chapter, because while jumping
