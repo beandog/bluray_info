@@ -412,7 +412,6 @@ int main(int argc, char **argv) {
 		NULL
 	};
 
-
 	retval = mpv_command(bluray_mpv, bluray_mpv_commands);
 	if(retval) {
 		fprintf(stderr, "Could not send MPV arguments: %s; using defaults\n", bluray_mpv_args);
@@ -438,6 +437,7 @@ int main(int argc, char **argv) {
 			bluray_mpv_log_message = (struct mpv_event_log_message *)bluray_mpv_event->data;
 			printf("mpv [%s]: %s", bluray_mpv_log_message->level, bluray_mpv_log_message->text);
 		}
+
 	}
 
 	mpv_terminate_destroy(bluray_mpv);
