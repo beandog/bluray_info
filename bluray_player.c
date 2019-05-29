@@ -289,7 +289,7 @@ int main(int argc, char **argv) {
 	// Select title passed as an argument
 	if(opt_title_number) {
 		bluray_title.ix = arg_title_number - 1;
-		if(bluray_title.ix > (d_num_titles - 1)) {
+		if(arg_title_number > d_num_titles) {
 			fprintf(stderr, "Could not open title %" PRIu32 ", choose from 1 to %" PRIu32 "\n", bluray_title.ix + 1, d_num_titles);
 			bd_close(bd);
 			bd = NULL;
