@@ -38,7 +38,6 @@ int main(int argc, char **argv) {
 	bool p_bluray_info = true;
 	bool p_bluray_json = false;
 	bool p_bluray_id = false;
-	bool p_bluray_udf = false;
 	bool p_bluray_xchap = false;
 	bool d_title_number = false;
 	uint32_t a_title_number = 0;
@@ -61,7 +60,7 @@ int main(int argc, char **argv) {
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "acdghijk:mp:qst:uvxAHSE:M:V";
+	const char p_short_opts[] = "acdghijk:mp:qst:vxAHSE:M:V";
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
@@ -76,7 +75,6 @@ int main(int argc, char **argv) {
 		{ "quiet", no_argument, NULL, 'q' },
 		{ "subtitles", no_argument, NULL, 's' },
 		{ "title", required_argument, NULL, 't' },
-		{ "volname", no_argument, NULL, 'u' },
 		{ "video", no_argument, NULL, 'v' },
 		{ "all", no_argument, NULL, 'x' },
 		{ "minutes", required_argument, NULL, 'M' },
@@ -184,11 +182,6 @@ int main(int argc, char **argv) {
 				arg_number = 0;
 				break;
 
-			case 'u':
-				p_bluray_info = false;
-				p_bluray_udf = true;
-				break;
-
 			case 'V':
 				printf("%s\n", PACKAGE_STRING);
 				return 0;
@@ -237,7 +230,6 @@ int main(int argc, char **argv) {
 				printf("Limited information:\n");
 				printf("  -i, --id		   Display ID only\n");
 				printf("  -g, --xchap		   Display title chapters in export format for mkvmerge or ogmmerge\n");
-				printf("  -u, --volname		   Display UDF volume name only (path must be device or filename)\n");
 				printf("  -q, --quiet		   Do not display disc title header and main title footer\n");
 				printf("\n");
 				printf("Other:\n");
@@ -289,11 +281,6 @@ int main(int argc, char **argv) {
 	if(retval) {
 		printf("* Couldn't open Blu-ray\n");
 		return 1;
-	}
-
-	if(p_bluray_udf) {
-		printf("%s\n", bluray_info.udf_volume_id);
-		return 0;
 	}
 
 	if(p_bluray_id) {
