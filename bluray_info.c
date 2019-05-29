@@ -37,7 +37,6 @@ int main(int argc, char **argv) {
 	// Parse options and arguments
 	bool p_bluray_info = true;
 	bool p_bluray_json = false;
-	bool p_bluray_id = false;
 	bool p_bluray_xchap = false;
 	bool d_title_number = false;
 	uint32_t a_title_number = 0;
@@ -60,7 +59,7 @@ int main(int argc, char **argv) {
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "acdghijk:mp:qst:vxAHSE:M:V";
+	const char p_short_opts[] = "acdghjk:mp:qst:vxAHSE:M:V";
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
@@ -114,11 +113,6 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'H':
-				break;
-
-			case 'i':
-				p_bluray_info = false;
-				p_bluray_id = true;
 				break;
 
 			case 'j':
@@ -228,7 +222,6 @@ int main(int argc, char **argv) {
 				printf("  -M, --minutes <number>   Title has minimum number of minutes\n");
 				printf("\n");
 				printf("Limited information:\n");
-				printf("  -i, --id		   Display ID only\n");
 				printf("  -g, --xchap		   Display title chapters in export format for mkvmerge or ogmmerge\n");
 				printf("  -q, --quiet		   Do not display disc title header and main title footer\n");
 				printf("\n");
@@ -281,11 +274,6 @@ int main(int argc, char **argv) {
 	if(retval) {
 		printf("* Couldn't open Blu-ray\n");
 		return 1;
-	}
-
-	if(p_bluray_id) {
-		printf("%s\n", bluray_info.disc_id);
-		return 0;
 	}
 
 	d_num_titles = bluray_info.titles;
