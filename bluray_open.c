@@ -23,9 +23,9 @@ int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info) {
 
 	// Use the UDF volume name as disc title; will only work if input file
 	// is an image or disc.
-	memset(bluray_info->bluray_title, '\0', BLURAY_INFO_TITLE_STRLEN);
+	memset(bluray_info->udf_volume_id, '\0', BLURAY_INFO_UDF_VOLUME_ID_STRLEN);
 	if(bd_disc_info->udf_volume_id)
-		strncpy(bluray_info->bluray_title, bd_disc_info->udf_volume_id, BLURAY_INFO_TITLE_STRLEN - 1);
+		strncpy(bluray_info->udf_volume_id, bd_disc_info->udf_volume_id, BLURAY_INFO_UDF_VOLUME_ID_STRLEN - 1);
 
 	// Set the disc ID if AACS is present
 	memset(bluray_info->bluray_id, '\0', BLURAY_INFO_ID_STRLEN);

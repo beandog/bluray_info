@@ -305,7 +305,7 @@ int main(int argc, char **argv) {
 	}
 
 	if(p_bluray_udf) {
-		printf("%s\n", bluray_info.bluray_title);
+		printf("%s\n", bluray_info.udf_volume_id);
 		return 0;
 	}
 
@@ -392,7 +392,7 @@ int main(int argc, char **argv) {
 		printf(" \"bluray\": {\n");
 		printf("  \"disc title\": \"%s\",\n", bluray_info.disc_name);
 		printf("  \"disc id\": \"%s\",\n", bluray_info.bluray_id);
-		printf("  \"udf title\": \"%s\",\n", bluray_info.bluray_title);
+		printf("  \"udf title\": \"%s\",\n", bluray_info.udf_volume_id);
 		printf("  \"main title\": %" PRIu32 ",\n", bluray_info.main_title_ix + 1);
 		printf("  \"main playlist\": %" PRIu32 ",\n", main_playlist);
 		printf("  \"longest title\": %" PRIu32 ",\n", longest_title_ix + 1);

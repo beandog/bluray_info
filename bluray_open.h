@@ -10,7 +10,7 @@
 #include "libbluray/meta_data.h"
 
 #define BLURAY_INFO_ID_STRLEN 41
-#define BLURAY_INFO_TITLE_STRLEN 33
+#define BLURAY_INFO_UDF_VOLUME_ID_STRLEN 33
 #define BLURAY_INFO_PROVIDER_DATA_STRLEN 33
 #define BLURAY_INFO_DISC_NAME_STRLEN 256
 
@@ -19,7 +19,7 @@
 
 struct bluray_info {
 	char bluray_id[BLURAY_INFO_ID_STRLEN];
-	char bluray_title[BLURAY_INFO_TITLE_STRLEN];
+	char udf_volume_id[BLURAY_INFO_UDF_VOLUME_ID_STRLEN];
 	char disc_name[BLURAY_INFO_DISC_NAME_STRLEN];
 	uint32_t titles;
 	uint32_t main_title_ix;

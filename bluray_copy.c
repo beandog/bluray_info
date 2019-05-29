@@ -315,8 +315,8 @@ int main(int argc, char **argv) {
 	chapters_range[1] = arg_chapter_numbers[1] - 1;
 
 	// Display disc title
-	if(strlen(bluray_info.bluray_title) && d_num_titles) {
-		fprintf(io, "Disc Title: %s\n", bluray_info.bluray_title);
+	if(strlen(bluray_info.disc_name) && d_num_titles) {
+		fprintf(io, "Disc title: %s\n", bluray_info.disc_name);
 	}
 
 	// Display title information

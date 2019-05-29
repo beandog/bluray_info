@@ -310,8 +310,8 @@ int main(int argc, char **argv) {
 	// MPV zero-indexes title numbers
 	bluray_playback.title = bluray_title.ix;
 
-	if(strlen(bluray_info.bluray_title) && d_num_titles)
-		printf("Disc Title: %s\n", bluray_info.bluray_title);
+	if(strlen(bluray_info.disc_name) && d_num_titles)
+		printf("Disc title: %s\n", bluray_info.disc_name);
 
 	printf("Title: %03" PRIu32 ", Playlist: %04" PRIu32 ", Length: %s, Chapters: %02" PRIu32 ", Video streams: %02" PRIu8 ", Audio streams: %02" PRIu8 ", Subtitles: %02" PRIu8 ", Filesize: %05.0lf MBs\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
 
