@@ -305,7 +305,7 @@ int main(int argc, char **argv) {
 	main_title_number = bluray_info.main_title + 1;
 
 	if(p_bluray_info) {
-		printf("Disc title: '%s', Volume name: '%s', Main title: %03" PRIu32 ", AACS: %s, BD-J: %s, BD+: %s\n", bluray_info.disc_name, bluray_info.udf_volume_id, main_title_number, (bluray_info.aacs ? "yes" : "no"), bluray_info.bdj ? "yes" : "no", bluray_info.bdplus ? "yes": "no");
+		printf("Disc title: '%s', Volume name: '%s', Main title: %03" PRIu32 ", AACS: %s, BD-J: %s, BD+: %s\n", bluray_info.disc_name, bluray_info.udf_volume_id, main_title_number, (bluray_info.aacs ? "yes" : "no"), (bluray_info.bdj ? "yes" : "no"), (bluray_info.bdplus ? "yes": "no"));
 	}
 
 	uint32_t ix = 0;
@@ -350,19 +350,19 @@ int main(int argc, char **argv) {
 		printf("  \"main playlist\": %" PRIu32 ",\n", main_playlist);
 		printf("  \"longest title\": %" PRIu32 ",\n", longest_title_number);
 		printf("  \"longest playlist\": %" PRIu32 ",\n", longest_playlist);
-		printf("  \"first play supported\": %s,\n", bluray_info.first_play_supported ? "true" : "false");
-		printf("  \"top menu supported\": %s,\n", bluray_info.top_menu_supported ? "true" : "false");
+		printf("  \"first play supported\": %s,\n", (bluray_info.first_play_supported ? "true" : "false"));
+		printf("  \"top menu supported\": %s,\n", (bluray_info.top_menu_supported ? "true" : "false"));
 		printf("  \"provider data\": \"%s\",\n", bluray_info.provider_data);
-		printf("  \"3D content\": %s,\n", bluray_info.content_exist_3D ? "true" : "false");
+		printf("  \"3D content\": %s,\n", (bluray_info.content_exist_3D ? "true" : "false"));
 		printf("  \"initial mode\": \"%s\",\n", bluray_info.initial_output_mode_preference);
 		printf("  \"titles\": %" PRIu32 ",\n", bluray_info.titles);
 		printf("  \"bdinfo titles\": %" PRIu32 ",\n", bluray_info.disc_num_titles);
 		printf("  \"hdmv titles\": %" PRIu32 ",\n", bluray_info.hdmv_titles);
 		printf("  \"bdj titles\": %" PRIu32 ",\n", bluray_info.bdj_titles);
 		printf("  \"unsupported titles\": %" PRIu32 ",\n", bluray_info.unsupported_titles);
-		printf("  \"aacs\": %s,\n", bluray_info.aacs ? "true" : "false");
-		printf("  \"bdplus\": %s,\n", bluray_info.bdplus ? "true" : "false");
-		printf("  \"bd-j\": %s\n", bluray_info.bdj ? "true" : "false");
+		printf("  \"aacs\": %s,\n", (bluray_info.aacs ? "true" : "false"));
+		printf("  \"bdplus\": %s,\n", (bluray_info.bdplus ? "true" : "false"));
+		printf("  \"bd-j\": %s\n", (bluray_info.bdj ? "true" : "false"));
 		printf(" },\n");
 
 	}
