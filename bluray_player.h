@@ -16,7 +16,6 @@ struct bluray_player {
 
 struct bluray_playback {
 	uint32_t title;
-	uint32_t playlist;
 	bool fullscreen;
 	bool deinterlace;
 	char audio_lang[4];
