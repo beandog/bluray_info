@@ -388,6 +388,7 @@ int main(int argc, char **argv) {
 	retval = mpv_initialize(bluray_mpv);
 	if(retval) {
 		fprintf(stderr, "Could not create an MPV instance, quitting\n");
+		return 1;
 	}
 
 	mpv_command(bluray_mpv, bluray_mpv_commands);
