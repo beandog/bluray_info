@@ -225,7 +225,6 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	BLURAY_TITLE_INFO *bd_title = NULL;
 	BLURAY_TITLE_CHAPTER *bd_chapter = NULL;
 
 	// Blu-ray
@@ -240,84 +239,64 @@ int main(int argc, char **argv) {
 	d_num_titles = bluray_info.titles;
 
 	struct bluray_title bluray_title;
-	bluray_title.ix = 0;
-	bluray_title.number = 1;
-	bluray_title.playlist = 0;
-	bluray_title.duration = 0;
-	bluray_title.size = 0;
-	bluray_title.size_mbs = 0;
-	bluray_title.chapters = 0;
-	bluray_title.clips = 0;
-	bluray_title.angles = 0;
-	bluray_title.video_streams = 0;
-	bluray_title.audio_streams = 0;
-	bluray_title.pg_streams = 0;
-	strcpy(bluray_title.length, "00:00:00.00");
 
-	// Select title passed as an argument
+	// Set only the title index at this point, based on input argument.
+	// Create the default output filename if none is given.
 	if(opt_title_number) {
-		bluray_title.number = arg_title_number;
-		bluray_title.ix = bluray_title.number - 1;
-		if(bluray_title.number > d_num_titles) {
-			fprintf(stderr, "Could not open title %" PRIu32 ", choose from 1 to %" PRIu32 "\n", bluray_title.number, d_num_titles);
+		bluray_title.ix = arg_title_number - 1;
+		if(arg_title_number > d_num_titles) {
+			fprintf(stderr, "Could not open title %" PRIu32 ", choose from 1 to %" PRIu32 "\n", arg_title_number, d_num_titles);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
 		}
-		if(bd_select_title(bd, bluray_title.ix) == 0) {
-			fprintf(stderr, "Could not open title %u\n", bluray_title.number);
-			bd_close(bd);
-			bd = NULL;
-			return 1;
-		}
-		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
-		bluray_title.playlist = bd_title->playlist;
 		if(bluray_copy.filename == NULL) {
 			bluray_copy.filename = calloc(strlen("bluray_title_000.m2ts") + 1, sizeof(unsigned char));
-			snprintf(bluray_copy.filename, strlen("bluray_title_000.m2ts") + 1, "%s%03" PRIu32 "%s", "bluray_title_", bluray_title.number, ".m2ts");
+			snprintf(bluray_copy.filename, strlen("bluray_title_000.m2ts") + 1, "%s%03" PRIu32 "%s", "bluray_title_", arg_title_number, ".m2ts");
 		}
 	} else if(opt_playlist_number) {
-		bluray_title.playlist = arg_playlist_number;
-		if(bd_select_playlist(bd, bluray_title.playlist) == 0) {
-			fprintf(stderr, "Could not open playlist %" PRIu32 "\n", bluray_title.playlist);
+		if(bd_select_playlist(bd, arg_playlist_number) == 0) {
+			fprintf(stderr, "Could not open playlist %" PRIu32 "\n", arg_playlist_number);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
 		}
-		bluray_title.ix = bd_get_current_title(bd);
-		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
 		if(bluray_copy.filename == NULL) {
 			bluray_copy.filename = calloc(strlen("bluray_playlist_00000.m2ts") + 1, sizeof(unsigned char));
-			snprintf(bluray_copy.filename, strlen("bluray_playlist_00000.m2ts") + 1, "%s%05" PRIu32 "%s", "bluray_playlist_", bluray_title.playlist, ".m2ts");
+			snprintf(bluray_copy.filename, strlen("bluray_playlist_00000.m2ts") + 1, "%s%05" PRIu32 "%s", "bluray_playlist_", arg_playlist_number, ".m2ts");
 		}
+		bluray_title.ix = bd_get_current_title(bd);
 	} else {
 		bluray_title.ix = bluray_info.main_title_ix;
-		if(bd_select_title(bd, bluray_title.ix) == 0) {
-			fprintf(stderr, "Could not open title %" PRIu32 "\n", bluray_title.number);
-			bd_close(bd);
-			bd = NULL;
-			return 1;
-		}
-		bd_title = bd_get_title_info(bd, bluray_title.ix, 0);
 		if(bluray_copy.filename == NULL) {
 			bluray_copy.filename = calloc(strlen("bluray_title_000.m2ts") + 1, sizeof(unsigned char));
-			snprintf(bluray_copy.filename, strlen("bluray_title_000.m2ts") + 1, "%s%03" PRIu32 "%s", "bluray_title_", bluray_title.number, ".m2ts");
+			snprintf(bluray_copy.filename, strlen("bluray_title_000.m2ts") + 1, "%s%03" PRIu32 "%s", "bluray_title_", bluray_title.ix + 1, ".m2ts");
 		}
 	}
 
-	if(bd_title == NULL) {
-		fprintf(stderr, "Could not get info for title %" PRIu32 "\n", bluray_title.number);
+	// Init bluray_title struct
+	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix);
+
+	// Quit if title / playlist couldn't be opened
+	if(retval) {
+
+		if(debug && retval == 1)
+			fprintf(stderr, "* could not open title %" PRIu32 "\n", ix + 1);
+		if(debug && retval == 2)
+			fprintf(stderr, "* could not get title info %" PRIu32 "\n", ix + 1);
+
+		if(opt_title_number)
+			fprintf(stderr, "Could not open title %u\n", arg_title_number);
+		else if(opt_playlist_number)
+			fprintf(stderr, "Could not open playlist %u\n", arg_playlist_number);
+		else
+			fprintf(stderr, "Could not open main title %u\n", bluray_title.ix + 1);
+
 		bd_close(bd);
 		bd = NULL;
-		if(bluray_copy.filename) {
-			free(bluray_copy.filename);
-			bluray_copy.filename = NULL;
-		}
 		return 1;
-	}
 
-	// Check for out of bounds chapter selection
-	bluray_title.chapters = bd_title->chapter_count;
+	}
 
 	// Handle no argument given for last chapter
 	if(arg_chapter_numbers[1] == 0)
@@ -334,20 +313,6 @@ int main(int argc, char **argv) {
 	uint32_t chapters_range[2];
 	chapters_range[0] = arg_chapter_numbers[0] - 1;
 	chapters_range[1] = arg_chapter_numbers[1] - 1;
-
-	// Pouplate title
-	bluray_title.duration = bd_title->duration;
-	bluray_title.size = bd_get_title_size(bd);
-	bluray_title.size_mbs = ceil((double)bluray_title.size / 1048576);
-	bluray_title.clips = bd_title->clip_count;
-	bluray_title.angles = bd_title->angle_count;
-	bluray_duration_length(bluray_title.length, bluray_title.duration);
-
-	if(bluray_title.clips) {
-		bluray_title.video_streams = bd_title->clips[0].video_stream_count;
-		bluray_title.audio_streams = bd_title->clips[0].audio_stream_count;
-		bluray_title.pg_streams = bd_title->clips[0].pg_stream_count;
-	}
 
 	// Display disc title
 	if(strlen(bluray_info.bluray_title) && d_num_titles) {
@@ -432,7 +397,8 @@ int main(int argc, char **argv) {
 		bluray_chapters[chapter_ix].size = 0;
 		bluray_chapters[chapter_ix].size_mbs = 0;
 
-		bd_chapter = &bd_title->chapters[chapter_ix];
+		// bd_chapter = &bd_title->chapters[chapter_ix];
+		bd_chapter = &bluray_title.title_chapters[chapter_ix];
 
 		if(bd_chapter == NULL)
 			continue;
@@ -647,9 +613,6 @@ int main(int argc, char **argv) {
 		fprintf(stderr, "* total bytes read: %" PRIi64 " bytes\n", bluray_read[2]);
 		fprintf(stderr, "* total MBs read: %lf bytes\n", ceil(ceil((double)bluray_read[2]) / 1048576));
 	}
-
-	bd_free_title_info(bd_title);
-	bd_title = NULL;
 
 	bd_close(bd);
 	bd = NULL;
