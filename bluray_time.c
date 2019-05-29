@@ -31,7 +31,7 @@ void bluray_duration_length(char *str, const uint64_t duration) {
 
 uint64_t bluray_chapter_duration(struct bluray *bd, const uint32_t title_ix, const uint32_t chapter_ix) {
 
-	int32_t retval = 0;
+	int retval = 0;
 	retval = bd_select_title(bd, title_ix);
 
 	if(retval == 0)
