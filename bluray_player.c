@@ -156,6 +156,13 @@ int main(int argc, char **argv) {
 
 				break;
 
+			case 'd':
+				bluray_playback.deinterlace = true;
+				break;
+
+			case 'f':
+				bluray_playback.fullscreen = true;
+				break;
 
 			case 'k':
 				key_db_filename = optarg;
