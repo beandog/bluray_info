@@ -78,17 +78,17 @@ int main(int argc, char **argv) {
 	char *token = NULL;
 	int g_opt = 0;
 	int g_ix = 0;
-	const char p_short_opts[] = "a:c:dfhk:l:mp:s:t:qVz";
+	const char p_short_opts[] = "a:c:dfhk:mp:s:t:V";
 	struct option p_long_opts[] = {
+		{ "alang", required_argument, NULL, 'a' },
 		{ "chapters", required_argument, NULL, 'c' },
 		{ "deinterlace", no_argument, NULL, 'd' },
 		{ "fullscreen", no_argument, NULL, 'f' },
 		{ "help", no_argument, NULL, 'h' },
 		{ "keydb", required_argument, NULL, 'k' },
 		{ "main", no_argument, NULL, 'm' },
-		{ "alang", required_argument, NULL, 'a' },
-		{ "slang", required_argument, NULL, 's' },
 		{ "playlist", required_argument, NULL, 'p' },
+		{ "slang", required_argument, NULL, 's' },
 		{ "title", required_argument, NULL, 't' },
 		{ "version", no_argument, NULL, 'V' },
 		{ 0, 0, 0, 0 }
