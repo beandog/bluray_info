@@ -25,7 +25,7 @@ void bluray_duration_length(char *str, const uint64_t duration) {
 	uint64_t d_secs = msecs % 60;
 	uint64_t d_msecs = (duration / 900) % 100;
 
-	sprintf(str, "%02" PRIu64 ":%02" PRIu64  ":%02" PRIu64 ".%02" PRIu64, d_hours, d_mins, d_secs, d_msecs);
+	sprintf(str, "%02" PRIu64 ":%02" PRIu64 ":%02" PRIu64 ".%02" PRIu64, d_hours, d_mins, d_secs, d_msecs);
 
 }
 
