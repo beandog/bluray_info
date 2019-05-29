@@ -337,6 +337,9 @@ int main(int argc, char **argv) {
 	bd_close(bd);
 	bd = NULL;
 
+	// Note that the order and location of setting mpv configuration is important,
+	// especially if you want to override mpv.conf in ~/.config/bluray_player/
+
 	// Blu-ray playback using libmpv
 	mpv_handle *bluray_mpv = NULL;
 	bluray_mpv = mpv_create();
@@ -361,10 +364,6 @@ int main(int argc, char **argv) {
 	mpv_set_option_string(bluray_mpv, "term-osd-bar", "yes");
 	mpv_set_option_string(bluray_mpv, "input-default-bindings", "yes");
 	mpv_set_option_string(bluray_mpv, "input-vo-keyboard", "yes");
-	if(strlen(bluray_playback.audio_lang) > 0)
-		mpv_set_option_string(bluray_mpv, "alang", bluray_playback.audio_lang);
-	if(strlen(bluray_playback.subtitles_lang) > 0)
-		mpv_set_option_string(bluray_mpv, "slang", bluray_playback.subtitles_lang);
 	if(bluray_playback.fullscreen)
 		mpv_set_option_string(bluray_mpv, "fullscreen", NULL);
 	if(bluray_playback.deinterlace)
@@ -392,11 +391,11 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	retval = mpv_command(bluray_mpv, bluray_mpv_commands);
-	if(retval) {
-		fprintf(stderr, "Could not send bluray commands: %s\n", bluray_mpv_args);
-		return 1;
-	}
+	// Have to set playback languages after init to override mpv.conf
+	if(strlen(bluray_playback.audio_lang) > 0)
+		retval = mpv_set_option_string(bluray_mpv, "alang", bluray_playback.audio_lang);
+	if(strlen(bluray_playback.subtitles_lang) > 0)
+		mpv_set_option_string(bluray_mpv, "slang", bluray_playback.subtitles_lang);
 
 	mpv_event *bluray_mpv_event = NULL;
 	struct mpv_event_log_message *bluray_mpv_log_message = NULL;
