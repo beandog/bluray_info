@@ -16,6 +16,25 @@
 #include "bluray_player.h"
 #include <mpv/client.h>
 
+/**
+ *   _     _                                  _
+ *  | |__ | |_   _ _ __ __ _ _   _      _ __ | | __ _ _   _  ___ _ __
+ *  | '_ \| | | | | '__/ _` | | | |    | '_ \| |/ _` | | | |/ _ \ '__|
+ *  | |_) | | |_| | | | (_| | |_| |    | |_) | | (_| | |_| |  __/ |
+ *  |_.__/|_|\__,_|_|  \__,_|\__, |____| .__/|_|\__,_|\__, |\___|_|
+ *                           |___/_____|_|            |___/
+ *
+ * bluray video player using libbluray and libmpv
+ *
+ * If your Blu-ray is encrypted, you'll need libaacs as well as a modern
+ * KEYDB.cfg file to access them.
+ *
+ * More information at https://dvds.beandog.org/
+ *
+ * Go watch tt0067992 :)
+ *
+ */
+
 int main(int argc, char **argv) {
 
 	uint32_t d_num_titles = 0;
