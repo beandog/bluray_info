@@ -9,6 +9,7 @@
 #define BLURAY_PLAYER_CONFIG_DIR_STRLEN 23
 #define BLURAY_PLAYER_PATH_MAX ( PATH_MAX - 1 )
 #define BLURAY_PLAYER_LANG_STRLEN 4
+#define BLURAY_PLAYER_CHAPTER_STRLEN 5
 
 struct bluray_player {
 	char config_dir[BLURAY_PLAYER_CONFIG_DIR_STRLEN];
@@ -21,8 +22,8 @@ struct bluray_playback {
 	bool deinterlace;
 	char audio_lang[BLURAY_PLAYER_LANG_STRLEN];
 	char subtitles_lang[BLURAY_PLAYER_LANG_STRLEN];
-	char chapter_start[5];
-	char chapter_end[5];
+	char chapter_start[BLURAY_PLAYER_CHAPTER_STRLEN];
+	char chapter_end[BLURAY_PLAYER_CHAPTER_STRLEN];
 };
 
 #endif
