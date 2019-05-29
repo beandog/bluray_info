@@ -75,7 +75,6 @@ int main(int argc, char **argv) {
 	const char *key_db_filename = NULL;
 	int g_opt = 0;
 	int g_ix = 0;
-	const char p_short_opts[] = "acghjk:mp:st:vxAE:M:SV";
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
@@ -96,7 +95,7 @@ int main(int argc, char **argv) {
 		{ "version", no_argument, NULL, 'V' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, p_short_opts, p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "acghjk:mp:st:vxAE:M:SV", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 

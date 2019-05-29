@@ -79,7 +79,6 @@ int main(int argc, char **argv) {
 	char *token = NULL;
 	int g_opt = 0;
 	int g_ix = 0;
-	const char p_short_opts[] = "a:c:dfhk:mp:s:t:V";
 	struct option p_long_opts[] = {
 		{ "alang", required_argument, NULL, 'a' },
 		{ "chapters", required_argument, NULL, 'c' },
@@ -94,7 +93,7 @@ int main(int argc, char **argv) {
 		{ "version", no_argument, NULL, 'V' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, p_short_opts, p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "a:c:dfhk:mp:s:t:V", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
