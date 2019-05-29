@@ -53,13 +53,12 @@ int main(int argc, char **argv) {
 	uint32_t d_min_minutes = 0;
 	uint32_t d_min_audio_streams = 0;
 	uint32_t d_min_pg_streams = 0;
-	bool d_quiet = false;
 	bool invalid_opt = false;
 	const char *key_db_filename = NULL;
 	int g_opt = 0;
 	int g_ix = 0;
 	opterr = 1;
-	const char p_short_opts[] = "acdghjk:mp:qst:vxAHSE:M:V";
+	const char p_short_opts[] = "acdghjk:mp:st:vxAHSE:M:V";
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
@@ -71,7 +70,6 @@ int main(int argc, char **argv) {
 		{ "main", no_argument, NULL, 'm' },
 		{ "xchap", no_argument, NULL, 'g' },
 		{ "playlist", required_argument, NULL, 'p' },
-		{ "quiet", no_argument, NULL, 'q' },
 		{ "subtitles", no_argument, NULL, 's' },
 		{ "title", required_argument, NULL, 't' },
 		{ "video", no_argument, NULL, 'v' },
@@ -149,10 +147,6 @@ int main(int argc, char **argv) {
 					a_playlist_number = (uint32_t)arg_number;
 				}
 				arg_number = 0;
-				break;
-
-			case 'q':
-				d_quiet = true;
 				break;
 
 			case 's':
@@ -316,8 +310,7 @@ int main(int argc, char **argv) {
 		d_num_titles = 1;
 	}
 
-	if(p_bluray_info && strlen(bluray_info.disc_name) && d_quiet == false)
-		printf("Disc title: %s\n", bluray_info.disc_name);
+	printf("Disc title: %s\n", bluray_info.disc_name);
 
 	if(p_bluray_json) {
 
