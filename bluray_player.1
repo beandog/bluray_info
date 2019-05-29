@@ -58,7 +58,11 @@ Play the selected playlist number\&.
 .sp
 \fB\-a, \-\-alang\fR=\fILANGUAGE\fR Set default audio language\&. Format is three\-letter language code, ISO 639\-2\&. For example: eng, deu, fra, spa\&.
 .sp
+\fB\-A, \-\-aid\fR=\fISTREAM ID\fR Play audio stream ID indexed by mpv\&.
+.sp
 \fB\-s, \-\-slang\fR=\fILANGUAGE\fR Display subtitles for selected language, if available\&.
+.sp
+\fB\-S, \-\-sid\fR=\fISTREAM ID\fR Play subtitle stream ID indexed by mpv\&.
 .sp
 \fB\-f, \-\-fullscreen\fR Display video in fullscreen\&.
 .sp
@@ -71,7 +75,11 @@ Play the selected playlist number\&.
 \fB\-V, \-\-version\fR Display version information\&.
 .SH "CONFIGURATION"
 .sp
-bluray_player(1) uses libmpv as the engine for playback (see https://mpv\&.io/)\&. Configuration for bluray_player is stored in ~/\&.config/bluray_player/mpv\&.conf and will be read on each time during startup\&. See mpv(1) for configuration options\&.
+bluray_player(1) uses libmpv as the engine for playback (see https://mpv\&.io/)\&. Configuration for bluray_player is stored in ~/\&.config/bluray_player/mpv\&.conf and will be read on each time during startup\&.
+.sp
+Passing options to \fIbluray_player\fR will override the configuration file\&.
+.sp
+See mpv(1) for all configuration options\&.
 .SH "SEE ALSO"
 .sp
 bluray_info(1), bluray_copy(1), mpv(1)

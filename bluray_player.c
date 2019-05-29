@@ -45,6 +45,9 @@ int main(int argc, char **argv) {
 	bool opt_chapter_start = false;
 	bool opt_chapter_end = false;
 	bool invalid_opt = false;
+	bool opt_audio_stream = false;
+	bool opt_subtitle_stream = false;
+	char stream_id[4];
 	long int arg_number = 0;
 	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
@@ -75,6 +78,7 @@ int main(int argc, char **argv) {
 	int g_ix = 0;
 	struct option p_long_opts[] = {
 		{ "alang", required_argument, NULL, 'a' },
+		{ "aid", required_argument, NULL, 'A' },
 		{ "chapters", required_argument, NULL, 'c' },
 		{ "deinterlace", no_argument, NULL, 'd' },
 		{ "fullscreen", no_argument, NULL, 'f' },
@@ -83,16 +87,26 @@ int main(int argc, char **argv) {
 		{ "main", no_argument, NULL, 'm' },
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "slang", required_argument, NULL, 's' },
+		{ "sid", required_argument, NULL, 'S' },
 		{ "title", required_argument, NULL, 't' },
 		{ "version", no_argument, NULL, 'V' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "a:c:dfhk:mp:s:t:V", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "a:A:c:dfhk:mp:s:S:t:V", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
 			case 'a':
 				strncpy(bluray_playback.audio_lang, optarg, BLURAY_PLAYER_LANG_STRLEN - 1);
+				break;
+
+			case 'A':
+				opt_audio_stream = true;
+				arg_number = strtol(optarg, NULL, 10);
+				if(arg_number > 0) {
+					bluray_playback.audio_stream_id = (uint8_t)arg_number;
+				}
+				arg_number = 0;
 				break;
 
 			case 'c':
@@ -198,6 +212,15 @@ int main(int argc, char **argv) {
 				strncpy(bluray_playback.subtitles_lang, optarg, BLURAY_PLAYER_LANG_STRLEN - 1);
 				break;
 
+			case 'S':
+				opt_subtitle_stream = true;
+				arg_number = strtol(optarg, NULL, 10);
+				if(arg_number > 0) {
+					bluray_playback.subtitle_stream_id = (uint8_t)arg_number;
+				}
+				arg_number = 0;
+				break;
+
 			case 'V':
 				printf("bluray_player %s\n", PACKAGE_VERSION);
 				return 0;
@@ -218,6 +241,10 @@ int main(int argc, char **argv) {
 				printf("Languages - ISO 639-2 three-letter language codes (eng, deu, fra, spa, ...):\n");
 				printf("  -a, --alang <language>   Audio language (default: first stream)\n");
 				printf("  -s, --slang <language>   Subtitles language (default: first stream)\n");
+				printf("\n");
+				printf("Stream IDs:\n");
+				printf("  -A, --aid <number>       Play audio stream id\n");
+				printf("  -S, --sid <number>       Play subtitle stream id\n");
 				printf("\n");
 				printf("Playback:\n");
 				printf("  -f, --fullscreen	   Display fullscreen\n");
@@ -417,11 +444,30 @@ int main(int argc, char **argv) {
 		fprintf(stderr, "Could not send MPV arguments: %s; using defaults\n", bluray_mpv_args);
 	}
 
-	// Have to set playback languages after init to override mpv.conf
+	// Based on the decoder used in libmpv, it may or may not find other streams.
+	// bluray_player intentionally doesn't check for out of bounds or non-existing
+	// audio and subtitle languages and tracks, and lets the player handle user input.
+
+	// Any arguments after this part will override mpv.conf
+
+	// Set playback languages in order of language code, then stream IDs
+	// When selecting a lanugage with --alang or --slang, it will choose the first of
+	// any streams with that language. Setting --aid, or --sid will choose the specific one.
 	if(strlen(bluray_playback.audio_lang) > 0)
 		retval = mpv_set_option_string(bluray_mpv, "alang", bluray_playback.audio_lang);
 	if(strlen(bluray_playback.subtitles_lang) > 0)
 		mpv_set_option_string(bluray_mpv, "slang", bluray_playback.subtitles_lang);
+
+	if(opt_audio_stream) {
+		memset(stream_id, '\0', 4);
+		snprintf(stream_id, 4, "%" PRIu8, bluray_playback.audio_stream_id);
+		retval = mpv_set_option_string(bluray_mpv, "aid", stream_id);
+	}
+	if(opt_subtitle_stream) {
+		memset(stream_id, '\0', 4);
+		snprintf(stream_id, 4, "%" PRIu8, bluray_playback.subtitle_stream_id);
+		retval = mpv_set_option_string(bluray_mpv, "sid", stream_id);
+	}
 
 	mpv_event *bluray_mpv_event = NULL;
 	struct mpv_event_log_message *bluray_mpv_log_message = NULL;
