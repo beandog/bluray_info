@@ -20,7 +20,7 @@ bluray_copy:
 
 - General rewrite for readability and stability
 - Fixed pulling in extra data between title start and first chapter
-- Check for AACS errors and display it
+- Check for AACS decrypt errors
 - Copy angle numbers
 
 1.4
