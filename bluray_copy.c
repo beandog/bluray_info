@@ -537,7 +537,7 @@ int main(int argc, char **argv) {
 	}
 
 	// Display the first chapter
-	fprintf(io, "	Chapter: %03" PRIu32 ", Start: %s, Length: %s\n", chapter_number, bluray_chapters[chapter_ix].start_time, bluray_chapters[chapter_ix].length);
+	fprintf(io, "	Chapter: %03" PRIu32 ", Start: %s, Length: %s, Filesize: %05.0lf MBs\n", chapter_number, bluray_chapters[chapter_ix].start_time, bluray_chapters[chapter_ix].length, bluray_chapters[chapter_ix].size_mbs);
 
 	// Loop until specifically broken out
 	ssize_t write_retval = -1;
@@ -547,7 +547,7 @@ int main(int argc, char **argv) {
 		// positions, the first chapter position will actually be hit twice.
 		if(bluray_chapters[chapter_ix].range[0] == (int64_t)bd_tell(bd) && chapter_number <= bluray_title.chapters && chapter_ix > chapters_range[0]) {
 			fprintf(io, "\33[2K");
-			fprintf(io, "	Chapter: %03" PRIu32 ", Start: %s, Length: %s\n", chapter_number, bluray_chapters[chapter_ix].start_time, bluray_chapters[chapter_ix].length);
+			fprintf(io, "	Chapter: %03" PRIu32 ", Start: %s, Length: %s, Filesize: %05.0lf MBs\n", chapter_number, bluray_chapters[chapter_ix].start_time, bluray_chapters[chapter_ix].length, bluray_chapters[chapter_ix].size_mbs);
 		}
 
 		// Read from the bluray
