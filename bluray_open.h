@@ -9,6 +9,10 @@
 #include "libbluray/bluray.h"
 #include "libbluray/meta_data.h"
 
+#ifndef PACKAGE_VERSION
+#define PACKAGE_VERSION "1.5"
+#endif
+
 #define BLURAY_INFO_DISC_ID_STRLEN 41
 #define BLURAY_INFO_UDF_VOLUME_ID_STRLEN 33
 #define BLURAY_INFO_PROVIDER_DATA_STRLEN 33

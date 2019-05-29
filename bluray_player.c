@@ -10,7 +10,6 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <libbluray/bluray.h>
-#include "config.h"
 #include "bluray_device.h"
 #include "bluray_open.h"
 #include "bluray_time.h"

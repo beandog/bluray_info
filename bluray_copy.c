@@ -9,7 +9,6 @@
 #include <getopt.h>
 #include <sys/stat.h>
 #include <fcntl.h>
-#include "config.h"
 #include "libbluray/bluray.h"
 #include "bluray_device.h"
 #include "bluray_open.h"

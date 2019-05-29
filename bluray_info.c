@@ -7,7 +7,6 @@
 #include <inttypes.h>
 #include <math.h>
 #include <getopt.h>
-#include "config.h"
 #include "libbluray/bluray.h"
 #include "libbluray/meta_data.h"
 #include "bluray_open.h"
@@ -191,7 +190,7 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'V':
-				printf("%s\n", PACKAGE_STRING);
+				printf("bluray_info %s\n", PACKAGE_VERSION);
 				return 0;
 
 			case 'v':
