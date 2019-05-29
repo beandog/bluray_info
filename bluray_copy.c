@@ -299,16 +299,16 @@ int main(int argc, char **argv) {
 	if(retval) {
 
 		if(debug && retval == 1)
-			fprintf(stderr, "* could not open title %" PRIu32 "\n", ix + 1);
+			fprintf(stderr, "* could not open title %" PRIu32 "\n", bluray_title.ix + 1);
 		if(debug && retval == 2)
-			fprintf(stderr, "* could not get title info %" PRIu32 "\n", ix + 1);
+			fprintf(stderr, "* could not get title info %" PRIu32 "\n", bluray_title.ix + 1);
 
 		if(opt_title_number)
 			fprintf(stderr, "Could not open title %u\n", arg_title_number);
 		else if(opt_playlist_number)
 			fprintf(stderr, "Could not open playlist %u\n", arg_playlist_number);
 		else
-			fprintf(stderr, "Could not open main title %u\n", bluray_title.ix + 1);
+			fprintf(stderr, "Could not open main title %u\n", main_title_number);
 
 		bd_close(bd);
 		bd = NULL;
