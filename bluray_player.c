@@ -383,8 +383,10 @@ int main(int argc, char **argv) {
 
 	// When choosing a chapter range, mpv will add 1 to the last one requested
 	// For example, to play just chapter 3, send playback of 3-4
-	snprintf(bluray_playback.chapter_start, BLURAY_PLAYER_CHAPTER_STRLEN, "#%03" PRIu32, arg_first_chapter);
-	snprintf(bluray_playback.chapter_end, BLURAY_PLAYER_CHAPTER_STRLEN, "#%03" PRIu32, arg_last_chapter + 1);
+	memset(bluray_playback.chapter_start, '\0', BLURAY_PLAYER_CHAPTER_STRLEN);
+	snprintf(bluray_playback.chapter_start, BLURAY_PLAYER_CHAPTER_STRLEN, "#%" PRIu32, arg_first_chapter);
+	memset(bluray_playback.chapter_end, '\0', BLURAY_PLAYER_CHAPTER_STRLEN);
+	snprintf(bluray_playback.chapter_end, BLURAY_PLAYER_CHAPTER_STRLEN, "#%" PRIu32, arg_last_chapter + 1);
 
 	// MPV zero-indexes title numbers
 	bluray_playback.title = bluray_title.ix;
@@ -439,9 +441,9 @@ int main(int argc, char **argv) {
 		mpv_set_option_string(bluray_mpv, "end", bluray_playback.chapter_end);
 
 	// mpv zero-indexes titles
-	char bluray_mpv_args[9];
-	memset(bluray_mpv_args, '\0', sizeof(bluray_mpv_args));
-	snprintf(bluray_mpv_args, 9, "bd://%03" PRIu32, bluray_playback.title);
+	char bluray_mpv_args[BLURAY_PLAYER_TITLE_STRLEN];
+	memset(bluray_mpv_args, '\0', BLURAY_PLAYER_TITLE_STRLEN);
+	snprintf(bluray_mpv_args, BLURAY_PLAYER_TITLE_STRLEN, "bd://%" PRIu32, bluray_playback.title);
 
 	// MPV uses zero-indexing for titles, bluray_info uses one instead
 	const char *bluray_mpv_commands[] = {
