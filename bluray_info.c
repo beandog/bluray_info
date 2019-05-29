@@ -65,7 +65,6 @@ int main(int argc, char **argv) {
 	bool d_audio = false;
 	bool d_subtitles = false;
 	bool d_chapters = false;
-	bool debug = false;
 	long int arg_number = 0;
 	uint32_t d_min_seconds = 0;
 	uint32_t d_min_minutes = 0;
@@ -396,17 +395,8 @@ int main(int argc, char **argv) {
 		retval = bluray_title_init(bd, &bluray_title, ix);
 
 		// Skip if there was a problem getting it
-		if(retval) {
-
-			if(debug && retval == 1)
-				fprintf(stderr, "* could not open title %" PRIu32 "\n", ix + 1);
-			if(debug && retval == 2)
-				fprintf(stderr, "* could not get title info %" PRIu32 "\n", ix + 1);
-
+		if(retval)
 			continue;
-
-		}
-
 
 		bluray_highest_playlist = ((bluray_title.playlist > bluray_highest_playlist) ? bluray_title.playlist : bluray_highest_playlist);
 
