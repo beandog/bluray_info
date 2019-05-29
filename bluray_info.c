@@ -221,12 +221,6 @@ int main(int argc, char **argv) {
 				printf("  -V, --version		   Version information\n");
 				printf("\n");
 				printf("Blu-ray path can be a device, a filename, or directory (default: %s)\n", DEFAULT_BLURAY_DEVICE);
-				printf("\n");
-				printf("Examples:\n");
-				printf("  bluray_info\n");
-				printf("  bluray_info /dev/sr0\n");
-				printf("  bluray_info bluray.iso\n");
-				printf("  bluray_info Blu-ray/\n");
 				if(invalid_opt)
 					return 1;
 				return 0;
