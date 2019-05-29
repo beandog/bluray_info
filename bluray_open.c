@@ -81,7 +81,7 @@ int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info) {
 /**
  * Initialize and populate a bluray_title struct
  */
-int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint32_t title_ix) {
+int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint32_t title_ix, uint32_t angle_ix) {
 
 	// Initialize to safe values
 	bluray_title->ix = title_ix;
@@ -107,12 +107,16 @@ int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint
 	if(retval == 0)
 		return 1;
 
+	// Quit if couldn't select angle
+	retval = bd_select_angle(bd, angle_ix);
+	if(retval == 0)
+		return 2;
+
 	// Quit if couldn't get title info
 	BLURAY_TITLE_INFO *bd_title = NULL;
-	uint32_t angle = 0;
-	bd_title = bd_get_title_info(bd, title_ix, angle);
+	bd_title = bd_get_title_info(bd, title_ix, angle_ix);
 	if(bd_title == NULL)
-		return 2;
+		return 3;
 
 	// Populate data
 	bluray_title->playlist = bd_title->playlist;

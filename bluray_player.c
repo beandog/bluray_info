@@ -326,7 +326,8 @@ int main(int argc, char **argv) {
 	}
 
 	// Init bluray_title struct
-	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix);
+	uint32_t angle_ix = 0;
+	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix, angle_ix);
 
 	// Silently check and fix chapter boundaries for playback
 	if(arg_last_chapter > 0 && arg_last_chapter > bluray_title.chapters)

@@ -52,7 +52,7 @@ struct bluray_title {
 	double size_mbs;
 	uint32_t chapters;
 	uint32_t clips;
-	uint8_t angles;
+	uint32_t angles;
 	uint8_t video_streams;
 	uint8_t audio_streams;
 	uint8_t pg_streams;
@@ -73,6 +73,6 @@ struct bluray_chapter {
 
 int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info);
 
-int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint32_t title_ix);
+int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint32_t title_ix, uint32_t angle_ix);
 
 #endif

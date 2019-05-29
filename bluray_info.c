@@ -309,6 +309,7 @@ int main(int argc, char **argv) {
 	}
 
 	uint32_t ix = 0;
+	uint32_t angle_ix = 0;
 
 	if(p_bluray_json) {
 
@@ -317,11 +318,10 @@ int main(int argc, char **argv) {
 		uint32_t main_playlist = 0;
 		uint32_t longest_title_number = 1;
 		uint32_t longest_playlist = 0;
-		uint32_t angle = 0;
 		BLURAY_TITLE_INFO *bd_title = NULL;
 		for(ix = 0; ix < bluray_info.titles; ix++) {
 
-			bd_title = bd_get_title_info(bd, ix, angle);
+			bd_title = bd_get_title_info(bd, ix, angle_ix);
 
 			if(bd_title == NULL) {
 				continue;
@@ -393,10 +393,11 @@ int main(int argc, char **argv) {
 	uint32_t chapter_number = 1;
 	uint64_t chapter_start = 0;
 	uint32_t d_title_counter = 0;
+	angle_ix = 0;
 
 	for(ix = d_first_ix; d_title_counter < d_num_titles; ix++, d_title_counter++) {
 
-		retval = bluray_title_init(bd, &bluray_title, ix);
+		retval = bluray_title_init(bd, &bluray_title, ix, angle_ix);
 
 		// Skip if there was a problem getting it
 		if(retval)

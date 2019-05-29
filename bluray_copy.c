@@ -55,7 +55,8 @@ int main(int argc, char **argv) {
 	long int arg_number = 0;
 	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
-	uint8_t arg_angle_number = 1;
+	uint32_t angle_ix = 0;
+	uint32_t arg_angle_number = 1;
 	bool debug = false;
 	const char *key_db_filename = NULL;
 
@@ -88,8 +89,10 @@ int main(int argc, char **argv) {
 				arg_number = strtol(optarg, NULL, 10);
 				if(arg_number < 1) {
 					arg_angle_number = 1;
+					angle_ix = 0;
 				} else {
-					arg_angle_number = (uint8_t)arg_number;
+					arg_angle_number = (uint32_t)arg_number;
+					angle_ix = arg_angle_number - 1;
 				}
 				arg_number = 0;
 				break;
@@ -291,7 +294,7 @@ int main(int argc, char **argv) {
 	}
 
 	// Init bluray_title struct
-	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix);
+	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix, angle_ix);
 
 	// Quit if title / playlist couldn't be opened
 	if(retval) {
@@ -337,18 +340,22 @@ int main(int argc, char **argv) {
 
 	// Display title information
 	if(p_bluray_copy) {
-		fprintf(io, "Title: %03" PRIu32 ", Playlist: %04" PRIu32 ", Length: %s, Chapters: %02" PRIu32 ", Video streams: %02" PRIu8 ", Audio streams: %02" PRIu8 ", Subtitles: %02" PRIu8 ", Filesize: %05.0lf MBs\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.size_mbs);
+		fprintf(io, "Title: %03" PRIu32 ", Playlist: %04" PRIu32 ", Length: %s, Chapters: %02" PRIu32 ", Video streams: %02" PRIu8 ", Audio streams: %02" PRIu8 ", Subtitles: %02" PRIu8 ", Angles: %" PRIu32 ", Filesize: %05.0lf MBs\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.angles, bluray_title.size_mbs);
 	}
 
 	// Check for valid angle number
 	if(arg_angle_number > bluray_title.angles) {
-		fprintf(stderr, "Cannot select angle %" PRIu8 ", highest angle number is %" PRIu8 ".\n", arg_angle_number, bluray_title.angles);
+		fprintf(stderr, "Cannot select angle %" PRIu32 ", highest angle number is %" PRIu32 ".\n", arg_angle_number, bluray_title.angles);
 		return 1;
 	}
-	retval = bd_select_angle(bd, arg_angle_number);
-	if(retval < 0) {
-		fprintf(stderr, "Could not select angle # %" PRIu8 "\n", arg_angle_number);
-		return 1;
+
+	// Don't change angle number unless passed as an argument
+	if(arg_angle_number) {
+		retval = bd_select_angle(bd, angle_ix);
+		if(retval < 0) {
+			fprintf(stderr, "Could not select angle # %" PRIu32 "\n", arg_angle_number);
+			return 1;
+		}
 	}
 
 	// Set fd output based on copying track to filename or sending to stdout

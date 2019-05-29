@@ -29,10 +29,15 @@ void bluray_duration_length(char *str, const uint64_t duration) {
 
 }
 
-uint64_t bluray_chapter_duration(struct bluray *bd, const uint32_t title_ix, const uint32_t chapter_ix) {
+uint64_t bluray_chapter_duration(struct bluray *bd, const uint32_t title_ix, const uint32_t chapter_ix, const uint32_t angle_ix) {
 
 	int retval = 0;
 	retval = bd_select_title(bd, title_ix);
+
+	if(retval == 0)
+		return 0;
+
+	retval = bd_select_angle(bd, angle_ix);
 
 	if(retval == 0)
 		return 0;
@@ -56,11 +61,11 @@ uint64_t bluray_chapter_duration(struct bluray *bd, const uint32_t title_ix, con
 
 }
 
-void bluray_chapter_length(char *dest_str, struct bluray *bd, const uint32_t title_ix, const uint32_t chapter_ix) {
+void bluray_chapter_length(char *dest_str, struct bluray *bd, const uint32_t title_ix, const uint32_t chapter_ix, const uint32_t angle_ix) {
 
 	uint64_t duration = 0;
 
-	duration = bluray_chapter_duration(bd, title_ix, chapter_ix);
+	duration = bluray_chapter_duration(bd, title_ix, chapter_ix, angle_ix);
 
 	char duration_str[12];
 
