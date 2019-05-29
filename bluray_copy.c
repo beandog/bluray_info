@@ -554,34 +554,43 @@ int main(int argc, char **argv) {
 			break;
 		}
 
-		// Find out what AACS read error occurred
+		// Find out what read error occurred
 		if(bluray_read[1] == -1) {
+
 			fprintf(stderr, "\n");
-			fprintf(stderr, "* Error decoding AACS on disc: ");
-			switch(bd_info->aacs_error_code) {
-				case BD_AACS_CORRUPTED_DISC:
-					fprintf(stderr, "corrupted disc\n");
-					break;
-				case BD_AACS_NO_CONFIG:
-					fprintf(stderr, "missing configuration file\n");
-					break;
-				case BD_AACS_NO_PK:
-					fprintf(stderr, "no matching process key\n");
-					break;
-				case BD_AACS_NO_CERT:
-					fprintf(stderr, "no certificate\n");
-					break;
-				case BD_AACS_CERT_REVOKED:
-					fprintf(stderr, "certificate revoked\n");
-					break;
-				case BD_AACS_MMC_FAILED:
-					fprintf(stderr, "MMC authentication failed\n");
-					break;
-				default:
-					fprintf(stderr, "unknown\n");
-					break;
+			fprintf(stderr, "Read error on disc\n");
+
+			if(bd_info->aacs_error_code) {
+
+				fprintf(stderr, "Error decoding AACS: ");
+
+				switch(bd_info->aacs_error_code) {
+					case BD_AACS_CORRUPTED_DISC:
+						fprintf(stderr, "corrupted disc\n");
+						break;
+					case BD_AACS_NO_CONFIG:
+						fprintf(stderr, "missing configuration file\n");
+						break;
+					case BD_AACS_NO_PK:
+						fprintf(stderr, "no matching process key\n");
+						break;
+					case BD_AACS_NO_CERT:
+						fprintf(stderr, "no certificate\n");
+						break;
+					case BD_AACS_CERT_REVOKED:
+						fprintf(stderr, "certificate revoked\n");
+						break;
+					case BD_AACS_MMC_FAILED:
+						fprintf(stderr, "MMC authentication failed\n");
+						break;
+					default:
+						fprintf(stderr, "unknown\n");
+						break;
+				}
 			}
+
 			break;
+
 		}
 
 		// If the amount received is less than we requested, then this is the last pass
