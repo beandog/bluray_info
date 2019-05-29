@@ -61,6 +61,7 @@ int main(int argc, char **argv) {
 	bool d_playlist_number = false;
 	uint32_t arg_playlist_number = 0;
 	bool d_main_title = false;
+	uint32_t main_title_number = 1;
 	bool d_video = false;
 	bool d_audio = false;
 	bool d_subtitles = false;
@@ -312,8 +313,10 @@ int main(int argc, char **argv) {
 		d_num_titles = 1;
 	}
 
+	main_title_number = bluray_info.main_title_ix + 1;
+
 	if(p_bluray_info) {
-		printf("Disc title: '%s', Volume name: '%s', Main title: %03" PRIu32 ", AACS: %s, BD-J: %s, BD+: %s\n", bluray_info.disc_name, bluray_info.udf_volume_id, bluray_info.main_title_ix + 1, (bluray_info.aacs ? "yes" : "no"), bluray_info.bdj ? "yes" : "no", bluray_info.bdplus ? "yes": "no");
+		printf("Disc title: '%s', Volume name: '%s', Main title: %03" PRIu32 ", AACS: %s, BD-J: %s, BD+: %s\n", bluray_info.disc_name, bluray_info.udf_volume_id, main_title_number, (bluray_info.aacs ? "yes" : "no"), bluray_info.bdj ? "yes" : "no", bluray_info.bdplus ? "yes": "no");
 	}
 
 	if(p_bluray_json) {
@@ -352,7 +355,7 @@ int main(int argc, char **argv) {
 		printf("  \"disc name\": \"%s\",\n", bluray_info.disc_name);
 		printf("  \"udf title\": \"%s\",\n", bluray_info.udf_volume_id);
 		printf("  \"disc id\": \"%s\",\n", bluray_info.disc_id);
-		printf("  \"main title\": %" PRIu32 ",\n", bluray_info.main_title_ix + 1);
+		printf("  \"main title\": %" PRIu32 ",\n", main_title_number);
 		printf("  \"main playlist\": %" PRIu32 ",\n", main_playlist);
 		printf("  \"longest title\": %" PRIu32 ",\n", longest_title_ix + 1);
 		printf("  \"longest playlist\": %" PRIu32 ",\n", longest_playlist);

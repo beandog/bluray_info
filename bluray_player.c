@@ -50,6 +50,7 @@ int main(int argc, char **argv) {
 	uint32_t arg_playlist_number = 0;
 	uint32_t arg_first_chapter = 0;
 	uint32_t arg_last_chapter = 0;
+	uint32_t main_title_number = 1;
 	const char *key_db_filename = NULL;
 	const char *home_dir = getenv("HOME");
 	int retval = 0;
@@ -285,6 +286,7 @@ int main(int argc, char **argv) {
 	retval = bluray_info_init(bd, &bluray_info);
 
 	d_num_titles = bluray_info.titles;
+	main_title_number = bluray_info.main_title_ix + 1;
 
 	struct bluray_title bluray_title;
 
@@ -314,7 +316,7 @@ int main(int argc, char **argv) {
 	} else {
 		bluray_title.ix = bluray_info.main_title_ix;
 		if(bd_select_title(bd, bluray_title.ix) == 0) {
-			fprintf(stderr, "Could not open main title # %" PRIu32 "\n", bluray_info.main_title_ix + 1);
+			fprintf(stderr, "Could not open main title # %" PRIu32 "\n", main_title_number);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
