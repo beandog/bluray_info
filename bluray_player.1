@@ -64,6 +64,8 @@ Play the selected playlist number\&.
 .sp
 \fB\-S, \-\-sid\fR=\fISTREAM ID\fR Play subtitle stream ID indexed by mpv\&.
 .sp
+\fB\-V, \-\-vid\fR=\fISTREAM ID\fR Play video stream ID indexed by mpv (default: first)\&.
+.sp
 \fB\-f, \-\-fullscreen\fR Display video in fullscreen\&.
 .sp
 \fB\-d, \-\-deinterlace\fR Deinterlace video during playback\&.
@@ -72,16 +74,7 @@ Play the selected playlist number\&.
 .sp
 \fB\-h, \-\-help\fR Display help output\&.
 .sp
-.RS 4
-.ie n \{\
-\h'-04'\(bu\h'+03'\c
-.\}
-.el \{\
-.sp -1
-.IP \(bu 2.3
-.\}
-\-\-version* Display version information\&.
-.RE
+\fB\-\-version\fR Display version information\&.
 .SH "CONFIGURATION"
 .sp
 bluray_player(1) uses libmpv as the engine for playback (see https://mpv\&.io/)\&. Configuration for bluray_player is stored in ~/\&.config/bluray_player/mpv\&.conf and will be read on each time during startup\&.

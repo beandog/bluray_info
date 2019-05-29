@@ -45,6 +45,7 @@ int main(int argc, char **argv) {
 	bool opt_chapter_start = false;
 	bool opt_chapter_end = false;
 	bool invalid_opt = false;
+	bool opt_video_stream = false;
 	bool opt_audio_stream = false;
 	bool opt_subtitle_stream = false;
 	char stream_id[4];
@@ -92,7 +93,7 @@ int main(int argc, char **argv) {
 		{ "version", no_argument, NULL, 'Z' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "a:A:c:dfhk:mp:s:S:t:Z", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "a:A:c:dfhk:mp:s:S:t:V:Z", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -221,6 +222,15 @@ int main(int argc, char **argv) {
 				arg_number = 0;
 				break;
 
+			case 'V':
+				opt_video_stream = true;
+				arg_number = strtol(optarg, NULL, 10);
+				if(arg_number > 0) {
+					bluray_playback.video_stream_id = (uint8_t)arg_number;
+				}
+				arg_number = 0;
+				break;
+
 			case 'Z':
 				printf("bluray_player %s\n", PACKAGE_VERSION);
 				return 0;
@@ -243,6 +253,7 @@ int main(int argc, char **argv) {
 				printf("  -s, --slang <language>   Subtitles language (default: first stream)\n");
 				printf("\n");
 				printf("Stream IDs:\n");
+				printf("  -V, --vid <number>       Play video stream id\n");
 				printf("  -A, --aid <number>       Play audio stream id\n");
 				printf("  -S, --sid <number>       Play subtitle stream id\n");
 				printf("\n");
@@ -458,6 +469,12 @@ int main(int argc, char **argv) {
 	if(strlen(bluray_playback.subtitles_lang) > 0)
 		mpv_set_option_string(bluray_mpv, "slang", bluray_playback.subtitles_lang);
 
+	// I vaguely recall seeing a Blu-ray with two video streams before
+	if(opt_video_stream) {
+		memset(stream_id, '\0', 4);
+		snprintf(stream_id, 4, "%" PRIu8, bluray_playback.video_stream_id);
+		retval = mpv_set_option_string(bluray_mpv, "vid", stream_id);
+	}
 	if(opt_audio_stream) {
 		memset(stream_id, '\0', 4);
 		snprintf(stream_id, 4, "%" PRIu8, bluray_playback.audio_stream_id);

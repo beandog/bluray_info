@@ -24,6 +24,7 @@ struct bluray_playback {
 	char subtitles_lang[BLURAY_PLAYER_LANG_STRLEN];
 	char chapter_start[BLURAY_PLAYER_CHAPTER_STRLEN];
 	char chapter_end[BLURAY_PLAYER_CHAPTER_STRLEN];
+	uint8_t video_stream_id;
 	uint8_t audio_stream_id;
 	uint8_t subtitle_stream_id;
 };
