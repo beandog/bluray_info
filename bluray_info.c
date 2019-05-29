@@ -354,7 +354,7 @@ int main(int argc, char **argv) {
 		d_num_titles = 1;
 	}
 
-	if(p_bluray_info && d_quiet == false)
+	if(p_bluray_info && strlen(bluray_info.disc_name) && d_quiet == false)
 		printf("Disc title: %s\n", bluray_info.disc_name);
 
 	if(p_bluray_json) {
