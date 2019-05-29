@@ -16,6 +16,28 @@
 #include "bluray_time.h"
 #include "bluray_copy.h"
 
+/**
+ *   _     _
+ *  | |__ | |_   _ _ __ __ _ _   _     ___ ___  _ __  _   _
+ *  | '_ \| | | | | '__/ _` | | | |   / __/ _ \| '_ \| | | |
+ *  | |_) | | |_| | | | (_| | |_| |  | (_| (_) | |_) | |_| |
+ *  |_.__/|_|\__,_|_|  \__,_|\__, |___\___\___/| .__/ \__, |
+ *                           |___/_____|       |_|    |___/
+ *
+ * a tiny little program to copy tracks from a disc using libbluray
+ *
+ * $ gcc -o bluray_copy bluray_copy.c bluray_open.c bluray_time.c -lm -lbluray
+ * $ ./bluray_copy --help
+ *
+ * If your Blu-ray is encrypted, you'll need libaacs as well as a modern
+ * KEYDB.cfg file to access them.
+ *
+ * More information at https://dvds.beandog.org/
+ *
+ * Have fun :)
+ *
+ */
+
 int main(int argc, char **argv) {
 
 	FILE *io = stdout;
