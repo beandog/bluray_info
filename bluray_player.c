@@ -332,6 +332,11 @@ int main(int argc, char **argv) {
 	if(arg_last_chapter > 0 && arg_first_chapter > arg_last_chapter)
 		arg_first_chapter = arg_last_chapter;
 
+	// When choosing a chapter range, mpv will add 1 to the last one requested
+	// For example, to play just chapter 3, send playback of 3-4
+	snprintf(bluray_playback.chapter_start, 5, "#%03" PRIu32, arg_first_chapter);
+	snprintf(bluray_playback.chapter_end, 5, "#%03" PRIu32, arg_last_chapter + 1);
+
 	// MPV zero-indexes title numbers
 	bluray_playback.title = bluray_title.ix;
 
@@ -355,14 +360,17 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	// When choosing a chapter range, mpv will add 1 to the last one requested
-	snprintf(bluray_playback.chapter_start, 5, "#%03" PRIu32, arg_first_chapter);
-	snprintf(bluray_playback.chapter_end, 5, "#%03" PRIu32, arg_last_chapter + 1);
-
 	// Load user's mpv configuration in ~/.config/bluray_player/mpv.conf (and friends)
 	if(strlen(bluray_player.mpv_config_dir) > 0) {
 		mpv_set_option_string(bluray_mpv, "config-dir", bluray_player.mpv_config_dir);
 		mpv_set_option_string(bluray_mpv, "config", "yes");
+	}
+
+	// MPV doesn't need much before initializing, and config-dir is the only relevant one here
+	retval = mpv_initialize(bluray_mpv);
+	if(retval) {
+		fprintf(stderr, "Could not initalize MPV, quiting\n");
+		return 1;
 	}
 
 	// Playback options and default configuration
@@ -392,11 +400,6 @@ int main(int argc, char **argv) {
 		NULL
 	};
 
-	retval = mpv_initialize(bluray_mpv);
-	if(retval) {
-		fprintf(stderr, "Could not create an MPV instance, quitting\n");
-		return 1;
-	}
 
 	retval = mpv_command(bluray_mpv, bluray_mpv_commands);
 	if(retval) {
