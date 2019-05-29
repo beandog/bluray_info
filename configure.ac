@@ -6,7 +6,6 @@ AM_INIT_AUTOMAKE([foreign])
 dnl Check for C99 support
 AC_PROG_CC_C99
 
-dnl bluray_copy needs math functions to display accurate progress
 AC_CHECK_HEADERS([math.h])
 
 dnl Use pkg-config to check for libbluray
