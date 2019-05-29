@@ -77,7 +77,7 @@ int main(int argc, char **argv) {
 		{ "has-audio", no_argument, NULL, 'A' },
 		{ "seconds", required_argument, NULL, 'E' },
 		{ "minutes", required_argument, NULL, 'M' },
-		{ "has-subs", no_argument, NULL, 'S' },
+		{ "has-subtitles", no_argument, NULL, 'S' },
 		{ "version", no_argument, NULL, 'Z' },
 		{ 0, 0, 0, 0 }
 	};
