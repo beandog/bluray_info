@@ -81,7 +81,7 @@ int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info) {
 /**
  * Initialize and populate a bluray_title struct
  */
-int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint32_t title_ix, uint32_t angle_ix) {
+int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint32_t title_ix, uint8_t angle_ix) {
 
 	// Initialize to safe values
 	bluray_title->ix = title_ix;

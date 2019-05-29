@@ -326,7 +326,7 @@ int main(int argc, char **argv) {
 	}
 
 	// Init bluray_title struct
-	uint32_t angle_ix = 0;
+	uint8_t angle_ix = 0;
 	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix, angle_ix);
 
 	if(retval) {
@@ -352,7 +352,7 @@ int main(int argc, char **argv) {
 		printf("Disc title: %s\n", bluray_info.disc_name);
 
 	// libmpv doesn't support Blu-ray angle selection (as of latest stable, 0.29.1)
-	printf("Title: %03" PRIu32 ", Playlist: %04" PRIu32 ", Length: %s, Chapters: %02" PRIu32 ", Video streams: %02" PRIu8 ", Audio streams: %02" PRIu8 ", Subtitles: %02" PRIu8 ", Angles: %02" PRIu32 ", Filesize: %05.0lf MBs\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.angles, bluray_title.size_mbs);
+	printf("Title: %03" PRIu32 ", Playlist: %04" PRIu32 ", Length: %s, Chapters: %02" PRIu32 ", Video streams: %02" PRIu8 ", Audio streams: %02" PRIu8 ", Subtitles: %02" PRIu8 ", Angles: %02" PRIu8 ", Filesize: %05.0lf MBs\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.angles, bluray_title.size_mbs);
 
 	// Finished with libbluray
 	bd_close(bd);
