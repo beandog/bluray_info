@@ -70,8 +70,6 @@ int main(int argc, char **argv) {
 	memset(bluray_playback.chapter_start, '\0', sizeof(bluray_playback.chapter_start));
 	memset(bluray_playback.chapter_end, '\0', sizeof(bluray_playback.chapter_end));
 
-	char bluray_mpv_args[9];
-	memset(bluray_mpv_args, '\0', sizeof(bluray_mpv_args));
 	mpv_handle *bluray_mpv = NULL;
 	mpv_event *bluray_mpv_event = NULL;
 	struct mpv_event_log_message *bluray_mpv_log_message = NULL;
@@ -375,6 +373,8 @@ int main(int argc, char **argv) {
 		mpv_set_option_string(bluray_mpv, "end", bluray_playback.chapter_end);
 
 	// mpv zero-indexes titles
+	char bluray_mpv_args[9];
+	memset(bluray_mpv_args, '\0', sizeof(bluray_mpv_args));
 	sprintf(bluray_mpv_args, "bd://%03" PRIu32, bluray_playback.title);
 
 	// MPV uses zero-indexing for titles, bluray_info uses one instead
