@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
 	int retval = 0;
 
 	struct bluray_player bluray_player;
-	snprintf(bluray_player.config_dir, BLURAY_CONFIG_DIR_STRLEN, "/.config/bluray_player");
+	snprintf(bluray_player.config_dir, BLURAY_PLAYER_CONFIG_DIR_STRLEN, "/.config/bluray_player");
 	memset(bluray_player.mpv_config_dir, '\0', sizeof(bluray_player.mpv_config_dir));
 	if(home_dir != NULL)
 		snprintf(bluray_player.mpv_config_dir, BLURAY_PLAYER_PATH_MAX, "%s%s", home_dir, bluray_player.config_dir);

@@ -6,11 +6,11 @@
 #include <linux/limits.h>
 #endif
 
-#define BLURAY_CONFIG_DIR_STRLEN 23
+#define BLURAY_PLAYER_CONFIG_DIR_STRLEN 23
 #define BLURAY_PLAYER_PATH_MAX ( PATH_MAX - 1 )
 
 struct bluray_player {
-	char config_dir[BLURAY_CONFIG_DIR_STRLEN];
+	char config_dir[BLURAY_PLAYER_CONFIG_DIR_STRLEN];
 	char mpv_config_dir[BLURAY_PLAYER_PATH_MAX];
 };
 
