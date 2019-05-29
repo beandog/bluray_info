@@ -65,8 +65,8 @@ int main(int argc, char **argv) {
 	bluray_playback.title = 0;
 	bluray_playback.fullscreen = false;
 	bluray_playback.deinterlace = false;
-	memset(bluray_playback.audio_lang, '\0', sizeof(bluray_playback.audio_lang));
-	memset(bluray_playback.subtitles_lang, '\0', sizeof(bluray_playback.subtitles_lang));
+	memset(bluray_playback.audio_lang, '\0', BLURAY_PLAYER_LANG_STRLEN);
+	memset(bluray_playback.subtitles_lang, '\0', BLURAY_PLAYER_LANG_STRLEN);
 	memset(bluray_playback.chapter_start, '\0', sizeof(bluray_playback.chapter_start));
 	memset(bluray_playback.chapter_end, '\0', sizeof(bluray_playback.chapter_end));
 
@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
 		switch(g_opt) {
 
 			case 'a':
-				strncpy(bluray_playback.audio_lang, optarg, 3);
+				strncpy(bluray_playback.audio_lang, optarg, BLURAY_PLAYER_LANG_STRLEN - 1);
 				break;
 
 			case 'c':
@@ -188,7 +188,7 @@ int main(int argc, char **argv) {
 				break;
 
 			case 's':
-				strncpy(bluray_playback.subtitles_lang, optarg, 3);
+				strncpy(bluray_playback.subtitles_lang, optarg, BLURAY_PLAYER_LANG_STRLEN - 1);
 				break;
 
 			case 'V':
