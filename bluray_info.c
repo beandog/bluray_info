@@ -17,6 +17,28 @@
 #include "bluray_pgs.h"
 #include "bluray_time.h"
 
+/**
+ *   _     _                           _        __
+ *  | |__ | |_   _ _ __ __ _ _   _    (_)_ __  / _| ___
+ *  | '_ \| | | | | '__/ _` | | | |   | | '_ \| |_ / _ \
+ *  | |_) | | |_| | | | (_| | |_| |   | | | | |  _| (_) |
+ *  |_.__/|_|\__,_|_|  \__,_|\__, |___|_|_| |_|_|  \___/
+ *                           |___/_____|
+ *
+ * a tiny little program to display disc info using libbluray
+ *
+ * $ gcc -o bluray_info bluray_info.c bluray_open.c bluray_video.c bluray_audio.c bluray_pgs.c bluray_time.c -lm -lbluray
+ * $ ./bluray_info --help
+ *
+ * If your Blu-ray is encrypted, you'll need libaacs as well as a modern
+ * KEYDB.cfg file to access them.
+ *
+ * More information at https://dvds.beandog.org/
+ *
+ * Go crazy :)
+ *
+ */
+
 int main(int argc, char **argv) {
 
 	uint32_t ix = 0;
