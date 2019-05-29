@@ -64,7 +64,6 @@ int main(int argc, char **argv) {
 		{ "chapters", no_argument, NULL, 'c' },
 		{ "xchap", no_argument, NULL, 'g' },
 		{ "help", no_argument, NULL, 'h' },
-		{ "id", no_argument, NULL, 'i' },
 		{ "json", no_argument, NULL, 'j' },
 		{ "keydb", required_argument, NULL, 'k' },
 		{ "main", no_argument, NULL, 'm' },
