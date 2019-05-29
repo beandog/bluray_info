@@ -24,6 +24,8 @@
  *  |_.__/|_|\__,_|_|  \__,_|\__, |___|_|_| |_|_|  \___/
  *                           |___/_____|
  *
+ * display information about a disc using libbluray
+ *
  * If your Blu-ray is encrypted, you'll need libaacs as well as a modern
  * KEYDB.cfg file to access them.
  *

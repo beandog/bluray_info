@@ -23,6 +23,8 @@
  *  |_.__/|_|\__,_|_|  \__,_|\__, |___\___\___/| .__/ \__, |
  *                           |___/_____|       |_|    |___/
  *
+ * copy tracks from a disc using libbluray
+ *
  * If your Blu-ray is encrypted, you'll need libaacs as well as a modern
  * KEYDB.cfg file to access them.
  *
