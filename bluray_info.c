@@ -37,19 +37,6 @@
 
 int main(int argc, char **argv) {
 
-	uint32_t ix = 0;
-	uint8_t video_stream_ix = 0;
-	uint8_t video_stream_number = 1;
-	uint8_t audio_stream_ix = 0;
-	uint8_t audio_stream_number = 1;
-	uint8_t pg_stream_ix = 0;
-	uint8_t pg_stream_number = 1;
-	uint32_t chapter_ix = 0;
-	uint32_t chapter_number = 1;
-	uint64_t chapter_start = 0;
-	uint32_t d_num_titles = 0;
-	uint32_t d_first_ix = 0;
-	uint32_t d_title_counter = 0;
 	int retval = 0;
 
 	// Parse options and arguments
@@ -61,7 +48,6 @@ int main(int argc, char **argv) {
 	bool d_playlist_number = false;
 	uint32_t arg_playlist_number = 0;
 	bool d_main_title = false;
-	uint32_t main_title_number = 1;
 	bool d_video = false;
 	bool d_audio = false;
 	bool d_subtitles = false;
@@ -272,7 +258,10 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
+	uint32_t d_num_titles = 0;
 	d_num_titles = bluray_info.titles;
+
+	uint32_t d_first_ix = 0;
 
 	// Select track passed as an argument
 	if(d_title_number) {
@@ -312,11 +301,14 @@ int main(int argc, char **argv) {
 		d_num_titles = 1;
 	}
 
+	uint32_t main_title_number;
 	main_title_number = bluray_info.main_title + 1;
 
 	if(p_bluray_info) {
 		printf("Disc title: '%s', Volume name: '%s', Main title: %03" PRIu32 ", AACS: %s, BD-J: %s, BD+: %s\n", bluray_info.disc_name, bluray_info.udf_volume_id, main_title_number, (bluray_info.aacs ? "yes" : "no"), bluray_info.bdj ? "yes" : "no", bluray_info.bdplus ? "yes": "no");
 	}
+
+	uint32_t ix = 0;
 
 	if(p_bluray_json) {
 
@@ -390,6 +382,17 @@ int main(int argc, char **argv) {
 
 	if(p_bluray_json)
 		printf(" \"titles\": [\n");
+
+	uint8_t video_stream_ix = 0;
+	uint8_t video_stream_number = 1;
+	uint8_t audio_stream_ix = 0;
+	uint8_t audio_stream_number = 1;
+	uint8_t pg_stream_ix = 0;
+	uint8_t pg_stream_number = 1;
+	uint32_t chapter_ix = 0;
+	uint32_t chapter_number = 1;
+	uint64_t chapter_start = 0;
+	uint32_t d_title_counter = 0;
 
 	for(ix = d_first_ix; d_title_counter < d_num_titles; ix++, d_title_counter++) {
 
