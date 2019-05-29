@@ -609,7 +609,7 @@ int main(int argc, char **argv) {
 		write_retval = write(bluray_copy.fd, bluray_buffer, (size_t)bluray_write[0]);
 
 		// Check for failed write
-		if(write_retval < 0) {
+		if(write_retval != (ssize_t)bluray_write[0]) {
 			if(errno == ENOSPC)
 				fprintf(stderr, "Could not write to device, no remaining space available\n");
 			fprintf(stderr, "Tried to write %" PRIi64 " bytes to %s and failed, quitting\n", bluray_write[0], bluray_copy.filename);
