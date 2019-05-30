@@ -1,13 +1,13 @@
 #include "bluray_audio.h"
 
-void bluray_audio_lang(char *str, const uint8_t lang[BLURAY_INFO_AUDIO_LANG_STRLEN]) {
+void bluray_audio_lang(char *str, uint8_t lang[BLURAY_INFO_AUDIO_LANG_STRLEN]) {
 
 	memset(str, '\0', BLURAY_INFO_AUDIO_LANG_STRLEN);
 	memcpy(str, lang, BLURAY_INFO_AUDIO_LANG_STRLEN - 1);
 
 }
 
-void bluray_audio_codec(char *str, const uint8_t coding_type) {
+void bluray_audio_codec(char *str, uint8_t coding_type) {
 
 	memset(str, '\0', BLURAY_INFO_AUDIO_CODEC_STRLEN);
 
@@ -55,7 +55,7 @@ void bluray_audio_codec(char *str, const uint8_t coding_type) {
 
 }
 
-void bluray_audio_codec_name(char *str, const uint8_t coding_type) {
+void bluray_audio_codec_name(char *str, uint8_t coding_type) {
 
 	memset(str, '\0', BLURAY_INFO_AUDIO_CODEC_NAME_STRLEN);
 
@@ -103,7 +103,7 @@ void bluray_audio_codec_name(char *str, const uint8_t coding_type) {
 
 }
 
-bool bluray_audio_secondary_stream(const uint8_t coding_type) {
+bool bluray_audio_secondary_stream(uint8_t coding_type) {
 
 	if(coding_type == BLURAY_STREAM_TYPE_AUDIO_AC3PLUS_SECONDARY || coding_type == BLURAY_STREAM_TYPE_AUDIO_DTSHD_SECONDARY)
 		return true;
@@ -112,7 +112,7 @@ bool bluray_audio_secondary_stream(const uint8_t coding_type) {
 
 }
 
-void bluray_audio_format(char *str, const uint8_t format) {
+void bluray_audio_format(char *str, uint8_t format) {
 
 	memset(str, '\0', BLURAY_INFO_AUDIO_FORMAT_STRLEN);
 
@@ -138,7 +138,7 @@ void bluray_audio_format(char *str, const uint8_t format) {
 
 }
 
-void bluray_audio_rate(char *str, const uint8_t rate) {
+void bluray_audio_rate(char *str, uint8_t rate) {
 
 	memset(str, '\0', BLURAY_INFO_AUDIO_RATE_STRLEN);
 

@@ -18,16 +18,16 @@ struct bluray_audio {
 	char rate[BLURAY_INFO_AUDIO_RATE_STRLEN];
 };
 
-void bluray_audio_lang(char *str, const uint8_t lang[BLURAY_INFO_AUDIO_LANG_STRLEN]);
+void bluray_audio_lang(char *str, uint8_t lang[BLURAY_INFO_AUDIO_LANG_STRLEN]);
 
-void bluray_audio_codec(char *str, const uint8_t coding_type);
+void bluray_audio_codec(char *str, uint8_t coding_type);
 
-void bluray_audio_codec_name(char *str, const uint8_t coding_type);
+void bluray_audio_codec_name(char *str, uint8_t coding_type);
 
-bool bluray_audio_secondary_stream(const uint8_t coding_type);
+bool bluray_audio_secondary_stream(uint8_t coding_type);
 
-void bluray_audio_format(char *str, const uint8_t aspect);
+void bluray_audio_format(char *str, uint8_t aspect);
 
-void bluray_audio_rate(char *str, const uint8_t rate);
+void bluray_audio_rate(char *str, uint8_t rate);
 
 #endif
