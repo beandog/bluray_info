@@ -428,7 +428,6 @@ int main(int argc, char **argv) {
 		bluray_chapters[chapter_ix].range[1] = 0;
 		bluray_chapters[chapter_ix].size = 0;
 		bluray_chapters[chapter_ix].size_mbs = 0;
-		bluray_chapters[chapter_ix].start = chapter_start;
 
 		// bd_chapter = &bd_title->chapters[chapter_ix];
 		bd_chapter = &bluray_title.title_chapters[chapter_ix];
@@ -436,6 +435,7 @@ int main(int argc, char **argv) {
 		if(bd_chapter == NULL)
 			continue;
 
+		bluray_chapters[chapter_ix].start = chapter_start;
 		bluray_chapters[chapter_ix].duration = bd_chapter->duration;
 		bluray_duration_length(bluray_chapters[chapter_ix].length, bd_chapter->duration);
 		bluray_duration_length(bluray_chapters[chapter_ix].start_time, chapter_start);
