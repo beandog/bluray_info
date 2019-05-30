@@ -448,6 +448,14 @@ int main(int argc, char **argv) {
 	// size has to be calculated. When doing seeks or reads though, use position
 	// as the index to see where you're at. No real reason to use the size other than
 	// you'd like to know how big the chapter is.
+
+	// The size for chapter one may be incorrect, because while the title start position
+	// is at 0, the chapter start position will have an offset. To do proper calculation
+	// I'd have to do a read, and check the new positions. It's a bit of a headache, and
+	// I'm not comfortable with it, and I don't want to display the filesize anyway, so
+	// everything here but the first chapter is going to be accurate. Only display the
+	// estimated sizes for debugging.
+
 	// Populate the array
 	int64_t chapter_size = 0;
 	int64_t chapter_pos = 0;
