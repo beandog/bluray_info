@@ -537,7 +537,12 @@ int main(int argc, char **argv) {
 	}
 
 	// Display the first chapter
-	fprintf(io, "	Chapter: %03" PRIu32 ", Start: %s, Length: %s, Filesize: %05.0lf MBs\n", chapter_number, bluray_chapters[chapter_ix].start_time, bluray_chapters[chapter_ix].length, bluray_chapters[chapter_ix].size_mbs);
+	// Note that even though the first chapter will have an offset from the beginning
+	// of the title, bd_read() will start from 0, meaning you can't rely on the
+	// chapter positions as absolute definitions of what the filesize will actually be.
+	// For that reason, I used to have filesize in here, but it's not guaranteed to
+	// be accurate, so don't display it.
+	fprintf(io, "	Chapter: %03" PRIu32 ", Start: %s, Length: %s\n", chapter_number, bluray_chapters[chapter_ix].start_time, bluray_chapters[chapter_ix].length);
 
 	// Loop until specifically broken out
 	ssize_t write_retval = -1;
@@ -547,7 +552,7 @@ int main(int argc, char **argv) {
 		// positions, the first chapter position will actually be hit twice.
 		if(bluray_chapters[chapter_ix].range[0] == (int64_t)bd_tell(bd) && chapter_number <= bluray_title.chapters && chapter_ix > chapters_range[0]) {
 			fprintf(io, "\33[2K");
-			fprintf(io, "	Chapter: %03" PRIu32 ", Start: %s, Length: %s, Filesize: %05.0lf MBs\n", chapter_number, bluray_chapters[chapter_ix].start_time, bluray_chapters[chapter_ix].length, bluray_chapters[chapter_ix].size_mbs);
+			fprintf(io, "	Chapter: %03" PRIu32 ", Start: %s, Length: %s\n", chapter_number, bluray_chapters[chapter_ix].start_time, bluray_chapters[chapter_ix].length);
 		}
 
 		// Read from the bluray
@@ -651,7 +656,9 @@ int main(int argc, char **argv) {
 			fflush(stderr);
 		}
 
-		// Set variables for the current chapter after this read
+		// Only use getting current chapter as setting boundary for copying, not the
+		// calculated size or specified end positions. This is intentionally done
+		// to avoid calculation errors.
 		chapter_ix = bd_get_current_chapter(bd);
 		chapter_number = chapter_ix + 1;
 
