@@ -10,7 +10,7 @@
 #include "libbluray/meta_data.h"
 
 #ifndef PACKAGE_VERSION
-#define PACKAGE_VERSION "1.5"
+#define PACKAGE_VERSION "1.6_beta1"
 #endif
 
 #define BLURAY_INFO_DISC_ID_STRLEN 41
