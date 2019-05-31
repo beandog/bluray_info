@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
 	bool d_audio = false;
 	bool d_subtitles = false;
 	bool d_chapters = false;
-	long int arg_number = 0;
+	unsigned long int arg_number = 0;
 	uint32_t d_min_seconds = 0;
 	uint32_t d_min_minutes = 0;
 	uint32_t d_min_audio_streams = 0;
@@ -98,11 +98,8 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'E':
-				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number > 0) {
-					d_min_seconds = (uint32_t)arg_number;
-				}
-				arg_number = 0;
+				arg_number = strtoul(optarg, NULL, 10);
+				d_min_seconds = (uint32_t)arg_number;
 				break;
 
 			case 'g':
@@ -129,24 +126,16 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'M':
-				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number > 0) {
-					d_min_minutes  = (uint32_t)arg_number;
-				}
-				arg_number = 0;
+				arg_number = strtoul(optarg, NULL, 10);
+				d_min_minutes = (uint32_t)arg_number;
 				break;
 
 			case 'p':
 				d_title_number = false;
 				d_playlist_number = true;
 				d_main_title = false;
-				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number < 0) {
-					arg_playlist_number = 0;
-				} else {
-					arg_playlist_number = (uint32_t)arg_number;
-				}
-				arg_number = 0;
+				arg_number = strtoul(optarg, NULL, 10);
+				arg_playlist_number = (uint32_t)arg_number;
 				break;
 
 			case 's':
@@ -161,13 +150,11 @@ int main(int argc, char **argv) {
 				d_title_number = true;
 				d_playlist_number = false;
 				d_main_title = false;
-				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number < 1) {
+				arg_number = strtoul(optarg, NULL, 10);
+				if(arg_number < 2)
 					arg_title_number = 1;
-				} else {
+				else
 					arg_title_number = (uint32_t)arg_number;
-				}
-				arg_number = 0;
 				break;
 
 			case 'v':

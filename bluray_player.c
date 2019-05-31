@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
 	bool opt_audio_stream = false;
 	bool opt_subtitle_stream = false;
 	char stream_id[4];
-	long int arg_number = 0;
+	unsigned long int arg_number = 0;
 	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
 	uint32_t arg_first_chapter = 0;
@@ -103,11 +103,8 @@ int main(int argc, char **argv) {
 
 			case 'A':
 				opt_audio_stream = true;
-				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number > 0) {
-					bluray_playback.audio_stream_id = (uint8_t)arg_number;
-				}
-				arg_number = 0;
+				arg_number = strtoul(optarg, NULL, 10);
+				bluray_playback.audio_stream_id = (uint8_t)arg_number;
 				break;
 
 			case 'c':
@@ -122,11 +119,11 @@ int main(int argc, char **argv) {
 				if(strchr(optarg, '-') == NULL) {
 					opt_chapter_start = true;
 					opt_chapter_end = false;
-					arg_number = strtol(optarg, NULL, 10);
-					if(arg_number > 0) {
+					arg_number = strtoul(optarg, NULL, 10);
+					if(arg_number < 2)
+						arg_first_chapter = 1;
+					else
 						arg_first_chapter = (uint8_t)arg_number;
-					}
-					arg_number = 0;
 					break;
 				}
 
@@ -135,33 +132,33 @@ int main(int argc, char **argv) {
 					opt_chapter_start = false;
 					opt_chapter_end = true;
 					token = strtok(optarg, "-");
-					arg_number = strtol(token, NULL, 10);
-					if(arg_number > 0) {
+					arg_number = strtoul(token, NULL, 10);
+					if(arg_number < 2)
+						arg_last_chapter = 1;
+					else
 						arg_last_chapter = (uint8_t)arg_number;
-					}
-					arg_number = 0;
 					break;
 				}
 
 				// passed -c <chapter-number>-[|<chapter-number>]
 				opt_chapter_start = true;
 				token = strtok(optarg, "-");
-				arg_number = strtol(token, NULL, 10);
-				if(arg_number > 0) {
+				arg_number = strtoul(token, NULL, 10);
+				if(arg_number < 2)
+					arg_first_chapter = 1;
+				else
 					arg_first_chapter = (uint8_t)arg_number;
-				}
-				arg_number = 0;
 
 				token = strtok(NULL, "-");
 
 				// passed -c <chapter-number>-<chapter-number>
 				if(token != NULL) {
 					opt_chapter_end = true;
-					arg_number = strtol(token, NULL, 10);
-					if(arg_number > 0) {
+					arg_number = strtoul(token, NULL, 10);
+					if(arg_number < 2)
+						arg_last_chapter = 1;
+					else
 						arg_last_chapter = (uint8_t)arg_number;
-					}
-					arg_number = 0;
 					break;
 				}
 
@@ -189,24 +186,17 @@ int main(int argc, char **argv) {
 
 			case 'p':
 				opt_playlist_number = true;
-				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number < 0) {
-					arg_playlist_number = 0;
-				} else {
-					arg_playlist_number = (uint32_t)arg_number;
-				}
-				arg_number = 0;
+				arg_number = strtoul(optarg, NULL, 10);
+				arg_playlist_number = (uint32_t)arg_number;
 				break;
 
 			case 't':
 				opt_title_number = true;
-				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number < 1) {
+				arg_number = strtoul(optarg, NULL, 10);
+				if(arg_number < 2)
 					arg_title_number = 1;
-				} else {
+				else
 					arg_title_number = (uint32_t)arg_number;
-				}
-				arg_number = 0;
 				break;
 
 			case 's':
@@ -215,20 +205,14 @@ int main(int argc, char **argv) {
 
 			case 'S':
 				opt_subtitle_stream = true;
-				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number > 0) {
-					bluray_playback.subtitle_stream_id = (uint8_t)arg_number;
-				}
-				arg_number = 0;
+				arg_number = strtoul(optarg, NULL, 10);
+				bluray_playback.subtitle_stream_id = (uint8_t)arg_number;
 				break;
 
 			case 'V':
 				opt_video_stream = true;
-				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number > 0) {
-					bluray_playback.video_stream_id = (uint8_t)arg_number;
-				}
-				arg_number = 0;
+				arg_number = strtoul(optarg, NULL, 10);
+				bluray_playback.video_stream_id = (uint8_t)arg_number;
 				break;
 
 			case 'Z':

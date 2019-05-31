@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
 	bool opt_playlist_number = false;
 	bool opt_main_title = false;
 	bool invalid_opt = false;
-	long int arg_number = 0;
+	unsigned long int arg_number = 0;
 	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
 	uint8_t angle_ix = 0;
@@ -86,21 +86,20 @@ int main(int argc, char **argv) {
 		switch(g_opt) {
 
 			case 'a':
-				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number < 1) {
+				arg_number = strtoul(optarg, NULL, 10);
+				if(arg_number < 2) {
 					arg_angle_number = 1;
 					angle_ix = 0;
 				} else {
 					arg_angle_number = (uint8_t)arg_number;
 					angle_ix = arg_angle_number - 1;
 				}
-				arg_number = 0;
 				break;
 
 			case 'c':
 				token = strtok(optarg, "-");
 
-				arg_number = strtol(token, NULL, 10);
+				arg_number = strtoul(token, NULL, 10);
 				if(arg_number > 0) {
 					arg_chapter_numbers[0] = (uint32_t)arg_number;
 				}
@@ -109,12 +108,11 @@ int main(int argc, char **argv) {
 				if(token == NULL) {
 					arg_chapter_numbers[1] = arg_chapter_numbers[0];
 				} else {
-					arg_number = strtol(token, NULL, 10);
+					arg_number = strtoul(token, NULL, 10);
 					if(arg_number > 0) {
 						arg_chapter_numbers[1] = (uint32_t)arg_number;
 					}
 				}
-				arg_number = 0;
 				break;
 
 			case 'k':
@@ -136,24 +134,18 @@ int main(int argc, char **argv) {
 
 			case 'p':
 				opt_playlist_number = true;
-				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number < 0) {
-					arg_playlist_number = 0;
-				} else {
-					arg_playlist_number = (uint32_t)arg_number;
-				}
-				arg_number = 0;
+				arg_number = strtoul(optarg, NULL, 10);
+				arg_playlist_number = (uint32_t)arg_number;
 				break;
 
 			case 't':
 				opt_title_number = true;
-				arg_number = strtol(optarg, NULL, 10);
-				if(arg_number < 1) {
+				arg_number = strtoul(optarg, NULL, 10);
+				if(arg_number < 2) {
 					arg_title_number = 1;
 				} else {
 					arg_title_number = (uint32_t)arg_number;
 				}
-				arg_number = 0;
 				break;
 
 			case 'z':
