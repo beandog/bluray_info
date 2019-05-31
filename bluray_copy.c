@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
 	int g_ix = 0;
 	struct option p_long_opts[] = {
 		{ "angle", required_argument, NULL, 'a' },
-		{ "chapters", required_argument, NULL, 'c' },
+		{ "chapter", required_argument, NULL, 'c' },
 		{ "help", no_argument, NULL, 'h' },
 		{ "keydb", required_argument, NULL, 'k' },
 		{ "main", no_argument, NULL, 'm' },
@@ -167,7 +167,7 @@ int main(int argc, char **argv) {
 				printf("  -m, --main               Copy main title (default)\n");
 				printf("  -t, --title <#>          Copy title number\n");
 				printf("  -p, --playlist <#>       Copy playlist number\n");
-				printf("  -c, --chapters <#>[-#]   Copy chapter number(s)\n");
+				printf("  -c, --chapter <#>[-#]    Copy chapter number or range\n");
 				printf("\n");
 				printf("Destination:\n");
 				printf("  -o, --output <filename>  Save to filename (default: bluray_title_###.m2ts)\n");
