@@ -331,7 +331,7 @@ int main(int argc, char **argv) {
 			return 1;
 		}
 	} else if(opt_playlist_number) {
-		retval = bd_select_playlist(bd, bluray_title.playlist);
+		retval = bd_select_playlist(bd, arg_playlist_number);
 		if(retval == 0) {
 			fprintf(stderr, "Could not open playlist %" PRIu32 "\n", arg_playlist_number);
 			bd_close(bd);
@@ -339,6 +339,7 @@ int main(int argc, char **argv) {
 			return 1;
 		}
 		bluray_title.ix = bd_get_current_title(bd);
+		bluray_title.playlist = arg_playlist_number;
 	} else {
 		bluray_title.ix = bluray_info.main_title;
 		retval = bd_select_title(bd, bluray_title.ix);
