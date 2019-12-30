@@ -6,12 +6,9 @@
 #include <stdbool.h>
 #include <string.h>
 #include <math.h>
+#include "config.h"
 #include "libbluray/bluray.h"
 #include "libbluray/meta_data.h"
-
-#ifndef PACKAGE_VERSION
-#define PACKAGE_VERSION "1.6_beta1"
-#endif
 
 #define BLURAY_INFO_DISC_ID_STRLEN 41
 #define BLURAY_INFO_UDF_VOLUME_ID_STRLEN 33
