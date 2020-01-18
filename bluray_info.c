@@ -280,14 +280,6 @@ int main(int argc, char **argv) {
 		d_num_titles = 1;
 	}
 
-	if(p_bluray_xchap) {
-		if(d_title_number)
-			d_first_ix = arg_title_number - 1;
-		 else
-			d_first_ix = bluray_info.main_title;
-		d_num_titles = 1;
-	}
-
 	uint32_t main_title_number;
 	main_title_number = bluray_info.main_title + 1;
 
