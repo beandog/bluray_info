@@ -99,7 +99,7 @@ int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint
 	bluray_title->video_streams = 0;
 	bluray_title->audio_streams = 0;
 	bluray_title->pg_streams = 0;
-	strcpy(bluray_title->length, "00:00:00.00");
+	strcpy(bluray_title->length, "00:00:00.000");
 
 	int retval = 0;
 

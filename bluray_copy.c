@@ -414,8 +414,8 @@ int main(int argc, char **argv) {
 
 		bluray_chapters[chapter_ix].duration = 0;
 		bluray_chapters[chapter_ix].start = chapter_start;
-		strcpy(bluray_chapters[chapter_ix].length, "00:00:00.00");
-		strcpy(bluray_chapters[chapter_ix].start_time, "00:00:00.00");
+		strcpy(bluray_chapters[chapter_ix].length, "00:00:00.000");
+		strcpy(bluray_chapters[chapter_ix].start_time, "00:00:00.000");
 		bluray_chapters[chapter_ix].range[0] = 0;
 		bluray_chapters[chapter_ix].range[1] = 0;
 		bluray_chapters[chapter_ix].size = 0;

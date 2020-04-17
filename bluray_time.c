@@ -23,9 +23,9 @@ void bluray_duration_length(char *str, uint64_t duration) {
 	uint64_t d_hours = msecs / 3600;
 	uint64_t d_mins = (msecs % 3600) / 60;
 	uint64_t d_secs = msecs % 60;
-	uint64_t d_msecs = (duration / 900) % 100;
+	uint64_t d_msecs = round( ((double)(duration % 90000)) / 90 );
 
-	sprintf(str, "%02" PRIu64 ":%02" PRIu64 ":%02" PRIu64 ".%02" PRIu64, d_hours, d_mins, d_secs, d_msecs);
+	sprintf(str, "%02" PRIu64 ":%02" PRIu64 ":%02" PRIu64 ".%03" PRIu64, d_hours, d_mins, d_secs, d_msecs);
 
 }
 
@@ -67,7 +67,7 @@ void bluray_chapter_length(char *dest_str, struct bluray *bd, uint32_t title_ix,
 
 	duration = bluray_chapter_duration(bd, title_ix, chapter_ix, angle_ix);
 
-	char duration_str[12];
+	char duration_str[BLURAY_INFO_TIME_STRLEN];
 
 	bluray_duration_length(duration_str, duration);
 

@@ -5,6 +5,8 @@
 #include <stdint.h>
 #include <string.h>
 #include <inttypes.h>
+#include <math.h>
+#include "bluray_open.h"
 #include "libbluray/bluray.h"
 
 uint64_t bluray_duration_seconds(uint64_t duration);
