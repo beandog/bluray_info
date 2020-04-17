@@ -19,11 +19,11 @@ uint64_t bluray_duration_minutes(uint64_t duration) {
 
 void bluray_duration_length(char *str, uint64_t duration) {
 
-	uint64_t msecs = duration / 90000;
-	uint64_t d_hours = msecs / 3600;
-	uint64_t d_mins = (msecs % 3600) / 60;
-	uint64_t d_secs = msecs % 60;
-	uint64_t d_msecs = round( ((double)(duration % 90000)) / 90 );
+	uint64_t rem = round( ((double)duration) / 90 );
+	uint64_t d_msecs = rem % 1000; rem /= 1000;
+	uint64_t d_secs = rem % 60; rem /= 60;
+	uint64_t d_mins = rem % 60; rem /= 60;
+	uint64_t d_hours = rem % 100;	// Avoid printing more than 2 characters, wraps at 99
 
 	sprintf(str, "%02" PRIu64 ":%02" PRIu64 ":%02" PRIu64 ".%03" PRIu64, d_hours, d_mins, d_secs, d_msecs);
 
