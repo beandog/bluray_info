@@ -3,6 +3,9 @@
 
 #include <string.h>
 #include "libbluray/bluray.h"
+#include "libbluray/bluray-version.h"
+
+#define BLURAY_UHD_MIN_VER 10002	// HEVC and 2160p support was added in libbluray 1.0.2
 
 #define BLURAY_INFO_VIDEO_CODEC_STRLEN 6
 #define BLURAY_INFO_VIDEO_CODEC_NAME_STRLEN 7

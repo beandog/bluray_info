@@ -10,7 +10,7 @@ void bluray_video_codec(char *str, uint8_t coding_type) {
 			strcpy(str, "h264");
 			break;
 
-#ifdef BLURAY_STREAM_TYPE_VIDEO_HEVC
+#if (BLURAY_VERSION > BLURAY_UHD_MIN_VER)
 		case BLURAY_STREAM_TYPE_VIDEO_HEVC:
 			strcpy(str, "h265");
 			break;
@@ -42,7 +42,7 @@ void bluray_video_codec_name(char *str, uint8_t coding_type) {
 			strcpy(str, "AVC");
 			break;
 
-#ifdef BLURAY_STREAM_TYPE_VIDEO_HEVC
+#if (BLURAY_VERSION > BLURAY_UHD_MIN_VER)
 		case BLURAY_STREAM_TYPE_VIDEO_HEVC:
 			strcpy(str, "HEVC");
 			break;
@@ -98,7 +98,7 @@ void bluray_video_format(char *str, uint8_t format) {
 			strcpy(str, "1080p");
 			break;
 
-#ifdef BLURAY_VIDEO_FORMAT_2160P
+#if (BLURAY_VERSION > BLURAY_UHD_MIN_VER)
 		case BLURAY_VIDEO_FORMAT_2160P:
 			strcpy(str, "2160p");
 			break;
