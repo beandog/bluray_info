@@ -355,7 +355,7 @@ int main(int argc, char **argv) {
 	struct bluray_pgs bluray_pgs;
 	struct bluray_chapter bluray_chapter;
 	bluray_chapter.duration = 0;
-	strcpy(bluray_chapter.length, "00:00:00.00");
+	strcpy(bluray_chapter.length, "00:00:00.000");
 
 	uint32_t bluray_highest_playlist = 0;
 
