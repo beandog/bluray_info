@@ -77,7 +77,7 @@ bluray_copy:
 
 Usage: bluray_copy [options] [bluray device]
 
-See buray_copy --help for all options.
+See bluray_copy --help for all options.
 
 Blu-rays can store many codecs, and its container is an MPEG-2 transport stream.
 If you so desire, you can easily remux it into another container -- and get the

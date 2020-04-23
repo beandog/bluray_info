@@ -34,7 +34,7 @@ void bluray_audio_codec(char *str, uint8_t coding_type) {
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_TRUHD:
-			strcpy(str, "truhd");
+			strcpy(str, "truehd");
 			break;
 
 		case BLURAY_STREAM_TYPE_AUDIO_AC3PLUS:
