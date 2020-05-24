@@ -11,6 +11,7 @@
 #include "libbluray/meta_data.h"
 #include "bluray_device.h"
 #include "bluray_open.h"
+#include "bluray_chapter.h"
 #include "bluray_audio.h"
 #include "bluray_video.h"
 #include "bluray_pgs.h"
@@ -356,6 +357,8 @@ int main(int argc, char **argv) {
 	struct bluray_chapter bluray_chapter;
 	bluray_chapter.duration = 0;
 	strcpy(bluray_chapter.length, "00:00:00.00");
+	bluray_chapter.size = 0;
+	bluray_chapter.size_mbs = 0;
 
 	uint32_t bluray_highest_playlist = 0;
 
@@ -570,6 +573,7 @@ int main(int argc, char **argv) {
 				bluray_chapter.duration = bd_chapter->duration;
 				bluray_duration_length(bluray_chapter.length, bluray_chapter.duration);
 				bluray_duration_length(bluray_chapter.start_time, bluray_chapter.start);
+				bluray_chapter.size = bluray_chapter_size(bd, bluray_title.number - 1, chapter_ix);
 
 				if(p_bluray_info && d_chapters) {
 					printf("	Chapter: %03" PRIu32 ", Start: %s, Length: %s\n", chapter_number, bluray_chapter.start_time, bluray_chapter.length);
@@ -581,7 +585,8 @@ int main(int argc, char **argv) {
 					printf("     \"start time\": \"%s\",\n", bluray_chapter.start_time);
 					printf("     \"length\": \"%s\",\n", bluray_chapter.length);
 					printf("     \"start\": %" PRIu64 ",\n", bluray_chapter.start / 900);
-					printf("     \"duration\": %" PRIu64 "\n", bd_chapter->duration / 900);
+					printf("     \"duration\": %" PRIu64 ",\n", bd_chapter->duration / 900);
+					printf("     \"filesize:\" %" PRIu64 "\n", bluray_chapter.size);
 					if(chapter_number < bluray_title.chapters)
 						printf("    },\n");
 					else

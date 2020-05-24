@@ -449,7 +449,7 @@ int main(int argc, char **argv) {
 	// estimated sizes for debugging.
 
 	// Populate the array
-	int64_t chapter_size = 0;
+	uint64_t chapter_size = 0;
 	int64_t chapter_pos = 0;
 	for(chapter_ix = 0; chapter_ix < bluray_title.chapters; chapter_ix++) {
 		chapter_pos = bd_chapter_pos(bd, chapter_ix);
@@ -477,9 +477,9 @@ int main(int argc, char **argv) {
 			fprintf(stderr, "* setting chapter ix %2" PRIu32 " stop to	%12" PRIi64 "\n", chapter_ix, bluray_chapters[chapter_ix].range[1]);
 		}
 
-		chapter_size = bluray_chapters[chapter_ix].range[1] - bluray_chapters[chapter_ix].range[0];
+		chapter_size = (uint64_t)(bluray_chapters[chapter_ix].range[1] - bluray_chapters[chapter_ix].range[0]);
 		bluray_chapters[chapter_ix].size = chapter_size;
-		bluray_chapters[chapter_ix].size_mbs = round((double)chapter_size / 1048576);
+		bluray_chapters[chapter_ix].size_mbs = (uint64_t)(round((double)chapter_size / 1048576));
 		if(debug) {
 			fprintf(stderr, "* setting chapter ix %2" PRIu32 " size to	%12" PRIi64 "\n", chapter_ix, bluray_chapters[chapter_ix].size);
 		}
