@@ -586,7 +586,7 @@ int main(int argc, char **argv) {
 					printf("     \"length\": \"%s\",\n", bluray_chapter.length);
 					printf("     \"start\": %" PRIu64 ",\n", bluray_chapter.start / 900);
 					printf("     \"duration\": %" PRIu64 ",\n", bd_chapter->duration / 900);
-					printf("     \"filesize:\" %" PRIu64 "\n", bluray_chapter.size);
+					printf("     \"filesize\": %" PRIu64 "\n", bluray_chapter.size);
 					if(chapter_number < bluray_title.chapters)
 						printf("    },\n");
 					else
