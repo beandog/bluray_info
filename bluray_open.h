@@ -64,8 +64,8 @@ struct bluray_chapter {
 	char start_time[BLURAY_INFO_TIME_STRLEN];
 	char length[BLURAY_INFO_TIME_STRLEN];
 	int64_t range[2];
-	int64_t size;
-	double size_mbs;
+	uint64_t size;
+	uint64_t size_mbs;
 };
 
 int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info);
