@@ -15,8 +15,8 @@
 #define BLURAY_INFO_PROVIDER_DATA_STRLEN 33
 #define BLURAY_INFO_DISC_NAME_STRLEN 256
 
-// Time format: 00:00:00.00
-#define BLURAY_INFO_TIME_STRLEN 12
+// Time format: 00:00:00.000
+#define BLURAY_INFO_TIME_STRLEN 13
 
 struct bluray_info {
 	char disc_name[BLURAY_INFO_DISC_NAME_STRLEN];
