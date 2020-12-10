@@ -62,7 +62,7 @@ bluray_info:
 
 Usage: bluray_info [options] [bluray device]
 
-See buray_info --help for all options.
+See bluray_info --help for all options.
 
 bluray_info syntax and output was designed to closely resemble the awesome
 program "lsdvd" (and later my own clone and other programs, from dvd_info).
