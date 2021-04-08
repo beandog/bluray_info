@@ -51,7 +51,7 @@ int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info) {
 	// libbluray indexes titles starting at 0, but for human-readable, bluray_info
 	// starts at 1. Playlists start at 0, because they are indexed as such on the
 	// filesystem.
-	bluray_info->titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
+	bluray_info->titles = bd_get_titles(bd, TITLES_ALL, 0);
 	bluray_info->main_title = 0;
 
 	int bd_main_title = bd_get_main_title(bd);
