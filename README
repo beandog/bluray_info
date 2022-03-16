@@ -68,13 +68,17 @@ If you want to give it a whirl, I recommend ddrescue:
 
 Playlists and titles:
 
-Blu-rays have "tracks" as well as "playlists," and they are not the same thing,
+Blu-rays have "titles" as well as "playlists," and they are not the same thing,
 and do not share an identical numbered index.
 
 For the most part, you will probably be fine ripping either one. I've heard
 stories of some movie studios "stitching" playlists together to form a feature,
 but I haven't encountered one (if you do, please let me know, I'm curious how
 they are set up).
+
+bluray_info uses libbluray to determine which title is the main one. However,
+it's important to note that it may change on whether you have built the
+library with Java support or not.
 
 bluray_info:
 
@@ -100,7 +104,7 @@ See buray_copy --help for all options.
 Blu-rays can store many codecs, and its container is an MPEG-2 transport stream.
 If you so desire, you can easily remux it into another container -- and get the
 file much smaller by dropping audio tracks you don't want or need. I recommend
-using mkvmerge (from mkvtoolnix) or ffmpeg or avconv (libav).
+using mkvmerge (from mkvtoolnix) or ffmpeg.
 
 Two examples of remuxing the copied stream with only the first audio track:
 
@@ -113,15 +117,16 @@ Or you can use bluray_copy to output to stdout and remux on the fly:
   $ bluray_copy -o - | ffmpeg -i - -map 0:0 -map 0:1 -codec copy -f mpegts bluray.m2ts
 
 Blu-rays can hold a lot of stuff ... a lot. bluray_copy won't do anything
-fancy like check to see if you have enough space to copy the track you want to,
+fancy like check to see if you have enough space to copy the title you want to,
 so be careful. It will simply quit if it can't write to the hard drive anymore.
 
-If no argument is given, bluray_copy will simply select the longest track.
+If no argument is given, bluray_copy will simply select the main title.
 
 bluray_player:
 
 Since bluray_player uses libmpv as its backend, it can also use its configuration
-syntax for playback. See mpv's documentation for more details.
+syntax for playback. See mpv's documentation for more details:
+https://mpv.io/manual/stable/#configuration-files
 
 Your configuration file is read from ~/.config/bluray_player/mpv.conf
 
