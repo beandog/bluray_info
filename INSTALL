@@ -13,9 +13,10 @@ for. If it's listed in there, it will use the default optical drive.
 If you want to use bluray_player, libmpv must be installed on the system,
 and then add '--with-libmpv' to './configure'
 
-DragonFly BSD
--------------
-# pkg install autoconf automake pkgconf libaacs libbluray
+Linux
+-----
+Assuming automake and autoconf are already installed:
+# autoreconf -fi
 # ./configure
 # make
 # make install
@@ -23,14 +24,6 @@ DragonFly BSD
 Gentoo Linux
 ------------
 # emerge bluray_info
-
-Linux
------
-Assuming all your build essentials are already installed:
-# autoreconf -fi
-# ./configure
-# make
-# make install
 
 NetBSD
 ------
@@ -44,6 +37,13 @@ OpenBSD
 -------
 # pkg_add autoconf-2.69p2 automake-1.16.1 libaacs libbluray
 # AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.16 autoreconf -fi
+# ./configure
+# make
+# make install
+
+DragonFly BSD
+-------------
+# pkg install autoconf automake pkgconf libaacs libbluray
 # ./configure
 # make
 # make install
