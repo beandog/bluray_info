@@ -1,5 +1,14 @@
 ChangeLog
 
+1.7
+
+- Display milliseconds for timestamps and durations, (patch thanks to
+  rapperskull)
+
+1.6
+
+- Display bluray chapter filesizes
+
 1.5
 
 - Add bluray_player, a small Blu-ray player using libmpv
