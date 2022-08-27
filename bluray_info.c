@@ -59,6 +59,7 @@ int main(int argc, char **argv) {
 	uint32_t d_min_audio_streams = 0;
 	uint32_t d_min_pg_streams = 0;
 	bool invalid_opt = false;
+	bool exit_help = false;
 	const char *key_db_filename = NULL;
 	int g_opt = 0;
 	int g_ix = 0;
@@ -175,6 +176,7 @@ int main(int argc, char **argv) {
 
 			case '?':
 				invalid_opt = true;
+				break;
 			case 'h':
 				printf("bluray_info %s - display information about a Blu-ray\n", PACKAGE_VERSION);
 				printf("\n");
@@ -206,9 +208,8 @@ int main(int argc, char **argv) {
 				printf("      --version		   Version information\n");
 				printf("\n");
 				printf("Blu-ray path can be a device, a filename, or directory (default: %s)\n", DEFAULT_BLURAY_DEVICE);
-				if(invalid_opt)
-					return 1;
-				return 0;
+				exit_help = true;
+				break;
 
 			case 0:
 			default:
@@ -217,6 +218,11 @@ int main(int argc, char **argv) {
 		}
 
 	}
+
+	if(exit_help)
+		return 0;
+	if(invalid_opt)
+		return 1;
 
 	const char *device_filename = NULL;
 
