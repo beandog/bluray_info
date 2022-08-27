@@ -126,7 +126,7 @@ int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint
 	bluray_title->minutes = bluray_duration_minutes(bluray_title->duration);
 	bluray_duration_length(bluray_title->length, bluray_title->duration);
 	bluray_title->size = bd_get_title_size(bd);
-	bluray_title->size_mbs = ceil((double)bluray_title->size / 1048576);
+	bluray_title->size_mbs = (bluray_title->size / 1048576);
 	bluray_title->chapters = bd_title->chapter_count;
 	bluray_title->clips = bd_title->clip_count;
 	bluray_title->angles = bd_title->angle_count;

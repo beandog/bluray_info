@@ -46,7 +46,7 @@ struct bluray_title {
 	uint64_t seconds;
 	uint64_t minutes;
 	uint64_t size;
-	double size_mbs;
+	uint64_t size_mbs;
 	uint32_t chapters;
 	uint32_t clips;
 	uint8_t angles;
