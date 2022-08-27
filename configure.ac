@@ -10,7 +10,7 @@ dnl need math.h to do MBs calculations
 AC_CHECK_HEADERS([math.h])
 
 dnl Use pkg-config to check for libbluray
-PKG_CHECK_MODULES([LIBBLURAY], [libbluray >= 1.0.0])
+PKG_CHECK_MODULES([LIBBLURAY], [libbluray >= 1.2.0])
 
 dnl Using libmpv for the player is optional, but enabled by default
 AC_ARG_WITH([libmpv], [AS_HELP_STRING([--with-libmpv], [Enable libmpv support to build bluray_player])], [PKG_CHECK_MODULES([MPV], [mpv], [
