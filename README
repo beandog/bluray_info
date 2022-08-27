@@ -8,17 +8,17 @@ Includes:
 
 Requirements:
 
-* libbluray >= 1.0.0 (libaacs needed for decryption)
+* libbluray >= 1.2.0
+* libaacs needed for decryption
 
 Building:
 
-You will need automake and autoconf to build configure scripts. Once they are
-created, you can run configure, make, make install as normal:
+  $ ./configure
+  $ make
+  $ make install
 
-  $ autoreconf -fi
-
-If you want to build bluray_player you will need libmpv (part of mpv) nstalled
-on your system. Then, pass the build option to configure
+If you want to build bluray_player you will need libmpv (part of mpv package)
+installed on your system. Then, pass the build option to configure
 
   $ ./configure --with-libmpv
 
@@ -31,16 +31,11 @@ Disc access:
 
 Decrypting Blu-ray discs is done through libaacs, which libbluray is built with
 or without support for. Even with libaacs, you will need a KEYDB.cfg file to
-bypass the encryption, and can be found various places online. I keep a copy of
-the one I'm using at http://bluray.beandog.org/keydb/
+bypass the encryption, and can be found various places online. The best
+location is http://fvonline-db.bplaced.net/
 
 libaacs by default will look for KEYDB.cfg in ~/.config/aacs/ but with these
 utilities, you can specify the path directly if you'd like.
-
-Disc drives:
-
-The drive I use is a LITE-ON iHOS104 (firmware version WL0D) that I bought many
-years ago. It has the added bonus of being region-free for DVDs as well. :)
 
 Sources:
 
@@ -51,20 +46,12 @@ program will the default blu-ray drive if no path is given.
   $ bluray_info /dev/sr0
   $ bluray_info ~/Media/BD.ADVENTURE.iso
   $ bluray_info ~/Media/BD.ADVENTURE/
-  $ bluray_info /mnt/bluray
 
 If you're going to do a lot of reads on a disc drive, I'd recommend mounting it
 so the access can be cached -- this is especially helpful when using / testing
 bluray_copy a lot to get chapters, titles, playlists, etc.
 
   # mount /dev/sr0 -o ro -t udf /mnt/bluray
-
-Depending on your luck / region / disc drive / disc / local alien invasion, you
-may or may not be able to make an ISO directly from a disc.
-
-If you want to give it a whirl, I recommend ddrescue:
-
-  $ ddrescue -b 2048 -n /dev/sr0 bluray.iso ddrescue.log
 
 Playlists and titles:
 
@@ -109,6 +96,7 @@ using mkvmerge (from mkvtoolnix) or ffmpeg.
 Two examples of remuxing the copied stream with only the first audio track:
 
   $ mkvmerge -o bluray.mkv -a 1 bluray.m2ts
+
   $ ffmpeg -i bluray.m2ts -map 0:0 -map 0:1 -codec copy bluray.mkv
 
 Or you can use bluray_copy to output to stdout and remux on the fly:
