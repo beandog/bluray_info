@@ -52,6 +52,7 @@ int main(int argc, char **argv) {
 	bool opt_playlist_number = false;
 	bool opt_main_title = false;
 	bool invalid_opt = false;
+	bool exit_help = false;
 	unsigned long int arg_number = 0;
 	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
@@ -156,8 +157,6 @@ int main(int argc, char **argv) {
 				printf("bluray_copy %s\n", PACKAGE_VERSION);
 				return 0;
 
-			case '?':
-				invalid_opt = true;
 			case 'h':
 				printf("bluray_copy - copy a Blu-ray title or playlist to a file\n");
 				printf("\n");
@@ -180,9 +179,8 @@ int main(int argc, char **argv) {
 				printf("      --version		   Version information\n");
 				printf("\n");
 				printf("Blu-ray path can be a device, a filename, or directory; default is %s\n", DEFAULT_BLURAY_DEVICE);
-				if(invalid_opt)
-					return 1;
-				return 0;
+				exit_help = true;
+				break;
 
 			case 0:
 			default:
@@ -191,6 +189,11 @@ int main(int argc, char **argv) {
 		}
 
 	}
+
+	if(exit_help)
+		return 0;
+	if(invalid_opt)
+		return 1;
 
 	if(!opt_title_number && !opt_playlist_number)
 		opt_main_title = true;
@@ -340,7 +343,7 @@ int main(int argc, char **argv) {
 
 	// Display title information
 	if(p_bluray_copy) {
-		fprintf(io, "Title: %03" PRIu32 ", Playlist: %04" PRIu32 ", Length: %s, Chapters: %02" PRIu32 ", Video streams: %02" PRIu8 ", Audio streams: %02" PRIu8 ", Subtitles: %02" PRIu8 ", Angles: %" PRIu8 ", Filesize: %05.0lf MBs\n", bluray_title.number, bluray_title.playlist, bluray_title.length, bluray_title.chapters, bluray_title.video_streams, bluray_title.audio_streams, bluray_title.pg_streams, bluray_title.angles, bluray_title.size_mbs);
+		fprintf(io, "Title: %*" PRIu32 ", Playlist: %*" PRIu32 ", Length: %s, Chapters: %*" PRIu32 ", Video streams: %*" PRIu8 ", Audio streams: %*" PRIu8 ", Subtitles: %*" PRIu8 ", Angles: %" PRIu8 ", Filesize: %*" PRIu64 " MBs\n", 3, bluray_title.number, 4, bluray_title.playlist, bluray_title.length, 2, bluray_title.chapters, 2, bluray_title.video_streams, 2, bluray_title.audio_streams, 2, bluray_title.pg_streams, bluray_title.angles, 5, bluray_title.size_mbs);
 	}
 
 	// Check for valid angle number
