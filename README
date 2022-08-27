@@ -13,6 +13,9 @@ Requirements:
 
 Building:
 
+You will need autoconf and automake installed first.
+
+  $ autoreconf -fi
   $ ./configure
   $ make
   $ make install
