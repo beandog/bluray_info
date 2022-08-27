@@ -44,7 +44,7 @@ int main(int argc, char **argv) {
 	bool opt_main_title = false;
 	bool opt_chapter_start = false;
 	bool opt_chapter_end = false;
-	bool invalid_opt = false;
+	bool exit_help = false;
 	bool opt_video_stream = false;
 	bool opt_audio_stream = false;
 	bool opt_subtitle_stream = false;
@@ -219,8 +219,6 @@ int main(int argc, char **argv) {
 				printf("bluray_player %s\n", PACKAGE_VERSION);
 				return 0;
 
-			case '?':
-				invalid_opt = true;
 			case 'h':
 				printf("bluray_player %s - Play back a Blu-ray using libmpv engine\n", PACKAGE_VERSION);
 				printf("\n");
@@ -253,9 +251,8 @@ int main(int argc, char **argv) {
 				printf("MPV configuration is read from ~/.config/bluray_player/mpv.conf\n");
 				printf("\n");
 				printf("Blu-ray path can be a device, a filename, or directory (default: %s)\n", DEFAULT_BLURAY_DEVICE);
-				if(invalid_opt)
-					return 1;
-				return 0;
+				exit_help = true;
+				break;
 
 			case 0:
 			default:
@@ -264,6 +261,9 @@ int main(int argc, char **argv) {
 		}
 
 	}
+
+	if(exit_help)
+		return 0;
 
 	if(!opt_title_number && !opt_playlist_number)
 		opt_main_title = true;
