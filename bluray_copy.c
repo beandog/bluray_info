@@ -51,7 +51,6 @@ int main(int argc, char **argv) {
 	bool opt_title_number = false;
 	bool opt_playlist_number = false;
 	bool opt_main_title = false;
-	bool invalid_opt = false;
 	bool exit_help = false;
 	unsigned long int arg_number = 0;
 	uint32_t arg_title_number = 0;
@@ -192,8 +191,6 @@ int main(int argc, char **argv) {
 
 	if(exit_help)
 		return 0;
-	if(invalid_opt)
-		return 1;
 
 	if(!opt_title_number && !opt_playlist_number)
 		opt_main_title = true;

@@ -44,7 +44,6 @@ int main(int argc, char **argv) {
 	bool opt_main_title = false;
 	bool opt_chapter_start = false;
 	bool opt_chapter_end = false;
-	bool invalid_opt = false;
 	bool exit_help = false;
 	bool opt_video_stream = false;
 	bool opt_audio_stream = false;
@@ -219,10 +218,6 @@ int main(int argc, char **argv) {
 			case 'Z':
 				printf("bluray_player %s\n", PACKAGE_VERSION);
 				return 0;
-
-			case '?':
-				invalid_opt = true;
-				break;
 
 			case 'h':
 				printf("bluray_player %s - Play back a Blu-ray using libmpv engine\n", PACKAGE_VERSION);
