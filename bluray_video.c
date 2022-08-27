@@ -11,7 +11,7 @@ void bluray_video_codec(char *str, uint8_t coding_type) {
 			break;
 
 		case BLURAY_STREAM_TYPE_VIDEO_HEVC:
-			strcpy(str, "h265");
+			strcpy(str, "hevc");
 			break;
 
 		case BLURAY_STREAM_TYPE_VIDEO_MPEG1:
