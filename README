@@ -9,13 +9,10 @@ Includes:
 Requirements:
 
 * libbluray >= 1.2.0
-* libaacs needed for decryption
+* libaacs
 
 Building:
 
-You will need autoconf and automake installed first.
-
-  $ autoreconf -fi
   $ ./configure
   $ make
   $ make install
@@ -32,10 +29,9 @@ Each program also has its own man page.
 
 Disc access:
 
-Decrypting Blu-ray discs is done through libaacs, which libbluray is built with
-or without support for. Even with libaacs, you will need a KEYDB.cfg file to
-bypass the encryption, and can be found various places online. The best
-location is http://fvonline-db.bplaced.net/
+Decrypting Blu-ray discs is done through libaacs. Even with libaacs, you
+will need a KEYDB.cfg file to bypass the encryption, and can be found
+various places online. The best location is http://fvonline-db.bplaced.net/
 
 libaacs by default will look for KEYDB.cfg in ~/.config/aacs/ but with these
 utilities, you can specify the path directly if you'd like.
