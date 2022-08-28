@@ -2,7 +2,8 @@ ChangeLog
 
 1.8
 - Make output more human-friendly
-- Require libbluray >= 1.2.0
+- Require libbluray >= 1.2.0 to fix 4K support
+- Require libaacs
 
 1.7
 
