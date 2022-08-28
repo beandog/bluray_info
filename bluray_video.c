@@ -94,11 +94,9 @@ void bluray_video_format(char *str, uint8_t format) {
 			strcpy(str, "1080p");
 			break;
 
-#ifdef BLURAY_VIDEO_FORMAT_2160P
 		case BLURAY_VIDEO_FORMAT_2160P:
 			strcpy(str, "2160p");
 			break;
-#endif
 
 	}
 
