@@ -79,10 +79,10 @@ int main(int argc, char **argv) {
 		{ "seconds", required_argument, NULL, 'E' },
 		{ "minutes", required_argument, NULL, 'M' },
 		{ "has-subtitles", no_argument, NULL, 'S' },
-		{ "version", no_argument, NULL, 'Z' },
+		{ "version", no_argument, NULL, 'V' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "acghjk:mp:st:vxAE:M:SZ", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "acghjk:mp:st:vxAE:M:SV", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -169,7 +169,7 @@ int main(int argc, char **argv) {
 				d_subtitles = true;
 				break;
 
-			case 'Z':
+			case 'V':
 				printf("bluray_info %s\n", PACKAGE_VERSION);
 				return 0;
 
