@@ -412,23 +412,18 @@ int main(int argc, char **argv) {
 
 		bluray_highest_playlist = ((bluray_title.playlist > bluray_highest_playlist) ? bluray_title.playlist : bluray_highest_playlist);
 
-		if(p_bluray_info) {
+		if(!(bluray_title.seconds >= d_min_seconds && bluray_title.minutes >= d_min_minutes && bluray_title.audio_streams >= d_min_audio_streams && bluray_title.pg_streams >= d_min_pg_streams)) {
+			bd_stream = NULL;
+			continue;
+		}
 
-			if(!(bluray_title.seconds >= d_min_seconds && bluray_title.minutes >= d_min_minutes && bluray_title.audio_streams >= d_min_audio_streams && bluray_title.pg_streams >= d_min_pg_streams)) {
-				bd_stream = NULL;
-				continue;
-			}
+		if(p_bluray_info) {
 
 			printf("Title: %*" PRIu32 ", Playlist: %*" PRIu32 ", Length: %s, Chapters: %*"PRIu32 ", Video streams: %*" PRIu8 ", Audio streams: %*" PRIu8 ", Subtitles: %*" PRIu8 ", Angles: %*" PRIu8 ", Filesize: %*" PRIu64 " MBs\n", 3, bluray_title.number, 4, bluray_title.playlist, bluray_title.length, 3, bluray_title.chapters, 2, bluray_title.video_streams, 2, bluray_title.audio_streams, 2, bluray_title.pg_streams, 2, bluray_title.angles, 6, bluray_title.size_mbs);
 
 		}
 
 		if(p_bluray_json) {
-
-			if(!(bluray_title.seconds >= d_min_seconds && bluray_title.minutes >= d_min_minutes && bluray_title.audio_streams >= d_min_audio_streams && bluray_title.pg_streams >= d_min_pg_streams)) {
-				bd_stream = NULL;
-				continue;
-			}
 
 			printf("  {\n");
 			printf("   \"title\": %u,\n", bluray_title.number);
