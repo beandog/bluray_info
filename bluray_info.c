@@ -375,9 +375,34 @@ int main(int argc, char **argv) {
 	uint32_t chapter_number = 1;
 	uint64_t chapter_start = 0;
 	uint32_t d_title_counter = 0;
+	uint32_t d_num_json_titles = 0;
+	uint32_t d_num_json_displayed = 0;
 	angle_ix = 0;
 
-	for(ix = d_first_ix; d_title_counter < d_num_titles; ix++, d_title_counter++) {
+	// Get the total number of titles expected to display in JSON output
+	if(p_bluray_json) {
+
+		for(ix = d_first_ix; d_title_counter < d_num_titles; ix++, d_title_counter++) {
+
+			retval = bluray_title_init(bd, &bluray_title, ix, angle_ix);
+
+			// Skip if there was a problem getting it
+			if(retval)
+				continue;
+
+			if(!(bluray_title.seconds >= d_min_seconds && bluray_title.minutes >= d_min_minutes && bluray_title.audio_streams >= d_min_audio_streams && bluray_title.pg_streams >= d_min_pg_streams)) {
+				bd_stream = NULL;
+				continue;
+			}
+
+			d_num_json_titles++;
+
+		}
+
+	}
+
+	// Display the titles in bluray_info / bluray_json
+	for(ix = d_first_ix, d_title_counter = 0; d_title_counter < d_num_titles; ix++, d_title_counter++) {
 
 		retval = bluray_title_init(bd, &bluray_title, ix, angle_ix);
 
@@ -412,6 +437,8 @@ int main(int argc, char **argv) {
 			printf("   \"msecs\": %" PRIu64 ",\n", bluray_title.duration / 900);
 			printf("   \"angles\": %" PRIu8 ",\n", bluray_title.angles);
 			printf("   \"filesize\": %" PRIu64 ",\n", bluray_title.size);
+
+			d_num_json_displayed++;
 
 		}
 
@@ -610,7 +637,7 @@ int main(int argc, char **argv) {
 		}
 
 		if(p_bluray_json) {
-			if(d_title_counter + 1 < d_num_titles)
+			if(d_num_json_displayed < d_num_json_titles)
 				printf("  },\n");
 			else
 				printf("  }\n");
