@@ -693,6 +693,9 @@ int main(int argc, char **argv) {
 		}
 	}
 
+	if(!p_bluray_cat)
+		fprintf(io, "Filename: %s\n", bluray_copy.filename);
+
 	return 0;
 
 }
