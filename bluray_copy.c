@@ -394,13 +394,13 @@ int main(int argc, char **argv) {
 	 *
 	 */
 
-	// Index: 0 amount to read, 1 amount successfully read, 3 total bytes successfully read
+	// Index: 0 - amount to read; 1 - amount successfully read; 2 - total bytes successfully read
 	int64_t bluray_read[3];
 	bluray_read[0] = BLURAY_COPY_BUFFER_SIZE;
 	bluray_read[1] = 0;
 	bluray_read[2] = 0;
 
-	// Index 0 amount to write, 1 amount successfully written, 3 total bytes successfully written
+	// Index: 0 - amount to write; 1 - amount successfully written; 2 - total bytes successfully written
 	int64_t bluray_write[3];
 	bluray_write[0] = BLURAY_COPY_BUFFER_SIZE;
 	bluray_write[1] = 0;
