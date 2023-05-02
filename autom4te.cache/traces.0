@@ -164,10 +164,10 @@ AS_IF([test "$AS_TR_SH([with_]m4_tolower([$1]))" = "yes"],
 m4trace:/usr/share/aclocal-1.16/amversion.m4:14: -1- AC_DEFUN([AM_AUTOMAKE_VERSION], [am__api_version='1.16'
 dnl Some users find AM_AUTOMAKE_VERSION and mistake it for a way to
 dnl require some minimum version.  Point them to the right macro.
-m4_if([$1], [1.16.4], [],
+m4_if([$1], [1.16.5], [],
       [AC_FATAL([Do not call $0, use AM_INIT_AUTOMAKE([$1]).])])dnl
 ])
-m4trace:/usr/share/aclocal-1.16/amversion.m4:33: -1- AC_DEFUN([AM_SET_CURRENT_AUTOMAKE_VERSION], [AM_AUTOMAKE_VERSION([1.16.4])dnl
+m4trace:/usr/share/aclocal-1.16/amversion.m4:33: -1- AC_DEFUN([AM_SET_CURRENT_AUTOMAKE_VERSION], [AM_AUTOMAKE_VERSION([1.16.5])dnl
 m4_ifndef([AC_AUTOCONF_VERSION],
   [m4_copy([m4_PACKAGE_VERSION], [AC_AUTOCONF_VERSION])])dnl
 _AM_AUTOCONF_VERSION(m4_defn([AC_AUTOCONF_VERSION]))])
@@ -393,6 +393,10 @@ m4trace:/usr/share/aclocal-1.16/depout.m4:64: -1- AC_DEFUN([AM_OUTPUT_DEPENDENCY
      [test x"$AMDEP_TRUE" != x"" || _AM_OUTPUT_DEPENDENCY_COMMANDS],
      [AMDEP_TRUE="$AMDEP_TRUE" MAKE="${MAKE-make}"])])
 m4trace:/usr/share/aclocal-1.16/init.m4:29: -1- AC_DEFUN([AM_INIT_AUTOMAKE], [AC_PREREQ([2.65])dnl
+m4_ifdef([_$0_ALREADY_INIT],
+  [m4_fatal([$0 expanded multiple times
+]m4_defn([_$0_ALREADY_INIT]))],
+  [m4_define([_$0_ALREADY_INIT], m4_expansion_stack)])dnl
 dnl Autoconf wants to disallow AM_ names.  We explicitly allow
 dnl the ones we care about.
 m4_pattern_allow([^AM_[A-Z]+FLAGS$])dnl
@@ -548,7 +552,7 @@ dnl The trailing newline in this macro's definition is deliberate, for
 dnl backward compatibility and to allow trailing 'dnl'-style comments
 dnl after the AM_INIT_AUTOMAKE invocation. See automake bug#16841.
 ])
-m4trace:/usr/share/aclocal-1.16/init.m4:200: -1- AC_DEFUN([_AC_AM_CONFIG_HEADER_HOOK], [# Compute $1's index in $config_headers.
+m4trace:/usr/share/aclocal-1.16/init.m4:204: -1- AC_DEFUN([_AC_AM_CONFIG_HEADER_HOOK], [# Compute $1's index in $config_headers.
 _am_arg=$1
 _am_stamp_count=1
 for _am_header in $config_headers :; do
@@ -962,7 +966,7 @@ m4trace:configure.ac:1: -1- m4_pattern_allow([^target_alias$])
 m4trace:configure.ac:4: -1- AM_INIT_AUTOMAKE([foreign])
 m4trace:configure.ac:4: -1- m4_pattern_allow([^AM_[A-Z]+FLAGS$])
 m4trace:configure.ac:4: -1- AM_SET_CURRENT_AUTOMAKE_VERSION
-m4trace:configure.ac:4: -1- AM_AUTOMAKE_VERSION([1.16.4])
+m4trace:configure.ac:4: -1- AM_AUTOMAKE_VERSION([1.16.5])
 m4trace:configure.ac:4: -1- _AM_AUTOCONF_VERSION([2.71])
 m4trace:configure.ac:4: -1- m4_pattern_allow([^INSTALL_PROGRAM$])
 m4trace:configure.ac:4: -1- m4_pattern_allow([^INSTALL_SCRIPT$])
