@@ -6,6 +6,8 @@
  * simpler when calculating where start and end points of chapters are.
  * Plus, it makes checking for one bad fetch possible, and can skip over bad
  * blocks.
+ *
+ * See libbluray/src/examples/bdsplice.c for their packet sizes
  */
 #define BLURAY_COPY_BUFFER_SIZE 192
 
