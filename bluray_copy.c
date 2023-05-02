@@ -689,15 +689,9 @@ int main(int argc, char **argv) {
 			fprintf(stderr, "done\n");
 		if(retval < 0) {
 			fprintf(stderr, "Could not finish writing to %s\n", bluray_copy.filename);
-			if(bluray_copy.filename)
-				bluray_copy.filename = NULL;
-
 			return 1;
 		}
 	}
-
-	if(bluray_copy.filename)
-		bluray_copy.filename = NULL;
 
 	return 0;
 
