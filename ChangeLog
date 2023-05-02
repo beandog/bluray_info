@@ -1,5 +1,14 @@
 ChangeLog
 
+1.10
+
+bluray_info:
+- Fix JSON output when limiting tracks (bug #13, thanks to zscholl
+  for reporting)
+
+bluray_copy:
+- Display filename being written
+
 1.9
 
 - Fix not showing video format on 4K
