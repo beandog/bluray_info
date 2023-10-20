@@ -1,4 +1,4 @@
-AC_INIT([bluray_info], [1.11], [https://github.com/beandog/bluray_info/issues], [], [http://dvds.beandog.org/])
+AC_INIT([bluray_info], [1.11], [https://github.com/beandog/bluray_info/issues], [], [https://github.com/beandog/bluray_info])
 
 dnl This is not a GNU package, so ignore required files / format
 AM_INIT_AUTOMAKE([foreign])
