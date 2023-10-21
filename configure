@@ -613,7 +613,7 @@ PACKAGE_TARNAME='bluray_info'
 PACKAGE_VERSION='1.11'
 PACKAGE_STRING='bluray_info 1.11'
 PACKAGE_BUGREPORT='https://github.com/beandog/bluray_info/issues'
-PACKAGE_URL='http://dvds.beandog.org/'
+PACKAGE_URL='https://github.com/beandog/bluray_info'
 
 # Factoring default headers for most tests.
 ac_includes_default="\
@@ -655,8 +655,6 @@ BLURAY_PLAYER_FALSE
 BLURAY_PLAYER_TRUE
 MPV_LIBS
 MPV_CFLAGS
-LIBAACS_LIBS
-LIBAACS_CFLAGS
 LIBBLURAY_LIBS
 LIBBLURAY_CFLAGS
 PKG_CONFIG_LIBDIR
@@ -768,8 +766,6 @@ PKG_CONFIG_PATH
 PKG_CONFIG_LIBDIR
 LIBBLURAY_CFLAGS
 LIBBLURAY_LIBS
-LIBAACS_CFLAGS
-LIBAACS_LIBS
 MPV_CFLAGS
 MPV_LIBS'
 
@@ -1405,7 +1401,7 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --with-libmpv           Enable libmpv support to build bluray_player
+  --with-libmpv           Enable mpv support to build bluray_player
 
 Some influential environment variables:
   CC          C compiler command
@@ -1424,10 +1420,6 @@ Some influential environment variables:
               C compiler flags for LIBBLURAY, overriding pkg-config
   LIBBLURAY_LIBS
               linker flags for LIBBLURAY, overriding pkg-config
-  LIBAACS_CFLAGS
-              C compiler flags for LIBAACS, overriding pkg-config
-  LIBAACS_LIBS
-              linker flags for LIBAACS, overriding pkg-config
   MPV_CFLAGS  C compiler flags for MPV, overriding pkg-config
   MPV_LIBS    linker flags for MPV, overriding pkg-config
 
@@ -1435,7 +1427,7 @@ Use these variables to override the choices made by `configure' or to help
 it to find libraries and programs with nonstandard names/locations.
 
 Report bugs to <https://github.com/beandog/bluray_info/issues>.
-bluray_info home page: <http://dvds.beandog.org/>.
+bluray_info home page: <https://github.com/beandog/bluray_info>.
 _ACEOF
 ac_status=$?
 fi
@@ -1894,9 +1886,7 @@ struct stat;
 /* Most of the following tests are stolen from RCS 5.7 src/conf.sh.  */
 struct buf { int x; };
 struct buf * (*rcsopen) (struct buf *, struct stat *, int);
-static char *e (p, i)
-     char **p;
-     int i;
+static char *e (char **p, int i)
 {
   return p[i];
 }
@@ -1947,6 +1937,7 @@ extern int puts (const char *);
 extern int printf (const char *, ...);
 extern int dprintf (int, const char *, ...);
 extern void *malloc (size_t);
+extern void free (void *);
 
 // Check varargs macros.  These examples are taken from C99 6.10.3.5.
 // dprintf is used instead of fprintf to avoid needing to declare
@@ -4494,102 +4485,23 @@ printf "%s\n" "yes" >&6; }
 fi
 
 
-pkg_failed=no
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for LIBAACS" >&5
-printf %s "checking for LIBAACS... " >&6; }
-
-if test -n "$LIBAACS_CFLAGS"; then
-    pkg_cv_LIBAACS_CFLAGS="$LIBAACS_CFLAGS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libaacs\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "libaacs") 2>&5
-  ac_status=$?
-  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_LIBAACS_CFLAGS=`$PKG_CONFIG --cflags "libaacs" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-if test -n "$LIBAACS_LIBS"; then
-    pkg_cv_LIBAACS_LIBS="$LIBAACS_LIBS"
- elif test -n "$PKG_CONFIG"; then
-    if test -n "$PKG_CONFIG" && \
-    { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$PKG_CONFIG --exists --print-errors \"libaacs\""; } >&5
-  ($PKG_CONFIG --exists --print-errors "libaacs") 2>&5
-  ac_status=$?
-  printf "%s\n" "$as_me:${as_lineno-$LINENO}: \$? = $ac_status" >&5
-  test $ac_status = 0; }; then
-  pkg_cv_LIBAACS_LIBS=`$PKG_CONFIG --libs "libaacs" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes
-else
-  pkg_failed=yes
-fi
- else
-    pkg_failed=untried
-fi
-
-
-
-if test $pkg_failed = yes; then
-   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
-
-if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
-        _pkg_short_errors_supported=yes
-else
-        _pkg_short_errors_supported=no
-fi
-        if test $_pkg_short_errors_supported = yes; then
-	        LIBAACS_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libaacs" 2>&1`
-        else
-	        LIBAACS_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libaacs" 2>&1`
-        fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$LIBAACS_PKG_ERRORS" >&5
-
-	as_fn_error $? "Package requirements (libaacs) were not met:
-
-$LIBAACS_PKG_ERRORS
-
-Consider adjusting the PKG_CONFIG_PATH environment variable if you
-installed software in a non-standard prefix.
-
-Alternatively, you may set the environment variables LIBAACS_CFLAGS
-and LIBAACS_LIBS to avoid the need to call pkg-config.
-See the pkg-config man page for more details." "$LINENO" 5
-elif test $pkg_failed = untried; then
-     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
-printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
-printf "%s\n" "$as_me: error: in \`$ac_pwd':" >&2;}
-as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
-is in your PATH or set the PKG_CONFIG environment variable to the full
-path to pkg-config.
-
-Alternatively, you may set the environment variables LIBAACS_CFLAGS
-and LIBAACS_LIBS to avoid the need to call pkg-config.
-See the pkg-config man page for more details.
-
-To get pkg-config, see <http://pkg-config.freedesktop.org/>.
-See \`config.log' for more details" "$LINENO" 5; }
-else
-	LIBAACS_CFLAGS=$pkg_cv_LIBAACS_CFLAGS
-	LIBAACS_LIBS=$pkg_cv_LIBAACS_LIBS
-        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
-printf "%s\n" "yes" >&6; }
-
-fi
-
-
 # Check whether --with-libmpv was given.
 if test ${with_libmpv+y}
 then :
-  withval=$with_libmpv;
+  withval=$with_libmpv; with_libmpv=${withval}
+else $as_nop
+  with_libmpv=no
+fi
+
+
+
+if test "x$with_libmpv" != "xno"
+then :
+
+
+printf "%s\n" "#define HAVE_LIBMPV /**/" >>confdefs.h
+
+
 pkg_failed=no
 { printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for MPV" >&5
 printf %s "checking for MPV... " >&6; }
@@ -4679,16 +4591,12 @@ else
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
-	with_libmpv=yes
-
-printf "%s\n" "#define HAVE_LIBMPV /**/" >>confdefs.h
-
-
-fi
 fi
 
 
- if test "x$with_libmpv" = xyes; then
+fi
+
+ if test "x$with_libmpv" != "xno"; then
   BLURAY_PLAYER_TRUE=
   BLURAY_PLAYER_FALSE='#'
 else
@@ -5291,7 +5199,7 @@ Configuration commands:
 $config_commands
 
 Report bugs to <https://github.com/beandog/bluray_info/issues>.
-bluray_info home page: <http://dvds.beandog.org/>."
+bluray_info home page: <https://github.com/beandog/bluray_info>."
 
 _ACEOF
 ac_cs_config=`printf "%s\n" "$ac_configure_args" | sed "$ac_safe_unquote"`

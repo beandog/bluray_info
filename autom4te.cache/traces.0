@@ -1049,7 +1049,7 @@ m4trace:configure.ac:4: -1- m4_pattern_allow([^AM_DEFAULT_VERBOSITY$])
 m4trace:configure.ac:4: -1- m4_pattern_allow([^AM_BACKSLASH$])
 m4trace:configure.ac:4: -1- _AM_SUBST_NOTMAKE([AM_BACKSLASH])
 m4trace:configure.ac:7: -1- _m4_warn([obsolete], [The macro `AC_PROG_CC_C99' is obsolete.
-You should run autoupdate.], [./lib/autoconf/c.m4:1659: AC_PROG_CC_C99 is expanded from...
+You should run autoupdate.], [./lib/autoconf/c.m4:1664: AC_PROG_CC_C99 is expanded from...
 configure.ac:7: the top level])
 m4trace:configure.ac:7: -1- m4_pattern_allow([^CC$])
 m4trace:configure.ac:7: -1- m4_pattern_allow([^CFLAGS$])
@@ -1136,40 +1136,29 @@ m4trace:configure.ac:13: -1- PKG_CHECK_EXISTS([libbluray >= 1.2.0], [pkg_cv_[]LI
 m4trace:configure.ac:13: -1- PKG_CHECK_EXISTS([libbluray >= 1.2.0], [pkg_cv_[]LIBBLURAY_LIBS=`$PKG_CONFIG --[]libs "libbluray >= 1.2.0" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes ], [pkg_failed=yes])
 m4trace:configure.ac:13: -1- _PKG_SHORT_ERRORS_SUPPORTED
-m4trace:configure.ac:16: -1- PKG_CHECK_MODULES([LIBAACS], [libaacs])
-m4trace:configure.ac:16: -1- m4_pattern_allow([^LIBAACS_CFLAGS$])
-m4trace:configure.ac:16: -1- m4_pattern_allow([^LIBAACS_LIBS$])
-m4trace:configure.ac:16: -1- PKG_CHECK_EXISTS([libaacs], [pkg_cv_[]LIBAACS_CFLAGS=`$PKG_CONFIG --[]cflags "libaacs" 2>/dev/null`
+m4trace:configure.ac:21: -1- m4_pattern_allow([^HAVE_LIBMPV$])
+m4trace:configure.ac:21: -1- PKG_CHECK_MODULES([MPV], [mpv])
+m4trace:configure.ac:21: -1- m4_pattern_allow([^MPV_CFLAGS$])
+m4trace:configure.ac:21: -1- m4_pattern_allow([^MPV_LIBS$])
+m4trace:configure.ac:21: -1- PKG_CHECK_EXISTS([mpv], [pkg_cv_[]MPV_CFLAGS=`$PKG_CONFIG --[]cflags "mpv" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes ], [pkg_failed=yes])
-m4trace:configure.ac:16: -1- PKG_CHECK_EXISTS([libaacs], [pkg_cv_[]LIBAACS_LIBS=`$PKG_CONFIG --[]libs "libaacs" 2>/dev/null`
+m4trace:configure.ac:21: -1- PKG_CHECK_EXISTS([mpv], [pkg_cv_[]MPV_LIBS=`$PKG_CONFIG --[]libs "mpv" 2>/dev/null`
 		      test "x$?" != "x0" && pkg_failed=yes ], [pkg_failed=yes])
-m4trace:configure.ac:16: -1- _PKG_SHORT_ERRORS_SUPPORTED
-m4trace:configure.ac:19: -1- PKG_CHECK_MODULES([MPV], [mpv], [
-	with_libmpv=yes
-	AC_DEFINE(HAVE_LIBMPV, [], [libmpv])
-])
-m4trace:configure.ac:19: -1- m4_pattern_allow([^MPV_CFLAGS$])
-m4trace:configure.ac:19: -1- m4_pattern_allow([^MPV_LIBS$])
-m4trace:configure.ac:19: -1- PKG_CHECK_EXISTS([mpv], [pkg_cv_[]MPV_CFLAGS=`$PKG_CONFIG --[]cflags "mpv" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes ], [pkg_failed=yes])
-m4trace:configure.ac:19: -1- PKG_CHECK_EXISTS([mpv], [pkg_cv_[]MPV_LIBS=`$PKG_CONFIG --[]libs "mpv" 2>/dev/null`
-		      test "x$?" != "x0" && pkg_failed=yes ], [pkg_failed=yes])
-m4trace:configure.ac:19: -1- _PKG_SHORT_ERRORS_SUPPORTED
-m4trace:configure.ac:19: -1- m4_pattern_allow([^HAVE_LIBMPV$])
-m4trace:configure.ac:24: -1- AM_CONDITIONAL([BLURAY_PLAYER], [test "x$with_libmpv" = xyes])
-m4trace:configure.ac:24: -1- m4_pattern_allow([^BLURAY_PLAYER_TRUE$])
-m4trace:configure.ac:24: -1- m4_pattern_allow([^BLURAY_PLAYER_FALSE$])
-m4trace:configure.ac:24: -1- _AM_SUBST_NOTMAKE([BLURAY_PLAYER_TRUE])
-m4trace:configure.ac:24: -1- _AM_SUBST_NOTMAKE([BLURAY_PLAYER_FALSE])
-m4trace:configure.ac:30: -1- m4_pattern_allow([^LIB@&t@OBJS$])
-m4trace:configure.ac:30: -1- m4_pattern_allow([^LTLIBOBJS$])
-m4trace:configure.ac:30: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
-m4trace:configure.ac:30: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
-m4trace:configure.ac:30: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
-m4trace:configure.ac:30: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
-m4trace:configure.ac:30: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
-m4trace:configure.ac:30: -1- _AC_AM_CONFIG_HEADER_HOOK(["$ac_file"])
-m4trace:configure.ac:30: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS
-m4trace:configure.ac:30: -1- AM_RUN_LOG([cd "$am_dirpart" \
+m4trace:configure.ac:21: -1- _PKG_SHORT_ERRORS_SUPPORTED
+m4trace:configure.ac:28: -1- AM_CONDITIONAL([BLURAY_PLAYER], [test "x$with_libmpv" != "xno"])
+m4trace:configure.ac:28: -1- m4_pattern_allow([^BLURAY_PLAYER_TRUE$])
+m4trace:configure.ac:28: -1- m4_pattern_allow([^BLURAY_PLAYER_FALSE$])
+m4trace:configure.ac:28: -1- _AM_SUBST_NOTMAKE([BLURAY_PLAYER_TRUE])
+m4trace:configure.ac:28: -1- _AM_SUBST_NOTMAKE([BLURAY_PLAYER_FALSE])
+m4trace:configure.ac:34: -1- m4_pattern_allow([^LIB@&t@OBJS$])
+m4trace:configure.ac:34: -1- m4_pattern_allow([^LTLIBOBJS$])
+m4trace:configure.ac:34: -1- AM_CONDITIONAL([am__EXEEXT], [test -n "$EXEEXT"])
+m4trace:configure.ac:34: -1- m4_pattern_allow([^am__EXEEXT_TRUE$])
+m4trace:configure.ac:34: -1- m4_pattern_allow([^am__EXEEXT_FALSE$])
+m4trace:configure.ac:34: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_TRUE])
+m4trace:configure.ac:34: -1- _AM_SUBST_NOTMAKE([am__EXEEXT_FALSE])
+m4trace:configure.ac:34: -1- _AC_AM_CONFIG_HEADER_HOOK(["$ac_file"])
+m4trace:configure.ac:34: -1- _AM_OUTPUT_DEPENDENCY_COMMANDS
+m4trace:configure.ac:34: -1- AM_RUN_LOG([cd "$am_dirpart" \
       && sed -e '/# am--include-marker/d' "$am_filepart" \
         | $MAKE -f - am--depfiles])
