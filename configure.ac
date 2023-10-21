@@ -12,13 +12,20 @@ AC_CHECK_HEADERS([math.h])
 dnl Use pkg-config to check for libbluray
 PKG_CHECK_MODULES([LIBBLURAY], [libbluray >= 1.2.0])
 
-dnl Using libmpv for the player is optional, but enabled by default
-AC_ARG_WITH([libmpv], [AS_HELP_STRING([--with-libmpv], [Enable libmpv support to build bluray_player])], [PKG_CHECK_MODULES([MPV], [mpv], [
-	with_libmpv=yes
-	AC_DEFINE(HAVE_LIBMPV, [], [libmpv])
-])])
+AC_ARG_WITH([libmpv], [AS_HELP_STRING([--with-libmpv], [Enable mpv support to build bluray_player])], [with_libmpv=${withval}], [with_libmpv=no])
 
-AM_CONDITIONAL([BLURAY_PLAYER], [test "x$with_libmpv" = xyes])
+dnl debugging
+dnl AC_MSG_RESULT(x$with_libmpv)
+dnl AC_MSG_RESULT(x$withval)
+
+AS_IF([test "x$with_libmpv" != "xno"],
+	[
+		AC_DEFINE(HAVE_LIBMPV, [], [libmpv])
+		PKG_CHECK_MODULES([MPV], [mpv])
+	]
+)
+
+AM_CONDITIONAL([BLURAY_PLAYER], [test "x$with_libmpv" != "xno"])
 
 AC_CONFIG_HEADERS([config.h])
 
