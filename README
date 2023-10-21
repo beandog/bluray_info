@@ -9,7 +9,8 @@ Includes:
 Requirements:
 
 * libbluray >= 1.2.0
-* libaacs
+* libaacs for decryption
+* libmpv for bluray_player
 
 Building:
 
@@ -68,7 +69,7 @@ library with Java support or not.
 
 bluray_info:
 
-Usage: bluray_info [options] [bluray device]
+Usage: bluray_info [bluray path] [options]
 
 See bluray_info --help for all options.
 
@@ -83,7 +84,7 @@ examine the content of the stream, which would mean using multimedia libraries.
 
 bluray_copy:
 
-Usage: bluray_copy [options] [bluray device]
+Usage: bluray_copy [bluray path] [options]
 
 See bluray_copy --help for all options.
 
@@ -107,7 +108,7 @@ Blu-rays can hold a lot of stuff ... a lot. bluray_copy won't do anything
 fancy like check to see if you have enough space to copy the title you want to,
 so be careful. It will simply quit if it can't write to the hard drive anymore.
 
-If no argument is given, bluray_copy will simply select the main title.
+If no argument is given, bluray_copy will simply select the main playlist.
 
 bluray_player:
 
