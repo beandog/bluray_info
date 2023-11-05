@@ -652,6 +652,8 @@ int main(int argc, char **argv) {
 				fprintf(stderr, "* success: %08" PRIi64 " bytes; total size_mbs read: %06" PRIi64 "; position: %012" PRIu64 ", chapter ix: %03" PRIu32 ", chapter number: %03" PRIu32 "; Progress: %.0lf/%.0lf MBs\r", bluray_read[1], bluray_read[2] / 1048576, bd_tell(bd), bd_get_current_chapter(bd), bd_get_current_chapter(bd) + 1, progress[1], bluray_copy.size_mbs);
 				fflush(stderr);
 			}
+			if(progress[2] == 100.0)
+				progress[2] = 99.0;
 			fprintf(stderr, "Progress: %6.0lf/%.0lf MBs (%.0lf%%)\r", progress[1], bluray_copy.size_mbs, progress[2]);
 			fflush(stderr);
 		}
@@ -669,6 +671,9 @@ int main(int argc, char **argv) {
 		}
 
 	}
+
+	fprintf(stderr, "Progress: %6.0lf/%.0lf MBs (100%%)\r", progress[1], bluray_copy.size_mbs);
+	fflush(stderr);
 
 	fprintf(io, "\n");
 
