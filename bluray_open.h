@@ -68,7 +68,7 @@ struct bluray_chapter {
 	uint64_t size_mbs;
 };
 
-int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info);
+int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info, bool display_duplicates);
 
 int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint32_t title_ix, uint8_t angle_ix);
 

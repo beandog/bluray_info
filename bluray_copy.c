@@ -52,6 +52,7 @@ int main(int argc, char **argv) {
 	bool opt_playlist_number = false;
 	bool opt_main_title = false;
 	bool exit_help = false;
+	bool duplicates = false;
 	unsigned long int arg_number = 0;
 	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
@@ -71,6 +72,7 @@ int main(int argc, char **argv) {
 	struct option p_long_opts[] = {
 		{ "angle", required_argument, NULL, 'a' },
 		{ "chapter", required_argument, NULL, 'c' },
+		{ "duplicates", required_argument, NULL, 'd' },
 		{ "help", no_argument, NULL, 'h' },
 		{ "keydb", required_argument, NULL, 'k' },
 		{ "main", no_argument, NULL, 'm' },
@@ -81,7 +83,7 @@ int main(int argc, char **argv) {
 		{ "version", no_argument, NULL, 'Z' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "a:c:hk:mo:p:t:zZ", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "a:c:dhk:mo:p:t:zZ", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -113,6 +115,10 @@ int main(int argc, char **argv) {
 						arg_chapter_numbers[1] = (uint32_t)arg_number;
 					}
 				}
+				break;
+
+			case 'd':
+				duplicates = true;
 				break;
 
 			case 'k':
@@ -174,6 +180,7 @@ int main(int argc, char **argv) {
 				printf("Other:\n");
 				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
 				printf("  -a, --angle <#>          Video angle (default: 1)\n");
+				printf("  -d, --duplicates         Use duplicates index (see man bluray_copy)\n");
 				printf("  -h, --help		   This output\n");
 				printf("      --version		   Version information\n");
 				printf("\n");
@@ -236,7 +243,7 @@ int main(int argc, char **argv) {
 
 	// Blu-ray
 	struct bluray_info bluray_info;
-	retval = bluray_info_init(bd, &bluray_info);
+	retval = bluray_info_init(bd, &bluray_info, duplicates);
 
 	if(retval) {
 		printf("* Couldn't open Blu-ray\n");

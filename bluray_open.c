@@ -4,7 +4,7 @@
 /**
  * Get main Blu-ray metadata from disc
  */
-int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info) {
+int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info, bool display_duplicates) {
 
 	// Get main disc information
 	const BLURAY_DISC_INFO *bd_disc_info = NULL;
@@ -51,7 +51,20 @@ int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info) {
 	// libbluray indexes titles starting at 0, but for human-readable, bluray_info
 	// starts at 1. Playlists start at 0, because they are indexed as such on the
 	// filesystem.
-	bluray_info->titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
+	//
+	// There are two ways to display the titles using libbluray: you can display
+	// the "relevant" titles which filters out duplicate titles and clips, or
+	// you can display all the titles. Programs like mpv and ffmpeg will display
+	// relevant titles only, so that is the default here as well.
+	//
+	// You can choose to display all the titles, including the duplicates. It is
+	// important to note that titles that are marked as duplicates can vary
+	// across filesystems, so if you need all the metadata, then display all
+	// using the option flag.
+	if(display_duplicates)
+		bluray_info->titles = bd_get_titles(bd, TITLES_ALL, 0);
+	else
+		bluray_info->titles = bd_get_titles(bd, TITLES_RELEVANT, 0);
 	bluray_info->main_title = 0;
 
 	int bd_main_title = bd_get_main_title(bd);

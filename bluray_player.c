@@ -307,7 +307,8 @@ int main(int argc, char **argv) {
 
 	// Blu-ray
 	struct bluray_info bluray_info;
-	retval = bluray_info_init(bd, &bluray_info);
+	// MPV does not list duplicate titles, so ignore them
+	retval = bluray_info_init(bd, &bluray_info, false);
 
 	d_num_titles = bluray_info.titles;
 	main_title_number = bluray_info.main_title + 1;

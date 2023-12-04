@@ -53,6 +53,7 @@ int main(int argc, char **argv) {
 	bool d_audio = false;
 	bool d_subtitles = false;
 	bool d_chapters = false;
+	bool d_duplicates = false;
 	unsigned long int arg_number = 0;
 	uint32_t d_min_seconds = 0;
 	uint32_t d_min_minutes = 0;
@@ -65,6 +66,7 @@ int main(int argc, char **argv) {
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
+		{ "duplicates", no_argument, NULL, 'd' },
 		{ "xchap", no_argument, NULL, 'g' },
 		{ "help", no_argument, NULL, 'h' },
 		{ "json", no_argument, NULL, 'j' },
@@ -82,7 +84,7 @@ int main(int argc, char **argv) {
 		{ "version", no_argument, NULL, 'V' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "acghjk:mp:st:vxAE:M:SV", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "acdghjk:mp:st:vxAE:M:SV", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -96,6 +98,10 @@ int main(int argc, char **argv) {
 
 			case 'c':
 				d_chapters = true;
+				break;
+
+			case 'd':
+				d_duplicates = true;
 				break;
 
 			case 'E':
@@ -190,6 +196,7 @@ int main(int argc, char **argv) {
 				printf("  -s, --subtitles          Display subtitles\n");
 				printf("  -c, --chapters           Display chapters\n");
 				printf("  -x, --all                Display all\n");
+				printf("  -d, --duplicates         Display duplicate titles (see man bluray_info)\n");
 				printf("\n");
 				printf("Narrow results:\n");
 				printf("  -A, --has-audio          Title has audio\n");
@@ -239,7 +246,7 @@ int main(int argc, char **argv) {
 
 	// Blu-ray
 	struct bluray_info bluray_info;
-	retval = bluray_info_init(bd, &bluray_info);
+	retval = bluray_info_init(bd, &bluray_info, d_duplicates);
 
 	if(retval) {
 		printf("* Couldn't open Blu-ray\n");
