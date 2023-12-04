@@ -1,0 +1,87 @@
+BLURAY_COPY(1)
+==============
+:doctype: manpage
+
+NAME
+----
+bluray_copy - copy a title or playlist from a Blu-ray to a file or stdout
+
+SYNOPSIS
+--------
+*bluray_copy* ['PATH'] ['OPTIONS']
+
+DESCRIPTION
+-----------
+The bluray_copy(1) program will copy a title or playlist from a Blu-ray disc,
+image, or directory to either a file or stdout.
+
+Input path can be a single filename (image), a directory, or a device name.
+The default device is based on your operating system, and is the primary
+optical drive.
+
+Default output filename is 'bluray_title_###.m2ts' where the number is
+a zero-padded string of the main title.
+
+OPTIONS
+-------
+
+*-m, --main*::
+	Copy the main title (default).
+
+*-t, --title*='TITLE'::
+	Copy the selected title number.
+
+*-p, --playlist*='PLAYLIST'::
+	Copy the selected playlist.
+
+*-c, --chapter*='CHAPTER[-CHAPTER]'
+	Copy the selected chapter or range range. Default is to copy all
+	chapters of the title or playlist.
+
+*-o, --output*='FILENAME'
+	Save to filename. Default is 'bluray_title_###.m2ts'.
+
+	'FILENAME' can be '-' to send to standard output. All display output
+	is switched to standard error output.
+
+*-k, --keydb*='FILENAME'
+	Location to 'KEYDB.cfg' used by libaacs for decryption. Default is
+	'~/.config/aacs/KEYDB.cfg'
+
+*-a, --angle*='ANGLE'
+	Video angle number. Default is the first.
+
+*-d, --duplicates*
+	Select from index of duplicate titles instead of only relevant
+
+*-h, --help*
+	Display help output.
+
+*--version*
+	Display version information.
+
+SEE ALSO
+--------
+bluray_info(1), bluray_player(1)
+
+BUGS
+----
+*bluray_copy* does not wait for an optical device to be ready. Wait for it to
+finish "polling" before running the program.
+
+Please file bugs at <https://github.com/beandog/bluray_info/issues>
+
+AUTHOR
+------
+bluray_copy was written by Steve Dibb <steve.dibb@gmail.com>
+
+RESOURCES
+---------
+Source code available at GitHub: <https://github.com/beandog/bluray_info>
+
+Main web site: <https://dvds.beandog.org>
+
+COPYING
+-------
+Copyright \(C) 2019 Steve Dibb. Free use of this software is granted under the
+terms of the GNU General Public License, version 2 (GPL).

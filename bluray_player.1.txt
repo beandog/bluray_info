@@ -1,0 +1,104 @@
+BLURAY_PLAYER(1)
+================
+:doctype: manpage
+
+NAME
+----
+bluray_player - play a Blu-ray using libmpv
+
+SYNOPSIS
+--------
+*bluray_player* ['PATH'] ['OPTIONS']
+
+DESCRIPTION
+-----------
+The bluray_player(1) program will play a title or playlist from a Blu-ray
+disc, image, or directory. Playback is enabled using libmpv.
+
+Input path can be a single filename (image), a directory, or a device name.
+The default device is based on your operating system, and is the primary
+optical drive.
+
+OPTIONS
+-------
+
+*-m, --main*::
+	Play the main title (default).
+
+*-t, --title*='TITLE'::
+	Play the selected titled number.
+
+*-p, --playlist*='PLAYLIST'::
+	Play the selected playlist number.
+
+*-c, --chapters*='CHAPTER[-[CHAPTER]]'
+	Play the selected chapter range. Default is to play all chapters of
+	the title / playlist.
+
+*-a, --alang*='LANGUAGE'
+	Set default audio language. Format is three-letter language code, ISO
+	639-2. For example: eng, deu, fra, spa.
+
+*-A, --aid*='STREAM ID'
+	Play audio stream ID indexed by mpv.
+
+*-s, --slang*='LANGUAGE'
+	Display subtitles for selected language, if available.
+
+*-S, --sid*='STREAM ID'
+	Play subtitle stream ID indexed by mpv.
+
+*-V, --vid*='STREAM ID'
+	Play video stream ID indexed by mpv (default: first).
+
+*-f, --fullscreen*
+	Display video in fullscreen.
+
+*-d, --deinterlace*
+	Deinterlace video during playback.
+
+*-k, --keydb*='FILENAME'
+	Location to 'KEYDB.cfg' used by libaacs for decryption. Default is
+	'~/.config/aacs/KEYDB.cfg'
+
+*-h, --help*
+	Display help output.
+
+*--version*
+	Display version information.
+
+CONFIGURATION
+-------------
+bluray_player(1) uses libmpv as the engine for playback (see
+<https://mpv.io/>). Configuration for bluray_player is stored in
+~/.config/bluray_player/mpv.conf and will be read on each time during startup.
+
+Passing options to 'bluray_player' will override the configuration file.
+
+See mpv(1) for all configuration options.
+
+SEE ALSO
+--------
+bluray_info(1), bluray_copy(1), mpv(1)
+
+BUGS
+----
+*bluray_player* does not wait for an optical device to be ready. Wait for it to
+finish "polling" before running the program.
+
+Please file bugs at <https://github.com/beandog/bluray_info/issues>
+
+AUTHOR
+------
+bluray_player was written by Steve Dibb <steve.dibb@gmail.com>
+
+RESOURCES
+---------
+Source code available at GitHub: <https://github.com/beandog/bluray_info>
+
+Main web site: <https://dvds.beandog.org>
+
+COPYING
+-------
+Copyright \(C) 2019 Steve Dibb. Free use of this software is granted under the
+terms of the GNU General Public License, version 2 (GPL).

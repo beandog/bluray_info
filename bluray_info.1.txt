@@ -1,0 +1,109 @@
+BLURAY_INFO(1)
+==============
+:doctype: manpage
+
+NAME
+----
+bluray_info - displays information about a Blu-ray
+
+SYNOPSIS
+--------
+*bluray_info* ['PATH'] ['OPTIONS']
+
+DESCRIPTION
+-----------
+The bluray_info(1) program displays information about a Blu-ray disc, image,
+or directory in human-readable, JSON, or formatted chapter outputs.
+
+Input path can be a single filename (image), a directory, or a device name.
+The default device is based on your operating system, and is the primary
+optical drive.
+
+OPTIONS
+-------
+
+*-m, --main*::
+	Display only the main title / playlist as defined by the metadata. By
+	default, bluray_info will display all titles.
+
+*-t, --title*='TITLE'::
+	Limit output to the selected title.
+
+*-p, --playlist*='PLAYLIST'::
+	Limit output to selected playlist.
+
+*-k, --keydb*='FILE'::
+	Location to 'KEYDB.cfg' used by libaacs for decryption. Default is
+	'~/.config/aacs/KEYDB.cfg'.
+
+*-v, --video*::
+	Display detailed information about video streams.
+
+*-a, --audio*::
+	Display detailed information about audio streams.
+
+*-s, --subtitles*::
+	Display detailed information about subtitles.
+
+*-c, --chapters*::
+	Display detailed information about chapters.
+
+*-x, --all*::
+	Display all optional detailed information.
+
+*-d, --duplicates*::
+	Display duplicate titles that libbluray would originally filter out
+
+*-j, --json*::
+	Format output in JSON. All detailed information is included.
+
+*-A, --has-audio*::
+	Limit output to titles that have audio tracks.
+
+*-S, --has-subtitles*::
+	Limit output to titles that have subtitles.
+
+*-E, --seconds*='SECONDS'::
+	Limit output to titles with a minimum length of number of seconds.
+
+*-M, --minutes*='MINUTES'::
+	Limit output to titles with a minimum length of number of minutes.
+	Cannot be used in combination with '--seconds'.
+
+*-g, --xchap*::
+	Display title chapters in export format suitable for mkvmerge(1) and
+	ogmmerge(1). See also dvdxchap(1) for details on format syntax.
+
+*-h, --help*::
+	Display help output.
+
+*--version*::
+	Display version information.
+
+SEE ALSO
+--------
+bluray_copy(1), bluray_player(1)
+
+BUGS
+----
+*bluray_info* does not wait for an optical device to be ready. Wait for it to
+finish "polling" before running the program.
+
+Some discs fail to be opened if they have encryption that libaacs cannot read.
+
+Please file bugs at <https://github.com/beandog/bluray_info/issues>
+
+AUTHOR
+------
+bluray_info was written by Steve Dibb <steve.dibb@gmail.com>
+
+RESOURCES
+---------
+Source code available at GitHub: <https://github.com/beandog/bluray_info>
+
+Main web site: <https://dvds.beandog.org>
+
+COPYING
+-------
+Copyright \(C) 2019 Steve Dibb. Free use of this software is granted under the
+terms of the GNU General Public License, version 2 (GPL).
