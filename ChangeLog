@@ -8,7 +8,8 @@ ChangeLog
 
 1.11
 
-- Fix building '--without-libmpv' option
+- Fix configure script so it can build without libmpv (see
+  Gentoo bug #907865)
 
 1.10
 
