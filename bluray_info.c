@@ -196,7 +196,7 @@ int main(int argc, char **argv) {
 				printf("  -s, --subtitles          Display subtitles\n");
 				printf("  -c, --chapters           Display chapters\n");
 				printf("  -x, --all                Display all\n");
-				printf("  -d, --duplicates         Display duplicate titles (see man bluray_info)\n");
+				printf("  -d, --duplicates         Include duplicate titles\n");
 				printf("\n");
 				printf("Narrow results:\n");
 				printf("  -A, --has-audio          Title has audio\n");
