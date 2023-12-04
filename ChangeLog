@@ -1,5 +1,15 @@
 ChangeLog
 
+1.12
+
+- bluray_info: add option to display 'duplicate' titles that would
+  normally be filtered by libbluray. See bug #11
+- bluray_copy: also add option to select from duplicate titles
+
+1.11
+
+- Fix building '--without-libmpv' option
+
 1.10
 
 bluray_info:
