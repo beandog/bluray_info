@@ -11,6 +11,13 @@
  */
 #define BLURAY_COPY_BUFFER_SIZE 192
 
+/**
+ * This is for documentation only right now. From the Blu-ray specification,
+ * an MPEG-2 Transport Stream is constructed of "aligned units," where one is
+ * 6144 bytes, or 32 source packets.
+ */
+#define BLURAY_M2TS_UNIT_SIZE 6144
+
 struct bluray_copy {
 	char *filename;
 	int fd;
