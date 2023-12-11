@@ -54,6 +54,8 @@ int main(int argc, char **argv) {
 	bool d_subtitles = false;
 	bool d_chapters = false;
 	bool d_duplicates = false;
+	bool d_has_lang = false;
+	uint8_t d_lang[BLURAY_LANG_STRLEN] = {'\0'};
 	unsigned long int arg_number = 0;
 	uint32_t d_min_seconds = 0;
 	uint32_t d_min_minutes = 0;
@@ -80,11 +82,12 @@ int main(int argc, char **argv) {
 		{ "has-audio", no_argument, NULL, 'A' },
 		{ "seconds", required_argument, NULL, 'E' },
 		{ "minutes", required_argument, NULL, 'M' },
+		{ "has-lang", required_argument, NULL, 'N' },
 		{ "has-subtitles", no_argument, NULL, 'S' },
 		{ "version", no_argument, NULL, 'V' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "acdghjk:mp:st:vxAE:M:SV", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "acdghjk:mp:st:vxAE:M:N:SV", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -135,6 +138,13 @@ int main(int argc, char **argv) {
 			case 'M':
 				arg_number = strtoul(optarg, NULL, 10);
 				d_min_minutes = (uint32_t)arg_number;
+				break;
+
+			case 'N':
+				memset(d_lang, '\0', BLURAY_LANG_STRLEN);
+				strncpy(d_lang, optarg, BLURAY_LANG_STRLEN - 1);
+				if(strlen(d_lang))
+					d_has_lang = true;
 				break;
 
 			case 'p':
@@ -201,6 +211,7 @@ int main(int argc, char **argv) {
 				printf("Narrow results:\n");
 				printf("  -A, --has-audio          Title has audio\n");
 				printf("  -S, --has-subtitles      Title has subtitles\n");
+				printf("  -N, --has-lang <lang>    Title has language audio or subtitles, 3-character code (example: eng, fra, spa)\n");
 				printf("  -E, --seconds <number>   Title has minimum number of seconds\n");
 				printf("  -M, --minutes <number>   Title has minimum number of minutes\n");
 				printf("\n");
@@ -420,6 +431,11 @@ int main(int argc, char **argv) {
 		bluray_highest_playlist = ((bluray_title.playlist > bluray_highest_playlist) ? bluray_title.playlist : bluray_highest_playlist);
 
 		if(!(bluray_title.seconds >= d_min_seconds && bluray_title.minutes >= d_min_minutes && bluray_title.audio_streams >= d_min_audio_streams && bluray_title.pg_streams >= d_min_pg_streams)) {
+			bd_stream = NULL;
+			continue;
+		}
+
+		if(d_has_lang && ((!bluray_title.audio_streams && !bluray_title.pg_streams) || !(bluray_title_has_lang(&bluray_title, d_lang)))) {
 			bd_stream = NULL;
 			continue;
 		}

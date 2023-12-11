@@ -155,3 +155,36 @@ int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint
 	return 0;
 
 }
+
+bool bluray_title_has_lang(struct bluray_title *bluray_title, uint8_t lang[BLURAY_LANG_STRLEN]) {
+
+	BLURAY_STREAM_INFO *bd_stream = NULL;
+	uint8_t ix = 0;
+
+	for(ix = 0; ix < bluray_title->audio_streams; ix++) {
+
+		bd_stream = &bluray_title->clip_info[0].audio_streams[ix];
+
+		if(bd_stream == NULL)
+			continue;
+
+		if(strncmp(bd_stream->lang, lang, BLURAY_LANG_STRLEN - 1) == 0)
+			return true;
+
+	}
+
+	for(ix = 0; ix < bluray_title->pg_streams; ix++) {
+
+		bd_stream = &bluray_title->clip_info[0].pg_streams[ix];
+
+		if(bd_stream == NULL)
+			continue;
+
+		if(strncmp(bd_stream->lang, lang, BLURAY_LANG_STRLEN - 1) == 0)
+			return true;
+
+	}
+
+	return false;
+
+}

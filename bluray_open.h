@@ -10,6 +10,7 @@
 #include "libbluray/bluray.h"
 #include "libbluray/meta_data.h"
 
+#define BLURAY_LANG_STRLEN 4
 #define BLURAY_INFO_DISC_ID_STRLEN 41
 #define BLURAY_INFO_UDF_VOLUME_ID_STRLEN 33
 #define BLURAY_INFO_PROVIDER_DATA_STRLEN 33
@@ -71,5 +72,7 @@ struct bluray_chapter {
 int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info, bool display_duplicates);
 
 int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint32_t title_ix, uint8_t angle_ix);
+
+bool bluray_title_has_lang(struct bluray_title *bluray_title, uint8_t lang[BLURAY_LANG_STRLEN]);
 
 #endif
