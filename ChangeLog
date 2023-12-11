@@ -1,5 +1,9 @@
 ChangeLog
 
+1.13
+
+- bluray_info: add option to filter by language, -N <lang>
+
 1.12
 
 - bluray_info: add option to display 'duplicate' titles that would
