@@ -3,7 +3,6 @@
 #define BLURAY_PGS_LANG_STRLEN 4
 
 #include <string.h>
-#include "bluray_open.h"
 #include "libbluray/bluray.h"
 
 struct bluray_pgs {
