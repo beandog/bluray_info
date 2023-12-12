@@ -366,7 +366,7 @@ int main(int argc, char **argv) {
 		printf("  \"titles\": %" PRIu32 ",\n", bluray_info.titles);
 		printf("  \"bdinfo titles\": %" PRIu32 ",\n", bluray_info.disc_num_titles);
 		printf("  \"hdmv titles\": %" PRIu32 ",\n", bluray_info.hdmv_titles);
-		printf("  \"bdj titles\": %" PRIu32 ",\n", bluray_info.bdj_titles);
+		printf("  \"bd-j titles\": %" PRIu32 ",\n", bluray_info.bdj_titles);
 		printf("  \"unsupported titles\": %" PRIu32 ",\n", bluray_info.unsupported_titles);
 		printf("  \"aacs\": %s,\n", (bluray_info.aacs ? "true" : "false"));
 		printf("  \"bdplus\": %s,\n", (bluray_info.bdplus ? "true" : "false"));
