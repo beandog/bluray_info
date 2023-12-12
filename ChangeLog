@@ -2,7 +2,8 @@ ChangeLog
 
 1.13
 
-- bluray_info: add option to filter by language, -N <lang>
+- bluray_info: add options to filter by language, for either audio
+  streams or subtitles
 
 1.12
 

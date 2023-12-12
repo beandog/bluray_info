@@ -2,12 +2,12 @@
 .\"     Title: bluray_info
 .\"    Author: [see the "AUTHOR(S)" section]
 .\" Generator: Asciidoctor 2.0.18
-.\"      Date: 2023-12-11
+.\"      Date: 2023-12-12
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "BLURAY_INFO" "1" "2023-12-11" "\ \&" "\ \&"
+.TH "BLURAY_INFO" "1" "2023-12-12" "\ \&" "\ \&"
 .ie \n(.g .ds Aq \(aq
 .el       .ds Aq '
 .ss \n[.ss] 0
@@ -109,10 +109,16 @@ Limit output to titles that have audio tracks.
 Limit output to titles that have subtitles.
 .RE
 .sp
-\fB\-S, \-\-has\-lang\fP=\fILANGUAGE\fP
+\fB\-N, \-\-has\-alang\fP=\fILANGUAGE\fP
 .RS 4
-Limit output to titles that have either an audio stream or subtitle
-of a specific language (examples: eng, fra, spa).
+Limit output to titles that have an audio stream of a specific
+language (examples: eng, fra, spa).
+.RE
+.sp
+\fB\-G, \-\-has\-slang\fP=\fILANGUAGE\fP
+.RS 4
+Limit output to titles that have a subtitle of a specific language
+(examples: eng, fra, spa).
 .RE
 .sp
 \fB\-E, \-\-seconds\fP=\fISECONDS\fP

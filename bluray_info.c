@@ -54,8 +54,10 @@ int main(int argc, char **argv) {
 	bool d_subtitles = false;
 	bool d_chapters = false;
 	bool d_duplicates = false;
-	bool d_has_lang = false;
-	uint8_t d_lang[BLURAY_LANG_STRLEN] = {'\0'};
+	bool d_has_alang = false;
+	bool d_has_slang = false;
+	uint8_t d_alang[BLURAY_LANG_STRLEN] = {'\0'};
+	uint8_t d_slang[BLURAY_LANG_STRLEN] = {'\0'};
 	unsigned long int arg_number = 0;
 	uint32_t d_min_seconds = 0;
 	uint32_t d_min_minutes = 0;
@@ -81,13 +83,14 @@ int main(int argc, char **argv) {
 		{ "all", no_argument, NULL, 'x' },
 		{ "has-audio", no_argument, NULL, 'A' },
 		{ "seconds", required_argument, NULL, 'E' },
+		{ "has-slang", required_argument, NULL, 'G' },
 		{ "minutes", required_argument, NULL, 'M' },
-		{ "has-lang", required_argument, NULL, 'N' },
+		{ "has-alang", required_argument, NULL, 'N' },
 		{ "has-subtitles", no_argument, NULL, 'S' },
 		{ "version", no_argument, NULL, 'V' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "acdghjk:mp:st:vxAE:M:N:SV", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "acdghjk:mp:st:vxAE:G:M:N:SV", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -117,6 +120,13 @@ int main(int argc, char **argv) {
 				p_bluray_xchap = true;
 				break;
 
+			case 'G':
+				memset(d_slang, '\0', BLURAY_LANG_STRLEN);
+				strncpy(d_slang, optarg, BLURAY_LANG_STRLEN - 1);
+				if(strlen(d_slang))
+					d_has_slang = true;
+				break;
+
 			case 'H':
 				break;
 
@@ -141,10 +151,10 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'N':
-				memset(d_lang, '\0', BLURAY_LANG_STRLEN);
-				strncpy(d_lang, optarg, BLURAY_LANG_STRLEN - 1);
-				if(strlen(d_lang))
-					d_has_lang = true;
+				memset(d_alang, '\0', BLURAY_LANG_STRLEN);
+				strncpy(d_alang, optarg, BLURAY_LANG_STRLEN - 1);
+				if(strlen(d_alang))
+					d_has_alang = true;
 				break;
 
 			case 'p':
@@ -435,7 +445,12 @@ int main(int argc, char **argv) {
 			continue;
 		}
 
-		if(d_has_lang && ((!bluray_title.audio_streams && !bluray_title.pg_streams) || !(bluray_title_has_lang(&bluray_title, d_lang)))) {
+		if(d_has_alang && (!bluray_title.audio_streams || !(bluray_title_has_alang(&bluray_title, d_alang)))) {
+			bd_stream = NULL;
+			continue;
+		}
+
+		if(d_has_slang && (!bluray_title.pg_streams || !(bluray_title_has_slang(&bluray_title, d_slang)))) {
 			bd_stream = NULL;
 			continue;
 		}

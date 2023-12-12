@@ -156,7 +156,7 @@ int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint
 
 }
 
-bool bluray_title_has_lang(struct bluray_title *bluray_title, uint8_t lang[BLURAY_LANG_STRLEN]) {
+bool bluray_title_has_alang(struct bluray_title *bluray_title, uint8_t lang[BLURAY_LANG_STRLEN]) {
 
 	BLURAY_STREAM_INFO *bd_stream = NULL;
 	uint8_t ix = 0;
@@ -172,6 +172,15 @@ bool bluray_title_has_lang(struct bluray_title *bluray_title, uint8_t lang[BLURA
 			return true;
 
 	}
+
+	return false;
+
+}
+
+bool bluray_title_has_slang(struct bluray_title *bluray_title, uint8_t lang[BLURAY_LANG_STRLEN]) {
+
+	BLURAY_STREAM_INFO *bd_stream = NULL;
+	uint8_t ix = 0;
 
 	for(ix = 0; ix < bluray_title->pg_streams; ix++) {
 

@@ -63,9 +63,13 @@ OPTIONS
 *-S, --has-subtitles*::
 	Limit output to titles that have subtitles.
 
-*-S, --has-lang*='LANGUAGE'::
-	Limit output to titles that have either an audio stream or subtitle
-	of a specific language (examples: eng, fra, spa).
+*-N, --has-alang*='LANGUAGE'::
+	Limit output to titles that have an audio stream of a specific
+	language (examples: eng, fra, spa).
+
+*-G, --has-slang*='LANGUAGE'::
+	Limit output to titles that have a subtitle of a specific language
+	(examples: eng, fra, spa).
 
 *-E, --seconds*='SECONDS'::
 	Limit output to titles with a minimum length of number of seconds.
