@@ -383,7 +383,6 @@ int main(int argc, char **argv) {
 			printf(" \"xml\": {\n");
 			printf("  \"filename\": \"%s\",\n", bd_meta->filename);
 			printf("  \"language\": \"%s\",\n", bd_meta->language_code);
-			printf("  \"disc name\": \"%s\",\n", bd_meta->di_name);
 			printf("  \"num sets\": %" PRIu8 ",\n", bd_meta->di_num_sets);
 			printf("  \"set number\": %" PRIu8 "\n", bd_meta->di_set_number);
 			printf(" },\n");
