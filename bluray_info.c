@@ -403,6 +403,7 @@ int main(int argc, char **argv) {
 	strcpy(bluray_chapter.length, "00:00:00.00");
 	bluray_chapter.size = 0;
 	bluray_chapter.size_mbs = 0;
+	bluray_chapter.blocks = 0;
 
 	uint32_t bluray_highest_playlist = 0;
 
@@ -661,6 +662,7 @@ int main(int argc, char **argv) {
 				bluray_duration_length(bluray_chapter.length, bluray_chapter.duration);
 				bluray_duration_length(bluray_chapter.start_time, bluray_chapter.start);
 				bluray_chapter.size = bluray_chapter_size(bd, bluray_title.number - 1, chapter_ix);
+				bluray_chapter.blocks = bluray_chapter.size / BLURAY_BLOCK_SIZE;
 
 				if(p_bluray_info && d_chapters) {
 					printf("	Chapter: %*" PRIu32 ", Start: %s, Length: %s\n", 3, chapter_number, bluray_chapter.start_time, bluray_chapter.length);
@@ -673,6 +675,7 @@ int main(int argc, char **argv) {
 					printf("     \"length\": \"%s\",\n", bluray_chapter.length);
 					printf("     \"start\": %" PRIu64 ",\n", bluray_chapter.start / 900);
 					printf("     \"duration\": %" PRIu64 ",\n", bd_chapter->duration / 900);
+					printf("     \"blocks\": %" PRIu64 ",\n", bluray_chapter.blocks);
 					printf("     \"filesize\": %" PRIu64 "\n", bluray_chapter.size);
 					if(chapter_number < bluray_title.chapters)
 						printf("    },\n");

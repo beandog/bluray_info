@@ -69,6 +69,7 @@ struct bluray_chapter {
 	int64_t range[2];
 	uint64_t size;
 	uint64_t size_mbs;
+	uint64_t blocks;
 };
 
 int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info, bool display_duplicates);
