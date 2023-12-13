@@ -374,6 +374,22 @@ int main(int argc, char **argv) {
 		printf("  \"bd-j\": %s\n", (bluray_info.bdj ? "true" : "false"));
 		printf(" },\n");
 
+		// Fetch metadata from optional XML file (generally bdmt_eng.xml)
+		META_DL *bd_meta = NULL;
+		bd_meta = bd_get_meta(bd);
+
+		if(bd_meta != NULL) {
+
+			printf(" \"xml\": {\n");
+			printf("  \"filename\": \"%s\",\n", bd_meta->filename);
+			printf("  \"language\": \"%s\",\n", bd_meta->language_code);
+			printf("  \"disc name\": \"%s\",\n", bd_meta->di_name);
+			printf("  \"num sets\": %" PRIu8 ",\n", bd_meta->di_num_sets);
+			printf("  \"set number\": %" PRIu8 "\n", bd_meta->di_set_number);
+			printf(" },\n");
+
+		}
+
 	}
 
 	BLURAY_STREAM_INFO *bd_stream = NULL;

@@ -1,5 +1,10 @@
 ChangeLog
 
+1.14
+
+- bluray_info: fix '--help' output
+- bluray_info: display metadata found in XML file
+
 1.13
 
 - bluray_info: add options to filter by language, for either audio
