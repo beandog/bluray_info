@@ -221,7 +221,8 @@ int main(int argc, char **argv) {
 				printf("Narrow results:\n");
 				printf("  -A, --has-audio          Title has audio\n");
 				printf("  -S, --has-subtitles      Title has subtitles\n");
-				printf("  -N, --has-lang <lang>    Title has language audio or subtitles, 3-character code (example: eng, fra, spa)\n");
+				printf("  -N, --has-alang <lang>   Title has language audio, 3-character code (example: eng, fra, spa)\n");
+				printf("  -G, --has-slang <lang>   Title has language subtitles, 3-character code\n");
 				printf("  -E, --seconds <number>   Title has minimum number of seconds\n");
 				printf("  -M, --minutes <number>   Title has minimum number of minutes\n");
 				printf("\n");
