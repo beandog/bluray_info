@@ -496,6 +496,7 @@ int main(int argc, char **argv) {
 			printf("   \"length\": \"%s\",\n", bluray_title.length);
 			printf("   \"msecs\": %" PRIu64 ",\n", bluray_title.duration / 900);
 			printf("   \"angles\": %" PRIu8 ",\n", bluray_title.angles);
+			printf("   \"blocks\": %" PRIu64 ",\n", bluray_title.blocks);
 			printf("   \"filesize\": %" PRIu64 ",\n", bluray_title.size);
 
 			d_num_json_displayed++;

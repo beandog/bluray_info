@@ -10,6 +10,7 @@
 #include "libbluray/bluray.h"
 #include "libbluray/meta_data.h"
 
+#define BLURAY_BLOCK_SIZE 192
 #define BLURAY_LANG_STRLEN 4
 #define BLURAY_INFO_DISC_ID_STRLEN 41
 #define BLURAY_INFO_UDF_VOLUME_ID_STRLEN 33
@@ -48,6 +49,7 @@ struct bluray_title {
 	uint64_t minutes;
 	uint64_t size;
 	uint64_t size_mbs;
+	uint64_t blocks;
 	uint32_t chapters;
 	uint32_t clips;
 	uint8_t angles;
