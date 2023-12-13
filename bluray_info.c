@@ -424,6 +424,16 @@ int main(int argc, char **argv) {
 				continue;
 			}
 
+			if(d_has_alang && (!bluray_title.audio_streams || !(bluray_title_has_alang(&bluray_title, d_alang)))) {
+				bd_stream = NULL;
+				continue;
+			}
+
+			if(d_has_slang && (!bluray_title.pg_streams || !(bluray_title_has_slang(&bluray_title, d_slang)))) {
+				bd_stream = NULL;
+				continue;
+			}
+
 			d_num_json_titles++;
 
 		}
