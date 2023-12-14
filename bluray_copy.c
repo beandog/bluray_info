@@ -532,10 +532,7 @@ int main(int argc, char **argv) {
 	chapter_number = chapter_ix + 1;
 
 	// Jump to the first requested chapter
-	// Don't need output variable, just putting here to track it if needed later and
-	// to assign the function output to something to avoid possible compiler warnings.
-	int64_t bd_seek_chapter_retval;
-	bd_seek_chapter_retval = bd_seek_chapter(bd, chapter_ix);
+	bd_seek_chapter(bd, chapter_ix);
 
 	if(debug) {
 		printf("* chapters_range[0]: %" PRIu32 "\n", chapters_range[0]);
