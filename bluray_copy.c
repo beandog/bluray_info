@@ -301,7 +301,7 @@ int main(int argc, char **argv) {
 	}
 
 	// Init bluray_title struct
-	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix, angle_ix);
+	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix, angle_ix, false);
 
 	// Quit if title / playlist couldn't be opened
 	if(retval) {

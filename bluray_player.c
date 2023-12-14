@@ -354,7 +354,7 @@ int main(int argc, char **argv) {
 
 	// Init bluray_title struct
 	uint8_t angle_ix = 0;
-	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix, angle_ix);
+	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix, angle_ix, false);
 
 	if(retval) {
 		fprintf(stderr, "Could not open title %" PRIu32 ", quitting\n", bluray_title.ix + 1);

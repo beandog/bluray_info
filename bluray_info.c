@@ -429,7 +429,7 @@ int main(int argc, char **argv) {
 
 		for(ix = d_first_ix; d_title_counter < d_num_titles; ix++, d_title_counter++) {
 
-			retval = bluray_title_init(bd, &bluray_title, ix, angle_ix);
+			retval = bluray_title_init(bd, &bluray_title, ix, angle_ix, false);
 
 			// Skip if there was a problem getting it
 			if(retval)
@@ -459,7 +459,7 @@ int main(int argc, char **argv) {
 	// Display the titles in bluray_info / bluray_json
 	for(ix = d_first_ix, d_title_counter = 0; d_title_counter < d_num_titles; ix++, d_title_counter++) {
 
-		retval = bluray_title_init(bd, &bluray_title, ix, angle_ix);
+		retval = bluray_title_init(bd, &bluray_title, ix, angle_ix, false);
 
 		// Skip if there was a problem getting it
 		if(retval)

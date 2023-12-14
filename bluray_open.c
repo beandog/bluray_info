@@ -95,7 +95,7 @@ int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info, bool di
 /**
  * Initialize and populate a bluray_title struct
  */
-int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint32_t title_ix, uint8_t angle_ix) {
+int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint32_t title_ix, uint8_t angle_ix, bool playlist) {
 
 	// Initialize to safe values
 	bluray_title->ix = title_ix;
@@ -129,7 +129,11 @@ int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint
 
 	// Quit if couldn't get title info
 	BLURAY_TITLE_INFO *bd_title = NULL;
-	bd_title = bd_get_title_info(bd, title_ix, angle_ix);
+	if(playlist == true)
+		bd_title = bd_get_playlist_info(bd, title_ix, angle_ix);
+	else
+		bd_title = bd_get_title_info(bd, title_ix, angle_ix);
+
 	if(bd_title == NULL)
 		return 3;
 
@@ -197,5 +201,14 @@ bool bluray_title_has_slang(struct bluray_title *bluray_title, char lang[BLURAY_
 	}
 
 	return false;
+
+}
+
+/**
+ * Compare integers for qsort()
+ */
+int int_compare(const void *a, const void *b) {
+
+	return (*(uint32_t *)a - *(uint32_t *)b);
 
 }
