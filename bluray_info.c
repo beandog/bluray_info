@@ -422,6 +422,23 @@ int main(int argc, char **argv) {
 	uint32_t d_num_json_displayed = 0;
 	angle_ix = 0;
 
+	/** SORTING PLAYLISTS **/
+
+	uint32_t playlists[bluray_info.titles];
+	memset(playlists, 0, sizeof(playlists));
+
+	BLURAY_TITLE_INFO *bd_title;
+	bd_title = NULL;
+
+	for(ix = 0; ix < bluray_info.titles; ix++) {
+
+		bd_title = bd_get_title_info(bd, ix, 0);
+		playlists[ix] = bd_title->playlist;
+
+	}
+
+	qsort(&playlists[0], bluray_info.titles, sizeof(uint32_t), int_compare);
+
 	// Get the total number of titles expected to display in JSON output
 	if(p_bluray_json) {
 
