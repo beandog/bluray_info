@@ -315,7 +315,7 @@ int main(int argc, char **argv) {
 	}
 
 	if(p_bluray_info) {
-		printf("Disc title: '%s', Volume name: '%s', Main playlist: %*" PRIu32 ", AACS: %s, BD-J: %s, BD+: %s\n", bluray_info.disc_name, bluray_info.udf_volume_id, 3, main_playlist, (bluray_info.aacs ? "yes" : "no"), (bluray_info.bdj ? "yes" : "no"), (bluray_info.bdplus ? "yes" : "no"));
+		printf("Disc title: '%s', Volume name: '%s', Main playlist: %" PRIu32 ", AACS: %s, BD-J: %s, BD+: %s\n", bluray_info.disc_name, bluray_info.udf_volume_id, main_playlist, (bluray_info.aacs ? "yes" : "no"), (bluray_info.bdj ? "yes" : "no"), (bluray_info.bdplus ? "yes" : "no"));
 	}
 
 	if(p_bluray_json) {
