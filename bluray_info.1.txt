@@ -23,11 +23,8 @@ OPTIONS
 -------
 
 *-m, --main*::
-	Display only the main title / playlist as defined by the metadata. By
-	default, bluray_info will display all titles.
-
-*-t, --title*='TITLE'::
-	Limit output to the selected title.
+	Display only the main playlist as defined by the metadata. By
+	default, bluray_info will display all playlists.
 
 *-p, --playlist*='PLAYLIST'::
 	Limit output to selected playlist.

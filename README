@@ -3,7 +3,7 @@ bluray_info - a set of utilities for accessing Blu-ray discs
 Includes:
 
 * bluray_info - display information about a Blu-ray in multiple formats
-* bluray_copy - copy a title or playlist to a file or stdout
+* bluray_copy - copy a playlist to a file or stdout
 * bluray_player - a small Blu-ray player using libmpv as backend
 
 Requirements:
@@ -49,28 +49,20 @@ program will the default Blu-ray drive based on your OS if no path is given.
 
 If you're going to do a lot of reads on a disc drive, I'd recommend mounting it
 so the access can be cached -- this is especially helpful when using / testing
-bluray_copy a lot to get chapters, titles, playlists, etc.
+bluray_copy a lot to get chapters, playlists, etc.
 
   # mount /dev/sr0 -o ro -t udf /mnt/bluray
 
-Playlists and titles:
+Playlists:
 
-Blu-rays have "titles" as well as "playlists," and they are not the same thing,
-and do not share an identical numbered index.
-
-For the most part, you will probably be fine ripping either one. I've heard
-stories of some movie studios "stitching" playlists together to form a feature,
-but I haven't encountered one (if you do, please let me know, I'm curious how
-they are set up).
-
-bluray_info uses libbluray to determine which title is the main one, and
+bluray_info uses libbluray to determine which playlist is the main one, and
 doesn't calculate it itself.
 
-libbluray has two ways to display all titles: there are 'relevant' ones
+libbluray has two ways to display all playlists: there are 'relevant' ones
 where the library filters out any duplicates. However, the list of duplicates
 can change across locations, filesystems, systems, etc. For that reason, if
 you are using this to script something or need consistent output, always
-use the '--duplicates' option to display all of the titles, and not filter
+use the '--duplicates' option to display all of the playlists, and not filter
 any of them out.
 
 bluray_info:
