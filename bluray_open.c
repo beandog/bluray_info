@@ -118,7 +118,10 @@ int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint
 	int retval = 0;
 
 	// Quit if couldn't open title
-	retval = bd_select_title(bd, title_ix);
+	if(playlist == true)
+		retval = bd_select_playlist(bd, title_ix);
+	else
+		retval = bd_select_title(bd, title_ix);
 	if(retval == 0)
 		return 1;
 
