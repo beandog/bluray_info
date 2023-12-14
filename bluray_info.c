@@ -56,8 +56,8 @@ int main(int argc, char **argv) {
 	bool d_duplicates = false;
 	bool d_has_alang = false;
 	bool d_has_slang = false;
-	uint8_t d_alang[BLURAY_LANG_STRLEN] = {'\0'};
-	uint8_t d_slang[BLURAY_LANG_STRLEN] = {'\0'};
+	char d_alang[BLURAY_LANG_STRLEN] = {'\0'};
+	char d_slang[BLURAY_LANG_STRLEN] = {'\0'};
 	unsigned long int arg_number = 0;
 	uint32_t d_min_seconds = 0;
 	uint32_t d_min_minutes = 0;

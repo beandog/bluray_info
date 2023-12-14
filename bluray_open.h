@@ -76,8 +76,8 @@ int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info, bool di
 
 int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint32_t title_ix, uint8_t angle_ix);
 
-bool bluray_title_has_alang(struct bluray_title *bluray_title, uint8_t lang[BLURAY_LANG_STRLEN]);
+bool bluray_title_has_alang(struct bluray_title *bluray_title, char lang[BLURAY_LANG_STRLEN]);
 
-bool bluray_title_has_slang(struct bluray_title *bluray_title, uint8_t lang[BLURAY_LANG_STRLEN]);
+bool bluray_title_has_slang(struct bluray_title *bluray_title, char lang[BLURAY_LANG_STRLEN]);
 
 #endif
