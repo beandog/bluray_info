@@ -3,13 +3,13 @@
 uint64_t bluray_chapter_first_position(struct bluray *bd, const uint32_t title_ix, const uint32_t chapter_ix) {
 
 	int32_t retval = 0;
-	retval = bd_select_title(bd, title_ix);
+	retval = bd_select_playlist(bd, title_ix);
 
 	if(retval == 0)
 		return 0;
 
 	struct bd_title_info *bluray_title_info = NULL;
-	bluray_title_info = bd_get_title_info(bd, title_ix, 0);
+	bluray_title_info = bd_get_playlist_info(bd, title_ix, 0);
 
 	if(bluray_title_info == NULL)
 		return 0;
@@ -41,7 +41,7 @@ uint64_t bluray_chapter_last_position(struct bluray *bd, const uint32_t title_ix
 	first_position = bluray_chapter_first_position(bd, title_ix, chapter_ix);
 
 	int32_t retval = 0;
-	retval = bd_select_title(bd, title_ix);
+	retval = bd_select_playlist(bd, title_ix);
 
 	if(retval == 0)
 		return 0;
@@ -50,7 +50,7 @@ uint64_t bluray_chapter_last_position(struct bluray *bd, const uint32_t title_ix
 	uint32_t angle = 0;
 
 	struct bd_title_info *bluray_title_info = NULL;
-	bluray_title_info = bd_get_title_info(bd, title_ix, angle);
+	bluray_title_info = bd_get_playlist_info(bd, title_ix, angle);
 
 	if(bluray_title_info == NULL)
 		return 0;

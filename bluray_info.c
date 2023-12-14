@@ -39,16 +39,15 @@
 int main(int argc, char **argv) {
 
 	int retval = 0;
+	bool debug = false;
 
 	// Parse options and arguments
 	bool p_bluray_info = true;
 	bool p_bluray_json = false;
 	bool p_bluray_xchap = false;
-	bool d_title_number = false;
-	uint32_t arg_title_number = 0;
 	bool d_playlist_number = false;
 	uint32_t arg_playlist_number = 0;
-	bool d_main_title = false;
+	bool d_main_playlist = false;
 	bool d_video = false;
 	bool d_audio = false;
 	bool d_subtitles = false;
@@ -63,6 +62,8 @@ int main(int argc, char **argv) {
 	uint32_t d_min_minutes = 0;
 	uint32_t d_min_audio_streams = 0;
 	uint32_t d_min_pg_streams = 0;
+	uint32_t main_playlist = 0;
+	uint32_t json_ix = 1;
 	bool exit_help = false;
 	const char *key_db_filename = NULL;
 	int g_opt = 0;
@@ -90,7 +91,7 @@ int main(int argc, char **argv) {
 		{ "version", no_argument, NULL, 'V' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "acdghjk:mp:st:vxAE:G:M:N:SV", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "acdghjk:mp:svxzAE:G:M:N:SV", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -140,9 +141,8 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'm':
-				d_title_number = false;
 				d_playlist_number = false;
-				d_main_title = true;
+				d_main_playlist = true;
 				break;
 
 			case 'M':
@@ -158,9 +158,8 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'p':
-				d_title_number = false;
 				d_playlist_number = true;
-				d_main_title = false;
+				d_main_playlist = false;
 				arg_number = strtoul(optarg, NULL, 10);
 				arg_playlist_number = (uint32_t)arg_number;
 				break;
@@ -171,17 +170,6 @@ int main(int argc, char **argv) {
 
 			case 'S':
 				d_min_pg_streams = 1;
-				break;
-
-			case 't':
-				d_title_number = true;
-				d_playlist_number = false;
-				d_main_title = false;
-				arg_number = strtoul(optarg, NULL, 10);
-				if(arg_number < 2)
-					arg_title_number = 1;
-				else
-					arg_title_number = (uint32_t)arg_number;
 				break;
 
 			case 'v':
@@ -195,6 +183,10 @@ int main(int argc, char **argv) {
 				d_subtitles = true;
 				break;
 
+			case 'z':
+				debug = true;
+				break;
+
 			case 'V':
 				printf("bluray_info %s\n", PACKAGE_VERSION);
 				return 0;
@@ -205,8 +197,7 @@ int main(int argc, char **argv) {
 				printf("Usage: bluray_info [path] [options]\n");
 				printf("\n");
 				printf("Options:\n");
-				printf("  -m, --main  	 	   Limit to main title (default: all)\n");
-				printf("  -t, --title <number>     Limit to selected title\n");
+				printf("  -m, --main  	 	   Limit to main playlist (default: all)\n");
 				printf("  -p, --playlist <number>  Limit to selected playlist\n");
 				printf("  -j, --json               Display format as JSON\n");
 				printf("\n");
@@ -275,57 +266,54 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	uint32_t d_num_titles = 0;
-	d_num_titles = bluray_info.titles;
+	/** SORTING PLAYLISTS **/
+	uint32_t ix = 0;
+	uint8_t angle_ix = 0;
 
-	uint32_t d_first_ix = 0;
+	uint32_t arr_playlists[bluray_info.titles];
+	memset(arr_playlists, 0, sizeof(arr_playlists));
 
-	// Select track passed as an argument
-	if(d_title_number) {
-		if(arg_title_number > bluray_info.titles || arg_title_number < 1) {
-			printf("Could not open title %" PRIu32 ", choose from 1 to %" PRIu32 "\n", arg_title_number, bluray_info.titles);
-			return 1;
-		}
-		retval = bd_select_title(bd, arg_title_number - 1);
-		if(retval == 0) {
-			printf("Could not open title %" PRIu32 "\n", arg_title_number);
-			return 1;
-		}
-		d_first_ix = arg_title_number - 1;
-		d_num_titles = 1;
+	BLURAY_TITLE_INFO *bd_title;
+	bd_title = NULL;
+
+	uint32_t num_playlists = 0;
+
+	for(ix = 0; ix < bluray_info.titles; ix++) {
+
+		num_playlists++;
+
+		bd_title = bd_get_title_info(bd, ix, angle_ix);
+
+		arr_playlists[ix] = bd_title->playlist;
+
+		if(bd_title->idx == bluray_info.main_title)
+			main_playlist = bd_title->playlist;
+
 	}
 
+	qsort(&arr_playlists[0], bluray_info.titles, sizeof(uint32_t), int_compare);
+
+	/** END SORTING **/
+
 	if(d_playlist_number) {
+
 		retval = bd_select_playlist(bd, arg_playlist_number);
+
 		if(retval == 0) {
 			printf("Could not open playlist %" PRIu32 "\n", arg_playlist_number);
 			return 1;
 		}
-		d_first_ix = bd_get_current_title(bd);
-		d_num_titles = 1;
-	}
 
-	if(d_main_title) {
-		d_first_ix = bluray_info.main_title;
-		d_num_titles = 1;
 	}
-
-	uint32_t main_title_number;
-	main_title_number = bluray_info.main_title + 1;
 
 	if(p_bluray_info) {
-		printf("Disc title: '%s', Volume name: '%s', Main title: %*" PRIu32 ", AACS: %s, BD-J: %s, BD+: %s\n", bluray_info.disc_name, bluray_info.udf_volume_id, 3, main_title_number, (bluray_info.aacs ? "yes" : "no"), (bluray_info.bdj ? "yes" : "no"), (bluray_info.bdplus ? "yes" : "no"));
+		printf("Disc title: '%s', Volume name: '%s', Main playlist: %*" PRIu32 ", AACS: %s, BD-J: %s, BD+: %s\n", bluray_info.disc_name, bluray_info.udf_volume_id, 3, main_playlist, (bluray_info.aacs ? "yes" : "no"), (bluray_info.bdj ? "yes" : "no"), (bluray_info.bdplus ? "yes" : "no"));
 	}
-
-	uint32_t ix = 0;
-	uint8_t angle_ix = 0;
 
 	if(p_bluray_json) {
 
 		// Find the longest title
 		uint64_t max_duration = 0;
-		uint32_t main_playlist = 0;
-		uint32_t longest_title_number = 1;
 		uint32_t longest_playlist = 0;
 		BLURAY_TITLE_INFO *bd_title = NULL;
 		for(ix = 0; ix < bluray_info.titles; ix++) {
@@ -336,11 +324,7 @@ int main(int argc, char **argv) {
 				continue;
 			}
 
-			if(bd_title->idx == bluray_info.main_title)
-				main_playlist = bd_title->playlist;
-
 			if(bd_title->duration > max_duration) {
-				longest_title_number = ix + 1;
 				longest_playlist = bd_title->playlist;
 				max_duration = bd_title->duration;
 			}
@@ -355,9 +339,7 @@ int main(int argc, char **argv) {
 		printf("  \"disc name\": \"%s\",\n", bluray_info.disc_name);
 		printf("  \"udf title\": \"%s\",\n", bluray_info.udf_volume_id);
 		printf("  \"disc id\": \"%s\",\n", bluray_info.disc_id);
-		printf("  \"main title\": %" PRIu32 ",\n", main_title_number);
 		printf("  \"main playlist\": %" PRIu32 ",\n", main_playlist);
-		printf("  \"longest title\": %" PRIu32 ",\n", longest_title_number);
 		printf("  \"longest playlist\": %" PRIu32 ",\n", longest_playlist);
 		printf("  \"first play supported\": %s,\n", (bluray_info.first_play_supported ? "true" : "false"));
 		printf("  \"top menu supported\": %s,\n", (bluray_info.top_menu_supported ? "true" : "false"));
@@ -417,94 +399,115 @@ int main(int argc, char **argv) {
 	uint32_t chapter_ix = 0;
 	uint32_t chapter_number = 1;
 	uint64_t chapter_start = 0;
-	uint32_t d_title_counter = 0;
 	uint32_t d_num_json_titles = 0;
 	uint32_t d_num_json_displayed = 0;
 	angle_ix = 0;
 
-	/** SORTING PLAYLISTS **/
-
-	uint32_t playlists[bluray_info.titles];
-	memset(playlists, 0, sizeof(playlists));
-
-	BLURAY_TITLE_INFO *bd_title;
-	bd_title = NULL;
-
-	for(ix = 0; ix < bluray_info.titles; ix++) {
-
-		bd_title = bd_get_title_info(bd, ix, 0);
-		playlists[ix] = bd_title->playlist;
-
-	}
-
-	qsort(&playlists[0], bluray_info.titles, sizeof(uint32_t), int_compare);
-
 	// Get the total number of titles expected to display in JSON output
 	if(p_bluray_json) {
 
-		for(ix = d_first_ix; d_title_counter < d_num_titles; ix++, d_title_counter++) {
+		if(d_main_playlist || d_playlist_number) {
 
-			retval = bluray_title_init(bd, &bluray_title, ix, angle_ix, false);
+			d_num_json_titles = 1;
 
-			// Skip if there was a problem getting it
-			if(retval)
-				continue;
+		} else {
 
-			if(!(bluray_title.seconds >= d_min_seconds && bluray_title.minutes >= d_min_minutes && bluray_title.audio_streams >= d_min_audio_streams && bluray_title.pg_streams >= d_min_pg_streams)) {
-				bd_stream = NULL;
-				continue;
+			for(ix = 0; ix < num_playlists;  ix++) {
+
+				retval = bluray_title_init(bd, &bluray_title, ix, angle_ix, false);
+
+				// Skip if there was a problem getting it
+				if(retval)
+					continue;
+
+				if(!(bluray_title.seconds >= d_min_seconds && bluray_title.minutes >= d_min_minutes && bluray_title.audio_streams >= d_min_audio_streams && bluray_title.pg_streams >= d_min_pg_streams)) {
+					bd_stream = NULL;
+					continue;
+				}
+
+				if(d_has_alang && (!bluray_title.audio_streams || !(bluray_title_has_alang(&bluray_title, d_alang)))) {
+					bd_stream = NULL;
+					continue;
+				}
+
+				if(d_has_slang && (!bluray_title.pg_streams || !(bluray_title_has_slang(&bluray_title, d_slang)))) {
+					bd_stream = NULL;
+					continue;
+				}
+
+				d_num_json_titles++;
+
 			}
-
-			if(d_has_alang && (!bluray_title.audio_streams || !(bluray_title_has_alang(&bluray_title, d_alang)))) {
-				bd_stream = NULL;
-				continue;
-			}
-
-			if(d_has_slang && (!bluray_title.pg_streams || !(bluray_title_has_slang(&bluray_title, d_slang)))) {
-				bd_stream = NULL;
-				continue;
-			}
-
-			d_num_json_titles++;
 
 		}
 
 	}
 
-	// Display the titles in bluray_info / bluray_json
-	for(ix = d_first_ix, d_title_counter = 0; d_title_counter < d_num_titles; ix++, d_title_counter++) {
+	if(p_bluray_json && (d_main_playlist || d_playlist_number))
+		d_num_json_titles = 1;
 
-		retval = bluray_title_init(bd, &bluray_title, ix, angle_ix, false);
+	// Display the titles in bluray_info / bluray_json
+	for(ix = 0; ix < num_playlists; ix++) {
+
+		retval = bluray_title_init(bd, &bluray_title, arr_playlists[ix], angle_ix, true);
+
+		if(debug)
+			printf("bluray_title_init: %s \n", retval ? "failed" : "opened");
 
 		// Skip if there was a problem getting it
 		if(retval)
 			continue;
 
+		if(debug)
+			printf("examining playlist %u\n", bluray_title.playlist);
+
+		// This functionality was added post-sorting functionality, so there is
+		// duplicate code in here earlier here to be removed, once testing is done.
+		if(d_main_playlist && bluray_title.playlist != main_playlist) {
+			if(debug)
+				printf("not main playlist, skipping\n");
+			continue;
+		}
+
+		if(d_playlist_number && bluray_title.playlist != arg_playlist_number) {
+			if(debug) {
+				printf("arg playlist number: %u\n", arg_playlist_number);
+				printf("skipping playlist %u for not arg playlist number\n", bluray_title.playlist);
+			}
+			continue;
+		}
+
 		if(!(bluray_title.seconds >= d_min_seconds && bluray_title.minutes >= d_min_minutes && bluray_title.audio_streams >= d_min_audio_streams && bluray_title.pg_streams >= d_min_pg_streams)) {
+			if(debug)
+				printf("seconds / minutes / streams don't match requirements, skipping playlist %u\n", bluray_title.playlist);
 			bd_stream = NULL;
 			continue;
 		}
 
 		if(d_has_alang && (!bluray_title.audio_streams || !(bluray_title_has_alang(&bluray_title, d_alang)))) {
+			if(debug)
+				printf("doesn't match audio lang skipping playlist %u\n", bluray_title.playlist);
 			bd_stream = NULL;
 			continue;
 		}
 
 		if(d_has_slang && (!bluray_title.pg_streams || !(bluray_title_has_slang(&bluray_title, d_slang)))) {
+			if(debug)
+				printf("doesn't match subtitle lang skipping playlist %u\n", bluray_title.playlist);
 			bd_stream = NULL;
 			continue;
 		}
 
 		if(p_bluray_info) {
 
-			printf("Title: %*" PRIu32 ", Playlist: %*" PRIu32 ", Length: %s, Chapters: %*"PRIu32 ", Video streams: %*" PRIu8 ", Audio streams: %*" PRIu8 ", Subtitles: %*" PRIu8 ", Angles: %*" PRIu8 ", Filesize: %*" PRIu64 " MBs\n", 3, bluray_title.number, 4, bluray_title.playlist, bluray_title.length, 3, bluray_title.chapters, 2, bluray_title.video_streams, 2, bluray_title.audio_streams, 2, bluray_title.pg_streams, 2, bluray_title.angles, 6, bluray_title.size_mbs);
+			printf("Playlist: %*" PRIu32 ", Length: %s, Chapters: %*"PRIu32 ", Video streams: %*" PRIu8 ", Audio streams: %*" PRIu8 ", Subtitles: %*" PRIu8 ", Angles: %*" PRIu8 ", Filesize: %*" PRIu64 " MBs\n", 5, bluray_title.playlist, bluray_title.length, 3, bluray_title.chapters, 2, bluray_title.video_streams, 2, bluray_title.audio_streams, 2, bluray_title.pg_streams, 2, bluray_title.angles, 6, bluray_title.size_mbs);
 
 		}
 
 		if(p_bluray_json) {
 
 			printf("  {\n");
-			printf("   \"title\": %u,\n", bluray_title.number);
+			printf("   \"title\": %u,\n", json_ix);
 			printf("   \"playlist\": %" PRIu32 ",\n", bluray_title.playlist);
 			printf("   \"length\": \"%s\",\n", bluray_title.length);
 			printf("   \"msecs\": %" PRIu64 ",\n", bluray_title.duration / 900);
@@ -513,6 +516,8 @@ int main(int argc, char **argv) {
 			printf("   \"filesize\": %" PRIu64 ",\n", bluray_title.size);
 
 			d_num_json_displayed++;
+
+			json_ix++;
 
 		}
 
@@ -696,7 +701,7 @@ int main(int argc, char **argv) {
 						printf("    }\n");
 				}
 
-				if(p_bluray_xchap && ix == d_first_ix) {
+				if(p_bluray_xchap && bluray_title.playlist == arg_playlist_number) {
 					printf("CHAPTER%03" PRIu32 "=%s\n", chapter_number, bluray_chapter.start_time);
 					printf("CHAPTER%03" PRIu32 "NAME=Chapter %03" PRIu32 "\n", chapter_number, chapter_number);
 				}

@@ -44,7 +44,7 @@ uint64_t bluray_chapter_duration(struct bluray *bd, uint32_t title_ix, uint32_t 
 		return 0;
 
 	struct bd_title_info *bluray_title_info = NULL;
-	bluray_title_info = bd_get_title_info(bd, title_ix, angle_ix);
+	bluray_title_info = bd_get_playlist_info(bd, title_ix, angle_ix);
 
 	if(bluray_title_info == NULL)
 		return 0;
