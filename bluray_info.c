@@ -284,10 +284,18 @@ int main(int argc, char **argv) {
 
 		bd_title = bd_get_title_info(bd, ix, angle_ix);
 
+		if(bd_title == NULL) {
+			fprintf(stderr, "Couldn't open title %u\n", ix);
+			return 1;
+		}
+
 		arr_playlists[ix] = bd_title->playlist;
 
 		if(bd_title->idx == bluray_info.main_title)
 			main_playlist = bd_title->playlist;
+
+		bd_free_title_info(bd_title);
+		bd_title = NULL;
 
 	}
 
