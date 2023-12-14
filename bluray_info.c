@@ -405,8 +405,6 @@ int main(int argc, char **argv) {
 	bluray_chapter.size_mbs = 0;
 	bluray_chapter.blocks = 0;
 
-	uint32_t bluray_highest_playlist = 0;
-
 	if(p_bluray_json)
 		printf(" \"titles\": [\n");
 
@@ -464,8 +462,6 @@ int main(int argc, char **argv) {
 		// Skip if there was a problem getting it
 		if(retval)
 			continue;
-
-		bluray_highest_playlist = ((bluray_title.playlist > bluray_highest_playlist) ? bluray_title.playlist : bluray_highest_playlist);
 
 		if(!(bluray_title.seconds >= d_min_seconds && bluray_title.minutes >= d_min_minutes && bluray_title.audio_streams >= d_min_audio_streams && bluray_title.pg_streams >= d_min_pg_streams)) {
 			bd_stream = NULL;
