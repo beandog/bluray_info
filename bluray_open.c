@@ -170,7 +170,7 @@ bool bluray_title_has_alang(struct bluray_title *bluray_title, char lang[BLURAY_
 		if(bd_stream == NULL)
 			continue;
 
-		if(strncmp(bd_stream->lang, lang, BLURAY_LANG_STRLEN - 1) == 0)
+		if(strncmp((char *)bd_stream->lang, lang, BLURAY_LANG_STRLEN - 1) == 0)
 			return true;
 
 	}
@@ -191,7 +191,7 @@ bool bluray_title_has_slang(struct bluray_title *bluray_title, char lang[BLURAY_
 		if(bd_stream == NULL)
 			continue;
 
-		if(strncmp(bd_stream->lang, lang, BLURAY_LANG_STRLEN - 1) == 0)
+		if(strncmp((char *)bd_stream->lang, lang, BLURAY_LANG_STRLEN - 1) == 0)
 			return true;
 
 	}
