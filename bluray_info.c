@@ -375,7 +375,7 @@ int main(int argc, char **argv) {
 		printf(" },\n");
 
 		// Fetch metadata from optional XML file (generally bdmt_eng.xml)
-		META_DL *bd_meta = NULL;
+		META_DL const *bd_meta = NULL;
 		bd_meta = bd_get_meta(bd);
 
 		if(bd_meta != NULL) {
