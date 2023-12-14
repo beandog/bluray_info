@@ -425,8 +425,10 @@ int main(int argc, char **argv) {
 				retval = bluray_title_init(bd, &bluray_title, ix, angle_ix, false);
 
 				// Skip if there was a problem getting it
-				if(retval)
+				if(retval) {
+					fprintf(stderr, "Could not open title %u, skippping\n", ix);
 					continue;
+				}
 
 				if(!(bluray_title.seconds >= d_min_seconds && bluray_title.minutes >= d_min_minutes && bluray_title.audio_streams >= d_min_audio_streams && bluray_title.pg_streams >= d_min_pg_streams)) {
 					bd_stream = NULL;
@@ -460,48 +462,48 @@ int main(int argc, char **argv) {
 		retval = bluray_title_init(bd, &bluray_title, arr_playlists[ix], angle_ix, true);
 
 		if(debug)
-			printf("bluray_title_init: %s \n", retval ? "failed" : "opened");
+			fprintf(stderr, "bluray_title_init: %s \n", retval ? "failed" : "opened");
 
 		// Skip if there was a problem getting it
 		if(retval)
 			continue;
 
 		if(debug)
-			printf("examining playlist %u\n", bluray_title.playlist);
+			fprintf(stderr, "examining playlist %u\n", bluray_title.playlist);
 
 		// This functionality was added post-sorting functionality, so there is
 		// duplicate code in here earlier here to be removed, once testing is done.
 		if(d_main_playlist && bluray_title.playlist != main_playlist) {
 			if(debug)
-				printf("not main playlist, skipping\n");
+				fprintf(stderr, "not main playlist, skipping\n");
 			continue;
 		}
 
 		if(d_playlist_number && bluray_title.playlist != arg_playlist_number) {
 			if(debug) {
-				printf("arg playlist number: %u\n", arg_playlist_number);
-				printf("skipping playlist %u for not arg playlist number\n", bluray_title.playlist);
+				fprintf(stderr, "arg playlist number: %u\n", arg_playlist_number);
+				fprintf(stderr, "skipping playlist %u for not arg playlist number\n", bluray_title.playlist);
 			}
 			continue;
 		}
 
 		if(!(bluray_title.seconds >= d_min_seconds && bluray_title.minutes >= d_min_minutes && bluray_title.audio_streams >= d_min_audio_streams && bluray_title.pg_streams >= d_min_pg_streams)) {
 			if(debug)
-				printf("seconds / minutes / streams don't match requirements, skipping playlist %u\n", bluray_title.playlist);
+				fprintf(stderr, "seconds / minutes / streams don't match requirements, skipping playlist %u\n", bluray_title.playlist);
 			bd_stream = NULL;
 			continue;
 		}
 
 		if(d_has_alang && (!bluray_title.audio_streams || !(bluray_title_has_alang(&bluray_title, d_alang)))) {
 			if(debug)
-				printf("doesn't match audio lang skipping playlist %u\n", bluray_title.playlist);
+				fprintf(stderr, "doesn't match audio lang skipping playlist %u\n", bluray_title.playlist);
 			bd_stream = NULL;
 			continue;
 		}
 
 		if(d_has_slang && (!bluray_title.pg_streams || !(bluray_title_has_slang(&bluray_title, d_slang)))) {
 			if(debug)
-				printf("doesn't match subtitle lang skipping playlist %u\n", bluray_title.playlist);
+				fprintf(stderr, "doesn't match subtitle lang skipping playlist %u\n", bluray_title.playlist);
 			bd_stream = NULL;
 			continue;
 		}
