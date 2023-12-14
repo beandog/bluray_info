@@ -127,13 +127,13 @@ int bluray_title_init(struct bluray *bd, struct bluray_title *bluray_title, uint
 	if(retval == 0)
 		return 2;
 
-	// Quit if couldn't get title info
 	BLURAY_TITLE_INFO *bd_title = NULL;
 	if(playlist == true)
 		bd_title = bd_get_playlist_info(bd, title_ix, angle_ix);
 	else
 		bd_title = bd_get_title_info(bd, title_ix, angle_ix);
 
+	// Quit if couldn't get title info
 	if(bd_title == NULL)
 		return 3;
 
