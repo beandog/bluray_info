@@ -4,6 +4,8 @@ ChangeLog
 
 - bluray_info: fix '--help' output
 - bluray_info: display metadata found in XML file
+- bluray_info: choosing a language for subtitles or audio streams
+  can be done for each type individually
 
 1.13
 
