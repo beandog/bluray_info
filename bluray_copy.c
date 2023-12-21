@@ -48,13 +48,11 @@ int main(int argc, char **argv) {
 	bluray_copy.size_mbs = 0;
 
 	// Parse options and arguments
-	bool opt_title_number = false;
 	bool opt_playlist_number = false;
 	bool opt_main_title = false;
 	bool exit_help = false;
 	bool duplicates = false;
 	unsigned long int arg_number = 0;
-	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
 	uint8_t angle_ix = 0;
 	uint8_t arg_angle_number = 1;
@@ -78,12 +76,11 @@ int main(int argc, char **argv) {
 		{ "main", no_argument, NULL, 'm' },
 		{ "output", required_argument, NULL, 'o' },
 		{ "playlist", required_argument, NULL, 'p' },
-		{ "title", required_argument, NULL, 't' },
 		{ "debug", no_argument, NULL, 'z' },
 		{ "version", no_argument, NULL, 'Z' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "a:c:dhk:mo:p:t:zZ", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "a:c:dhk:mo:p:zZ", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -144,16 +141,6 @@ int main(int argc, char **argv) {
 				arg_playlist_number = (uint32_t)arg_number;
 				break;
 
-			case 't':
-				opt_title_number = true;
-				arg_number = strtoul(optarg, NULL, 10);
-				if(arg_number < 2) {
-					arg_title_number = 1;
-				} else {
-					arg_title_number = (uint32_t)arg_number;
-				}
-				break;
-
 			case 'z':
 				debug = true;
 				break;
@@ -163,18 +150,17 @@ int main(int argc, char **argv) {
 				return 0;
 
 			case 'h':
-				printf("bluray_copy - copy a Blu-ray title or playlist to a file\n");
+				printf("bluray_copy - copy a Blu-ray playlist to a file\n");
 				printf("\n");
 				printf("Usage: bluray_copy [path] [options]\n");
 				printf("\n");
 				printf("Options:\n");
-				printf("  -m, --main               Copy main title (default)\n");
-				printf("  -t, --title <#>          Copy title number\n");
+				printf("  -m, --main               Copy main playlist (default)\n");
 				printf("  -p, --playlist <#>       Copy playlist number\n");
 				printf("  -c, --chapter <#>[-#]    Copy chapter number or range\n");
 				printf("\n");
 				printf("Destination:\n");
-				printf("  -o, --output <filename>  Save to filename (default: bluray_title_###.m2ts)\n");
+				printf("  -o, --output <filename>  Save to filename (default: bluray_playlist_###.m2ts)\n");
 				printf("      --output -           Write to stdout\n");
 				printf("\n");
 				printf("Other:\n");
@@ -199,11 +185,11 @@ int main(int argc, char **argv) {
 	if(exit_help)
 		return 0;
 
-	if(!opt_title_number && !opt_playlist_number)
+	if(!opt_playlist_number)
 		opt_main_title = true;
 
-	if((opt_main_title + opt_title_number + opt_playlist_number) > 1) {
-		fprintf(stderr, "Select only one option of title, default title, or playlist\n");
+	if(opt_main_title && opt_playlist_number) {
+		fprintf(stderr, "Select only one option of a playlist or default playlist\n");
 		return 1;
 	}
 
@@ -258,28 +244,7 @@ int main(int argc, char **argv) {
 
 	struct bluray_title bluray_title;
 
-	// Set only the title index at this point, based on input argument.
-	// Create the default output filename if none is given.
-	if(opt_title_number) {
-		bluray_title.ix = arg_title_number - 1;
-		if(arg_title_number > d_num_titles) {
-			fprintf(stderr, "Could not open title %" PRIu32 ", choose from 1 to %" PRIu32 "\n", arg_title_number, d_num_titles);
-			bd_close(bd);
-			bd = NULL;
-			return 1;
-		}
-		retval = bd_select_title(bd, bluray_title.ix);
-		if(retval == 0) {
-			fprintf(stderr, "Could not open title %" PRIu32 "\n", arg_title_number);
-			bd_close(bd);
-			bd = NULL;
-			return 1;
-		}
-		if(bluray_copy.filename == NULL) {
-			bluray_copy.filename = calloc(32, sizeof(unsigned char));
-			sprintf(bluray_copy.filename, "%s%03" PRIu32 "%s", "bluray_title_", arg_title_number, ".m2ts");
-		}
-	} else if(opt_playlist_number) {
+	if(opt_playlist_number) {
 		retval = bd_select_playlist(bd, arg_playlist_number);
 		if(retval == 0) {
 			fprintf(stderr, "Could not open playlist %" PRIu32 "\n", arg_playlist_number);
@@ -303,20 +268,13 @@ int main(int argc, char **argv) {
 	// Init bluray_title struct
 	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix, angle_ix, false);
 
-	// Quit if title / playlist couldn't be opened
+	// Quit if playlist couldn't be opened
 	if(retval) {
 
-		if(debug && retval == 1)
-			fprintf(stderr, "* could not open title %" PRIu32 "\n", bluray_title.ix + 1);
-		if(debug && retval == 2)
-			fprintf(stderr, "* could not get title info %" PRIu32 "\n", bluray_title.ix + 1);
-
-		if(opt_title_number)
-			fprintf(stderr, "Could not open title %u\n", arg_title_number);
-		else if(opt_playlist_number)
+		if(opt_playlist_number)
 			fprintf(stderr, "Could not open playlist %u\n", arg_playlist_number);
 		else
-			fprintf(stderr, "Could not open main title %u\n", main_title_number);
+			fprintf(stderr, "Could not open main playlist %u\n", main_title_number);
 
 		bd_close(bd);
 		bd = NULL;
@@ -347,7 +305,7 @@ int main(int argc, char **argv) {
 
 	// Display title information
 	if(p_bluray_copy) {
-		fprintf(io, "Title: %*" PRIu32 ", Playlist: %*" PRIu32 ", Length: %s, Chapters: %*" PRIu32 ", Video streams: %*" PRIu8 ", Audio streams: %*" PRIu8 ", Subtitles: %*" PRIu8 ", Angles: %" PRIu8 ", Filesize: %*" PRIu64 " MBs\n", 3, bluray_title.number, 4, bluray_title.playlist, bluray_title.length, 2, bluray_title.chapters, 2, bluray_title.video_streams, 2, bluray_title.audio_streams, 2, bluray_title.pg_streams, bluray_title.angles, 5, bluray_title.size_mbs);
+		fprintf(io, "Playlist: %*" PRIu32 ", Length: %s, Chapters: %*" PRIu32 ", Video streams: %*" PRIu8 ", Audio streams: %*" PRIu8 ", Subtitles: %*" PRIu8 ", Angles: %" PRIu8 ", Filesize: %*" PRIu64 " MBs\n", 4, bluray_title.playlist, bluray_title.length, 2, bluray_title.chapters, 2, bluray_title.video_streams, 2, bluray_title.audio_streams, 2, bluray_title.pg_streams, bluray_title.angles, 5, bluray_title.size_mbs);
 	}
 
 	// Check for valid angle number

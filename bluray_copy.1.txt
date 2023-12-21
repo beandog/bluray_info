@@ -12,47 +12,45 @@ SYNOPSIS
 
 DESCRIPTION
 -----------
-The bluray_copy(1) program will copy a title or playlist from a Blu-ray disc,
-image, or directory to either a file or stdout.
+The bluray_copy(1) program will copy a playlist from a Blu-ray disc, image,
+or directory to either a file or stdout.
 
 Input path can be a single filename (image), a directory, or a device name.
 The default device is based on your operating system, and is the primary
 optical drive.
 
-Default output filename is 'bluray_title_###.m2ts' where the number is
-a zero-padded string of the main title.
+Default output filename is 'bluray_playlist_#####.m2ts' where the number is
+a zero-padded string of the main playlist.
 
 OPTIONS
 -------
 
 *-m, --main*::
-	Copy the main title (default).
-
-*-t, --title*='TITLE'::
-	Copy the selected title number.
+	Copy the main playlist (default).
 
 *-p, --playlist*='PLAYLIST'::
-	Copy the selected playlist.
+	Copy the selected playlist number.
 
 *-c, --chapter*='CHAPTER[-CHAPTER]'
 	Copy the selected chapter or range range. Default is to copy all
-	chapters of the title or playlist.
+	chapters.
 
 *-o, --output*='FILENAME'
-	Save to filename. Default is 'bluray_title_###.m2ts'.
+	Save to filename. Default is 'bluray_playlist_#####.m2ts'.
 
 	'FILENAME' can be '-' to send to standard output. All display output
 	is switched to standard error output.
 
 *-k, --keydb*='FILENAME'
 	Location to 'KEYDB.cfg' used by libaacs for decryption. Default is
-	'~/.config/aacs/KEYDB.cfg'
+	'~/.config/aacs/KEYDB.cfg'.
 
 *-a, --angle*='ANGLE'
 	Video angle number. Default is the first.
 
 *-d, --duplicates*
-	Select from index of duplicate titles instead of only relevant
+	Select from index of duplicate titles that libbluray would originally
+	filter out. Recommended to use this for consistency across environments.
 
 *-h, --help*
 	Display help output.
