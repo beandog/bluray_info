@@ -323,7 +323,6 @@ int main(int argc, char **argv) {
 		// Find the longest title
 		uint64_t max_duration = 0;
 		uint32_t longest_playlist = 0;
-		BLURAY_TITLE_INFO *bd_title = NULL;
 		for(ix = 0; ix < bluray_info.titles; ix++) {
 
 			bd_title = bd_get_title_info(bd, ix, angle_ix);
