@@ -2,8 +2,9 @@ ChangeLog
 
 1.14
 
+- Remove option to set titles as input, use only playlists
 - bluray_info: fix '--help' output
-- bluray_info: display metadata found in XML file
+- bluray_info: display some metadata found in XML file
 - bluray_info: choosing a language for subtitles or audio streams
   can be done for each type individually
 
