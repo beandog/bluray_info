@@ -37,9 +37,6 @@
 
 int main(int argc, char **argv) {
 
-	uint32_t d_num_titles = 0;
-
-	bool opt_title_number = false;
 	bool opt_playlist_number = false;
 	bool opt_main_title = false;
 	bool opt_chapter_start = false;
@@ -50,11 +47,9 @@ int main(int argc, char **argv) {
 	bool opt_subtitle_stream = false;
 	char stream_id[4];
 	unsigned long int arg_number = 0;
-	uint32_t arg_title_number = 0;
 	uint32_t arg_playlist_number = 0;
 	uint32_t arg_first_chapter = 0;
 	uint32_t arg_last_chapter = 0;
-	uint32_t main_title_number = 1;
 	const char *key_db_filename = NULL;
 	const char *home_dir = getenv("HOME");
 	int retval = 0;
@@ -89,11 +84,10 @@ int main(int argc, char **argv) {
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "slang", required_argument, NULL, 's' },
 		{ "sid", required_argument, NULL, 'S' },
-		{ "title", required_argument, NULL, 't' },
 		{ "version", no_argument, NULL, 'Z' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "a:A:c:dfhk:mp:s:S:t:V:Z", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "a:A:c:dfhk:mp:s:S:V:Z", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -190,15 +184,6 @@ int main(int argc, char **argv) {
 				arg_playlist_number = (uint32_t)arg_number;
 				break;
 
-			case 't':
-				opt_title_number = true;
-				arg_number = strtoul(optarg, NULL, 10);
-				if(arg_number < 2)
-					arg_title_number = 1;
-				else
-					arg_title_number = (uint32_t)arg_number;
-				break;
-
 			case 's':
 				strncpy(bluray_playback.subtitles_lang, optarg, BLURAY_PLAYER_LANG_STRLEN - 1);
 				break;
@@ -225,8 +210,7 @@ int main(int argc, char **argv) {
 				printf("Usage: bluray_player [bluray path] [options]\n");
 				printf("\n");
 				printf("Title selection:\n");
-				printf("  -m, --main               Play main title (default)\n");
-				printf("  -t, --title <#>          Play title number\n");
+				printf("  -m, --main               Play main playlist (default)\n");
 				printf("  -p, --playlist <#>       Play playlist number\n");
 				printf("  -c, --chapters <#>[-#]   Play chapter number(s)\n");
 				printf("\n");
@@ -265,11 +249,11 @@ int main(int argc, char **argv) {
 	if(exit_help)
 		return 0;
 
-	if(!opt_title_number && !opt_playlist_number)
+	if(!opt_playlist_number)
 		opt_main_title = true;
 
-	if((opt_main_title + opt_title_number + opt_playlist_number) > 1) {
-		fprintf(stderr, "Select only one option of title, default title, or playlist\n");
+	if(opt_main_title && opt_playlist_number) {
+		fprintf(stderr, "Select only one option of a playlist or default playlist\n");
 		return 1;
 	}
 
@@ -310,28 +294,10 @@ int main(int argc, char **argv) {
 	// MPV does not list duplicate titles, so ignore them
 	retval = bluray_info_init(bd, &bluray_info, false);
 
-	d_num_titles = bluray_info.titles;
-	main_title_number = bluray_info.main_title + 1;
-
 	struct bluray_title bluray_title;
 
 	// Select title passed as an argument
-	if(opt_title_number) {
-		bluray_title.ix = arg_title_number - 1;
-		if(arg_title_number > d_num_titles) {
-			fprintf(stderr, "Could not open title %" PRIu32 ", choose from 1 to %" PRIu32 "\n", arg_title_number, d_num_titles);
-			bd_close(bd);
-			bd = NULL;
-			return 1;
-		}
-		retval = bd_select_title(bd, bluray_title.ix);
-		if(retval == 0) {
-			fprintf(stderr, "Could not open title %" PRIu32 "\n", arg_title_number);
-			bd_close(bd);
-			bd = NULL;
-			return 1;
-		}
-	} else if(opt_playlist_number) {
+	if(opt_playlist_number) {
 		retval = bd_select_playlist(bd, arg_playlist_number);
 		if(retval == 0) {
 			fprintf(stderr, "Could not open playlist %" PRIu32 "\n", arg_playlist_number);
@@ -345,7 +311,7 @@ int main(int argc, char **argv) {
 		bluray_title.ix = bluray_info.main_title;
 		retval = bd_select_title(bd, bluray_title.ix);
 		if(retval == 0) {
-			fprintf(stderr, "Could not open main title # %" PRIu32 "\n", main_title_number);
+			fprintf(stderr, "Could not open main playlist");
 			bd_close(bd);
 			bd = NULL;
 			return 1;
@@ -381,7 +347,7 @@ int main(int argc, char **argv) {
 		printf("Disc title: %s\n", bluray_info.disc_name);
 
 	// libmpv doesn't support Blu-ray angle selection (as of latest stable, 0.29.1)
-	printf("Title: %*" PRIu32 ", Playlist: %*" PRIu32 ", Length: %s, Chapters: %*" PRIu32 ", Video streams: %*" PRIu8 ", Audio streams: %*" PRIu8 ", Subtitles: %*" PRIu8 ", Angles: %*" PRIu8 ", Filesize: %*" PRIu64 " MBs\n", 3, bluray_title.number, 4, bluray_title.playlist, bluray_title.length, 2, bluray_title.chapters, 2, bluray_title.video_streams, 2, bluray_title.audio_streams, 2, bluray_title.pg_streams, 2, bluray_title.angles, 5, bluray_title.size_mbs);
+	printf("Playlist: %*" PRIu32 ", Length: %s, Chapters: %*" PRIu32 ", Video streams: %*" PRIu8 ", Audio streams: %*" PRIu8 ", Subtitles: %*" PRIu8 ", Angles: %*" PRIu8 ", Filesize: %*" PRIu64 " MBs\n", 5, bluray_title.playlist, bluray_title.length, 2, bluray_title.chapters, 2, bluray_title.video_streams, 2, bluray_title.audio_streams, 2, bluray_title.pg_streams, 2, bluray_title.angles, 5, bluray_title.size_mbs);
 
 	// Finished with libbluray
 	bd_close(bd);

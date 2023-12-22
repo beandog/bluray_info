@@ -12,8 +12,8 @@ SYNOPSIS
 
 DESCRIPTION
 -----------
-The bluray_player(1) program will play a title or playlist from a Blu-ray
-disc, image, or directory. Playback is enabled using libmpv.
+The bluray_player(1) program will play a playlist from a Blu-ray disc,
+image, or directory. Playback is handled by by libmpv.
 
 Input path can be a single filename (image), a directory, or a device name.
 The default device is based on your operating system, and is the primary
@@ -23,17 +23,16 @@ OPTIONS
 -------
 
 *-m, --main*::
-	Play the main title (default).
-
-*-t, --title*='TITLE'::
-	Play the selected titled number.
+	Play the main playlist (default). You can see which one is the main
+	one using 'bluray_info --main'. MPV filters out duplicate playlists,
+	so do not use 'bluray_info --duplicates' as an index.
 
 *-p, --playlist*='PLAYLIST'::
 	Play the selected playlist number.
 
 *-c, --chapters*='CHAPTER[-[CHAPTER]]'
 	Play the selected chapter range. Default is to play all chapters of
-	the title / playlist.
+	the playlist.
 
 *-a, --alang*='LANGUAGE'
 	Set default audio language. Format is three-letter language code, ISO
