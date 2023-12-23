@@ -9,6 +9,11 @@
 #include <getopt.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+#ifdef __linux__
+#include <linux/limits.h>
+#else
+#include <limits.h>
+#endif
 #include <libbluray/bluray.h>
 #include "bluray_device.h"
 #include "bluray_open.h"
@@ -37,6 +42,7 @@
 
 int main(int argc, char **argv) {
 
+	char device_filename[PATH_MAX];
 	bool opt_playlist_number = false;
 	bool opt_main_title = false;
 	bool opt_chapter_start = false;
@@ -257,13 +263,11 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	const char *device_filename = NULL;
-
-	if(argv[optind]) {
-		device_filename = argv[optind];
-	} else {
-		device_filename = DEFAULT_BLURAY_DEVICE;
-	}
+	memset(device_filename, '\0', PATH_MAX);
+	if (argv[optind])
+		strncpy(device_filename, argv[optind], PATH_MAX - 1);
+	else
+		strncpy(device_filename, DEFAULT_BLURAY_DEVICE, PATH_MAX - 1);
 
 	// Open device
 	BLURAY *bd = NULL;
