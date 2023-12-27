@@ -471,8 +471,6 @@ int main(int argc, char **argv) {
 		if(debug)
 			fprintf(stderr, "examining playlist %u\n", bluray_title.playlist);
 
-		// This functionality was added post-sorting functionality, so there is
-		// duplicate code in here earlier here to be removed, once testing is done.
 		if(d_main_playlist && bluray_title.playlist != main_playlist) {
 			if(debug)
 				fprintf(stderr, "not main playlist, skipping\n");
