@@ -462,7 +462,7 @@ int main(int argc, char **argv) {
 		retval = bluray_title_init(bd, &bluray_title, arr_playlists[ix], angle_ix, true);
 
 		if(debug)
-			fprintf(stderr, "bluray_title_init: %s \n", retval ? "failed" : "opened");
+			fprintf(stderr, "bluray_title_init: %s\n", retval ? "failed" : "opened");
 
 		// Skip if there was a problem getting it
 		if(retval)
