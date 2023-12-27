@@ -488,21 +488,18 @@ int main(int argc, char **argv) {
 		if(!(bluray_title.seconds >= d_min_seconds && bluray_title.minutes >= d_min_minutes && bluray_title.audio_streams >= d_min_audio_streams && bluray_title.pg_streams >= d_min_pg_streams)) {
 			if(debug)
 				fprintf(stderr, "seconds / minutes / streams don't match requirements, skipping playlist %u\n", bluray_title.playlist);
-			bd_stream = NULL;
 			continue;
 		}
 
 		if(d_has_alang && (!bluray_title.audio_streams || !(bluray_title_has_alang(&bluray_title, d_alang)))) {
 			if(debug)
 				fprintf(stderr, "doesn't match audio lang skipping playlist %u\n", bluray_title.playlist);
-			bd_stream = NULL;
 			continue;
 		}
 
 		if(d_has_slang && (!bluray_title.pg_streams || !(bluray_title_has_slang(&bluray_title, d_slang)))) {
 			if(debug)
 				fprintf(stderr, "doesn't match subtitle lang skipping playlist %u\n", bluray_title.playlist);
-			bd_stream = NULL;
 			continue;
 		}
 
