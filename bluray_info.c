@@ -636,10 +636,10 @@ int main(int argc, char **argv) {
 				pg_stream_number = pg_stream_ix + 1;
 				bd_stream = &bluray_title.clip_info[0].pg_streams[pg_stream_ix];
 
-				bluray_pgs_lang(bluray_pgs.lang, bd_stream->lang);
-
 				if(bd_stream == NULL)
 					continue;
+
+				bluray_pgs_lang(bluray_pgs.lang, bd_stream->lang);
 
 				if(p_bluray_info && d_subtitles) {
 					printf("	Subtitle: %*" PRIu8 ", Language: %s\n", 2, pg_stream_number, bluray_pgs.lang);
