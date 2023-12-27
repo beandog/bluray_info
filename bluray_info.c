@@ -656,9 +656,9 @@ int main(int argc, char **argv) {
 						printf("    }\n");
 				}
 
-			}
+				bd_stream = NULL;
 
-			bd_stream = NULL;
+			}
 
 			if(p_bluray_json)
 				printf("   ],\n");
