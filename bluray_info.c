@@ -453,9 +453,6 @@ int main(int argc, char **argv) {
 
 	}
 
-	if(p_bluray_json && (d_main_playlist || d_playlist_number))
-		d_num_json_titles = 1;
-
 	// Display the titles in bluray_info / bluray_json
 	for(ix = 0; ix < num_playlists; ix++) {
 
