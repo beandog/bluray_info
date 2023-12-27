@@ -45,7 +45,7 @@ int main(int argc, char **argv) {
 
 	int retval = 0;
 	bool debug = false;
-	char device_filename[PATH_MAX];
+	char device_filename[PATH_MAX] = {'\0'};
 
 	// Parse options and arguments
 	bool p_bluray_info = true;
@@ -124,6 +124,7 @@ int main(int argc, char **argv) {
 
 			case 'g':
 				p_bluray_info = false;
+				p_bluray_json = false;
 				p_bluray_xchap = true;
 				break;
 
@@ -139,6 +140,7 @@ int main(int argc, char **argv) {
 
 			case 'j':
 				p_bluray_info = false;
+				p_bluray_xchap = false;
 				p_bluray_json = true;
 				break;
 
@@ -256,9 +258,9 @@ int main(int argc, char **argv) {
 
 	if(bd == NULL) {
 		if(key_db_filename == NULL)
-			printf("Could not open device %s\n", device_filename);
+			fprintf(stderr, "Could not open device %s\n", device_filename);
 		else
-			printf("Could not open device %s and key_db file %s\n", device_filename, key_db_filename);
+			fprintf(stderr, "Could not open device %s and key_db file %s\n", device_filename, key_db_filename);
 		return 1;
 	}
 
@@ -267,7 +269,7 @@ int main(int argc, char **argv) {
 	retval = bluray_info_init(bd, &bluray_info, d_duplicates);
 
 	if(retval) {
-		printf("* Couldn't open Blu-ray\n");
+		fprintf(stderr, "Couldn't open Blu-ray\n");
 		return 1;
 	}
 
@@ -313,7 +315,7 @@ int main(int argc, char **argv) {
 		retval = bd_select_playlist(bd, arg_playlist_number);
 
 		if(retval == 0) {
-			printf("Could not open playlist %" PRIu32 "\n", arg_playlist_number);
+			fprintf(stderr, "Playlist %" PRIu32 " is not valid, choose another one.\n", arg_playlist_number);
 			return 1;
 		}
 
@@ -544,7 +546,6 @@ int main(int argc, char **argv) {
 			for(video_stream_ix = 0; video_stream_ix < bluray_title.video_streams; video_stream_ix++) {
 
 				video_stream_number = video_stream_ix + 1;
-				// bd_stream = &bd_title->clips[0].video_streams[video_stream_ix];
 				bd_stream = &bluray_title.clip_info[0].video_streams[video_stream_ix];
 
 				if(bd_stream == NULL)
@@ -593,7 +594,6 @@ int main(int argc, char **argv) {
 			for(audio_stream_ix = 0; audio_stream_ix < bluray_title.audio_streams; audio_stream_ix++) {
 
 				audio_stream_number = audio_stream_ix + 1;
-				// bd_stream = &bd_title->clips[0].audio_streams[audio_stream_ix];
 				bd_stream = &bluray_title.clip_info[0].audio_streams[audio_stream_ix];
 
 				if(bd_stream == NULL)
@@ -642,7 +642,6 @@ int main(int argc, char **argv) {
 			for(pg_stream_ix = 0; pg_stream_ix < bluray_title.pg_streams; pg_stream_ix++) {
 
 				pg_stream_number = pg_stream_ix + 1;
-				// bd_stream = &bd_title->clips[0].pg_streams[pg_stream_ix];
 				bd_stream = &bluray_title.clip_info[0].pg_streams[pg_stream_ix];
 
 				bluray_pgs_lang(bluray_pgs.lang, bd_stream->lang);
@@ -683,7 +682,6 @@ int main(int argc, char **argv) {
 			for(chapter_ix = 0; chapter_ix < bluray_title.chapters; chapter_ix++) {
 
 				chapter_number = chapter_ix + 1;
-				// bd_chapter = &bd_title->chapters[chapter_ix];
 				bd_chapter = &bluray_title.title_chapters[chapter_ix];
 
 				if(bd_chapter == NULL)
@@ -715,7 +713,7 @@ int main(int argc, char **argv) {
 						printf("    }\n");
 				}
 
-				if(p_bluray_xchap && ((bluray_title.playlist == arg_playlist_number) || (bluray_title.playlist == main_playlist))) {
+				if(p_bluray_xchap && (bluray_title.playlist == arg_playlist_number || bluray_title.playlist == main_playlist)) {
 					printf("CHAPTER%03" PRIu32 "=%s\n", chapter_number, bluray_chapter.start_time);
 					printf("CHAPTER%03" PRIu32 "NAME=Chapter %03" PRIu32 "\n", chapter_number, chapter_number);
 				}
