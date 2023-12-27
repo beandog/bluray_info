@@ -482,11 +482,17 @@ int main(int argc, char **argv) {
 			continue;
 		}
 
-		if(!(bluray_title.seconds >= d_min_seconds && bluray_title.minutes >= d_min_minutes && bluray_title.audio_streams >= d_min_audio_streams && bluray_title.pg_streams >= d_min_pg_streams)) {
-			if(debug)
-				fprintf(stderr, "seconds / minutes / streams don't match requirements, skipping playlist %u\n", bluray_title.playlist);
+		if(bluray_title.seconds < d_min_seconds)
 			continue;
-		}
+
+		if(bluray_title.minutes < d_min_minutes)
+			continue;
+
+		if(bluray_title.audio_streams < d_min_audio_streams)
+			continue;
+
+		if(bluray_title.pg_streams < d_min_pg_streams)
+			continue;
 
 		if(d_has_alang && (!bluray_title.audio_streams || !(bluray_title_has_alang(&bluray_title, d_alang)))) {
 			if(debug)
