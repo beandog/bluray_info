@@ -712,9 +712,9 @@ int main(int argc, char **argv) {
 
 				chapter_start += bluray_chapter.duration;
 
-			}
+				bd_chapter = NULL;
 
-			bd_chapter = NULL;
+			}
 
 			if(p_bluray_json)
 				printf("   ]\n");
