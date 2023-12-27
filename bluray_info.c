@@ -715,7 +715,7 @@ int main(int argc, char **argv) {
 						printf("    }\n");
 				}
 
-				if(p_bluray_xchap && bluray_title.playlist == arg_playlist_number) {
+				if(p_bluray_xchap && ((bluray_title.playlist == arg_playlist_number) || (bluray_title.playlist == main_playlist))) {
 					printf("CHAPTER%03" PRIu32 "=%s\n", chapter_number, bluray_chapter.start_time);
 					printf("CHAPTER%03" PRIu32 "NAME=Chapter %03" PRIu32 "\n", chapter_number, chapter_number);
 				}
