@@ -63,7 +63,7 @@ int main(int argc, char **argv) {
 	uint8_t angle_ix = 0;
 	uint8_t arg_angle_number = 1;
 	bool debug = false;
-	const char *key_db_filename = NULL;
+	char key_db_filename[PATH_MAX] = {'\0'};
 
 	// Chapter range selection
 	uint32_t arg_chapter_numbers[2];
@@ -125,7 +125,8 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'k':
-				key_db_filename = optarg;
+				memset(key_db_filename, '\0', PATH_MAX);
+				strncpy(key_db_filename, optarg, PATH_MAX - 1);
 				break;
 
 			case 'm':
@@ -210,10 +211,10 @@ int main(int argc, char **argv) {
 	bd = bd_open(device_filename, key_db_filename);
 
 	if(bd == NULL) {
-		if(key_db_filename == NULL)
-			fprintf(stderr, "Could not open device %s\n", device_filename);
-		else
+		if(strlen(key_db_filename))
 			fprintf(stderr, "Could not open device %s and key_db file %s\n", device_filename, key_db_filename);
+		else
+			fprintf(stderr, "Could not open device %s\n", device_filename);
 		return 1;
 	}
 
