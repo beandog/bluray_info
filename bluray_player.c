@@ -90,10 +90,11 @@ int main(int argc, char **argv) {
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "slang", required_argument, NULL, 's' },
 		{ "sid", required_argument, NULL, 'S' },
-		{ "version", no_argument, NULL, 'V' },
+		{ "vid", required_argument, NULL, 'V' },
+		{ "version", no_argument, NULL, 'Z' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "a:A:c:dfhk:mp:s:S:V", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "a:A:c:dfhk:mp:s:S:V:Z", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -208,7 +209,8 @@ int main(int argc, char **argv) {
 
 			case 'Z':
 				printf("bluray_player %s\n", PACKAGE_VERSION);
-				return 0;
+				exit_help = true;
+				break;
 
 			case 'h':
 				printf("bluray_player %s - Play back a Blu-ray using libmpv engine\n", PACKAGE_VERSION);
@@ -236,7 +238,7 @@ int main(int argc, char **argv) {
 				printf("Other:\n");
 				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
 				printf("  -h, --help               This output\n");
-				printf("  -V, --version	           Display version\n");
+				printf("      --version	           Display version\n");
 				printf("\n");
 				printf("MPV configuration is read from ~/.config/bluray_player/mpv.conf\n");
 				printf("\n");
