@@ -390,7 +390,7 @@ int main(int argc, char **argv) {
 	mpv_set_option_string(bluray_mpv, "input-default-bindings", "yes");
 	mpv_set_option_string(bluray_mpv, "input-vo-keyboard", "yes");
 	if(bluray_playback.fullscreen)
-		mpv_set_option_string(bluray_mpv, "fullscreen", NULL);
+		mpv_set_option_string(bluray_mpv, "fullscreen", "yes");
 	if(bluray_playback.detelecine)
 		mpv_set_option_string(bluray_mpv, "vf", "pullup,dejudder");
 	if(opt_chapter_start && arg_first_chapter > 0)
