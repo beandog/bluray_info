@@ -236,7 +236,7 @@ int main(int argc, char **argv) {
 	retval = bluray_info_init(bd, &bluray_info, duplicates);
 
 	if(retval) {
-		printf("* Couldn't open Blu-ray\n");
+		fprintf(stderr, "Couldn't open Blu-ray\n");
 		return 1;
 	}
 
