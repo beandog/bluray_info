@@ -7,6 +7,7 @@ ChangeLog
 - bluray_info: display some metadata found in XML file
 - bluray_info: choosing a language for subtitles or audio streams
   can be done for each type individually
+- bluray_player: fix opening player fullscreen
 
 1.13
 
