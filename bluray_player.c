@@ -42,7 +42,7 @@
 
 int main(int argc, char **argv) {
 
-	char device_filename[PATH_MAX];
+	char device_filename[PATH_MAX] = {'\0'};
 	bool opt_playlist_number = false;
 	bool opt_main_title = false;
 	bool opt_chapter_start = false;

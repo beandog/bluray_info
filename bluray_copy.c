@@ -43,7 +43,7 @@
 int main(int argc, char **argv) {
 
 	FILE *io = stdout;
-	char device_filename[PATH_MAX];
+	char device_filename[PATH_MAX] = {'\0'};
 	int retval = 0;
 	bool p_bluray_copy = true;
 	bool p_bluray_cat = false;
