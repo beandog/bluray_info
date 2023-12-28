@@ -71,7 +71,7 @@ int main(int argc, char **argv) {
 	uint32_t main_playlist = 0;
 	uint32_t json_ix = 1;
 	bool exit_help = false;
-	const char *key_db_filename = NULL;
+	char key_db_filename[PATH_MAX] = {'\0'};
 	int g_opt = 0;
 	int g_ix = 0;
 	struct option p_long_opts[] = {
@@ -145,7 +145,8 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'k':
-				key_db_filename = optarg;
+				memset(key_db_filename, '\0', PATH_MAX);
+				strncpy(key_db_filename, optarg, PATH_MAX - 1);
 				break;
 
 			case 'm':
@@ -257,10 +258,10 @@ int main(int argc, char **argv) {
 	bd = bd_open(device_filename, key_db_filename);
 
 	if(bd == NULL) {
-		if(key_db_filename == NULL)
-			fprintf(stderr, "Could not open device %s\n", device_filename);
+		if(strlen(key_db_filename))
+			fprintf(stderr, "Could not open device %s and KEYDB file %s\n", device_filename, key_db_filename);
 		else
-			fprintf(stderr, "Could not open device %s and key_db file %s\n", device_filename, key_db_filename);
+			fprintf(stderr, "Could not open device %s\n", device_filename);
 		return 1;
 	}
 
