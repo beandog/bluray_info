@@ -401,6 +401,7 @@ int main(int argc, char **argv) {
 	struct bluray_pgs bluray_pgs;
 	struct bluray_chapter bluray_chapter;
 	bluray_chapter.duration = 0;
+	memset(bluray_chapter.length, '\0', BLURAY_INFO_TIME_STRLEN);
 	strcpy(bluray_chapter.length, "00:00:00.000");
 	bluray_chapter.size = 0;
 	bluray_chapter.size_mbs = 0;
