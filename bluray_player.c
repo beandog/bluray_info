@@ -277,9 +277,9 @@ int main(int argc, char **argv) {
 
 	if(bd == NULL) {
 		if(key_db_filename == NULL)
-			fprintf(stderr, "Could not open device %s\n", device_filename);
+			fprintf(stderr, "Could not open Blu-ray %s\n", device_filename);
 		else
-			fprintf(stderr, "Could not open device %s and key_db file %s\n", device_filename, key_db_filename);
+			fprintf(stderr, "Could not open Blu-ray %s and key_db file %s\n", device_filename, key_db_filename);
 		return 1;
 	}
 
@@ -329,7 +329,7 @@ int main(int argc, char **argv) {
 	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix, angle_ix, false);
 
 	if(retval) {
-		fprintf(stderr, "Could not open title %" PRIu32 ", quitting\n", bluray_title.ix + 1);
+		fprintf(stderr, "Could not open playlist %" PRIu32 ", quitting\n", bluray_title.playlist);
 		return 1;
 	}
 
@@ -350,10 +350,10 @@ int main(int argc, char **argv) {
 	bluray_playback.title = bluray_title.ix;
 
 	if(strlen(bluray_info.disc_name))
-		printf("Disc title: %s\n", bluray_info.disc_name);
+		printf("[bluray_player] %s\n", bluray_info.disc_name);
 
 	// libmpv doesn't support Blu-ray angle selection (as of latest stable, 0.29.1)
-	printf("Playlist: %*" PRIu32 ", Length: %s, Chapters: %*" PRIu32 ", Video streams: %*" PRIu8 ", Audio streams: %*" PRIu8 ", Subtitles: %*" PRIu8 ", Angles: %*" PRIu8 ", Filesize: %*" PRIu64 " MBs\n", 5, bluray_title.playlist, bluray_title.length, 2, bluray_title.chapters, 2, bluray_title.video_streams, 2, bluray_title.audio_streams, 2, bluray_title.pg_streams, 2, bluray_title.angles, 5, bluray_title.size_mbs);
+	printf("[bluray_player] Playlist: %*" PRIu32 ", Length: %s, Chapters: %*" PRIu32 ", Video streams: %*" PRIu8 ", Audio streams: %*" PRIu8 ", Subtitles: %*" PRIu8 ", Angles: %*" PRIu8 ", Filesize: %*" PRIu64 " MBs\n", 5, bluray_title.playlist, bluray_title.length, 2, bluray_title.chapters, 2, bluray_title.video_streams, 2, bluray_title.audio_streams, 2, bluray_title.pg_streams, 2, bluray_title.angles, 5, bluray_title.size_mbs);
 
 	// Finished with libbluray
 	bd_close(bd);
@@ -366,7 +366,7 @@ int main(int argc, char **argv) {
 	mpv_handle *bluray_mpv = NULL;
 	bluray_mpv = mpv_create();
 	if(bluray_mpv == NULL) {
-		fprintf(stderr, "Could not create an MPV instance, quitting\n");
+		fprintf(stderr, "[bluray_player] Could not create an MPV instance, quitting\n");
 		return 1;
 	}
 
@@ -379,7 +379,7 @@ int main(int argc, char **argv) {
 	// MPV doesn't need much before initializing, and config-dir is the only relevant one here
 	retval = mpv_initialize(bluray_mpv);
 	if(retval) {
-		fprintf(stderr, "Could not initalize MPV, quiting\n");
+		fprintf(stderr, "[bluray_player] Could not initalize MPV, quiting\n");
 		return 1;
 	}
 
@@ -412,7 +412,7 @@ int main(int argc, char **argv) {
 
 	retval = mpv_command(bluray_mpv, bluray_mpv_commands);
 	if(retval) {
-		fprintf(stderr, "Could not send MPV arguments: %s; using defaults\n", bluray_mpv_args);
+		fprintf(stderr, "[bluray_player] Could not send MPV arguments: %s; using defaults\n", bluray_mpv_args);
 	}
 
 	// Based on the decoder used in libmpv, it may or may not find other streams.
@@ -458,7 +458,7 @@ int main(int argc, char **argv) {
 
 		if(bluray_mpv_event->event_id == MPV_EVENT_LOG_MESSAGE) {
 			bluray_mpv_log_message = (struct mpv_event_log_message *)bluray_mpv_event->data;
-			printf("mpv [%s]: %s", bluray_mpv_log_message->level, bluray_mpv_log_message->text);
+			fprintf(stderr, "[bluray_player] mpv [%s]: %s", bluray_mpv_log_message->level, bluray_mpv_log_message->text);
 		}
 
 	}
