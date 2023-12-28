@@ -131,6 +131,7 @@ int main(int argc, char **argv) {
 
 			case 'm':
 				opt_main_title = true;
+				opt_playlist_number = false;
 				break;
 
 			case 'o':
@@ -144,6 +145,7 @@ int main(int argc, char **argv) {
 
 			case 'p':
 				opt_playlist_number = true;
+				opt_main_title = false;
 				arg_number = strtoul(optarg, NULL, 10);
 				arg_playlist_number = (uint32_t)arg_number;
 				break;
@@ -249,25 +251,73 @@ int main(int argc, char **argv) {
 
 	struct bluray_title bluray_title;
 
-	if(opt_playlist_number) {
+	// Find main playlist
+	uint32_t main_playlist = 0;
+
+	uint32_t arr_playlists[bluray_info.titles];
+	memset(arr_playlists, 0, sizeof(arr_playlists));
+
+	uint32_t ix = 0;
+
+	BLURAY_TITLE_INFO *bd_title;
+	bd_title = NULL;
+
+	for(ix = 0; ix < bluray_info.titles; ix++) {
+
+		bd_title = bd_get_title_info(bd, ix, angle_ix);
+
+		// Ideally this should probably skip this title and keep going, but
+		// I don't know what the consequences would be and how to fix it.
+		// Randomly removing playlist and media files doesn't seem to
+		// affect it, as libbluray simply works around them as if they
+		// weren't there to begin with.
+		if(bd_title == NULL) {
+			fprintf(stderr, "Couldn't open title %" PRIu32 "\n", ix);
+			return 1;
+		}
+
+		arr_playlists[ix] = bd_title->playlist;
+
+		if(bd_title->idx == bluray_info.main_title)
+			main_playlist = bd_title->playlist;
+
+		bd_free_title_info(bd_title);
+		bd_title = NULL;
+
+	}
+
+	if(opt_main_title) {
+
+		retval = bluray_title_init(bd, &bluray_title, bluray_info.main_title, angle_ix, false);
+
+		if(retval) {
+			fprintf(stderr, "Could not open main playlist %" PRIu32 "\n", main_playlist);
+			return 1;
+		}
+
+		if(bluray_copy.filename == NULL) {
+			bluray_copy.filename = calloc(32, sizeof(unsigned char));
+			sprintf(bluray_copy.filename, "%s%03" PRIu32 "%s", "bluray_title_", main_title_number, ".m2ts");
+		}
+
+	} else if(opt_playlist_number) {
+
 		retval = bd_select_playlist(bd, arg_playlist_number);
+
 		if(retval == 0) {
 			fprintf(stderr, "Could not open playlist %" PRIu32 "\n", arg_playlist_number);
 			bd_close(bd);
 			bd = NULL;
 			return 1;
 		}
+
 		if(bluray_copy.filename == NULL) {
 			bluray_copy.filename = calloc(32, sizeof(unsigned char));
 			sprintf(bluray_copy.filename, "%s%05" PRIu32 "%s", "bluray_playlist_", arg_playlist_number, ".m2ts");
 		}
+
 		bluray_title.ix = bd_get_current_title(bd);
-	} else {
-		bluray_title.ix = bluray_info.main_title;
-		if(bluray_copy.filename == NULL) {
-			bluray_copy.filename = calloc(32, sizeof(unsigned char));
-			sprintf(bluray_copy.filename, "%s%03" PRIu32 "%s", "bluray_title_", main_title_number, ".m2ts");
-		}
+
 	}
 
 	// Init bluray_title struct
