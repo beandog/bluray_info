@@ -52,6 +52,10 @@ int main(int argc, char **argv) {
 	bluray_copy.fd = -1;
 	bluray_copy.size = 0;
 	bluray_copy.size_mbs = 0;
+	struct bluray_title bluray_title;
+	struct bluray_info bluray_info;
+	uint32_t main_playlist = 0;
+	uint32_t ix = 0;
 
 	// Parse options and arguments
 	bool opt_playlist_number = false;
@@ -203,11 +207,6 @@ int main(int argc, char **argv) {
 	if(!opt_playlist_number)
 		opt_main_title = true;
 
-	if(opt_main_title && opt_playlist_number) {
-		fprintf(stderr, "Select only one option of a playlist or default playlist\n");
-		return 1;
-	}
-
 	memset(device_filename, '\0', PATH_MAX);
 	if (argv[optind])
 		strncpy(device_filename, argv[optind], PATH_MAX - 1);
@@ -220,7 +219,7 @@ int main(int argc, char **argv) {
 
 	if(bd == NULL) {
 		if(strlen(key_db_filename))
-			fprintf(stderr, "Could not open device %s and key_db file %s\n", device_filename, key_db_filename);
+			fprintf(stderr, "Could not open device %s and KEYDB file %s\n", device_filename, key_db_filename);
 		else
 			fprintf(stderr, "Could not open device %s\n", device_filename);
 		return 1;
@@ -238,10 +237,7 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	BLURAY_TITLE_CHAPTER *bd_chapter = NULL;
-
 	// Blu-ray
-	struct bluray_info bluray_info;
 	retval = bluray_info_init(bd, &bluray_info, duplicates);
 
 	if(retval) {
@@ -249,18 +245,10 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	uint32_t d_num_titles;
-	d_num_titles = bluray_info.titles;
-
-	struct bluray_title bluray_title;
 
 	// Find main playlist
-	uint32_t main_playlist = 0;
-
 	uint32_t arr_playlists[bluray_info.titles];
 	memset(arr_playlists, 0, sizeof(arr_playlists));
-
-	uint32_t ix = 0;
 
 	BLURAY_TITLE_INFO *bd_title;
 	bd_title = NULL;
@@ -351,7 +339,7 @@ int main(int argc, char **argv) {
 	chapters_range[1] = arg_chapter_numbers[1] - 1;
 
 	// Display disc title
-	if(strlen(bluray_info.disc_name) && d_num_titles) {
+	if(strlen(bluray_info.disc_name)) {
 		fprintf(io, "Disc title: %s\n", bluray_info.disc_name);
 	}
 
@@ -424,6 +412,7 @@ int main(int argc, char **argv) {
 	bluray_write[2] = 0;
 
 	// Initialize chapters array
+	BLURAY_TITLE_CHAPTER *bd_chapter = NULL;
 	struct bluray_chapter bluray_chapters[bluray_title.chapters];
 	uint64_t chapter_start = 0;
 	uint32_t chapter_ix = 0;
