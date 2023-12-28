@@ -257,15 +257,10 @@ int main(int argc, char **argv) {
 
 		bd_title = bd_get_title_info(bd, ix, angle_ix);
 
-		// Ideally this should probably skip this title and keep going, but
-		// I don't know what the consequences would be and how to fix it.
-		// Randomly removing playlist and media files doesn't seem to
-		// affect it, as libbluray simply works around them as if they
-		// weren't there to begin with.
-		if(bd_title == NULL) {
-			fprintf(stderr, "Couldn't open title %" PRIu32 "\n", ix);
-			return 1;
-		}
+		// Not sure what's going to happen if this doesn't work, I don't
+		// have any broken Blu-rays. Skipping it should be safe, though.
+		if(bd_title == NULL)
+			continue;
 
 		arr_playlists[ix] = bd_title->playlist;
 
