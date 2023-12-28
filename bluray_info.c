@@ -294,7 +294,8 @@ int main(int argc, char **argv) {
 		// Ideally this should probably skip this title and keep going, but
 		// I don't know what the consequences would be and how to fix it.
 		// Randomly removing playlist and media files doesn't seem to
-		// affect it, so it seems fine now anyway.
+		// affect it, as libbluray simply works around them as if they
+		// weren't there to begin with.
 		if(bd_title == NULL) {
 			fprintf(stderr, "Couldn't open title %" PRIu32 "\n", ix);
 			return 1;
