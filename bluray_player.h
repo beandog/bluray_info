@@ -20,7 +20,7 @@ struct bluray_player {
 struct bluray_playback {
 	uint32_t title;
 	bool fullscreen;
-	bool deinterlace;
+	bool detelecine;
 	char audio_lang[BLURAY_PLAYER_LANG_STRLEN];
 	char subtitles_lang[BLURAY_PLAYER_LANG_STRLEN];
 	char chapter_start[BLURAY_PLAYER_CHAPTER_STRLEN];

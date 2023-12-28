@@ -69,7 +69,7 @@ int main(int argc, char **argv) {
 	struct bluray_playback bluray_playback;
 	bluray_playback.title = 0;
 	bluray_playback.fullscreen = false;
-	bluray_playback.deinterlace = false;
+	bluray_playback.detelecine = false;
 	memset(bluray_playback.audio_lang, '\0', BLURAY_PLAYER_LANG_STRLEN);
 	memset(bluray_playback.subtitles_lang, '\0', BLURAY_PLAYER_LANG_STRLEN);
 	memset(bluray_playback.chapter_start, '\0', BLURAY_PLAYER_CHAPTER_STRLEN);
@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
 		{ "alang", required_argument, NULL, 'a' },
 		{ "aid", required_argument, NULL, 'A' },
 		{ "chapters", required_argument, NULL, 'c' },
-		{ "deinterlace", no_argument, NULL, 'd' },
+		{ "detelecine", no_argument, NULL, 'd' },
 		{ "fullscreen", no_argument, NULL, 'f' },
 		{ "help", no_argument, NULL, 'h' },
 		{ "keydb", required_argument, NULL, 'k' },
@@ -169,7 +169,7 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'd':
-				bluray_playback.deinterlace = true;
+				bluray_playback.detelecine = true;
 				break;
 
 			case 'f':
@@ -231,7 +231,7 @@ int main(int argc, char **argv) {
 				printf("\n");
 				printf("Playback:\n");
 				printf("  -f, --fullscreen	   Display fullscreen\n");
-				printf("  -d, --deinterlace	   Deinterlace video\n");
+				printf("  -d, --detelecine	   Detelecine video\n");
 				printf("\n");
 				printf("Other:\n");
 				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
@@ -389,8 +389,8 @@ int main(int argc, char **argv) {
 	mpv_set_option_string(bluray_mpv, "input-vo-keyboard", "yes");
 	if(bluray_playback.fullscreen)
 		mpv_set_option_string(bluray_mpv, "fullscreen", NULL);
-	if(bluray_playback.deinterlace)
-		mpv_set_option_string(bluray_mpv, "deinterlace", "yes");
+	if(bluray_playback.detelecine)
+		mpv_set_option_string(bluray_mpv, "vf", "pullup,dejudder");
 	if(opt_chapter_start && arg_first_chapter > 0)
 		mpv_set_option_string(bluray_mpv, "start", bluray_playback.chapter_start);
 	if(opt_chapter_end && arg_last_chapter > 0)
