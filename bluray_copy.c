@@ -48,7 +48,7 @@ int main(int argc, char **argv) {
 	bool p_bluray_copy = true;
 	bool p_bluray_cat = false;
 	struct bluray_copy bluray_copy;
-	bluray_copy.filename = NULL;
+	memset(bluray_copy.filename, '\0', PATH_MAX);
 	bluray_copy.fd = -1;
 	bluray_copy.size = 0;
 	bluray_copy.size_mbs = 0;
@@ -58,6 +58,7 @@ int main(int argc, char **argv) {
 	bool opt_main_title = false;
 	bool exit_help = false;
 	bool duplicates = false;
+	bool opt_filename = true;
 	unsigned long int arg_number = 0;
 	uint32_t arg_playlist_number = 0;
 	uint8_t angle_ix = 0;
@@ -135,7 +136,8 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'o':
-				bluray_copy.filename = optarg;
+				opt_filename = true;
+				strncpy(bluray_copy.filename, optarg, PATH_MAX - 1);
 				if(strncmp("-", bluray_copy.filename, 1) == 0) {
 					p_bluray_copy = false;
 					p_bluray_cat = true;
@@ -148,6 +150,10 @@ int main(int argc, char **argv) {
 				opt_main_title = false;
 				arg_number = strtoul(optarg, NULL, 10);
 				arg_playlist_number = (uint32_t)arg_number;
+				if(arg_playlist_number > 99999) {
+					fprintf(stderr, "Playlist number must be between 0 and 99999\n");
+					return 1;
+				}
 				break;
 
 			case 'z':
@@ -246,9 +252,6 @@ int main(int argc, char **argv) {
 	uint32_t d_num_titles;
 	d_num_titles = bluray_info.titles;
 
-	uint32_t main_title_number;
-	main_title_number = bluray_info.main_title + 1;
-
 	struct bluray_title bluray_title;
 
 	// Find main playlist
@@ -295,10 +298,7 @@ int main(int argc, char **argv) {
 			return 1;
 		}
 
-		if(bluray_copy.filename == NULL) {
-			bluray_copy.filename = calloc(32, sizeof(unsigned char));
-			sprintf(bluray_copy.filename, "%s%03" PRIu32 "%s", "bluray_title_", main_title_number, ".m2ts");
-		}
+		snprintf(bluray_copy.filename, PATH_MAX - 1, "%s%05" PRIu32 "%s", "bluray_playlist_", main_playlist, ".m2ts");
 
 	} else if(opt_playlist_number) {
 
@@ -311,10 +311,7 @@ int main(int argc, char **argv) {
 			return 1;
 		}
 
-		if(bluray_copy.filename == NULL) {
-			bluray_copy.filename = calloc(32, sizeof(unsigned char));
-			sprintf(bluray_copy.filename, "%s%05" PRIu32 "%s", "bluray_playlist_", arg_playlist_number, ".m2ts");
-		}
+		snprintf(bluray_copy.filename, PATH_MAX - 1,"%s%05" PRIu32 "%s", "bluray_playlist_", arg_playlist_number, ".m2ts");
 
 		bluray_title.ix = bd_get_current_title(bd);
 
@@ -329,7 +326,7 @@ int main(int argc, char **argv) {
 		if(opt_playlist_number)
 			fprintf(stderr, "Could not open playlist %u\n", arg_playlist_number);
 		else
-			fprintf(stderr, "Could not open main playlist %u\n", main_title_number);
+			fprintf(stderr, "Could not open main playlist %u\n", main_playlist);
 
 		bd_close(bd);
 		bd = NULL;

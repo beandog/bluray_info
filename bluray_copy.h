@@ -1,6 +1,12 @@
 #ifndef BLURAY_COPY_H
 #define BLURAY_COPY_H
 
+#ifdef __linux__
+#include <linux/limits.h>
+#else
+#include <limits.h>
+#endif
+
 /**
  * For packet size, use the same as libbluray. This makes doing math much
  * simpler when calculating where start and end points of chapters are.
@@ -19,7 +25,7 @@
 #define BLURAY_M2TS_UNIT_SIZE 6144
 
 struct bluray_copy {
-	char *filename;
+	char filename[PATH_MAX];
 	int fd;
 	int64_t size;
 	double size_mbs;
