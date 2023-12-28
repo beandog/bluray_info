@@ -215,7 +215,10 @@ int main(int argc, char **argv) {
 
 	// Open device
 	BLURAY *bd = NULL;
-	bd = bd_open(device_filename, key_db_filename);
+	if(strlen(key_db_filename))
+		bd = bd_open(device_filename, key_db_filename);
+	else
+		bd = bd_open(device_filename, NULL);
 
 	if(bd == NULL) {
 		if(strlen(key_db_filename))
