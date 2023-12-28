@@ -226,10 +226,10 @@ int main(int argc, char **argv) {
 				printf("  -M, --minutes <number>   Title has minimum number of minutes\n");
 				printf("\n");
 				printf("Other:\n");
-				printf("  -g, --xchap		   Display title's chapter format for mkvmerge\n");
+				printf("  -g, --xchap              Display title's chapter format for mkvmerge\n");
 				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
-				printf("  -h, --help		   This output\n");
-				printf("      --version		   Version information\n");
+				printf("  -h, --help               This output\n");
+				printf("  -V, --version            Display version\n");
 				printf("\n");
 				printf("Blu-ray path can be a device, a filename, or directory (default: %s)\n", DEFAULT_BLURAY_DEVICE);
 				exit_help = true;

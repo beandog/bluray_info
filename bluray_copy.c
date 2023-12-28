@@ -83,10 +83,10 @@ int main(int argc, char **argv) {
 		{ "output", required_argument, NULL, 'o' },
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "debug", no_argument, NULL, 'z' },
-		{ "version", no_argument, NULL, 'Z' },
+		{ "version", no_argument, NULL, 'V' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "a:c:dhk:mo:p:zZ", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "a:c:dhk:mo:p:zV", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -173,8 +173,8 @@ int main(int argc, char **argv) {
 				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
 				printf("  -a, --angle <#>          Video angle (default: 1)\n");
 				printf("  -d, --duplicates         Use duplicates index (see man bluray_copy)\n");
-				printf("  -h, --help		   This output\n");
-				printf("      --version		   Version information\n");
+				printf("  -h, --help               This output\n");
+				printf("  -V, --version	           Display version\n");
 				printf("\n");
 				printf("Blu-ray path can be a device, a filename, or directory; default is %s\n", DEFAULT_BLURAY_DEVICE);
 				exit_help = true;

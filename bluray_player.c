@@ -90,10 +90,10 @@ int main(int argc, char **argv) {
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "slang", required_argument, NULL, 's' },
 		{ "sid", required_argument, NULL, 'S' },
-		{ "version", no_argument, NULL, 'Z' },
+		{ "version", no_argument, NULL, 'V' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "a:A:c:dfhk:mp:s:S:V:Z", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "a:A:c:dfhk:mp:s:S:V", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -230,13 +230,13 @@ int main(int argc, char **argv) {
 				printf("  -S, --sid <number>       Play subtitle stream id\n");
 				printf("\n");
 				printf("Playback:\n");
-				printf("  -f, --fullscreen	   Display fullscreen\n");
-				printf("  -d, --detelecine	   Detelecine video\n");
+				printf("  -f, --fullscreen         Display fullscreen\n");
+				printf("  -d, --detelecine         Detelecine video\n");
 				printf("\n");
 				printf("Other:\n");
 				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
-				printf("  -h, --help		   This output\n");
-				printf("      --version		   Version information\n");
+				printf("  -h, --help               This output\n");
+				printf("  -V, --version	           Display version\n");
 				printf("\n");
 				printf("MPV configuration is read from ~/.config/bluray_player/mpv.conf\n");
 				printf("\n");
