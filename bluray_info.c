@@ -728,6 +728,10 @@ int main(int argc, char **argv) {
 				printf("  }\n");
 		}
 
+		// Exit out if we found our playlist
+		if((d_main_playlist && bluray_title.playlist == main_playlist) || (d_playlist_number && bluray_title.playlist == arg_playlist_number))
+			break;
+
 	}
 
 	if(p_bluray_json) {
