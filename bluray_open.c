@@ -59,7 +59,7 @@ int bluray_info_init(struct bluray *bd, struct bluray_info *bluray_info, bool di
 	//
 	// You can choose to display all the titles, including the duplicates. It is
 	// important to note that titles that are marked as duplicates can vary
-	// across filesystems, so if you want consistency, then display all using
+	// across environments, so if you want consistency, then display all using
 	// the option flag.
 	if(display_duplicates)
 		bluray_info->titles = bd_get_titles(bd, TITLES_ALL, 0);
