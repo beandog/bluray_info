@@ -289,8 +289,6 @@ int main(int argc, char **argv) {
 
 	if(bd_info == NULL) {
 		fprintf(stderr, "Could not get Blu-ray disc info\n");
-		bd_close(bd);
-		bd = NULL;
 		return 1;
 	}
 
