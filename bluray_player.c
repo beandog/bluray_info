@@ -56,7 +56,7 @@ int main(int argc, char **argv) {
 	uint32_t arg_playlist_number = 0;
 	uint32_t arg_first_chapter = 0;
 	uint32_t arg_last_chapter = 0;
-	const char *key_db_filename = NULL;
+	char key_db_filename[PATH_MAX] = {'\0'};
 	const char *home_dir = getenv("HOME");
 	int retval = 0;
 
@@ -178,7 +178,8 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'k':
-				key_db_filename = optarg;
+				memset(key_db_filename, '\0', PATH_MAX);
+				strncpy(key_db_filename, optarg, PATH_MAX - 1);
 				break;
 
 			case 'm':
@@ -273,13 +274,16 @@ int main(int argc, char **argv) {
 
 	// Open device
 	BLURAY *bd = NULL;
-	bd = bd_open(device_filename, key_db_filename);
+	if(strlen(key_db_filename))
+		bd = bd_open(device_filename, key_db_filename);
+	else
+		bd = bd_open(device_filename, NULL);
 
 	if(bd == NULL) {
-		if(key_db_filename == NULL)
-			fprintf(stderr, "Could not open Blu-ray %s\n", device_filename);
+		if(strlen(key_db_filename))
+			fprintf(stderr, "Could not open Blu-ray %s and KEYDB file %s\n", device_filename, key_db_filename);
 		else
-			fprintf(stderr, "Could not open Blu-ray %s and key_db file %s\n", device_filename, key_db_filename);
+			fprintf(stderr, "Could not open Blu-ray %s\n", device_filename);
 		return 1;
 	}
 
