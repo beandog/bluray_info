@@ -56,7 +56,6 @@ int main(int argc, char **argv) {
 	uint32_t arg_playlist_number = 0;
 	uint32_t arg_first_chapter = 0;
 	uint32_t arg_last_chapter = 0;
-	char key_db_filename[PATH_MAX] = {'\0'};
 	const char *home_dir = getenv("HOME");
 	int retval = 0;
 
@@ -85,7 +84,6 @@ int main(int argc, char **argv) {
 		{ "detelecine", no_argument, NULL, 'd' },
 		{ "fullscreen", no_argument, NULL, 'f' },
 		{ "help", no_argument, NULL, 'h' },
-		{ "keydb", required_argument, NULL, 'k' },
 		{ "main", no_argument, NULL, 'm' },
 		{ "playlist", required_argument, NULL, 'p' },
 		{ "slang", required_argument, NULL, 's' },
@@ -94,7 +92,7 @@ int main(int argc, char **argv) {
 		{ "version", no_argument, NULL, 'Z' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "a:A:c:dfhk:mp:s:S:V:Z", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "a:A:c:dfhmp:s:S:V:Z", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -175,11 +173,6 @@ int main(int argc, char **argv) {
 
 			case 'f':
 				bluray_playback.fullscreen = true;
-				break;
-
-			case 'k':
-				memset(key_db_filename, '\0', PATH_MAX);
-				strncpy(key_db_filename, optarg, PATH_MAX - 1);
 				break;
 
 			case 'm':
@@ -267,18 +260,13 @@ int main(int argc, char **argv) {
 	else
 		strncpy(device_filename, DEFAULT_BLURAY_DEVICE, PATH_MAX - 1);
 
-	// Open device
+	// Open device - MPV does *not* support opening custom location for
+	// KEYDB file, so default location will have to work. (0.37.0)
 	BLURAY *bd = NULL;
-	if(strlen(key_db_filename))
-		bd = bd_open(device_filename, key_db_filename);
-	else
-		bd = bd_open(device_filename, NULL);
+	bd = bd_open(device_filename, NULL);
 
 	if(bd == NULL) {
-		if(strlen(key_db_filename))
-			fprintf(stderr, "Could not open Blu-ray %s and KEYDB file %s\n", device_filename, key_db_filename);
-		else
-			fprintf(stderr, "Could not open Blu-ray %s\n", device_filename);
+		fprintf(stderr, "Could not open Blu-ray %s\n", device_filename);
 		return 1;
 	}
 
@@ -323,6 +311,8 @@ int main(int argc, char **argv) {
 
 	// Init bluray_title struct
 	uint8_t angle_ix = 0;
+	// We are filtering out duplicate titles here, because that is what mpv does,
+	// current version is at 0.37.0.
 	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix, angle_ix, false);
 
 	if(retval) {
