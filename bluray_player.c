@@ -261,11 +261,6 @@ int main(int argc, char **argv) {
 	if(!opt_playlist_number)
 		opt_main_title = true;
 
-	if(opt_main_title && opt_playlist_number) {
-		fprintf(stderr, "Select only one option of a playlist or default playlist\n");
-		return 1;
-	}
-
 	memset(device_filename, '\0', PATH_MAX);
 	if (argv[optind])
 		strncpy(device_filename, argv[optind], PATH_MAX - 1);
