@@ -49,7 +49,8 @@ OPTIONS
 	Display all optional detailed information.
 
 *-d, --duplicates*::
-	Display duplicate titles that libbluray would originally filter out
+	Display duplicate titles that libbluray would originally filter out.
+	Recommended to use this for consistency across environments.
 
 *-j, --json*::
 	Format output in JSON. All detailed information is included.
