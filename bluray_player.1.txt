@@ -74,6 +74,12 @@ Passing options to 'bluray_player' will override the configuration file.
 
 See mpv(1) for all configuration options.
 
+DECRYPTION
+----------
+The other bluray applications support setting a custom location for your
+KEYDB.cfg file. bluray_player does not. It must be located in your home
+directory at '.config/aacs/KEYDB.cfg'.
+
 SEE ALSO
 --------
 bluray_info(1), bluray_copy(1), mpv(1)
