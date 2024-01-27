@@ -230,7 +230,6 @@ int main(int argc, char **argv) {
 				printf("  -d, --detelecine         Detelecine video\n");
 				printf("\n");
 				printf("Other:\n");
-				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
 				printf("  -h, --help               This output\n");
 				printf("      --version	           Display version\n");
 				printf("\n");

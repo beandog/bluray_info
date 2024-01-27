@@ -56,10 +56,6 @@ OPTIONS
 *-d, --deinterlace*
 	Deinterlace video during playback.
 
-*-k, --keydb*='FILENAME'
-	Location to 'KEYDB.cfg' used by libaacs for decryption. Default is
-	'~/.config/aacs/KEYDB.cfg'
-
 *-h, --help*
 	Display help output.
 
