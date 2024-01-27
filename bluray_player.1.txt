@@ -28,7 +28,9 @@ OPTIONS
 	so do not use 'bluray_info --duplicates' as an index.
 
 *-p, --playlist*='PLAYLIST'::
-	Play the selected playlist number.
+	Play the selected playlist number. MPV does not support selecting
+	playlist from non-duplicate titles -- when running bluray_info, do not
+	use '--duplicates' to see which one you want to play.
 
 *-c, --chapters*='CHAPTER[-[CHAPTER]]'
 	Play the selected chapter range. Default is to play all chapters of

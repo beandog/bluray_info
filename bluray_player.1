@@ -2,12 +2,12 @@
 .\"     Title: bluray_player
 .\"    Author: [see the "AUTHOR(S)" section]
 .\" Generator: Asciidoctor 2.0.18
-.\"      Date: 2023-12-21
+.\"      Date: 2024-01-27
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "BLURAY_PLAYER" "1" "2023-12-21" "\ \&" "\ \&"
+.TH "BLURAY_PLAYER" "1" "2024-01-27" "\ \&" "\ \&"
 .ie \n(.g .ds Aq \(aq
 .el       .ds Aq '
 .ss \n[.ss] 0
@@ -51,7 +51,9 @@ so do not use \fIbluray_info \-\-duplicates\fP as an index.
 .sp
 \fB\-p, \-\-playlist\fP=\fIPLAYLIST\fP
 .RS 4
-Play the selected playlist number.
+Play the selected playlist number. MPV does not support selecting
+playlist from non\-duplicate titles \(em when running bluray_info, do not
+use \fI\-\-duplicates\fP to see which one you want to play.
 .RE
 .sp
 \fB\-c, \-\-chapters\fP=\fICHAPTER[\-[CHAPTER]]\fP
@@ -79,10 +81,6 @@ Display video in fullscreen.
 .sp
 \fB\-d, \-\-deinterlace\fP
 Deinterlace video during playback.
-.sp
-\fB\-k, \-\-keydb\fP=\fIFILENAME\fP
-Location to \fIKEYDB.cfg\fP used by libaacs for decryption. Default is
-\fI~/.config/aacs/KEYDB.cfg\fP
 .sp
 \fB\-h, \-\-help\fP
 Display help output.
