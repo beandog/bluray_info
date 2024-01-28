@@ -55,6 +55,7 @@ int main(int argc, char **argv) {
 	struct bluray_title bluray_title;
 	struct bluray_info bluray_info;
 	uint32_t main_playlist = 0;
+	uint32_t copy_playlist = 0;
 	uint32_t ix = 0;
 
 	// Parse options and arguments
@@ -62,7 +63,7 @@ int main(int argc, char **argv) {
 	bool opt_main_title = false;
 	bool exit_help = false;
 	bool duplicates = false;
-	bool opt_filename = true;
+	bool opt_filename = false;
 	unsigned long int arg_number = 0;
 	uint32_t arg_playlist_number = 0;
 	uint8_t angle_ix = 0;
@@ -281,10 +282,12 @@ int main(int argc, char **argv) {
 
 		if(retval) {
 			fprintf(stderr, "Could not open main playlist %" PRIu32 "\n", main_playlist);
+			bd_close(bd);
 			return 1;
 		}
 
-		snprintf(bluray_copy.filename, PATH_MAX - 1, "%s%05" PRIu32 "%s", "bluray_playlist_", main_playlist, ".m2ts");
+		copy_playlist = main_playlist;
+
 
 	} else if(opt_playlist_number) {
 
@@ -293,15 +296,17 @@ int main(int argc, char **argv) {
 		if(retval == 0) {
 			fprintf(stderr, "Could not open playlist %" PRIu32 "\n", arg_playlist_number);
 			bd_close(bd);
-			bd = NULL;
 			return 1;
 		}
 
-		snprintf(bluray_copy.filename, PATH_MAX - 1,"%s%05" PRIu32 "%s", "bluray_playlist_", arg_playlist_number, ".m2ts");
+		copy_playlist = arg_playlist_number;
 
 		bluray_title.ix = bd_get_current_title(bd);
 
 	}
+
+	if(!opt_filename)
+		snprintf(bluray_copy.filename, PATH_MAX - 1, "%s%05" PRIu32 "%s", "bluray_playlist_", copy_playlist, ".m2ts");
 
 	// Init bluray_title struct
 	retval = bluray_title_init(bd, &bluray_title, bluray_title.ix, angle_ix, false);
