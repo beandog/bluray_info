@@ -1886,7 +1886,9 @@ struct stat;
 /* Most of the following tests are stolen from RCS 5.7 src/conf.sh.  */
 struct buf { int x; };
 struct buf * (*rcsopen) (struct buf *, struct stat *, int);
-static char *e (char **p, int i)
+static char *e (p, i)
+     char **p;
+     int i;
 {
   return p[i];
 }
@@ -1937,7 +1939,6 @@ extern int puts (const char *);
 extern int printf (const char *, ...);
 extern int dprintf (int, const char *, ...);
 extern void *malloc (size_t);
-extern void free (void *);
 
 // Check varargs macros.  These examples are taken from C99 6.10.3.5.
 // dprintf is used instead of fprintf to avoid needing to declare
@@ -4394,8 +4395,8 @@ printf "%s\n" "no" >&6; }
 fi
 
 pkg_failed=no
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for LIBBLURAY" >&5
-printf %s "checking for LIBBLURAY... " >&6; }
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for libbluray >= 1.2.0" >&5
+printf %s "checking for libbluray >= 1.2.0... " >&6; }
 
 if test -n "$LIBBLURAY_CFLAGS"; then
     pkg_cv_LIBBLURAY_CFLAGS="$LIBBLURAY_CFLAGS"
@@ -4435,7 +4436,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -4444,14 +4445,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        LIBBLURAY_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libbluray >= 1.2.0" 2>&1`
+                LIBBLURAY_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "libbluray >= 1.2.0" 2>&1`
         else
-	        LIBBLURAY_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libbluray >= 1.2.0" 2>&1`
+                LIBBLURAY_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "libbluray >= 1.2.0" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$LIBBLURAY_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$LIBBLURAY_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (libbluray >= 1.2.0) were not met:
+        as_fn_error $? "Package requirements (libbluray >= 1.2.0) were not met:
 
 $LIBBLURAY_PKG_ERRORS
 
@@ -4462,9 +4463,9 @@ Alternatively, you may set the environment variables LIBBLURAY_CFLAGS
 and LIBBLURAY_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
-     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in \`$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -4477,8 +4478,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See \`config.log' for more details" "$LINENO" 5; }
 else
-	LIBBLURAY_CFLAGS=$pkg_cv_LIBBLURAY_CFLAGS
-	LIBBLURAY_LIBS=$pkg_cv_LIBBLURAY_LIBS
+        LIBBLURAY_CFLAGS=$pkg_cv_LIBBLURAY_CFLAGS
+        LIBBLURAY_LIBS=$pkg_cv_LIBBLURAY_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
@@ -4503,8 +4504,8 @@ printf "%s\n" "#define HAVE_LIBMPV /**/" >>confdefs.h
 
 
 pkg_failed=no
-{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for MPV" >&5
-printf %s "checking for MPV... " >&6; }
+{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: checking for mpv" >&5
+printf %s "checking for mpv... " >&6; }
 
 if test -n "$MPV_CFLAGS"; then
     pkg_cv_MPV_CFLAGS="$MPV_CFLAGS"
@@ -4544,7 +4545,7 @@ fi
 
 
 if test $pkg_failed = yes; then
-   	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
 
 if $PKG_CONFIG --atleast-pkgconfig-version 0.20; then
@@ -4553,14 +4554,14 @@ else
         _pkg_short_errors_supported=no
 fi
         if test $_pkg_short_errors_supported = yes; then
-	        MPV_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "mpv" 2>&1`
+                MPV_PKG_ERRORS=`$PKG_CONFIG --short-errors --print-errors --cflags --libs "mpv" 2>&1`
         else
-	        MPV_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "mpv" 2>&1`
+                MPV_PKG_ERRORS=`$PKG_CONFIG --print-errors --cflags --libs "mpv" 2>&1`
         fi
-	# Put the nasty error message in config.log where it belongs
-	echo "$MPV_PKG_ERRORS" >&5
+        # Put the nasty error message in config.log where it belongs
+        echo "$MPV_PKG_ERRORS" >&5
 
-	as_fn_error $? "Package requirements (mpv) were not met:
+        as_fn_error $? "Package requirements (mpv) were not met:
 
 $MPV_PKG_ERRORS
 
@@ -4571,9 +4572,9 @@ Alternatively, you may set the environment variables MPV_CFLAGS
 and MPV_LIBS to avoid the need to call pkg-config.
 See the pkg-config man page for more details." "$LINENO" 5
 elif test $pkg_failed = untried; then
-     	{ printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
+        { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: no" >&5
 printf "%s\n" "no" >&6; }
-	{ { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
+        { { printf "%s\n" "$as_me:${as_lineno-$LINENO}: error: in \`$ac_pwd':" >&5
 printf "%s\n" "$as_me: error: in \`$ac_pwd':" >&2;}
 as_fn_error $? "The pkg-config script could not be found or is too old.  Make sure it
 is in your PATH or set the PKG_CONFIG environment variable to the full
@@ -4586,8 +4587,8 @@ See the pkg-config man page for more details.
 To get pkg-config, see <http://pkg-config.freedesktop.org/>.
 See \`config.log' for more details" "$LINENO" 5; }
 else
-	MPV_CFLAGS=$pkg_cv_MPV_CFLAGS
-	MPV_LIBS=$pkg_cv_MPV_LIBS
+        MPV_CFLAGS=$pkg_cv_MPV_CFLAGS
+        MPV_LIBS=$pkg_cv_MPV_LIBS
         { printf "%s\n" "$as_me:${as_lineno-$LINENO}: result: yes" >&5
 printf "%s\n" "yes" >&6; }
 
