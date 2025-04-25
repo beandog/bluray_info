@@ -87,7 +87,7 @@ NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
 bin_PROGRAMS = bluray_info$(EXEEXT) bluray_copy$(EXEEXT) \
-	$(am__EXEEXT_1)
+	bluray_backup$(EXEEXT) $(am__EXEEXT_1)
 @BLURAY_PLAYER_TRUE@am__append_1 = bluray_player
 @BLURAY_PLAYER_TRUE@am__append_2 = bluray_player.1
 subdir = .
@@ -106,11 +106,19 @@ CONFIG_CLEAN_VPATH_FILES =
 @BLURAY_PLAYER_TRUE@am__EXEEXT_1 = bluray_player$(EXEEXT)
 am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(man1dir)"
 PROGRAMS = $(bin_PROGRAMS)
+am_bluray_backup_OBJECTS = bluray_backup-bluray_backup.$(OBJEXT) \
+	bluray_backup-bluray_open.$(OBJEXT) \
+	bluray_backup-bluray_time.$(OBJEXT)
+bluray_backup_OBJECTS = $(am_bluray_backup_OBJECTS)
+am__DEPENDENCIES_1 =
+bluray_backup_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+	$(am__DEPENDENCIES_1)
+bluray_backup_LINK = $(CCLD) $(bluray_backup_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_bluray_copy_OBJECTS = bluray_copy-bluray_copy.$(OBJEXT) \
 	bluray_copy-bluray_open.$(OBJEXT) \
 	bluray_copy-bluray_time.$(OBJEXT)
 bluray_copy_OBJECTS = $(am_bluray_copy_OBJECTS)
-am__DEPENDENCIES_1 =
 bluray_copy_DEPENDENCIES = $(am__DEPENDENCIES_1)
 bluray_copy_LINK = $(CCLD) $(bluray_copy_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
@@ -155,7 +163,10 @@ am__v_at_1 =
 DEFAULT_INCLUDES = -I.@am__isrc@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
-am__depfiles_remade = ./$(DEPDIR)/bluray_copy-bluray_copy.Po \
+am__depfiles_remade = ./$(DEPDIR)/bluray_backup-bluray_backup.Po \
+	./$(DEPDIR)/bluray_backup-bluray_open.Po \
+	./$(DEPDIR)/bluray_backup-bluray_time.Po \
+	./$(DEPDIR)/bluray_copy-bluray_copy.Po \
 	./$(DEPDIR)/bluray_copy-bluray_open.Po \
 	./$(DEPDIR)/bluray_copy-bluray_time.Po \
 	./$(DEPDIR)/bluray_info-bluray_audio.Po \
@@ -188,10 +199,10 @@ AM_V_CCLD = $(am__v_CCLD_@AM_V@)
 am__v_CCLD_ = $(am__v_CCLD_@AM_DEFAULT_V@)
 am__v_CCLD_0 = @echo "  CCLD    " $@;
 am__v_CCLD_1 = 
-SOURCES = $(bluray_copy_SOURCES) $(bluray_info_SOURCES) \
-	$(bluray_player_SOURCES)
-DIST_SOURCES = $(bluray_copy_SOURCES) $(bluray_info_SOURCES) \
-	$(am__bluray_player_SOURCES_DIST)
+SOURCES = $(bluray_backup_SOURCES) $(bluray_copy_SOURCES) \
+	$(bluray_info_SOURCES) $(bluray_player_SOURCES)
+DIST_SOURCES = $(bluray_backup_SOURCES) $(bluray_copy_SOURCES) \
+	$(bluray_info_SOURCES) $(am__bluray_player_SOURCES_DIST)
 am__can_run_installinfo = \
   case $$AM_UPDATE_INFO_DIR in \
     n|no|NO) false;; \
@@ -318,6 +329,8 @@ PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
+UUID_CFLAGS = @UUID_CFLAGS@
+UUID_LIBS = @UUID_LIBS@
 VERSION = @VERSION@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@
@@ -369,6 +382,9 @@ bluray_info_LDADD = $(LIBBLURAY_LIBS) -lm
 bluray_copy_SOURCES = bluray_copy.c bluray_open.c bluray_time.c
 bluray_copy_CFLAGS = $(LIBBLURAY_CFLAGS)
 bluray_copy_LDADD = $(LIBBLURAY_LIBS) -lm
+bluray_backup_SOURCES = bluray_backup.c bluray_open.c bluray_time.c
+bluray_backup_CFLAGS = $(LIBBLURAY_CFLAGS) $(UUID_CFLAGS)
+bluray_backup_LDADD = $(LIBBLURAY_LIBS) $(UUID_LIBS) -lm
 @BLURAY_PLAYER_TRUE@bluray_player_SOURCES = bluray_player.c bluray_open.c bluray_video.c bluray_audio.c bluray_pgs.c bluray_time.c
 @BLURAY_PLAYER_TRUE@bluray_player_CFLAGS = $(LIBBLURAY_CFLAGS) $(MPV_CFLAGS)
 @BLURAY_PLAYER_TRUE@bluray_player_LDADD = $(LIBBLURAY_LIBS) $(MPV_LIBS) -lm
@@ -468,6 +484,10 @@ uninstall-binPROGRAMS:
 clean-binPROGRAMS:
 	-test -z "$(bin_PROGRAMS)" || rm -f $(bin_PROGRAMS)
 
+bluray_backup$(EXEEXT): $(bluray_backup_OBJECTS) $(bluray_backup_DEPENDENCIES) $(EXTRA_bluray_backup_DEPENDENCIES) 
+	@rm -f bluray_backup$(EXEEXT)
+	$(AM_V_CCLD)$(bluray_backup_LINK) $(bluray_backup_OBJECTS) $(bluray_backup_LDADD) $(LIBS)
+
 bluray_copy$(EXEEXT): $(bluray_copy_OBJECTS) $(bluray_copy_DEPENDENCIES) $(EXTRA_bluray_copy_DEPENDENCIES) 
 	@rm -f bluray_copy$(EXEEXT)
 	$(AM_V_CCLD)$(bluray_copy_LINK) $(bluray_copy_OBJECTS) $(bluray_copy_LDADD) $(LIBS)
@@ -486,6 +506,9 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bluray_backup-bluray_backup.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bluray_backup-bluray_open.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bluray_backup-bluray_time.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bluray_copy-bluray_copy.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bluray_copy-bluray_open.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/bluray_copy-bluray_time.Po@am__quote@ # am--include-marker
@@ -522,6 +545,48 @@ am--depfiles: $(am__depfiles_remade)
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='$<' object='$@' libtool=no @AMDEPBACKSLASH@
 @AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 @am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(COMPILE) -c -o $@ `$(CYGPATH_W) '$<'`
+
+bluray_backup-bluray_backup.o: bluray_backup.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bluray_backup_CFLAGS) $(CFLAGS) -MT bluray_backup-bluray_backup.o -MD -MP -MF $(DEPDIR)/bluray_backup-bluray_backup.Tpo -c -o bluray_backup-bluray_backup.o `test -f 'bluray_backup.c' || echo '$(srcdir)/'`bluray_backup.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/bluray_backup-bluray_backup.Tpo $(DEPDIR)/bluray_backup-bluray_backup.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='bluray_backup.c' object='bluray_backup-bluray_backup.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bluray_backup_CFLAGS) $(CFLAGS) -c -o bluray_backup-bluray_backup.o `test -f 'bluray_backup.c' || echo '$(srcdir)/'`bluray_backup.c
+
+bluray_backup-bluray_backup.obj: bluray_backup.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bluray_backup_CFLAGS) $(CFLAGS) -MT bluray_backup-bluray_backup.obj -MD -MP -MF $(DEPDIR)/bluray_backup-bluray_backup.Tpo -c -o bluray_backup-bluray_backup.obj `if test -f 'bluray_backup.c'; then $(CYGPATH_W) 'bluray_backup.c'; else $(CYGPATH_W) '$(srcdir)/bluray_backup.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/bluray_backup-bluray_backup.Tpo $(DEPDIR)/bluray_backup-bluray_backup.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='bluray_backup.c' object='bluray_backup-bluray_backup.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bluray_backup_CFLAGS) $(CFLAGS) -c -o bluray_backup-bluray_backup.obj `if test -f 'bluray_backup.c'; then $(CYGPATH_W) 'bluray_backup.c'; else $(CYGPATH_W) '$(srcdir)/bluray_backup.c'; fi`
+
+bluray_backup-bluray_open.o: bluray_open.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bluray_backup_CFLAGS) $(CFLAGS) -MT bluray_backup-bluray_open.o -MD -MP -MF $(DEPDIR)/bluray_backup-bluray_open.Tpo -c -o bluray_backup-bluray_open.o `test -f 'bluray_open.c' || echo '$(srcdir)/'`bluray_open.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/bluray_backup-bluray_open.Tpo $(DEPDIR)/bluray_backup-bluray_open.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='bluray_open.c' object='bluray_backup-bluray_open.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bluray_backup_CFLAGS) $(CFLAGS) -c -o bluray_backup-bluray_open.o `test -f 'bluray_open.c' || echo '$(srcdir)/'`bluray_open.c
+
+bluray_backup-bluray_open.obj: bluray_open.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bluray_backup_CFLAGS) $(CFLAGS) -MT bluray_backup-bluray_open.obj -MD -MP -MF $(DEPDIR)/bluray_backup-bluray_open.Tpo -c -o bluray_backup-bluray_open.obj `if test -f 'bluray_open.c'; then $(CYGPATH_W) 'bluray_open.c'; else $(CYGPATH_W) '$(srcdir)/bluray_open.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/bluray_backup-bluray_open.Tpo $(DEPDIR)/bluray_backup-bluray_open.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='bluray_open.c' object='bluray_backup-bluray_open.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bluray_backup_CFLAGS) $(CFLAGS) -c -o bluray_backup-bluray_open.obj `if test -f 'bluray_open.c'; then $(CYGPATH_W) 'bluray_open.c'; else $(CYGPATH_W) '$(srcdir)/bluray_open.c'; fi`
+
+bluray_backup-bluray_time.o: bluray_time.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bluray_backup_CFLAGS) $(CFLAGS) -MT bluray_backup-bluray_time.o -MD -MP -MF $(DEPDIR)/bluray_backup-bluray_time.Tpo -c -o bluray_backup-bluray_time.o `test -f 'bluray_time.c' || echo '$(srcdir)/'`bluray_time.c
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/bluray_backup-bluray_time.Tpo $(DEPDIR)/bluray_backup-bluray_time.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='bluray_time.c' object='bluray_backup-bluray_time.o' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bluray_backup_CFLAGS) $(CFLAGS) -c -o bluray_backup-bluray_time.o `test -f 'bluray_time.c' || echo '$(srcdir)/'`bluray_time.c
+
+bluray_backup-bluray_time.obj: bluray_time.c
+@am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bluray_backup_CFLAGS) $(CFLAGS) -MT bluray_backup-bluray_time.obj -MD -MP -MF $(DEPDIR)/bluray_backup-bluray_time.Tpo -c -o bluray_backup-bluray_time.obj `if test -f 'bluray_time.c'; then $(CYGPATH_W) 'bluray_time.c'; else $(CYGPATH_W) '$(srcdir)/bluray_time.c'; fi`
+@am__fastdepCC_TRUE@	$(AM_V_at)$(am__mv) $(DEPDIR)/bluray_backup-bluray_time.Tpo $(DEPDIR)/bluray_backup-bluray_time.Po
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	$(AM_V_CC)source='bluray_time.c' object='bluray_backup-bluray_time.obj' libtool=no @AMDEPBACKSLASH@
+@AMDEP_TRUE@@am__fastdepCC_FALSE@	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) @AMDEPBACKSLASH@
+@am__fastdepCC_FALSE@	$(AM_V_CC@am__nodep@)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bluray_backup_CFLAGS) $(CFLAGS) -c -o bluray_backup-bluray_time.obj `if test -f 'bluray_time.c'; then $(CYGPATH_W) 'bluray_time.c'; else $(CYGPATH_W) '$(srcdir)/bluray_time.c'; fi`
 
 bluray_copy-bluray_copy.o: bluray_copy.c
 @am__fastdepCC_TRUE@	$(AM_V_CC)$(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(bluray_copy_CFLAGS) $(CFLAGS) -MT bluray_copy-bluray_copy.o -MD -MP -MF $(DEPDIR)/bluray_copy-bluray_copy.Tpo -c -o bluray_copy-bluray_copy.o `test -f 'bluray_copy.c' || echo '$(srcdir)/'`bluray_copy.c
@@ -1063,7 +1128,10 @@ clean-am: clean-binPROGRAMS clean-generic mostlyclean-am
 
 distclean: distclean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
-		-rm -f ./$(DEPDIR)/bluray_copy-bluray_copy.Po
+		-rm -f ./$(DEPDIR)/bluray_backup-bluray_backup.Po
+	-rm -f ./$(DEPDIR)/bluray_backup-bluray_open.Po
+	-rm -f ./$(DEPDIR)/bluray_backup-bluray_time.Po
+	-rm -f ./$(DEPDIR)/bluray_copy-bluray_copy.Po
 	-rm -f ./$(DEPDIR)/bluray_copy-bluray_open.Po
 	-rm -f ./$(DEPDIR)/bluray_copy-bluray_time.Po
 	-rm -f ./$(DEPDIR)/bluray_info-bluray_audio.Po
@@ -1126,7 +1194,10 @@ installcheck-am:
 maintainer-clean: maintainer-clean-am
 	-rm -f $(am__CONFIG_DISTCLEAN_FILES)
 	-rm -rf $(top_srcdir)/autom4te.cache
-		-rm -f ./$(DEPDIR)/bluray_copy-bluray_copy.Po
+		-rm -f ./$(DEPDIR)/bluray_backup-bluray_backup.Po
+	-rm -f ./$(DEPDIR)/bluray_backup-bluray_open.Po
+	-rm -f ./$(DEPDIR)/bluray_backup-bluray_time.Po
+	-rm -f ./$(DEPDIR)/bluray_copy-bluray_copy.Po
 	-rm -f ./$(DEPDIR)/bluray_copy-bluray_open.Po
 	-rm -f ./$(DEPDIR)/bluray_copy-bluray_time.Po
 	-rm -f ./$(DEPDIR)/bluray_info-bluray_audio.Po
