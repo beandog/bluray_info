@@ -26,6 +26,21 @@
 #define BLURAY_M2TS_UNIT_SIZE 6144
 #define BLURAY_FILENAME_STRLEN 256
 
+/*
+ *  _     _                           _                _
+ * | |__ | |_   _ _ __ __ _ _   _    | |__   __ _  ___| | ___   _ _ __
+ * | '_ \| | | | | '__/ _` | | | |   | '_ \ / _` |/ __| |/ / | | | '_ \
+ * | |_) | | |_| | | | (_| | |_| |   | |_) | (_| | (__|   <| |_| | |_) |
+ * |_.__/|_|\__,_|_|  \__,_|\__, |___|_.__/ \__,_|\___|_|\_\\__,_| .__/
+ *                          |___/_____|                          |_|
+ *
+ * Back-up a Blu-ray and ignore DRM.
+ *
+ * A rewrite of 'bluraybackup' by Matteo Bini
+ * https://git.golem.linux.it/matteobin/bluraybackup
+ *
+ */
+
 bool debug;
 int fd_dnames;
 int fd_fnames;
@@ -327,7 +342,6 @@ int main(int argc, char **argv) {
 				// Don't backup the Blu-ray disc's DRM
 				if(strstr(parent_dirent->d_name, "AACS") || strstr(parent_dirent->d_name, "CERTIFICATE"))
 					continue;
-
 
 				if(parent_read == -1) {
 					// Failing on top directory /BDMV is expected, don't throw a warning
