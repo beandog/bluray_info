@@ -26,7 +26,7 @@
 #define BLURAY_M2TS_UNIT_SIZE 6144
 #define BLURAY_FILENAME_STRLEN 256
 
-bool verbose;
+bool debug;
 int fd_dnames;
 int fd_fnames;
 int bluray_dirs;
@@ -70,16 +70,8 @@ int mk_backup_dir(char *backup_dir, char *bluray_dir) {
 
 	snprintf(backup_mkdir_path, PATH_MAX - 1, "%s/%s", backup_dir, bluray_dir);
 
-	if(verbose)
+	if(debug)
 		fprintf(stderr, "Creating Blu-ray backup directory: '%s'\n", backup_mkdir_path);
-
-	/*
-	// Not sure I want to start verifying directory lengths
-	if(strlen(backup_mkdir_path) > PATH_MAX) {
-		fprintf(stderr, "Cannot create directory %s because name exceeds filesystem path limit\n", backup_mkdir_path);
-		return -1;
-	}
-	*/
 
 	retval = mkdir(backup_mkdir_path, 0755);
 
@@ -112,8 +104,6 @@ int mk_backup_dir(char *backup_dir, char *bluray_dir) {
 	int log_filenames(BLURAY *, char *, char *);
 	int log_filenames(BLURAY *bd, char *parent_dir, char *target_dir) {
 
-		verbose = true;
-
 		char dirname[BLURAY_FILENAME_STRLEN];
 		char tmp_dirname[BLURAY_FILENAME_STRLEN];
 		char tmp_filename[BLURAY_FILENAME_STRLEN];
@@ -137,7 +127,7 @@ int mk_backup_dir(char *backup_dir, char *bluray_dir) {
 			bdnd_read = bdnd_dir->read(bdnd_dir, bdnd_dirent);
 
 			if(bdnd_read == -1) {
-				if(verbose)
+				if(debug)
 					fprintf(stderr, "bdnd_dir->read() moving to next result\n");
 				continue;
 			}
@@ -150,7 +140,7 @@ int mk_backup_dir(char *backup_dir, char *bluray_dir) {
 				memset(dirname, '\0', BLURAY_FILENAME_STRLEN);
 				snprintf(dirname, BLURAY_FILENAME_STRLEN, "%s/%s", parent_dir, bdnd_dirent->d_name);
 
-				if(verbose)
+				if(debug)
 					printf("%s\n", dirname);
 
 				memset(tmp_dirname, '\0', BLURAY_FILENAME_STRLEN);
@@ -172,7 +162,7 @@ int mk_backup_dir(char *backup_dir, char *bluray_dir) {
 
 				// FIXME I don't like this, not having the newline, it's going to cause confusion
 				// at some point.
-				if(verbose)
+				if(debug)
 					printf("%s", tmp_filename);
 
 				add_filename_to_tmpfile(tmp_filename, fd_fnames);
@@ -191,15 +181,74 @@ int mk_backup_dir(char *backup_dir, char *bluray_dir) {
 	}
 
 // FIXME use getopt, then change to char **argv
-int main(int argc, char *argv[]) {
+int main(int argc, char **argv) {
 
-	bool debug = true;
+	bool debug = false;
+
+	char device_filename[PATH_MAX] = {'\0'};
+	memset(device_filename, '\0', PATH_MAX);
+
+	char key_db_filename[PATH_MAX] = {'\0'};
+	memset(key_db_filename, '\0', PATH_MAX);
+
+	char bluray_backup_dir[PATH_MAX] = {'\0'};
+	memset(bluray_backup_dir, '\0', PATH_MAX);
+	strcpy(bluray_backup_dir, ".");
+
+	bool copy_m2ts = true;
+
+	int g_opt = 0;
+	int g_ix = 0;
+	struct option p_long_opts[] = {
+		{ "help", no_argument, NULL, 'h' },
+		{ "directory", required_argument, NULL, 'd' },
+		{ "keydb", required_argument, NULL, 'k' },
+		{ "skip_m2ts", no_argument, NULL, 's' },
+		{ "debug", no_argument, NULL, 'z' },
+		{ "version", no_argument, NULL, 'V' },
+		{ 0, 0, 0, 0 }
+	};
+	while((g_opt = getopt_long(argc, argv, "hd:k:szV", p_long_opts, &g_ix)) != -1) {
+
+		switch(g_opt) {
+
+			case 'd':
+				strncpy(bluray_backup_dir, optarg, PATH_MAX - 1);
+				break;
+
+			case 'k':
+				strncpy(key_db_filename, optarg, PATH_MAX - 1);
+				break;
+
+			case 's':
+				copy_m2ts = false;
+				break;
+
+			case 'z':
+				debug = true;
+				break;
+
+			case 0:
+			default:
+				break;
+		}
+
+	}
+
+	if(argv[optind])
+		strncpy(device_filename, argv[optind], PATH_MAX - 1);
+	else
+		strncpy(device_filename, DEFAULT_BLURAY_DEVICE, PATH_MAX - 1);
 
 	BLURAY *bd = NULL;
 
-	bd = bd_open(argv[1], argv[2]);
+	if(strlen(key_db_filename))
+		bd = bd_open(device_filename, key_db_filename);
+	else
+		bd = bd_open(device_filename, NULL);
+
 	if (bd == NULL) {
-		fprintf(stderr, "Can't open device %s.\n", argv[1]);
+		fprintf(stderr, "Can't open device %s.\n", device_filename);
 		exit(1);
 	}
 
@@ -210,7 +259,6 @@ int main(int argc, char *argv[]) {
 			uuid_generate(uu);
 			char str_uuid[37];
 			uuid_unparse_lower(uu, str_uuid);
-
 
 		char dnames_filename[PATH_MAX];
 		char fnames_filename[PATH_MAX];
@@ -240,14 +288,12 @@ int main(int argc, char *argv[]) {
 				return 1;
 			}
 
-			char target_dir[PATH_MAX];
-			memset(target_dir, '\0', PATH_MAX);
-			strcpy(target_dir, "Backup");
+	printf("Backing up '%s' to '%s'\n", device_filename, bluray_backup_dir);
 
 			int retval;
-			retval = mkdir(target_dir, 0755);
+			retval = mkdir(bluray_backup_dir, 0755);
 			if(retval == -1 && errno != EEXIST) {
-				fprintf(stderr, "* could not create backup directory: %s\n", target_dir);
+				fprintf(stderr, "* could not create backup directory: %s\n", bluray_backup_dir);
 				return 1;
 			}
 
@@ -282,26 +328,28 @@ int main(int argc, char *argv[]) {
 				if(strstr(parent_dirent->d_name, "AACS") || strstr(parent_dirent->d_name, "CERTIFICATE"))
 					continue;
 
+
 				if(parent_read == -1) {
-					fprintf(stderr, "parent_dir->read() on '%s' failed\n", parent_dirent->d_name);
+					// Failing on top directory /BDMV is expected, don't throw a warning
+					if(debug && (strncmp(parent_dirent->d_name, "BDMV", 4) != 0))
+						fprintf(stderr, "parent_dir->read() on '%s' failed\n", parent_dirent->d_name);
 					break;
 				}
 
 				if(parent_read == 1) {
-					verbose = true;
-					if(verbose)
+					if(debug)
 						fprintf(stderr, "parent_dir->read() '%s' reached EOF\n", parent_dirent->d_name);
 					continue;
 				}
 
 				// We might be backing up a directory instead of a device, so skip that
 				if(parent_dirent->d_name[0] == '.') {
-					if(verbose)
+					if(debug)
 						fprintf(stderr, "Skipping . and .. from filesystem directory\n");
 					continue;
 				}
 
-				if(verbose)
+				if(debug)
 					printf("%s\n", parent_dirent->d_name);
 
 				// Check if it's a directory or a file
@@ -321,7 +369,7 @@ int main(int argc, char *argv[]) {
 
 					add_filename_to_tmpfile(mkdir_path, fd);
 
-					log_filenames(bd, parent_dirent->d_name, target_dir);
+					log_filenames(bd, parent_dirent->d_name, bluray_backup_dir);
 
 				}
 
@@ -343,8 +391,7 @@ int main(int argc, char *argv[]) {
 
 			}
 
-			verbose = false;
-			if(verbose) {
+			if(debug) {
 				fprintf(stderr, "total dirs: %i total files: %i\n", bluray_dirs, bluray_files);
 			}
 
@@ -378,7 +425,7 @@ int main(int argc, char *argv[]) {
 				// Trimming the newline from fgets() when copying
 				strncpy(bluray_dirnames[ix], line, strlen(line) - 1);
 
-				if(verbose)
+				if(debug)
 					printf("[%i/%i] %s\n", ix + 1, bluray_dirs, bluray_dirnames[ix]);
 
 				ix++;
@@ -390,11 +437,10 @@ int main(int argc, char *argv[]) {
 			int mkdir_retval = 0;
 			for(ix = 0; ix < bluray_dirs; ix++) {
 
-				// verbose = true;
-				mkdir_retval = mk_backup_dir(target_dir, bluray_dirnames[ix]);
+				mkdir_retval = mk_backup_dir(bluray_backup_dir, bluray_dirnames[ix]);
 
 				if(mkdir_retval) {
-					fprintf(stderr, "Can't make directory '%s/%s' quitting\n", target_dir, trimmed_line);
+					fprintf(stderr, "Can't make directory '%s/%s' quitting\n", bluray_backup_dir, trimmed_line);
 					return 1;
 				}
 
@@ -420,7 +466,7 @@ int main(int argc, char *argv[]) {
 				// Trimming the newline from fgets() when copying
 				strncpy(bluray_filenames[ix], line, strlen(line) - 1);
 
-				if(verbose)
+				if(debug)
 					printf("[%i/%i] %s\n", ix + 1, bluray_files, bluray_filenames[ix]);
 
 				ix++;
@@ -429,9 +475,8 @@ int main(int argc, char *argv[]) {
 
 			qsort(bluray_filenames, (size_t)bluray_files, sizeof(*bluray_filenames), sort_arr_filenames);
 
-			verbose = false;
 			for(ix = 0; ix < bluray_files; ix++) {
-				if(verbose)
+				if(debug)
 					printf("ix: %i filename: %s\n", ix, bluray_filenames[ix]);
 			}
 
@@ -457,16 +502,17 @@ int main(int argc, char *argv[]) {
 
 			int bluray_fd = 0;
 
-			bool copy_m2ts = false;
-
 			for(ix = 0; ix < bluray_files; ix++) {
 
-				if(!copy_m2ts && strstr(bluray_filenames[ix], "m2ts"))
+				if(!copy_m2ts && strstr(bluray_filenames[ix], ".m2ts")) {
+					printf("* [%i/%i] %s (skipping)\n", ix + 1, bluray_files, bluray_filenames[ix]);
 					continue;
+				}
 
-				verbose = true;
-				if(verbose)
+				if(debug)
 					printf("bluray_filenames[%i]: %s\n", ix, bluray_filenames[ix]);
+
+				printf("* [%i/%i] %s\n", ix + 1, bluray_files, bluray_filenames[ix]);
 
 				bd_file = bd_open_file_dec(bd, bluray_filenames[ix]);
 
@@ -476,7 +522,7 @@ int main(int argc, char *argv[]) {
 				}
 
 					 memset(target_filename, '\0', BLURAY_FILENAME_STRLEN);
-					 snprintf(target_filename, BLURAY_FILENAME_STRLEN, "%s/%s", target_dir, bluray_filenames[ix]);
+					 snprintf(target_filename, BLURAY_FILENAME_STRLEN, "%s/%s", bluray_backup_dir, bluray_filenames[ix]);
 					 bluray_fd = open(target_filename, O_WRONLY | O_CREAT | O_APPEND | O_TRUNC, 0644);
 
 					if(bluray_fd == -1) {
@@ -503,14 +549,13 @@ int main(int argc, char *argv[]) {
 
 					// Reached end of file
 					if(bluray_read[1] == 0) {
-						if(verbose)
+						if(debug)
 							fprintf(stderr, "parent_dir->read() '%s' reached EOF\n", parent_dirent->d_name);
 						break;
 					}
 
 					bluray_read[2] += bluray_read[1];
-					verbose = false;
-					if(verbose)
+					if(debug)
 						fprintf(stderr, "bluray_read[2]: %" PRIi64 "\n", bluray_read[2]);
 
 					bluray_write[1] = write(bluray_fd, &bluray_buffer, bluray_read[1]);
@@ -523,7 +568,6 @@ int main(int argc, char *argv[]) {
 				close(bluray_fd);
 
 			}
-
 
 		fclose(fp);
 
