@@ -111,8 +111,7 @@ am_bluray_backup_OBJECTS = bluray_backup-bluray_backup.$(OBJEXT) \
 	bluray_backup-bluray_time.$(OBJEXT)
 bluray_backup_OBJECTS = $(am_bluray_backup_OBJECTS)
 am__DEPENDENCIES_1 =
-bluray_backup_DEPENDENCIES = $(am__DEPENDENCIES_1) \
-	$(am__DEPENDENCIES_1)
+bluray_backup_DEPENDENCIES = $(am__DEPENDENCIES_1)
 bluray_backup_LINK = $(CCLD) $(bluray_backup_CFLAGS) $(CFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
 am_bluray_copy_OBJECTS = bluray_copy-bluray_copy.$(OBJEXT) \
@@ -329,8 +328,6 @@ PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
 SET_MAKE = @SET_MAKE@
 SHELL = @SHELL@
 STRIP = @STRIP@
-UUID_CFLAGS = @UUID_CFLAGS@
-UUID_LIBS = @UUID_LIBS@
 VERSION = @VERSION@
 abs_builddir = @abs_builddir@
 abs_srcdir = @abs_srcdir@

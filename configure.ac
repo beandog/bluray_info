@@ -12,9 +12,6 @@ AC_CHECK_HEADERS([math.h])
 dnl Use pkg-config to check for libbluray
 PKG_CHECK_MODULES([LIBBLURAY], [libbluray >= 1.2.0])
 
-dnl bluray_backup needs uuid
-PKG_CHECK_MODULES([UUID], [uuid])
-
 AC_ARG_WITH([libmpv], [AS_HELP_STRING([--with-libmpv], [Enable mpv support to build bluray_player])], [with_libmpv=${withval}], [with_libmpv=no])
 
 dnl debugging
