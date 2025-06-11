@@ -1,0 +1,124 @@
+'\" t
+.\"     Title: bluray_rip
+.\"    Author: [see the "AUTHOR(S)" section]
+.\" Generator: Asciidoctor 2.0.23
+.\"      Date: 2025-06-10
+.\"    Manual: \ \&
+.\"    Source: \ \&
+.\"  Language: English
+.\"
+.TH "BLURAY_RIP" "1" "2025-06-10" "\ \&" "\ \&"
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.ss \n[.ss] 0
+.nh
+.ad l
+.de URL
+\fI\\$2\fP <\\$1>\\$3
+..
+.als MTO URL
+.if \n[.g] \{\
+.  mso www.tmac
+.  am URL
+.    ad l
+.  .
+.  am MTO
+.    ad l
+.  .
+.  LINKSTYLE blue R < >
+.\}
+.SH "NAME"
+bluray_rip \- an ffmpeg wrapper for ripping Blu\-rays using bluray_copy
+.SH "SYNOPSIS"
+.sp
+\fBbluray_rip\fP [\fIOPTIONS\fP]
+.SH "DESCRIPTION"
+.sp
+The bluray_rip(1) program will rip a Blu\-ray playlist using ffmpeg. bluray_copy(1) is required, to pipe the playlist stream to ffmpeg.
+.sp
+Input path can be a single filename (image), a directory, or a device name.
+The default device is based on your operating system, and is the primary
+optical drive.
+.sp
+Default output filename is \fIbluray_rip.mkv\fP, and will use default video and audio codecs if none are specified.
+.sp
+The primary video stream and all audio streams will be encoded, and all subtitles will be copied. If there are errors, look at ffmpeg output. You can see what command ffmpeg would execute by running \fIbluray_rip \-n\fP.
+.sp
+If you want to simply remux the Blu\-ray playlist (copy everything and do no encoding), use \fIcopy\fP as both video and audio codecs.
+.SH "OPTIONS"
+.sp
+\fB\-i\fP \fIFILENAME\fP
+.RS 4
+Input source. Default is Blu\-ray drive based on operating system.
+.RE
+.sp
+\fB\-o\fP \fIFILENAME\fP
+.RS 4
+Save to filename. Default is bluray_rip.mkv
+.RE
+.sp
+\fB\-p\fP \fIPLAYLIST\fP
+.RS 4
+Copy the selected playlist number. Default is the main one.
+.RE
+.sp
+\fB\-d\fP \fI[yes|no]\fP
+Select from index of duplicate titles that libbluray would originally
+filter out. Recommended to use this for consistency across environments. Default is enabled.
+.sp
+\fB\-c\fP \fICHAPTER[\-CHAPTER]\fP
+Copy the selected chapter or range range. Default is to copy all
+chapters.
+.sp
+\fB\-k\fP \fIFILENAME\fP
+Location to \fIKEYDB.cfg\fP used by libaacs for decryption. Default is
+\fI~/.config/aacs/KEYDB.cfg\fP.
+.sp
+\fB\-v\fP \fI<codec>\fP
+Video codec to use. bluray_rip will look for av1, x265, then vp9. The codec can be anything that ffmpeg supports. See \fIffmpeg \-codecs\fP.
+.sp
+\fB\-a\fP \fI<codec>\fP
+Audio codec to use. bluray_rip will look for libopus, then copying the streams. The codec can be anything that ffmpeg supports. See \fIffmpeg \-codecs\fP. All streams will be encoded.
+.sp
+\fB\-s\fP \fI[yes|no]\fP
+Copy subtitles. All streams will be copied.
+.sp
+\fB\-n\fP
+Show the commands that \fIbluray_copy\fP and \fIffmpeg\fP would run together.
+.sp
+\fB\-r\fP
+Run \fIbluray_copy\fP through \fIffpipe\fP to see what ffmpeg can see for stream content and details.
+.sp
+\fB\-y\fP
+Don\(cqt ask to overwrite existing output file.
+.sp
+\fB\-z\fP
+Display verbose output from ffmpeg.
+.sp
+\fB\-h\fP
+Display help output.
+.SH "SEE ALSO"
+.sp
+bluray_info(1), bluray_player(1), bluray_backup(1)
+.SH "BUGS"
+.sp
+\fBbluray_rip\fP does not wait for an optical device to be ready. Wait for it to
+finish "polling" before running the program.
+.sp
+Please file bugs at \c
+.URL "https://github.com/beandog/bluray_info/issues" "" ""
+.SH "AUTHOR"
+.sp
+bluray_rip was written by Steve Dibb \c
+.MTO "steve.dibb\(atgmail.com" "" ""
+.SH "RESOURCES"
+.sp
+Source code available at GitHub: \c
+.URL "https://github.com/beandog/bluray_info" "" ""
+.sp
+Main web site: \c
+.URL "https://dvds.beandog.org" "" ""
+.SH "COPYING"
+.sp
+Copyright (C) 2025 Steve Dibb. Free use of this software is granted under the
+terms of the GNU General Public License, version 2 (GPL).

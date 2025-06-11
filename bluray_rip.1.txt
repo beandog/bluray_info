@@ -1,0 +1,99 @@
+BLURAY_RIP(1)
+=============
+:doctype: manpage
+
+NAME
+----
+bluray_rip - an ffmpeg wrapper for ripping Blu-rays using bluray_copy
+
+SYNOPSIS
+--------
+*bluray_rip* ['OPTIONS']
+
+DESCRIPTION
+-----------
+The bluray_rip(1) program will rip a Blu-ray playlist using ffmpeg. bluray_copy(1) is required, to pipe the playlist stream to ffmpeg. 
+
+Input path can be a single filename (image), a directory, or a device name.
+The default device is based on your operating system, and is the primary
+optical drive.
+
+Default output filename is 'bluray_rip.mkv', and will use default video and audio codecs if none are specified.
+
+The primary video stream and all audio streams will be encoded, and all subtitles will be copied. If there are errors, look at ffmpeg output. You can see what command ffmpeg would execute by running 'bluray_rip -n'.
+
+If you want to simply remux the Blu-ray playlist (copy everything and do no encoding), use 'copy' as both video and audio codecs.
+
+OPTIONS
+-------
+
+*-i* 'FILENAME'::
+	Input source. Default is Blu-ray drive based on operating system.
+
+*-o* 'FILENAME'::
+	Save to filename. Default is bluray_rip.mkv
+
+*-p* 'PLAYLIST'::
+	Copy the selected playlist number. Default is the main one.
+
+*-d* '[yes|no]'
+	Select from index of duplicate titles that libbluray would originally
+	filter out. Recommended to use this for consistency across environments. Default is enabled.
+
+*-c* 'CHAPTER[-CHAPTER]'
+	Copy the selected chapter or range range. Default is to copy all
+	chapters.
+
+*-k* 'FILENAME'
+	Location to 'KEYDB.cfg' used by libaacs for decryption. Default is
+	'~/.config/aacs/KEYDB.cfg'.
+
+*-v* '<codec>'
+	Video codec to use. bluray_rip will look for av1, x265, then vp9. The codec can be anything that ffmpeg supports. See 'ffmpeg -codecs'.
+
+*-a* '<codec>'
+	Audio codec to use. bluray_rip will look for libopus, then copying the streams. The codec can be anything that ffmpeg supports. See 'ffmpeg -codecs'. All streams will be encoded.
+
+*-s* '[yes|no]'
+	Copy subtitles. All streams will be copied.
+
+*-n*
+	Show the commands that 'bluray_copy' and 'ffmpeg' would run together.
+
+*-r*
+	Run 'bluray_copy' through 'ffpipe' to see what ffmpeg can see for stream content and details.
+
+*-y*
+	Don't ask to overwrite existing output file.
+
+*-z*
+	Display verbose output from ffmpeg.
+	
+*-h*
+	Display help output.
+
+SEE ALSO
+--------
+bluray_info(1), bluray_player(1), bluray_backup(1)
+
+BUGS
+----
+*bluray_rip* does not wait for an optical device to be ready. Wait for it to
+finish "polling" before running the program.
+
+Please file bugs at <https://github.com/beandog/bluray_info/issues>
+
+AUTHOR
+------
+bluray_rip was written by Steve Dibb <steve.dibb@gmail.com>
+
+RESOURCES
+---------
+Source code available at GitHub: <https://github.com/beandog/bluray_info>
+
+Main web site: <https://dvds.beandog.org>
+
+COPYING
+-------
+Copyright \(C) 2025 Steve Dibb. Free use of this software is granted under the
+terms of the GNU General Public License, version 2 (GPL).
