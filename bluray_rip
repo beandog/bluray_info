@@ -1,0 +1,283 @@
+#!/usr/bin/env bash
+#  _     _                                _
+# | |__ | |_   _ _ __ __ _ _   _     _ __(_)_ __
+# | '_ \| | | | | '__/ _` | | | |   | '__| | '_ \
+# | |_) | | |_| | | | (_| | |_| |   | |  | | |_) |
+# |____/|_|\__,_|_|  \__,_|\__, |___|_|  |_| .__/
+#                          |___/_____|     |_|
+#
+# An ffmpeg wrapper for ripping Blu-rays using bluray_copy
+
+# --- Pre-flight instructions
+
+# Check for ffmpeg
+which ffmpeg &> /dev/null
+if [[ $? -ne 0 ]]; then
+	echo "ffmpeg is not installed"
+	exit 1
+fi
+
+# Check for bluray_copy which is needed to export the stream
+which bluray_copy &> /dev/null
+if [[ $? -ne 0 ]]; then
+	echo "bluray_copy is not installed"
+	exit 1
+fi
+
+# --- Get ffmpeg video codecs
+
+has_av1=0
+has_x265=0
+has_vp9=0
+
+# Get all the codecs that ffmpeg supports
+ffmpeg_codecs=$(ffmpeg -hide_banner -codecs 2> /dev/null)
+
+# check for av1
+echo $ffmpeg_codecs | grep av1 > /dev/null
+if [[ $? -eq 0 ]]; then
+	has_av1=1
+fi
+
+# Check for libx265
+echo $ffmpeg_codecs | grep x265 > /dev/null
+if [[ $? -eq 0 ]]; then
+	has_x265=1
+fi
+
+# check for libvpx-vp9
+echo $ffmpeg_codecs | grep vp9 > /dev/null
+if [[ $? -eq 0 ]]; then
+	has_vp9=1
+fi
+
+# Set default video codec
+if [[ $has_av1 -eq 1 ]]; then
+	default_vcodec=av1
+elif [[ $has_x265 -eq 1 ]]; then
+	default_vcodec=x265
+elif [[ $has_vp9 -eq 1 ]]; then
+	default_vcodec=vp9
+fi
+
+# --- Get ffmpeg audio codecs
+
+has_opus=0
+
+# Check for libopus (native opus needs experimental flag, so not checking)
+echo $ffmpeg_codecs | grep libopus > /dev/null
+if [[ $? -eq 0 ]]; then
+	has_opus=1
+fi
+
+if [[ $has_opus -eq 1 ]]; then
+	default_acodec=libopus
+else
+	default_codec=copy
+fi
+
+function display_help {
+
+	binary=$(basename "$0")
+
+	echo "bluray_rip - an ffmpeg wrapper for ripping Blu-rays using bluray_copy"
+	echo
+	echo "Usage:"
+	echo "  $binary [options]"
+	echo
+	echo "  -i <filename>           Input source - can be device, directory, or file [BD drive]"
+	echo "  -o <filename>           Save to filename [bluray_rip.mkv]"
+	echo "  -p <#>                  Rip selected playlist [main playlist]"
+	echo "  -d <yes|no>             Use duplicates index (see man bluray_copy) [yes]"
+	echo "  -c <#[-#]>              Rip chapter number(s) [all]"
+	echo
+	echo "Encoding options:"
+	echo
+	echo "  -v                      Video codec [$default_vcodec]"
+	echo "  -q <#>                  Video quality CRF [ffmpeg default]"
+	echo "  -a                      Audio codec [$default_acodec]"
+	echo "  -s <yes|no>             Copy subtitles [yes]"
+	echo
+	echo "Other options:"
+	echo "  -n                      Dry run: only show commands to run"
+	echo "  -r                      Run ffprobe only to display stream details"
+	echo "  -y                      Don't ask to ovewrite existing output file"
+	echo "  -z                      Display verbose output"
+	echo
+	echo "See 'man bluray_rip' for more information."
+
+}
+
+if [[ $1 == "--help" ]]; then
+	display_help
+	exit
+fi
+
+# --- BLURAY_RIP
+
+input_filename=""
+output_filename="bluray_rip.mkv"
+bluray_playlist=""
+bluray_chapters=""
+bluray_duplicates="yes"
+vcodec="av1"
+acodec="libopus"
+subtitles="yes"
+loglevel="info"
+dry_run="no"
+ffprobe="no"
+write_filename="yes"
+overwrite_filename="no"
+verbose="no"
+
+# --- GET OPTIONS
+
+optstring="hi:o:p:d:c:v:q:a:s:nryz"
+
+while getopts $optstring name; do
+
+	case $name in
+		h)
+			display_help
+			exit;;
+
+		i)
+			input_filename="$OPTARG";;
+
+		o)
+			output_filename="$OPTARG";;
+
+		p)
+			bluray_playlist="$OPTARG";;
+
+		d)
+			bluray_duplicates="$OPTARG";;
+
+		c)
+			bluray_chapters="$OPTARG";;
+
+		v)
+			vcodec="$OPTARG";;
+
+		q)
+			crf="$OPTARG";;
+
+		a)
+			acodec="$OPTARG";;
+
+		s)
+			subtitles="$OPTARG";;
+
+		n)
+			dry_run="yes";;
+
+		r)
+			ffprobe="yes";;
+
+		y)
+			overwrite_filename="yes";;
+
+		z)
+			verbose="yes";;
+
+		?)
+			display_help
+			exit;;
+
+	esac
+
+done
+
+# --- BLURAY_COPY
+
+bluray_copy_opts="-o -"
+if [[ -n "$input_filename" ]]; then
+	if [[ ! -e "$input_filename" ]]; then
+		echo "bluray_rip: cannot find filename '$input_filename'"
+		exit 1
+	fi
+	bluray_copy_opts="$bluray_copy_opts $input_filename"
+fi
+
+if [[ -n "$bluray_playlist" ]] && [[ "$bluray_playlist" -ge 0 ]]; then
+	bluray_copy_opts="$bluray_copy_opts -p $bluray_playlist"
+fi
+
+# Use duplicates to maintain consitency of Blu-ray contents across devices
+if [[ "$bluray_duplicates" == "yes" ]]; then
+	bluray_copy_opts="$bluray_copy_opts -d"
+fi
+
+if [[ -n "$bluray_chapters" ]]; then
+	bluray_copy_opts="$bluray_copy_opts -c $bluray_chapters"
+fi
+
+# --- FFMPEG
+
+if [[ "$verbose" == "yes" ]]; then
+	ffmpeg_opts="-loglevel verbose"
+else
+	ffmpeg_opts="-hide_banner"
+fi
+
+# Read input from stdout sent by bluray_copy
+ffmpeg_opts="$ffmpeg_opts -i -"
+
+# Encode video
+# Blu-rays can have multiple video streams, only encode the first one (I might regret this)
+ffmpeg_opts="$ffmpeg_opts -map v:0"
+ffmpeg_opts="$ffmpeg_opts -vcodec $vcodec"
+if [[ -n "$crf" ]] && [[ "$crf" -gt 0 ]]; then
+	ffmpeg_opts="$ffmpeg_opts -crf $crf"
+fi
+
+# Map all audio streams - ffmpeg doesn't recognize language from piped input
+ffmpeg_opts="$ffmpeg_opts -map a"
+ffmpeg_opts="$ffmpeg_opts -acodec $acodec"
+
+# Map the channels for Opus manually, a workaround to an ffmpeg bug (or lack of feature)
+# See https://trac.ffmpeg.org/ticket/5718#comment:11
+if [[ "$acodec" == "libopus" ]]; then
+	ffmpeg_opts="$ffmpeg_opts -af aformat=channel_layouts='7.1|5.1|stereo|mono'"
+fi
+
+# Map all subtitle streams - ffmpeg doesn't recognize language from piped input
+if [[ "$subtitles" == "yes" ]]; then
+	ffmpeg_opts="$ffmpeg_opts -map s?"
+	ffmpeg_opts="$ffmpeg_opts -scodec copy"
+fi
+
+# Overwrite existing file (will confirm later)
+ffmpeg_opts="$ffmpeg_opts -y"
+
+# Write to filename
+ffmpeg_opts="$ffmpeg_opts $output_filename"
+
+# --- RIPPING
+
+# Check for a 'dry run' to display commands
+if [[ "$dry_run" == "yes" ]]; then
+	if [[ "$ffprobe" == "yes" ]]; then
+		echo "bluray_copy $bluray_copy_opts 2> /dev/null | ffprobe -loglevel $loglevel -"
+	else
+		echo "bluray_copy $bluray_copy_opts 2> /dev/null | ffmpeg $ffmpeg_opts"
+	fi
+	exit
+fi
+
+# Just display what ffmpeg is looking at
+if [[ "$ffprobe" == "yes" ]]; then
+	bluray_copy $bluray_copy_opts 2> /dev/null | ffprobe -loglevel $loglevel -
+	exit
+fi
+
+# Ask user confirmation if output file exists
+if [[ -e "$output_filename" ]] && [[ $overwrite_filename != "yes" ]]; then
+	read -n 2 -p "File '$output_filename' already exists. Overwrite? [y/N] " write_filename
+fi
+
+# Run bluray_copy and output to pipe, while supressing stderr which displays copy progress
+# Run ffmpeg with options given
+if [[ ${write_filename:0:1} == "y" ]] || [[ ${write_filename:0:1} == "Y" ]]; then
+	bluray_copy $bluray_copy_opts 2> /dev/null | ffmpeg $ffmpeg_opts
+fi
