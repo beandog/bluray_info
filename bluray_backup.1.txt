@@ -1,0 +1,65 @@
+BLURAY_BACKUP(1)
+================
+:doctype: manpage
+
+NAME
+----
+bluray_backup - back up a Blu-ray
+
+SYNOPSIS
+--------
+*bluray_backup* ['PATH'] ['OPTIONS']
+
+DESCRIPTION
+-----------
+The bluray_backup(1) program will back up a Blu-ray to a directory and skip DRM.
+
+Input path can be a single filename (image) or a device name. The default device is based on your operating system, and is the primary optical drive.
+
+bluray_backup will copy the contents to the current working directory by default.
+
+OPTIONS
+-------
+
+*-d, --directory*='PATH'
+	Save backup to directory.
+
+*-k, --keydb*='FILENAME'
+	Location to 'KEYDB.cfg' used by libaacs for decryption. Default is
+	'~/.config/aacs/KEYDB.cfg'.
+
+*-s, --skip-m2ts*
+	Don't back up the videos of the Blu-ray. Useful for debugging.
+
+*-h, --help*
+	Display help output.
+
+*--version*
+	Display version information.
+
+SEE ALSO
+--------
+bluray_info(1), bluray_player(1), bluray_copy(1), bluray_rip(1)
+
+BUGS
+----
+*bluray_backup* does not wait for an optical device to be ready. Wait for it to
+finish "polling" before running the program.
+
+Please file bugs at <https://github.com/beandog/bluray_info/issues>
+
+AUTHOR
+------
+bluray_backup was written by Steve Dibb <steve.dibb@gmail.com>
+It is a rewrite of 'bluraybackup' by Matteo Bini.
+
+RESOURCES
+---------
+Source code available at GitHub: <https://github.com/beandog/bluray_info>
+
+Main web site: <https://dvds.beandog.org>
+
+COPYING
+-------
+Copyright \(C) 2025 Steve Dibb. Free use of this software is granted under the
+terms of the GNU General Public License, version 2 (GPL).
