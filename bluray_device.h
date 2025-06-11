@@ -13,7 +13,7 @@
 #define DEFAULT_BLURAY_DEVICE "/dev/rcd0c"
 #elif defined(__APPLE__) && defined(__MACH__)
 #define DEFAULT_BLURAY_DEVICE "/dev/disk1"
-#elif defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__)
+#elif defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__) || defined(__MSYS__)
 #define DEFAULT_BLURAY_DEVICE "D:\\"
 #else
 #define DEFAULT_BLURAY_DEVICE "/dev/sr0"

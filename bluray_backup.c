@@ -88,7 +88,7 @@ int mk_backup_dir(char *backup_dir, char *bluray_dir) {
 	if(debug)
 		fprintf(stderr, "Creating Blu-ray backup directory: '%s'\n", backup_mkdir_path);
 
-#if defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__)
+#if defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__) || defined(__MSYS__)
 	retval = mkdir(backup_mkdir_path);
 #else
 	retval = mkdir(backup_mkdir_path, 0755);
@@ -308,7 +308,7 @@ int main(int argc, char **argv) {
 	printf("Backing up '%s' to '%s'\n", device_filename, bluray_backup_dir);
 
 			int retval;
-#if defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__)
+#if defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__) || defined(__MSYS__)
 			retval = mkdir(bluray_backup_dir);
 #else
 			retval = mkdir(bluray_backup_dir, 0755);
