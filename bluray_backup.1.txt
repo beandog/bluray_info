@@ -21,7 +21,7 @@ bluray_backup will copy the contents to the current working directory by default
 OPTIONS
 -------
 
-*-d, --directory*='PATH'
+*-d, --directory*='DIRECTORY'
 	Save backup to directory.
 
 *-k, --keydb*='FILENAME'
@@ -51,6 +51,7 @@ Please file bugs at <https://github.com/beandog/bluray_info/issues>
 AUTHOR
 ------
 bluray_backup was written by Steve Dibb <steve.dibb@gmail.com>
+
 It is a rewrite of 'bluraybackup' by Matteo Bini.
 
 RESOURCES
