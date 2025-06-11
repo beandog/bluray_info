@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
 	bool opt_playlist_number = false;
 	bool opt_main_title = false;
 	bool exit_help = false;
-	bool duplicates = false;
+	bool duplicates = true;
 	bool opt_filename = false;
 	unsigned long int arg_number = 0;
 	uint32_t arg_playlist_number = 0;
@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
 	struct option p_long_opts[] = {
 		{ "angle", required_argument, NULL, 'a' },
 		{ "chapter", required_argument, NULL, 'c' },
-		{ "duplicates", required_argument, NULL, 'd' },
+		{ "no-duplicates", required_argument, NULL, 'd' },
 		{ "help", no_argument, NULL, 'h' },
 		{ "keydb", required_argument, NULL, 'k' },
 		{ "main", no_argument, NULL, 'm' },
@@ -127,7 +127,7 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'd':
-				duplicates = true;
+				duplicates = false;
 				break;
 
 			case 'k':
@@ -181,7 +181,7 @@ int main(int argc, char **argv) {
 				printf("      --output -           Write to stdout\n");
 				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
 				printf("  -a, --angle <#>          Video angle (default: 1)\n");
-				printf("  -d, --duplicates         Use duplicates index (see man bluray_copy)\n");
+				printf("  -d, --no-duplicates      Do not use duplicates index (see man bluray_copy)\n");
 				printf("  -V, --version            Display version\n");
 				printf("  -h, --help               This output\n");
 				printf("\n");

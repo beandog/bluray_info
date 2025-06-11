@@ -234,6 +234,8 @@ int main(int argc, char **argv) {
 				printf("\n");
 				printf("MPV configuration is read from ~/.config/bluray_player/mpv.conf\n");
 				printf("\n");
+				printf("MPV ignores duplicate titles by default, so use 'bluray_info --no-duplicates' to get same playlist number.\n");
+				printf("\n");
 				printf("Blu-ray path can be a device, filename, or directory (default: " DEFAULT_BLURAY_DEVICE ")\n");
 				exit_help = true;
 				break;
