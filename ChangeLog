@@ -1,5 +1,9 @@
 ChangeLog
 
+1.15
+- Add bluray_backup
+- Add bluray_rip - an ffmpeg wrapper using bluray_copy
+
 1.14
 
 - Remove option to set titles as input, use only playlists
