@@ -216,13 +216,15 @@ int main(int argc, char **argv) {
 
 	bool copy_m2ts = true;
 
+	bool exit_help = false;
+
 	int g_opt = 0;
 	int g_ix = 0;
 	struct option p_long_opts[] = {
 		{ "help", no_argument, NULL, 'h' },
 		{ "directory", required_argument, NULL, 'd' },
 		{ "keydb", required_argument, NULL, 'k' },
-		{ "skip_m2ts", no_argument, NULL, 's' },
+		{ "skip-m2ts", no_argument, NULL, 's' },
 		{ "debug", no_argument, NULL, 'z' },
 		{ "version", no_argument, NULL, 'V' },
 		{ 0, 0, 0, 0 }
@@ -247,12 +249,32 @@ int main(int argc, char **argv) {
 				debug = true;
 				break;
 
+			case 'h':
+				printf("bluray_backup - copy a Blu-ray to a directory\n");
+				printf("\n");
+				printf("Usage: bluray_backup [path] [options]\n");
+				printf("\n");
+				printf("Options:\n");
+				printf("  -d, --directory       Save to directory (default: .)\n");
+				printf("  -k, --keydb           Location of KEYDB file (default: libaacs directory)\n");
+				printf("  -s, --skip-m2ts       Skip copying M2TS files\n");
+				printf("\n");
+				printf("Blu-ray path can be a device or a filename.\n");
+				printf("Default device is %s\n", DEFAULT_BLURAY_DEVICE);
+
+				exit_help = true;
+
+				break;
+
 			case 0:
 			default:
 				break;
 		}
 
 	}
+
+	if(exit_help)
+		return 0;
 
 	if(argv[optind])
 		strncpy(device_filename, argv[optind], PATH_MAX - 1);
