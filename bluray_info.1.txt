@@ -26,10 +26,10 @@ OPTIONS
 	Display only the main playlist as defined by the metadata. By
 	default, bluray_info will display all playlists.
 
-*-p, --playlist*='PLAYLIST'::
+*-p, --playlist* 'PLAYLIST'::
 	Limit output to selected playlist.
 
-*-k, --keydb*='FILE'::
+*-k, --keydb* 'FILE'::
 	Location to 'KEYDB.cfg' used by libaacs for decryption. Default is
 	'~/.config/aacs/KEYDB.cfg'.
 
@@ -61,18 +61,18 @@ OPTIONS
 *-S, --has-subtitles*::
 	Limit output to titles that have subtitles.
 
-*-N, --has-alang*='LANGUAGE'::
+*-N, --has-alang* 'LANGUAGE'::
 	Limit output to titles that have an audio stream of a specific
 	language (examples: eng, fra, spa).
 
-*-G, --has-slang*='LANGUAGE'::
+*-G, --has-slang* 'LANGUAGE'::
 	Limit output to titles that have a subtitle of a specific language
 	(examples: eng, fra, spa).
 
-*-E, --seconds*='SECONDS'::
+*-E, --seconds* 'SECONDS'::
 	Limit output to titles with a minimum length of number of seconds.
 
-*-M, --minutes*='MINUTES'::
+*-M, --minutes* 'MINUTES'::
 	Limit output to titles with a minimum length of number of minutes.
 	Cannot be used in combination with '--seconds'.
 
@@ -88,7 +88,7 @@ OPTIONS
 
 SEE ALSO
 --------
-bluray_copy(1), bluray_player(1)
+bluray_copy(1), bluray_player(1), bluray_backup(1), bluray_rip(1)
 
 BUGS
 ----

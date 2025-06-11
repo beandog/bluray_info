@@ -21,10 +21,10 @@ bluray_backup will copy the contents to the current working directory by default
 OPTIONS
 -------
 
-*-d, --directory*='DIRECTORY'
+*-d, --directory* 'DIRECTORY'
 	Save backup to directory.
 
-*-k, --keydb*='FILENAME'
+*-k, --keydb* 'FILENAME'
 	Location to 'KEYDB.cfg' used by libaacs for decryption. Default is
 	'~/.config/aacs/KEYDB.cfg'.
 

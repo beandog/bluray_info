@@ -1,13 +1,13 @@
 '\" t
 .\"     Title: bluray_copy
 .\"    Author: [see the "AUTHOR(S)" section]
-.\" Generator: Asciidoctor 2.0.18
-.\"      Date: 2023-12-21
+.\" Generator: Asciidoctor 2.0.23
+.\"      Date: 2025-06-10
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "BLURAY_COPY" "1" "2023-12-21" "\ \&" "\ \&"
+.TH "BLURAY_COPY" "1" "2025-06-10" "\ \&" "\ \&"
 .ie \n(.g .ds Aq \(aq
 .el       .ds Aq '
 .ss \n[.ss] 0
@@ -50,16 +50,16 @@ a zero\-padded string of the main playlist.
 Copy the main playlist (default).
 .RE
 .sp
-\fB\-p, \-\-playlist\fP=\fIPLAYLIST\fP
+\fB\-p, \-\-playlist\fP \fIPLAYLIST\fP
 .RS 4
 Copy the selected playlist number.
 .RE
 .sp
-\fB\-c, \-\-chapter\fP=\fICHAPTER[\-CHAPTER]\fP
+\fB\-c, \-\-chapter\fP \fICHAPTER[\-CHAPTER]\fP
 Copy the selected chapter or range range. Default is to copy all
 chapters.
 .sp
-\fB\-o, \-\-output\fP=\fIFILENAME\fP
+\fB\-o, \-\-output\fP \fIFILENAME\fP
 Save to filename. Default is \fIbluray_playlist_#.m2ts\fP.
 .sp
 .if n .RS 4
@@ -71,11 +71,11 @@ is switched to standard error output.
 .fi
 .if n .RE
 .sp
-\fB\-k, \-\-keydb\fP=\fIFILENAME\fP
+\fB\-k, \-\-keydb\fP \fIFILENAME\fP
 Location to \fIKEYDB.cfg\fP used by libaacs for decryption. Default is
 \fI~/.config/aacs/KEYDB.cfg\fP.
 .sp
-\fB\-a, \-\-angle\fP=\fIANGLE\fP
+\fB\-a, \-\-angle\fP \fIANGLE\fP
 Video angle number. Default is the first.
 .sp
 \fB\-d, \-\-duplicates\fP
@@ -89,7 +89,7 @@ Display help output.
 Display version information.
 .SH "SEE ALSO"
 .sp
-bluray_info(1), bluray_player(1)
+bluray_info(1), bluray_player(1), bluray_backup(1), bluray_rip(1)
 .SH "BUGS"
 .sp
 \fBbluray_copy\fP does not wait for an optical device to be ready. Wait for it to

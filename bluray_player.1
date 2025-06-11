@@ -1,13 +1,13 @@
 '\" t
 .\"     Title: bluray_player
 .\"    Author: [see the "AUTHOR(S)" section]
-.\" Generator: Asciidoctor 2.0.18
-.\"      Date: 2024-01-27
+.\" Generator: Asciidoctor 2.0.23
+.\"      Date: 2025-06-10
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "BLURAY_PLAYER" "1" "2024-01-27" "\ \&" "\ \&"
+.TH "BLURAY_PLAYER" "1" "2025-06-10" "\ \&" "\ \&"
 .ie \n(.g .ds Aq \(aq
 .el       .ds Aq '
 .ss \n[.ss] 0
@@ -49,31 +49,31 @@ one using \fIbluray_info \-\-main\fP. MPV filters out duplicate playlists,
 so do not use \fIbluray_info \-\-duplicates\fP as an index.
 .RE
 .sp
-\fB\-p, \-\-playlist\fP=\fIPLAYLIST\fP
+\fB\-p, \-\-playlist\fP \fIPLAYLIST\fP
 .RS 4
 Play the selected playlist number. MPV does not support selecting
 playlist from non\-duplicate titles \(em when running bluray_info, do not
 use \fI\-\-duplicates\fP to see which one you want to play.
 .RE
 .sp
-\fB\-c, \-\-chapters\fP=\fICHAPTER[\-[CHAPTER]]\fP
+\fB\-c, \-\-chapters\fP \fICHAPTER[\-[CHAPTER]]\fP
 Play the selected chapter range. Default is to play all chapters of
 the playlist.
 .sp
-\fB\-a, \-\-alang\fP=\fILANGUAGE\fP
+\fB\-a, \-\-alang\fP \fILANGUAGE\fP
 Set default audio language. Format is three\-letter language code, ISO
 639\-2. For example: eng, deu, fra, spa.
 .sp
-\fB\-A, \-\-aid\fP=\fISTREAM ID\fP
+\fB\-A, \-\-aid\fP \fISTREAM ID\fP
 Play audio stream ID indexed by mpv.
 .sp
-\fB\-s, \-\-slang\fP=\fILANGUAGE\fP
+\fB\-s, \-\-slang\fP \fILANGUAGE\fP
 Display subtitles for selected language, if available.
 .sp
-\fB\-S, \-\-sid\fP=\fISTREAM ID\fP
+\fB\-S, \-\-sid\fP \fISTREAM ID\fP
 Play subtitle stream ID indexed by mpv.
 .sp
-\fB\-V, \-\-vid\fP=\fISTREAM ID\fP
+\fB\-V, \-\-vid\fP \fISTREAM ID\fP
 Play video stream ID indexed by mpv (default: first).
 .sp
 \fB\-f, \-\-fullscreen\fP
@@ -90,7 +90,6 @@ Display version information.
 .SH "CONFIGURATION"
 .sp
 bluray_player(1) uses libmpv as the engine for playback (see
-\c
 .URL "https://mpv.io/" "" ")."
 Configuration for bluray_player is stored in
 ~/.config/bluray_player/mpv.conf and will be read on each time during startup.
@@ -105,7 +104,7 @@ KEYDB.cfg file. bluray_player does not. It must be located in your home
 directory at \fI.config/aacs/KEYDB.cfg\fP.
 .SH "SEE ALSO"
 .sp
-bluray_info(1), bluray_copy(1), mpv(1)
+bluray_info(1), bluray_copy(1), bluray_backup(1), bluray_rip(1), mpv(1)
 .SH "BUGS"
 .sp
 \fBbluray_player\fP does not wait for an optical device to be ready. Wait for it to

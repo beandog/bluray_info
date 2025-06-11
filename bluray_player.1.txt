@@ -27,29 +27,29 @@ OPTIONS
 	one using 'bluray_info --main'. MPV filters out duplicate playlists,
 	so do not use 'bluray_info --duplicates' as an index.
 
-*-p, --playlist*='PLAYLIST'::
+*-p, --playlist* 'PLAYLIST'::
 	Play the selected playlist number. MPV does not support selecting
 	playlist from non-duplicate titles -- when running bluray_info, do not
 	use '--duplicates' to see which one you want to play.
 
-*-c, --chapters*='CHAPTER[-[CHAPTER]]'
+*-c, --chapters* 'CHAPTER[-[CHAPTER]]'
 	Play the selected chapter range. Default is to play all chapters of
 	the playlist.
 
-*-a, --alang*='LANGUAGE'
+*-a, --alang* 'LANGUAGE'
 	Set default audio language. Format is three-letter language code, ISO
 	639-2. For example: eng, deu, fra, spa.
 
-*-A, --aid*='STREAM ID'
+*-A, --aid* 'STREAM ID'
 	Play audio stream ID indexed by mpv.
 
-*-s, --slang*='LANGUAGE'
+*-s, --slang* 'LANGUAGE'
 	Display subtitles for selected language, if available.
 
-*-S, --sid*='STREAM ID'
+*-S, --sid* 'STREAM ID'
 	Play subtitle stream ID indexed by mpv.
 
-*-V, --vid*='STREAM ID'
+*-V, --vid* 'STREAM ID'
 	Play video stream ID indexed by mpv (default: first).
 
 *-f, --fullscreen*
@@ -82,7 +82,7 @@ directory at '.config/aacs/KEYDB.cfg'.
 
 SEE ALSO
 --------
-bluray_info(1), bluray_copy(1), mpv(1)
+bluray_info(1), bluray_copy(1), bluray_backup(1), bluray_rip(1), mpv(1)
 
 BUGS
 ----

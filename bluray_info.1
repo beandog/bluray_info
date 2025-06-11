@@ -1,13 +1,13 @@
 '\" t
 .\"     Title: bluray_info
 .\"    Author: [see the "AUTHOR(S)" section]
-.\" Generator: Asciidoctor 2.0.18
-.\"      Date: 2024-01-27
+.\" Generator: Asciidoctor 2.0.23
+.\"      Date: 2025-06-10
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "BLURAY_INFO" "1" "2024-01-27" "\ \&" "\ \&"
+.TH "BLURAY_INFO" "1" "2025-06-10" "\ \&" "\ \&"
 .ie \n(.g .ds Aq \(aq
 .el       .ds Aq '
 .ss \n[.ss] 0
@@ -48,12 +48,12 @@ Display only the main playlist as defined by the metadata. By
 default, bluray_info will display all playlists.
 .RE
 .sp
-\fB\-p, \-\-playlist\fP=\fIPLAYLIST\fP
+\fB\-p, \-\-playlist\fP \fIPLAYLIST\fP
 .RS 4
 Limit output to selected playlist.
 .RE
 .sp
-\fB\-k, \-\-keydb\fP=\fIFILE\fP
+\fB\-k, \-\-keydb\fP \fIFILE\fP
 .RS 4
 Location to \fIKEYDB.cfg\fP used by libaacs for decryption. Default is
 \fI~/.config/aacs/KEYDB.cfg\fP.
@@ -105,24 +105,24 @@ Limit output to titles that have audio tracks.
 Limit output to titles that have subtitles.
 .RE
 .sp
-\fB\-N, \-\-has\-alang\fP=\fILANGUAGE\fP
+\fB\-N, \-\-has\-alang\fP \fILANGUAGE\fP
 .RS 4
 Limit output to titles that have an audio stream of a specific
 language (examples: eng, fra, spa).
 .RE
 .sp
-\fB\-G, \-\-has\-slang\fP=\fILANGUAGE\fP
+\fB\-G, \-\-has\-slang\fP \fILANGUAGE\fP
 .RS 4
 Limit output to titles that have a subtitle of a specific language
 (examples: eng, fra, spa).
 .RE
 .sp
-\fB\-E, \-\-seconds\fP=\fISECONDS\fP
+\fB\-E, \-\-seconds\fP \fISECONDS\fP
 .RS 4
 Limit output to titles with a minimum length of number of seconds.
 .RE
 .sp
-\fB\-M, \-\-minutes\fP=\fIMINUTES\fP
+\fB\-M, \-\-minutes\fP \fIMINUTES\fP
 .RS 4
 Limit output to titles with a minimum length of number of minutes.
 Cannot be used in combination with \fI\-\-seconds\fP.
@@ -145,7 +145,7 @@ Display version information.
 .RE
 .SH "SEE ALSO"
 .sp
-bluray_copy(1), bluray_player(1)
+bluray_copy(1), bluray_player(1), bluray_backup(1), bluray_rip(1)
 .SH "BUGS"
 .sp
 \fBbluray_info\fP does not wait for an optical device to be ready. Wait for it to
