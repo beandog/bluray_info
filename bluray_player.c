@@ -44,7 +44,6 @@ int main(int argc, char **argv) {
 
 	char device_filename[PATH_MAX] = {'\0'};
 	bool opt_playlist_number = false;
-	bool opt_main_title = false;
 	bool opt_chapter_start = false;
 	bool opt_chapter_end = false;
 	bool exit_help = false;
@@ -176,7 +175,7 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'm':
-				opt_main_title = true;
+				opt_playlist_number = false;
 				break;
 
 			case 'p':
@@ -250,9 +249,6 @@ int main(int argc, char **argv) {
 
 	if(exit_help)
 		return 0;
-
-	if(!opt_playlist_number)
-		opt_main_title = true;
 
 	memset(device_filename, '\0', PATH_MAX);
 	if (argv[optind])
