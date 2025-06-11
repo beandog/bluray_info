@@ -33,6 +33,10 @@ OPTIONS
 *-o* 'FILENAME'::
 	Save to filename. Default is bluray_rip.mkv
 
+*-k, --keydb* 'FILENAME'
+	Location to 'KEYDB.cfg' used by libaacs for decryption. Default is
+	'~/.config/aacs/KEYDB.cfg'.
+
 *-p* 'PLAYLIST'::
 	Copy the selected playlist number. Default is the main one.
 

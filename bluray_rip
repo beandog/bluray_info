@@ -90,6 +90,7 @@ function display_help {
 	echo "  -p <#>                  Rip selected playlist [main playlist]"
 	echo "  -d <yes|no>             Use duplicates index (see man bluray_copy) [yes]"
 	echo "  -c <#[-#]>              Rip chapter number(s) [all]"
+	echo "  -k <filename>           Location of KEYDB.cfg to use for decryption [default aacs directory]"
 	echo
 	echo "Encoding options:"
 	echo
@@ -117,6 +118,7 @@ fi
 
 input_filename=""
 output_filename="bluray_rip.mkv"
+keydb_filename=""
 bluray_playlist=""
 bluray_chapters=""
 bluray_duplicates="yes"
@@ -132,7 +134,7 @@ verbose="no"
 
 # --- GET OPTIONS
 
-optstring="hi:o:p:d:c:v:q:a:s:nryz"
+optstring="hi:o:k:p:d:c:v:q:a:s:nryz"
 
 while getopts $optstring name; do
 
@@ -146,6 +148,9 @@ while getopts $optstring name; do
 
 		o)
 			output_filename="$OPTARG";;
+
+		k)
+			keydb_filename="$OPTARG";;
 
 		p)
 			bluray_playlist="$OPTARG";;
@@ -201,6 +206,10 @@ fi
 
 if [[ -n "$bluray_playlist" ]] && [[ "$bluray_playlist" -ge 0 ]]; then
 	bluray_copy_opts="$bluray_copy_opts -p $bluray_playlist"
+fi
+
+if [[ -n "$keydb_filename" ]]; then
+	bluray_copy_opts="$bluray_copy_opts -k $keydb_filename"
 fi
 
 # Use duplicates to maintain consitency of Blu-ray contents across devices
