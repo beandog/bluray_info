@@ -48,9 +48,8 @@ OPTIONS
 *-a, --angle* 'ANGLE'
 	Video angle number. Default is the first.
 
-*-d, --duplicates*
-	Select from index of duplicate titles that libbluray would originally
-	filter out. Recommended to use this for consistency across environments.
+*-d, --no-duplicates*
+	Ignore duplicate titles that libbluray would originally filter out. Using this will give inconsistent output on different devices. Not recommended to use.
 
 *-h, --help*
 	Display help output.

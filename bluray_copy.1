@@ -2,12 +2,12 @@
 .\"     Title: bluray_copy
 .\"    Author: [see the "AUTHOR(S)" section]
 .\" Generator: Asciidoctor 2.0.23
-.\"      Date: 2025-06-10
+.\"      Date: 2025-06-11
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "BLURAY_COPY" "1" "2025-06-10" "\ \&" "\ \&"
+.TH "BLURAY_COPY" "1" "2025-06-11" "\ \&" "\ \&"
 .ie \n(.g .ds Aq \(aq
 .el       .ds Aq '
 .ss \n[.ss] 0
@@ -78,9 +78,8 @@ Location to \fIKEYDB.cfg\fP used by libaacs for decryption. Default is
 \fB\-a, \-\-angle\fP \fIANGLE\fP
 Video angle number. Default is the first.
 .sp
-\fB\-d, \-\-duplicates\fP
-Select from index of duplicate titles that libbluray would originally
-filter out. Recommended to use this for consistency across environments.
+\fB\-d, \-\-no\-duplicates\fP
+Ignore duplicate titles that libbluray would originally filter out. Using this will give inconsistent output on different devices. Not recommended to use.
 .sp
 \fB\-h, \-\-help\fP
 Display help output.

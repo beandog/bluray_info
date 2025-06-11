@@ -2,12 +2,12 @@
 .\"     Title: bluray_player
 .\"    Author: [see the "AUTHOR(S)" section]
 .\" Generator: Asciidoctor 2.0.23
-.\"      Date: 2025-06-10
+.\"      Date: 2025-06-11
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "BLURAY_PLAYER" "1" "2025-06-10" "\ \&" "\ \&"
+.TH "BLURAY_PLAYER" "1" "2025-06-11" "\ \&" "\ \&"
 .ie \n(.g .ds Aq \(aq
 .el       .ds Aq '
 .ss \n[.ss] 0
@@ -46,14 +46,14 @@ optical drive.
 .RS 4
 Play the main playlist (default). You can see which one is the main
 one using \fIbluray_info \-\-main\fP. MPV filters out duplicate playlists,
-so do not use \fIbluray_info \-\-duplicates\fP as an index.
+so use \fIbluray_info \-\-no\-duplicates\fP as an index.
 .RE
 .sp
 \fB\-p, \-\-playlist\fP \fIPLAYLIST\fP
 .RS 4
 Play the selected playlist number. MPV does not support selecting
-playlist from non\-duplicate titles \(em when running bluray_info, do not
-use \fI\-\-duplicates\fP to see which one you want to play.
+playlist from non\-duplicate titles \(em when running bluray_info, so
+use \fI\-\-no\-duplicates\fP to see which one you want to play.
 .RE
 .sp
 \fB\-c, \-\-chapters\fP \fICHAPTER[\-[CHAPTER]]\fP

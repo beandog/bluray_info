@@ -2,12 +2,12 @@
 .\"     Title: bluray_info
 .\"    Author: [see the "AUTHOR(S)" section]
 .\" Generator: Asciidoctor 2.0.23
-.\"      Date: 2025-06-10
+.\"      Date: 2025-06-11
 .\"    Manual: \ \&
 .\"    Source: \ \&
 .\"  Language: English
 .\"
-.TH "BLURAY_INFO" "1" "2025-06-10" "\ \&" "\ \&"
+.TH "BLURAY_INFO" "1" "2025-06-11" "\ \&" "\ \&"
 .ie \n(.g .ds Aq \(aq
 .el       .ds Aq '
 .ss \n[.ss] 0
@@ -84,10 +84,9 @@ Display detailed information about chapters.
 Display all optional detailed information.
 .RE
 .sp
-\fB\-d, \-\-duplicates\fP
+\fB\-d, \-\-no\-duplicates\fP
 .RS 4
-Display duplicate titles that libbluray would originally filter out.
-Recommended to use this for consistency across environments.
+Ignore duplicate titles that libbluray would originally filter out. Using this will give inconsistent output on different devices. Not recommended to use.
 .RE
 .sp
 \fB\-j, \-\-json\fP
