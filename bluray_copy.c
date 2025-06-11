@@ -88,8 +88,8 @@ int main(int argc, char **argv) {
 		{ "main", no_argument, NULL, 'm' },
 		{ "output", required_argument, NULL, 'o' },
 		{ "playlist", required_argument, NULL, 'p' },
-		{ "debug", no_argument, NULL, 'z' },
 		{ "version", no_argument, NULL, 'V' },
+		{ "debug", no_argument, NULL, 'z' },
 		{ 0, 0, 0, 0 }
 	};
 	while((g_opt = getopt_long(argc, argv, "a:c:dhk:mo:p:zV", p_long_opts, &g_ix)) != -1) {
@@ -165,8 +165,8 @@ int main(int argc, char **argv) {
 				debug = true;
 				break;
 
-			case 'Z':
-				printf("bluray_copy %s\n", PACKAGE_VERSION);
+			case 'V':
+				printf("bluray_copy " PACKAGE_VERSION "\n");
 				return 0;
 
 			case 'h':
@@ -174,28 +174,24 @@ int main(int argc, char **argv) {
 				printf("\n");
 				printf("Usage: bluray_copy [path] [options]\n");
 				printf("\n");
-				printf("Options:\n");
 				printf("  -m, --main               Copy main playlist (default)\n");
 				printf("  -p, --playlist <#>       Copy playlist number\n");
 				printf("  -c, --chapter <#>[-#]    Copy chapter number or range\n");
-				printf("\n");
-				printf("Destination:\n");
 				printf("  -o, --output <filename>  Save to filename (default: bluray_playlist_###.m2ts)\n");
 				printf("      --output -           Write to stdout\n");
-				printf("\n");
-				printf("Other:\n");
 				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
 				printf("  -a, --angle <#>          Video angle (default: 1)\n");
 				printf("  -d, --duplicates         Use duplicates index (see man bluray_copy)\n");
+				printf("  -V, --version            Display version\n");
 				printf("  -h, --help               This output\n");
-				printf("  -V, --version	           Display version\n");
 				printf("\n");
-				printf("Blu-ray path can be a device, a filename, or directory; default is %s\n", DEFAULT_BLURAY_DEVICE);
+				printf("Blu-ray path can be a device, filename, or directory (default: " DEFAULT_BLURAY_DEVICE ")\n");
 				exit_help = true;
 				break;
 
 			case 0:
 			default:
+				exit_help = true;
 				break;
 
 		}

@@ -202,12 +202,12 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'Z':
-				printf("bluray_player %s\n", PACKAGE_VERSION);
+				printf("bluray_player " PACKAGE_VERSION "\n");
 				exit_help = true;
 				break;
 
 			case 'h':
-				printf("bluray_player %s - Play back a Blu-ray using libmpv engine\n", PACKAGE_VERSION);
+				printf("bluray_player - play a Blu-ray using libmpv\n");
 				printf("\n");
 				printf("Usage: bluray_player [bluray path] [options]\n");
 				printf("\n");
@@ -235,12 +235,13 @@ int main(int argc, char **argv) {
 				printf("\n");
 				printf("MPV configuration is read from ~/.config/bluray_player/mpv.conf\n");
 				printf("\n");
-				printf("Blu-ray path can be a device, a filename, or directory (default: %s)\n", DEFAULT_BLURAY_DEVICE);
+				printf("Blu-ray path can be a device, filename, or directory (default: " DEFAULT_BLURAY_DEVICE ")\n");
 				exit_help = true;
 				break;
 
 			case 0:
 			default:
+				exit_help = true;
 				break;
 
 		}

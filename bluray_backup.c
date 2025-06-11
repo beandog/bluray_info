@@ -220,8 +220,8 @@ int main(int argc, char **argv) {
 		{ "directory", required_argument, NULL, 'd' },
 		{ "keydb", required_argument, NULL, 'k' },
 		{ "skip-m2ts", no_argument, NULL, 's' },
-		{ "debug", no_argument, NULL, 'z' },
 		{ "version", no_argument, NULL, 'V' },
+		{ "debug", no_argument, NULL, 'z' },
 		{ 0, 0, 0, 0 }
 	};
 	while((g_opt = getopt_long(argc, argv, "hd:k:szV", p_long_opts, &g_ix)) != -1) {
@@ -240,6 +240,11 @@ int main(int argc, char **argv) {
 				copy_m2ts = false;
 				break;
 
+			case 'V':
+				printf("bluray_backup " PACKAGE_VERSION "\n");
+				exit_help = true;
+				break;
+
 			case 'z':
 				debug = true;
 				break;
@@ -249,13 +254,13 @@ int main(int argc, char **argv) {
 				printf("\n");
 				printf("Usage: bluray_backup [path] [options]\n");
 				printf("\n");
-				printf("Options:\n");
 				printf("  -d, --directory       Save to directory (default: .)\n");
 				printf("  -k, --keydb           Location of KEYDB file (default: libaacs directory)\n");
 				printf("  -s, --skip-m2ts       Skip copying M2TS files\n");
+				printf("  -V, --version         Display version\n");
+				printf("  -h, --help            This output\n");
 				printf("\n");
-				printf("Blu-ray path can be a device or a filename.\n");
-				printf("Default device is %s\n", DEFAULT_BLURAY_DEVICE);
+				printf("Blu-ray path can be a device, filename, or directory (default: " DEFAULT_BLURAY_DEVICE ")\n");
 
 				exit_help = true;
 
@@ -263,6 +268,7 @@ int main(int argc, char **argv) {
 
 			case 0:
 			default:
+				exit_help = true;
 				break;
 		}
 

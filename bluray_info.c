@@ -197,11 +197,12 @@ int main(int argc, char **argv) {
 				break;
 
 			case 'V':
-				printf("bluray_info %s\n", PACKAGE_VERSION);
-				return 0;
+				printf("bluray_info " PACKAGE_VERSION "\n");
+				exit_help = true;
+				break;
 
 			case 'h':
-				printf("bluray_info %s - display information about a Blu-ray\n", PACKAGE_VERSION);
+				printf("bluray_info - display information about a Blu-ray\n");
 				printf("\n");
 				printf("Usage: bluray_info [path] [options]\n");
 				printf("\n");
@@ -209,6 +210,8 @@ int main(int argc, char **argv) {
 				printf("  -m, --main  	 	   Limit to main playlist (default: all)\n");
 				printf("  -p, --playlist <number>  Limit to selected playlist\n");
 				printf("  -j, --json               Display format as JSON\n");
+				printf("  -g, --xchap              Display title's chapter format for mkvmerge\n");
+				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
 				printf("\n");
 				printf("Extra information:\n");
 				printf("  -v, --video              Display video streams\n");
@@ -227,17 +230,16 @@ int main(int argc, char **argv) {
 				printf("  -M, --minutes <number>   Title has minimum number of minutes\n");
 				printf("\n");
 				printf("Other:\n");
-				printf("  -g, --xchap              Display title's chapter format for mkvmerge\n");
-				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
 				printf("  -h, --help               This output\n");
 				printf("  -V, --version            Display version\n");
 				printf("\n");
-				printf("Blu-ray path can be a device, a filename, or directory (default: %s)\n", DEFAULT_BLURAY_DEVICE);
+				printf("Blu-ray path can be a device, filename, or directory (default: " DEFAULT_BLURAY_DEVICE ")\n");
 				exit_help = true;
 				break;
 
 			case 0:
 			default:
+				exit_help = true;
 				break;
 
 		}
