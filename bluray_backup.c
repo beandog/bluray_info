@@ -11,7 +11,7 @@
 #include <math.h>
 #include <getopt.h>
 #include <sys/stat.h>
-#include <uuid.h>
+#include <time.h>
 #ifdef __linux__
 #include <linux/limits.h>
 #else
@@ -270,16 +270,14 @@ int main(int argc, char **argv) {
 	bluray_dirs = 0;
 	bluray_files = 0;
 
-			uuid_t uu;
-			uuid_generate(uu);
-			char str_uuid[37];
-			uuid_unparse_lower(uu, str_uuid);
+	srand(time(NULL));
+	int random_number = rand();
 
 		char dnames_filename[PATH_MAX];
 		char fnames_filename[PATH_MAX];
 
-		snprintf(dnames_filename, PATH_MAX, "/tmp/bd_dnames_%s", str_uuid);
-		snprintf(fnames_filename, PATH_MAX, "/tmp/bd_fnames_%s", str_uuid);
+		snprintf(dnames_filename, PATH_MAX, "/tmp/bd_dnames_%i", random_number);
+		snprintf(fnames_filename, PATH_MAX, "/tmp/bd_fnames_%i", random_number);
 		if(debug)
 			fprintf(stderr, "temporary filenames: %s %s\n", dnames_filename, fnames_filename);
 
