@@ -2,7 +2,7 @@
 #define BLURAY_PLAYER_H
 
 #include <limits.h>
-#if defined (__linux__)
+#if defined(__linux__)
 #include <linux/limits.h>
 #endif
 
