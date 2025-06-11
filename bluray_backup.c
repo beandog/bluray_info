@@ -88,7 +88,11 @@ int mk_backup_dir(char *backup_dir, char *bluray_dir) {
 	if(debug)
 		fprintf(stderr, "Creating Blu-ray backup directory: '%s'\n", backup_mkdir_path);
 
+#if defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__)
+	retval = mkdir(backup_mkdir_path);
+#else
 	retval = mkdir(backup_mkdir_path, 0755);
+#endif
 
 	// I'm too lazy to see if the directory exists and permissions are correct, maybe
 	// some day. Let's just assume the setup already works.
@@ -304,7 +308,11 @@ int main(int argc, char **argv) {
 	printf("Backing up '%s' to '%s'\n", device_filename, bluray_backup_dir);
 
 			int retval;
+#if defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__)
+			retval = mkdir(bluray_backup_dir);
+#else
 			retval = mkdir(bluray_backup_dir, 0755);
+#endif
 			if(retval == -1 && errno != EEXIST) {
 				fprintf(stderr, "* could not create backup directory: %s\n", bluray_backup_dir);
 				return 1;
