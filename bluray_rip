@@ -271,8 +271,8 @@ if [[ -n "$keydb_filename" ]]; then
 fi
 
 # Use duplicates to maintain consitency of Blu-ray contents across devices
-if [[ "$bluray_duplicates" == "yes" ]]; then
-	bluray_copy_opts="$bluray_copy_opts -d"
+if [[ "$bluray_duplicates" == "no" ]]; then
+	bluray_copy_opts="$bluray_copy_opts -D"
 fi
 
 if [[ -n "$bluray_chapters" ]]; then
