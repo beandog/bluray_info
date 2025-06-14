@@ -80,7 +80,7 @@ function display_help {
 
 	binary=$(basename "$0")
 
-	echo "bluray_rip - an ffmpeg wrapper for ripping Blu-rays using bluray_copy"
+	echo "bluray_rip - an ffmpeg wrapper using bluray_copy"
 	echo
 	echo "Usage:"
 	echo "  $binary [options]"
@@ -144,46 +144,104 @@ while getopts $optstring name; do
 			exit;;
 
 		i)
-			input_filename="$OPTARG";;
+			input_filename="$OPTARG"
+			if [[ ${OPTARG:0:1} == "-" ]]; then
+				echo "Invalid value for -${name} '$OPTARG'"
+				exit
+			fi
+			;;
 
 		o)
-			output_filename="$OPTARG";;
+			output_filename="$OPTARG"
+			if [[ ${OPTARG:0:1} == "-" ]]; then
+				echo "Invalid value for -${name} '$OPTARG'"
+				exit
+			fi
+			;;
 
 		k)
-			keydb_filename="$OPTARG";;
+			keydb_filename="$OPTARG"
+			if [[ ${OPTARG:0:1} == "-" ]]; then
+				echo "Invalid value for -${name} '$OPTARG'"
+				exit
+			fi
+			;;
 
 		p)
-			bluray_playlist="$OPTARG";;
+			bluray_playlist="$OPTARG"
+			if [[ ${OPTARG:0:1} == "-" ]]; then
+				echo "Invalid value for -${name} '$OPTARG'"
+				exit
+			fi
+			;;
 
 		d)
-			bluray_duplicates="$OPTARG";;
+			bluray_duplicates="$OPTARG"
+			if [[ ${OPTARG:0:1} == "-" ]]; then
+				echo "Invalid value for -${name} '$OPTARG'"
+				exit
+			fi
+			;;
 
 		c)
-			bluray_chapters="$OPTARG";;
+			bluray_chapters="$OPTARG"
+			if [[ ${OPTARG:0:1} == "-" ]]; then
+				echo "Invalid value for -${name} '$OPTARG'"
+				exit
+			fi
+			;;
 
 		v)
-			vcodec="$OPTARG";;
+			vcodec="$OPTARG"
+			if [[ ${OPTARG:0:1} == "-" ]]; then
+				echo "Invalid value for -${name} '$OPTARG'"
+				exit
+			fi
+			;;
 
 		q)
-			crf="$OPTARG";;
+			crf="$OPTARG"
+			if [[ ${OPTARG:0:1} == "-" ]]; then
+				echo "Invalid value for -${name} '$OPTARG'"
+				exit
+			fi
+			;;
 
 		a)
-			acodec="$OPTARG";;
+			acodec="$OPTARG"
+			if [[ ${OPTARG:0:1} == "-" ]]; then
+				echo "Invalid value for -${name} '$OPTARG'"
+				exit
+			fi
+			;;
 
 		s)
-			subtitles="$OPTARG";;
+			subtitles="$OPTARG"
+			if [[ ${OPTARG:0:1} == "-" ]]; then
+				echo "Invalid value for -${name} '$OPTARG'"
+				exit
+			fi
+			;;
 
 		n)
-			dry_run="yes";;
+			dry_run="yes"
+			;;
 
 		r)
-			ffprobe="yes";;
+			ffprobe="yes"
+			;;
 
 		y)
-			overwrite_filename="yes";;
+			overwrite_filename="yes"
+			;;
 
 		z)
-			verbose="yes";;
+			verbose="yes"
+			;;
+
+		-)
+			display_help
+			exit;;
 
 		?)
 			display_help
