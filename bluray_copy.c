@@ -92,7 +92,7 @@ int main(int argc, char **argv) {
 		{ "debug", no_argument, NULL, 'z' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "a:c:dhk:mo:p:zV", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "a:c:Dhk:mo:p:zV", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -126,7 +126,7 @@ int main(int argc, char **argv) {
 				}
 				break;
 
-			case 'd':
+			case 'D':
 				duplicates = false;
 				break;
 
@@ -181,7 +181,7 @@ int main(int argc, char **argv) {
 				printf("      --output -           Write to stdout\n");
 				printf("  -k, --keydb <filename>   Location to KEYDB.cfg (default: ~/.config/aacs/KEYDB.cfg)\n");
 				printf("  -a, --angle <#>          Video angle (default: 1)\n");
-				printf("  -d, --no-duplicates      Do not use duplicates index (see man bluray_copy)\n");
+				printf("  -D, --no-duplicates      Do not use duplicates index (see man bluray_copy)\n");
 				printf("  -V, --version            Display version\n");
 				printf("  -h, --help               This output\n");
 				printf("\n");
