@@ -20,3 +20,5 @@ bluray_player_SOURCES = bluray_player.c bluray_open.c bluray_video.c bluray_audi
 bluray_player_CFLAGS = $(LIBBLURAY_CFLAGS) $(MPV_CFLAGS)
 bluray_player_LDADD = $(LIBBLURAY_LIBS) $(MPV_LIBS) -lm
 endif
+
+bin_SCRIPTS = bluray_rip
