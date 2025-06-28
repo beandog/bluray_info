@@ -12,6 +12,11 @@ set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON")
 # Don't check for c++ compiler
 project(bluray_info LANGUAGES C)
 
+# Look for include files and libraries outside of baseline /usr, but respecting install prefix first
+# This is needed on FreeBSD where non-system packages are in /usr/local
+include_directories(AFTER "${CMAKE_INSTALL_PREFIX}/include")
+link_directories(AFTER "${CMAKE_INSTALL_PREFIX}/lib")
+
 # Use pkg-config
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(BLURAY REQUIRED libbluray>=1.2.0)
