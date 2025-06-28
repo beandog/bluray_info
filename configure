@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+which cmake 2> /dev/null
+if [[ $? -ne 0 ]]; then
+	echo "CMake is needed to build bluray_info. Or, you can force to use autotools if cmake is not available."
+	echo
+	echo "For cmake, run:"
+	echo "cmake ."
+	echo "make"
+	echo "sudo make install"
+	echo
+	echo "If you have autoconf, automake, m4, and pkg-config installed, run:"
+	echo "autoreconf -fi"
+	echo "./configure"
+	echo "make"
+	echo "sudo make install"
+	echo
+	echo "See https://github.com/beandog/bluray_info/wiki for more info"
+fi
