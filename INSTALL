@@ -1,49 +1,18 @@
-I've tried my best to port this to a lot of x86 and x86_64 systems on
-various operating systems, so it should just build and run out of the
-box. Check out https://dvds.beandog.org/ for latest build instructions
-on your OS.
+I've tried my best to port this to a lot of various operating systems, so it should just build and run out of the box. Check out https://github.com/beandog/bluray_info/wiki for build instructions on your OS.
 
-bluray_info doesn't package the autotools components with the source code,
-so you will need to rebuild them if manually building it. You will also
-need pkg-config installed.
+You can see bluray_device.h to see which operating systems it's been ported to and tested on. If it's listed in there, it will use the default optical drive.
 
-You can see bluray_device.h to see which OSes it's been ported and tested
-for. If it's listed in there, it will use the default optical drive.
+If you want to use bluray_player, libmpv must be installed on the system.
 
-If you want to use bluray_player, libmpv must be installed on the system,
-and then add '--with-libmpv' to './configure'
+Assuming cmake is already installed:
 
-Linux
------
-Assuming automake and autoconf are already installed:
-# autoreconf -fi
-# ./configure
-# make
-# make install
+$ cmake .
+$ make
+$ sudo make install
 
-Gentoo Linux
-------------
-# emerge bluray_info
+If for some reason you are having problems with cmake, the original autotools will work. Install autoconf, automake, and m4 first.
 
-NetBSD
-------
-You will have needed to install pkgsrc first.
-# pkgin install automake autoconf pkgconf libaacs libbluray
-# ./configure
-# make
-# make install
-
-OpenBSD
--------
-# pkg_add autoconf-2.69p2 automake-1.16.1 libaacs libbluray
-# AUTOCONF_VERSION=2.69 AUTOMAKE_VERSION=1.16 autoreconf -fi
-# ./configure
-# make
-# make install
-
-DragonFly BSD
--------------
-# pkg install autoconf automake pkgconf libaacs libbluray
-# ./configure
-# make
-# make install
+$ autoreconf -fi
+$ ./configure
+$ make
+$ sudo make install
