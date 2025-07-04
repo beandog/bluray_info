@@ -10,6 +10,8 @@ if [[ $? -ne 0 ]]; then
 	echo
 	echo "See https://github.com/beandog/bluray_info/wiki for more info"
 else
-	echo "CMake is needed to build bluray_info."
-	echo "Run cmake ."
+	echo "CMake is needed to build bluray_info:"
+	echo "cmake ."
+	echo "make"
+	echo "sudo make install"
 fi
