@@ -7,6 +7,7 @@
 #include <inttypes.h>
 #include <math.h>
 #include <getopt.h>
+#include <sys/stat.h>
 #ifdef __linux__
 #include <linux/limits.h>
 #else
@@ -257,16 +258,19 @@ int main(int argc, char **argv) {
 
 	// Open device
 	BLURAY *bd = NULL;
+	struct stat buffer;
 	if(strlen(key_db_filename))
 		bd = bd_open(device_filename, key_db_filename);
-	else
+	if(bd == NULL && (stat("KEYDB.cfg", &buffer) == 0))
+		bd = bd_open(device_filename, "KEYDB.cfg");
+	if(bd == NULL)
 		bd = bd_open(device_filename, NULL);
 
 	if(bd == NULL) {
 		if(strlen(key_db_filename))
 			fprintf(stderr, "Could not open device %s and KEYDB file %s\n", device_filename, key_db_filename);
 		else
-			fprintf(stderr, "Could not open device %s\n", device_filename);
+			fprintf(stderr, "Could not open device with %s\n", device_filename);
 		return 1;
 	}
 
