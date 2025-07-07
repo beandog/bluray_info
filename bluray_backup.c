@@ -24,7 +24,6 @@
 #include "bluray_time.h"
 
 #define BLURAY_M2TS_UNIT_SIZE 6144
-#define BLURAY_FILENAME_STRLEN 256
 
 /*
  *  _     _                           _                _
@@ -123,9 +122,9 @@ int mk_backup_dir(char *backup_dir, char *bluray_dir) {
  */
 int log_filenames(BLURAY *bd, char *parent_dir, char *target_dir) {
 
-	char dirname[BLURAY_FILENAME_STRLEN];
-	char tmp_dirname[BLURAY_FILENAME_STRLEN];
-	char tmp_filename[BLURAY_FILENAME_STRLEN];
+	char dirname[PATH_MAX];
+	char tmp_dirname[PATH_MAX];
+	char tmp_filename[PATH_MAX];
 
 	struct bd_dir_s *bdnd_dir;
 	BD_DIRENT *bdnd_dirent;
@@ -156,14 +155,14 @@ int log_filenames(BLURAY *bd, char *parent_dir, char *target_dir) {
 			// FIXME doing the counting here first, need this REGARDLESS of whether making the directory works or not
 			bluray_dirs++;
 
-			memset(dirname, '\0', BLURAY_FILENAME_STRLEN);
-			snprintf(dirname, BLURAY_FILENAME_STRLEN, "%s/%s", parent_dir, bdnd_dirent->d_name);
+			memset(dirname, '\0', PATH_MAX);
+			snprintf(dirname, PATH_MAX, "%s/%s", parent_dir, bdnd_dirent->d_name);
 
 			if(debug)
 				printf("%s\n", dirname);
 
-			memset(tmp_dirname, '\0', BLURAY_FILENAME_STRLEN);
-			snprintf(tmp_dirname, BLURAY_FILENAME_STRLEN - 1, "%s\n", dirname);
+			memset(tmp_dirname, '\0', PATH_MAX);
+			snprintf(tmp_dirname, PATH_MAX - 1, "%s\n", dirname);
 			add_filename_to_tmpfile(tmp_dirname, fd_dnames);
 
 			log_filenames(bd, dirname, target_dir);
@@ -173,8 +172,8 @@ int log_filenames(BLURAY *bd, char *parent_dir, char *target_dir) {
 			// Doing the counting here first, need this REGARDLESS of whether the actual backup of the file works or not
 			bluray_files++;
 
-			memset(tmp_filename, '\0', BLURAY_FILENAME_STRLEN);
-			snprintf(tmp_filename, BLURAY_FILENAME_STRLEN - 1, "%s/%s\n", parent_dir, bdnd_dirent->d_name);
+			memset(tmp_filename, '\0', PATH_MAX);
+			snprintf(tmp_filename, PATH_MAX - 1, "%s/%s\n", parent_dir, bdnd_dirent->d_name);
 
 			// FIXME I don't like this, not having the newline, it's going to cause confusion
 			// at some point.
@@ -355,9 +354,9 @@ int main(int argc, char **argv) {
 	bool directory = true;
 	int fd;
 
-	// BLURAY_FILENAME_STRLEN is less than PATH_MAX, so compiler warnings are thrown in gcc (clang is fine)
-	char mkdir_path[BLURAY_FILENAME_STRLEN];
-	char mkfile_path[BLURAY_FILENAME_STRLEN];
+	// PATH_MAX is less than PATH_MAX, so compiler warnings are thrown in gcc (clang is fine)
+	char mkdir_path[PATH_MAX];
+	char mkfile_path[PATH_MAX];
 
 	// Selecting a subdirectory doesn't work for some reason, so root works fine
 	struct bd_dir_s *parent_dir = NULL;
@@ -417,8 +416,8 @@ int main(int argc, char **argv) {
 
 			fd = fd_dnames;
 
-			memset(mkdir_path, '\0', BLURAY_FILENAME_STRLEN);
-			snprintf(mkdir_path, BLURAY_FILENAME_STRLEN - 1, "%s\n", parent_dirent->d_name);
+			memset(mkdir_path, '\0', PATH_MAX);
+			snprintf(mkdir_path, PATH_MAX - 1, "%s\n", parent_dirent->d_name);
 
 			add_filename_to_tmpfile(mkdir_path, fd);
 
@@ -434,8 +433,8 @@ int main(int argc, char **argv) {
 
 			fd = fd_fnames;
 
-			memset(mkfile_path, '\0', BLURAY_FILENAME_STRLEN);
-			snprintf(mkfile_path, BLURAY_FILENAME_STRLEN - 1, "%s\n", parent_dirent->d_name);
+			memset(mkfile_path, '\0', PATH_MAX);
+			snprintf(mkfile_path, PATH_MAX - 1, "%s\n", parent_dirent->d_name);
 			add_filename_to_tmpfile(mkfile_path, fd);
 
 		}
@@ -467,12 +466,12 @@ int main(int argc, char **argv) {
 	// I want to create the directories in order, so get an array of the names, then sort them
 	// and *then* make them
 	int ix = 0;
-	char line[BLURAY_FILENAME_STRLEN];
-	char trimmed_line[BLURAY_FILENAME_STRLEN];
-	char bluray_dirnames[bluray_dirs][BLURAY_FILENAME_STRLEN];
-	while(fgets(line, BLURAY_FILENAME_STRLEN, fp)) {
+	char line[PATH_MAX];
+	char trimmed_line[PATH_MAX];
+	char bluray_dirnames[bluray_dirs][PATH_MAX];
+	while(fgets(line, PATH_MAX, fp)) {
 
-		memset(bluray_dirnames[ix], '\0', BLURAY_FILENAME_STRLEN);
+		memset(bluray_dirnames[ix], '\0', PATH_MAX);
 		// Trimming the newline from fgets() when copying
 		strncpy(bluray_dirnames[ix], line, strlen(line) - 1);
 
@@ -508,12 +507,12 @@ int main(int argc, char **argv) {
 	if(fp == NULL)
 		fprintf(stderr, "could not open directory names file\n");
 
-	char bluray_filenames[bluray_files][BLURAY_FILENAME_STRLEN];
+	char bluray_filenames[bluray_files][PATH_MAX];
 
 	ix = 0;
-	while(fgets(line, BLURAY_FILENAME_STRLEN, fp)) {
+	while(fgets(line, PATH_MAX, fp)) {
 
-		memset(bluray_filenames[ix], '\0', BLURAY_FILENAME_STRLEN);
+		memset(bluray_filenames[ix], '\0', PATH_MAX);
 		// Trimming the newline from fgets() when copying
 		strncpy(bluray_filenames[ix], line, strlen(line) - 1);
 
@@ -548,8 +547,8 @@ int main(int argc, char **argv) {
 	bluray_write[1] = 0;
 	bluray_write[2] = 0;
 
-	char target_filename[BLURAY_FILENAME_STRLEN];
-	memset(target_filename, '\0', BLURAY_FILENAME_STRLEN);
+	char target_filename[PATH_MAX];
+	memset(target_filename, '\0', PATH_MAX);
 
 	int bluray_fd = 0;
 
@@ -572,8 +571,8 @@ int main(int argc, char **argv) {
 			continue;
 		}
 
-		 memset(target_filename, '\0', BLURAY_FILENAME_STRLEN);
-		 snprintf(target_filename, BLURAY_FILENAME_STRLEN, "%s/%s", bluray_backup_dir, bluray_filenames[ix]);
+		 memset(target_filename, '\0', PATH_MAX);
+		 snprintf(target_filename, PATH_MAX, "%s/%s", bluray_backup_dir, bluray_filenames[ix]);
 		 bluray_fd = open(target_filename, O_WRONLY | O_CREAT | O_APPEND | O_TRUNC, 0644);
 
 		if(bluray_fd == -1) {
