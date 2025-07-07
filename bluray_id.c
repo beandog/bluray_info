@@ -6,32 +6,92 @@
 #include <stdbool.h>
 #include <limits.h>
 #include <fcntl.h>
+#include <getopt.h>
+#include <sys/stat.h>
 #include "libbluray/bluray.h"
 #include "libbluray/filesystem.h"
 
+#if defined(__linux__)
+#define DEFAULT_BLURAY_DEVICE "/dev/sr0"
+#elif defined(__DragonFly__)
+#define DEFAULT_BLURAY_DEVICE "/dev/cd0"
+#elif defined(__FreeBSD__)
+#define DEFAULT_BLURAY_DEVICE "/dev/cd0"
+#elif defined(__NetBSD__)
+#define DEFAULT_BLURAY_DEVICE "/dev/cd0d"
+#elif defined(__OpenBSD__)
+#define DEFAULT_BLURAY_DEVICE "/dev/rcd0c"
+#elif defined(__APPLE__) && defined(__MACH__)
+#define DEFAULT_BLURAY_DEVICE "/dev/disk1"
+#elif defined(_WIN32) || defined(_WIN64) || defined(__CYGWIN__) || defined(__MSYS__)
+#define DEFAULT_BLURAY_DEVICE "D:\\"
+#else
+#define DEFAULT_BLURAY_DEVICE "/dev/sr0"
+#endif
+
 #define BLURAY_M2TS_UNIT_SIZE 6144
-#define BLURAY_FILENAME_STRLEN 256
 
 int main(int argc, char **argv) {
+
+	bool debug = false;
+
+	bool exit_help = false;
+	char key_db_filename[PATH_MAX] = {'\0'};
+	int g_opt = 0;
+	int g_ix = 0;
+	struct option p_long_opts[] = {
+		{ "keydb", required_argument, NULL, 'k' },
+		{ "debug", required_argument, NULL, 'z' },
+		{ 0, 0, 0, 0 }
+	};
+	while((g_opt = getopt_long(argc, argv, "kz", p_long_opts, &g_ix)) != -1) {
+
+		switch(g_opt) {
+			case 'k':
+				memset(key_db_filename, '\0', PATH_MAX);
+				strncpy(key_db_filename, optarg, PATH_MAX - 1);
+				break;
+			case 'z':
+				debug = true;
+				break;
+			case 0:
+			default:
+				printf("bluray_id - calculate Blu-ray unique identifier\n");
+				printf("\n");
+				printf("Usage: bluray_id [path] [options]\n");
+				printf("\n");
+				printf("Options:\n");
+				printf("  -k, --keydb <filename>   Location to KEYDB.cfg\n");
+				exit_help = true;
+				break;
+		}
+	}
+
+	if(exit_help)
+		return 0;
 
 	char device_filename[PATH_MAX];
 	memset(device_filename, '\0', PATH_MAX);
 
-	if(argc == 1)
-		strcpy(device_filename, "/dev/sr0");
+	if (argv[optind])
+		strncpy(device_filename, argv[optind], PATH_MAX - 1);
 	else
-		strcpy(device_filename, argv[1]);
+		strncpy(device_filename, DEFAULT_BLURAY_DEVICE, PATH_MAX - 1);
 
 	BLURAY *bd = NULL;
-	bd = bd_open(device_filename, NULL);
+	struct stat s_buffer;
+	if(stat("KEYDB.cfg", &s_buffer) == 0)
+		bd = bd_open(device_filename, "KEYDB.cfg");
+	if(bd == NULL)
+		bd = bd_open(device_filename, NULL);
 
 	if (bd == NULL) {
 		fprintf(stderr, "bd_open() failed\n");
 		return 1;
 	}
 
-	char src_filename[BLURAY_FILENAME_STRLEN];
-	memset(src_filename, '\0', BLURAY_FILENAME_STRLEN);
+	char src_filename[PATH_MAX];
+	memset(src_filename, '\0', PATH_MAX);
 
 	char tmp_template[] = "/tmp/id_XXXXXX";
 	int fd = 0;
@@ -71,8 +131,8 @@ int main(int argc, char **argv) {
 
 	ssize_t w;
 
-	char clpi_filename[BLURAY_FILENAME_STRLEN];
-	memset(clpi_filename, '\0', BLURAY_FILENAME_STRLEN);
+	char clpi_filename[PATH_MAX];
+	memset(clpi_filename, '\0', PATH_MAX);
 
 	char dest_filename[PATH_MAX];
 	memset(dest_filename, '\0', PATH_MAX);
@@ -95,7 +155,8 @@ int main(int argc, char **argv) {
 
 		sprintf(dest_filename, "%s/%s", tmp_dirname, bdnd_dirent->d_name);
 
-		// fprintf(stderr, "%s -> %s\n", clpi_filename, dest_filename);
+		if(debug)
+			fprintf(stderr, "%s -> %s\n", clpi_filename, dest_filename);
 
 		fd = open(dest_filename, O_RDWR | O_CREAT | O_TRUNC, 0644);
 

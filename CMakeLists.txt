@@ -48,6 +48,13 @@ INSTALL(FILES bluray_backup PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GRO
 # bluray_backup doesn't have a man page
 # INSTALL(FILES bluray_backup.1 DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
 
+# Build bluray_id, which is a standalone app from other bluray_info code
+add_executable(bluray_id bluray_id.c)
+target_link_libraries(bluray_id PRIVATE bluray)
+INSTALL(FILES bluray_id PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE DESTINATION bin)
+# bluray_id doesn't have a man page
+# INSTALL(FILES bluray_id.1 DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")
+
 # bluray_rip is a shell script, so just copy it over
 INSTALL(FILES bluray_rip PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE DESTINATION bin)
 INSTALL(FILES bluray_rip.1 DESTINATION "${CMAKE_INSTALL_MANDIR}/man1")

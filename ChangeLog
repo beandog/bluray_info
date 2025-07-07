@@ -2,8 +2,9 @@ ChangeLog
 
 2.0
 - Move build system to cmake
-- Add bluray_backup
+- Add bluray_backup - back up a disc
 - Add bluray_rip - an ffmpeg wrapper using bluray_copy
+- Add bluray_id - display a unique identifier
 
 1.14
 
