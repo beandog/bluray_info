@@ -82,13 +82,13 @@ int main(int argc, char **argv) {
 	struct stat s_buffer;
 
 	if(strlen(key_db_filename)) {
-		if(stat(key_db_filename, &buffer) != 0) {
+		if(stat(key_db_filename, &s_buffer) != 0) {
 			fprintf(stderr, "Could not open device %s and KEYDB file %s\n", device_filename, key_db_filename);
 			return 1;
 		}
 		bd = bd_open(device_filename, key_db_filename);
 	}
-	if(bd == NULL && (stat("KEYDB.cfg", &buffer) == 0))
+	if(bd == NULL && (stat("KEYDB.cfg", &s_buffer) == 0))
 		bd = bd_open(device_filename, "KEYDB.cfg");
 	if(bd == NULL)
 		bd = bd_open(device_filename, NULL);
@@ -105,21 +105,18 @@ int main(int argc, char **argv) {
 
 	char *str = mkdtemp(tmp_template);
 	if(str == NULL) {
-		fprintf(stderr, "couldn't create temporary directory\n");
+		fprintf(stderr, "Couldn't create temporary directory %s\n", str);
+		return 1;
 	}
 
 	BD_DIRENT *bdnd_dirent = NULL;
 	bdnd_dirent = calloc(1, sizeof(BD_DIRENT));
-	if(bdnd_dirent == NULL) {
-		fprintf(stderr, "calloc() for bdnd_dirent failed\n");
-		return 1;
-	}
 
 	struct bd_dir_s *bdnd_dir = NULL;
 	bdnd_dir = bd_open_dir(bd, "BDMV/BACKUP/CLIPINF/");
 
 	if(bdnd_dir == NULL) {
-		fprintf(stderr, "bd_open_dir(bd, parent_dir) failed\n");
+		fprintf(stderr, "Opening Blu-ray directory 'BDMV/BACKUP/CLIPINF/' failed\n");
 		return 1;
 	}
 
@@ -181,14 +178,14 @@ int main(int argc, char **argv) {
 			amount_read = bd_file->read(bd_file, buffer, BLURAY_M2TS_UNIT_SIZE);
 
 			if(amount_read < 0) {
-				fprintf(stderr, "bd_file->read() failed\n");
+				fprintf(stderr, "Reading %s failed\n", bdnd_dirent->d_name);
 				return 1;
 			}
 
 			w = write(fd, buffer, amount_read);
 
 			if(w == -1) {
-				fprintf(stderr, "write() failed\n");
+				fprintf(stderr, "Writing to temporary file failed\n");
 				return 1;
 			}
 
