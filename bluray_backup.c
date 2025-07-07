@@ -299,7 +299,7 @@ int main(int argc, char **argv) {
 
 	if (bd == NULL) {
 		fprintf(stderr, "Can't open device %s.\n", device_filename);
-		exit(1);
+		return 1;
 	}
 
 	bluray_dirs = 0;

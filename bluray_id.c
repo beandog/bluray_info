@@ -80,13 +80,20 @@ int main(int argc, char **argv) {
 
 	BLURAY *bd = NULL;
 	struct stat s_buffer;
-	if(stat("KEYDB.cfg", &s_buffer) == 0)
+
+	if(strlen(key_db_filename)) {
+		if(stat(key_db_filename, &buffer) != 0) {
+			fprintf(stderr, "Could not open device %s and KEYDB file %s\n", device_filename, key_db_filename);
+			return 1;
+		}
+		bd = bd_open(device_filename, key_db_filename);
+	}
+	if(bd == NULL && (stat("KEYDB.cfg", &buffer) == 0))
 		bd = bd_open(device_filename, "KEYDB.cfg");
 	if(bd == NULL)
 		bd = bd_open(device_filename, NULL);
-
 	if (bd == NULL) {
-		fprintf(stderr, "bd_open() failed\n");
+		fprintf(stderr, "Can't open device %s.\n", device_filename);
 		return 1;
 	}
 
