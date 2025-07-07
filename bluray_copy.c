@@ -213,8 +213,14 @@ int main(int argc, char **argv) {
 	// Open device
 	BLURAY *bd = NULL;
 	struct stat buffer;
-	if(strlen(key_db_filename))
+
+	if(strlen(key_db_filename)) {
+		if(stat(key_db_filename, &buffer) != 0) {
+			fprintf(stderr, "Could not open device %s and KEYDB file %s\n", device_filename, key_db_filename);
+			return 1;
+		}
 		bd = bd_open(device_filename, key_db_filename);
+	}
 	if(bd == NULL && (stat("KEYDB.cfg", &buffer) == 0))
 		bd = bd_open(device_filename, "KEYDB.cfg");
 	if(bd == NULL)
