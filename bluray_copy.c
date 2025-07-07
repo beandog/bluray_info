@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
 	struct option p_long_opts[] = {
 		{ "angle", required_argument, NULL, 'a' },
 		{ "chapter", required_argument, NULL, 'c' },
-		{ "no-duplicates", required_argument, NULL, 'd' },
+		{ "no-duplicates", required_argument, NULL, 'D' },
 		{ "help", no_argument, NULL, 'h' },
 		{ "keydb", required_argument, NULL, 'k' },
 		{ "main", no_argument, NULL, 'm' },

@@ -78,7 +78,7 @@ int main(int argc, char **argv) {
 	struct option p_long_opts[] = {
 		{ "audio", no_argument, NULL, 'a' },
 		{ "chapters", no_argument, NULL, 'c' },
-		{ "no-duplicates", no_argument, NULL, 'd' },
+		{ "no-duplicates", no_argument, NULL, 'D' },
 		{ "xchap", no_argument, NULL, 'g' },
 		{ "help", no_argument, NULL, 'h' },
 		{ "json", no_argument, NULL, 'j' },
@@ -98,7 +98,7 @@ int main(int argc, char **argv) {
 		{ "version", no_argument, NULL, 'V' },
 		{ 0, 0, 0, 0 }
 	};
-	while((g_opt = getopt_long(argc, argv, "acdghjk:mp:svxzAE:G:M:N:SV", p_long_opts, &g_ix)) != -1) {
+	while((g_opt = getopt_long(argc, argv, "acDghjk:mp:svxzAE:G:M:N:SV", p_long_opts, &g_ix)) != -1) {
 
 		switch(g_opt) {
 
@@ -114,7 +114,7 @@ int main(int argc, char **argv) {
 				d_chapters = true;
 				break;
 
-			case 'd':
+			case 'D':
 				d_duplicates = false;
 				break;
 
@@ -220,7 +220,7 @@ int main(int argc, char **argv) {
 				printf("  -s, --subtitles          Display subtitles\n");
 				printf("  -c, --chapters           Display chapters\n");
 				printf("  -x, --all                Display all\n");
-				printf("  -d, --no-duplicates      Do not include duplicate titles (see man page)\n");
+				printf("  -D, --no-duplicates      Do not include duplicate titles (see man page)\n");
 				printf("\n");
 				printf("Narrow results:\n");
 				printf("  -A, --has-audio          Title has audio\n");
