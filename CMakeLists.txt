@@ -2,9 +2,6 @@
 cmake_minimum_required(VERSION 3.10)
 # Yay! :D
 set(PROJECT_NAME "bluray_info")
-# Can use a macro in the programs if config.h is included
-set(PROJECT_VERSION "2.0")
-configure_file("config.h.in" "config.h")
 
 # Display what compiler is doing
 set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "ON")

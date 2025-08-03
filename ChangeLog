@@ -5,6 +5,7 @@ ChangeLog
 - Add bluray_backup - back up a disc
 - Add bluray_rip - an ffmpeg wrapper using bluray_copy
 - Add bluray_id - display a unique identifier
+- Fix config.h creation (thanks to samvv for reporting)
 
 1.14
 
