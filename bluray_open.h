@@ -6,7 +6,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <math.h>
-#include "config.h"
+#include "bluray_config.h"
 #include "libbluray/bluray.h"
 #include "libbluray/meta_data.h"
 
