@@ -58,7 +58,7 @@ sudo mount /dev/sr0 -o ro -t udf /mnt
 
 # Playlists
 
-bluray_info uses libbluray to determine which playlist is the main one, and
+The applications (except bluray_player) use libbluray to determine which playlist is the main one, and
 doesn't calculate it itself.
 
 libbluray has two ways to display all playlists: there are "relevant" ones
@@ -66,6 +66,8 @@ where the library filters out any duplicates. However, the list of duplicates
 can change across locations, filesystems, systems, etc. For that reason,
 the bluray utilities will enable displaying all titles, not just the relvant ones.
 If you don't want this, use --no-duplicates option
+
+``bluray_player`` uses libmpv as its backend, which only only displays the "relevant" titles (most current release as of this writing is 0.40). There's no way to override this in my application, so you will need to work around it, and look at the titles using ``bluray_info --no-duplicates``. If you feel like hacking mpv, look for TITLES_RELEVANT in its source code, and change it to TITLES_ALL, and then rebuild.
 
 # Support
 
