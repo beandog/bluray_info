@@ -738,6 +738,9 @@ int main(int argc, char **argv) {
 
 			}
 
+			// reset for next title
+			chapter_start = 0;
+
 			if(p_bluray_json)
 				printf("   ]\n");
 
