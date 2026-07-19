@@ -540,7 +540,7 @@ int main(int argc, char **argv) {
 			printf("   \"title\": %u,\n", json_ix);
 			printf("   \"playlist\": %" PRIu32 ",\n", bluray_title.playlist);
 			printf("   \"length\": \"%s\",\n", bluray_title.length);
-			printf("   \"msecs\": %" PRIu64 ",\n", bluray_title.duration / 900);
+			printf("   \"msecs\": %" PRIu64 ",\n", bluray_title.duration / 90);
 			printf("   \"angles\": %" PRIu8 ",\n", bluray_title.angles);
 			printf("   \"blocks\": %" PRIu64 ",\n", bluray_title.blocks);
 			printf("   \"filesize\": %" PRIu64 ",\n", bluray_title.size);
@@ -717,8 +717,8 @@ int main(int argc, char **argv) {
 					printf("     \"chapter\": %" PRIu32 ",\n", chapter_number);
 					printf("     \"start time\": \"%s\",\n", bluray_chapter.start_time);
 					printf("     \"length\": \"%s\",\n", bluray_chapter.length);
-					printf("     \"start\": %" PRIu64 ",\n", bluray_chapter.start / 900);
-					printf("     \"duration\": %" PRIu64 ",\n", bd_chapter->duration / 900);
+					printf("     \"start\": %" PRIu64 ",\n", bluray_chapter.start / 90);
+					printf("     \"duration\": %" PRIu64 ",\n", bd_chapter->duration / 90);
 					printf("     \"blocks\": %" PRIu64 ",\n", bluray_chapter.blocks);
 					printf("     \"filesize\": %" PRIu64 "\n", bluray_chapter.size);
 					if(chapter_number < bluray_title.chapters)
@@ -737,6 +737,9 @@ int main(int argc, char **argv) {
 				bd_chapter = NULL;
 
 			}
+
+			// reset for next title
+			chapter_start = 0;
 
 			if(p_bluray_json)
 				printf("   ]\n");
